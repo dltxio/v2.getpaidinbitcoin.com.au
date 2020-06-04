@@ -14,29 +14,29 @@ jobs:
             - node_modules
       - run: npm run lint
       # - run: npm run test
-  # deploy-prod:
-  #   machine:
-  #     enabled: true
-  #   steps:
-  #     - run: ssh root@portal.getpaidinbitcoin.com.au "~/gpib.portal/deploy.sh"
+  deploy-prod:
+    machine:
+      enabled: true
+    steps:
+      - run: ssh root@139.180.170.29 "~/v2.getpaidinbitcoin.com.au/deploy.sh"
   deploy-dev:
     machine:
       enabled: true
     steps:
-      - run: ssh root@139.180.170.29 "~/v2.getpaidinbitcoin.com.au/deploy.sh --test"
+      - run: ssh root@139.180.170.29 "~/testv2.getpaidinbitcoin.com.au/deploy.sh -t"
 workflows:
   build-and-test:
     jobs:
       - build-and-test
-      # - deploy-prod:
-      #     filters:
-      #       branches:
-      #         only: master
-      #     requires:
-      #       - build-and-test
-      # - deploy-dev:
-      #     filters:
-      #       branches:
-      #         only: development
-      #     requires:
-      #       - build-and-test
+      - deploy-prod:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build-and-test
+      - deploy-dev:
+          filters:
+            branches:
+              only: development
+          requires:
+            - build-and-test

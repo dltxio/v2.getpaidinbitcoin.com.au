@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Variables
-BUILD_PATH="./prodbuild"
+BUILD_PATH="/var/www/v2.getpaidinbitcoin.com.au"
 BRANCH="master"
 
 # Test
-TEST_BUILD_PATH="./testbuild"
+TEST_BUILD_PATH="/var/www/testv2.getpaidinbitcoin.com.au"
 TEST_BRANCH="development"
 
 # Parse options

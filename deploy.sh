@@ -17,11 +17,12 @@ while getopts ":th" opt; do
       BRANCH=$TEST_BRANCH
       ;;
     h) 
-      echo "Must pass a deployment option"
+      printf "\nDeploys project \n\n"
       echo "Usage:"
       echo "  -t  deploy test"
-      echo "  -p  deploy production"
-      exit 1
+      echo "  -h  help"
+      echo ""
+      exit 0
       ;;
     \?)
       echo "Deploying production"

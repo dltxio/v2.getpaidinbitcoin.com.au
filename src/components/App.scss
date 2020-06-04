@@ -1,0 +1,38 @@
+@import "../constants/mixins";
+@import "../constants/colors";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+html,
+body,
+#root {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  font-family: "Qucksand", sans-serif;
+}
+
+#root {
+  overflow: auto;
+  @include flex(flex-start, stretch, column);
+}
+
+main {
+  flex: 1;
+  overflow-y: visible;
+
+  & > div {
+    height: 100%;
+    overflow-x: auto;
+  }
+}
+
+header {
+  z-index: 999;
+}
+
+footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}

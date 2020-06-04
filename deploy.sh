@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Variables
-DIRNAME="v2.getpaidinbitcoin.com.au"
-BUILD_PATH="/var/www/$DIRNAME"
-BRANCH="master"
+DIRNAME=v2.getpaidinbitcoin.com.au
+BUILD_PATH=/var/www/$DIRNAME
+BRANCH=master
 
 
 # Test
-TEST_DIRNAME="testv2.getpaidinbitcoin.com.au"
-TEST_BUILD_PATH="/var/www/$TEST_DIRNAME"
-TEST_BRANCH="development"
+TEST_DIRNAME=testv2.getpaidinbitcoin.com.au
+TEST_BUILD_PATH=/var/www/$TEST_DIRNAME
+TEST_BRANCH=development
 
 # Parse options
 while getopts ":th" opt; do
@@ -34,8 +34,7 @@ while getopts ":th" opt; do
   esac
 done
 
-
-cd "~/$DIRNAME"
+cd $HOME/$DIRNAME
 git stash
 git pull
 git checkout $BRANCH

@@ -4,6 +4,20 @@ v2 Website for Get Paid In Bitcoin
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Environment Variables
+
+Environment variables can be defined in a .env file in the root directory of the project. These need to be prefixed with REACT*APP* in order for the project to use them.
+
+e.g. 'REACT_APP_FOO=bar'
+
+The following environment variables are required:
+
+| Key               | Value                      |
+| :---------------- | :------------------------- |
+| REACT_APP_API_URL | e.g. http://localhost:5000 |
+
+If using a different port for the local development server, the proxy url needs to be updated in the package.json file.
+
 ## Available Scripts
 
 In the project directory, you can run:

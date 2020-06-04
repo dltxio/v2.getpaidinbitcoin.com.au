@@ -1,37 +1,30 @@
 #!/bin/bash
 
 # Variables
-BUILD_PATH=
-BRANCH=
+BUILD_PATH="./prodbuild"
+BRANCH="master"
 
 # Test
 TEST_BUILD_PATH="./testbuild"
 TEST_BRANCH="development"
 
-# Prod
-PROD_BUILD_PATH="./prodbuild"
-PROD_BRANCH="master"
-
-
 # Parse options
-while getopts ":htp" opt; do
+while getopts ":th" opt; do
   case ${opt} in
     t) 
       echo "Deploying test"
       BUILD_PATH=$TEST_BUILD_PATH
       BRANCH=$TEST_BRANCH
       ;;
-    p) 
-      echo "Deploying produciton"
-      BUILD_PATH=$PROD_BUILD_PATH
-      BRANCH=$PROD_BRANCH
-      ;;
-    \?) 
+    h) 
       echo "Must pass a deployment option"
       echo "Usage:"
       echo "  -t  deploy test"
       echo "  -p  deploy production"
       exit 1
+      ;;
+    \?)
+      echo "Deploying production"
       ;;
   esac
 done

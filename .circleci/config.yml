@@ -1,0 +1,42 @@
+version: 2.1
+jobs:
+  build-and-test:
+    docker:
+      - image: circleci/node:erbium-browsers # v12
+    steps:
+      - checkout
+      - restore_cache:
+          key: npm-cache-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: npm-cache-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run lint
+      # - run: npm run test
+  deploy-prod:
+    machine:
+      enabled: true
+    steps:
+      - run: ssh root@139.180.170.29 "~/v2.getpaidinbitcoin.com.au/deploy.sh"
+  deploy-dev:
+    machine:
+      enabled: true
+    steps:
+      - run: ssh root@139.180.170.29 "~/testv2.getpaidinbitcoin.com.au/deploy.sh -t"
+workflows:
+  build-and-test:
+    jobs:
+      - build-and-test
+      - deploy-prod:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build-and-test
+      - deploy-dev:
+          filters:
+            branches:
+              only: development
+          requires:
+            - build-and-test

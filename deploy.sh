@@ -18,13 +18,13 @@ while getopts ":htp" opt; do
   case ${opt} in
     t) 
       echo "Deploying test"
-      $BUILD_PATH = $TEST_BUILD_PATH
-      $BRANCH = $TEST_BRANCH
+      BUILD_PATH=$TEST_BUILD_PATH
+      BRANCH=$TEST_BRANCH
       ;;
     p) 
       echo "Deploying produciton"
-      $BUILD_PATH = $PROD_BUILD_PATH
-      $BRANCH = $PROD_BRANCH
+      BUILD_PATH=$PROD_BUILD_PATH
+      BRANCH=$PROD_BRANCH
       ;;
     \?) 
       echo "Must pass a deployment option"
@@ -35,6 +35,7 @@ while getopts ":htp" opt; do
       ;;
   esac
 done
+
 
 git stash
 git pull

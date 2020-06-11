@@ -1,5 +1,5 @@
-import React from "react";
-import { Alert } from "react-bootstrap";
+import React from 'react';
+import { Alert } from 'react-bootstrap';
 
 const ErrorMessage = ({ error, isHidden, ...props }) =>
   error && !isHidden ? (

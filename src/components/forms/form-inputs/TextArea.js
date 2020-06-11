@@ -1,13 +1,13 @@
-import React from "react";
-import { useField } from "formik";
-import ErrorMessage from "../../ErrorMessage";
+import React from 'react';
+import { useField } from 'formik';
+import ErrorMessage from '../../ErrorMessage';
 
 const FormGroupWrap = ({ isWrapped, children }) =>
   isWrapped ? <div className="form-group">{children}</div> : <>{children}</>;
 
 const TextArea = ({ label, onChange, skinny, ...props }) => {
   let [field, meta, helpers] = useField(props);
-  if (onChange) field.onChange = e => onChange(e, helpers);
+  if (onChange) field.onChange = (e) => onChange(e, helpers);
   if (props.value) field.value = props.value;
 
   return (

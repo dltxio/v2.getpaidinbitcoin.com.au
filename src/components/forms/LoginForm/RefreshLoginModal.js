@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Alert } from "react-bootstrap";
-import LoginForm from "./LoginForm";
-import Modal from "../../Modal";
-import gpib from "../../../apis/gpib";
-import axios from "axios";
+import React, { useState, useEffect, useRef } from 'react';
+import { Alert } from 'react-bootstrap';
+import LoginForm from './LoginForm';
+import Modal from '../../Modal';
+import gpib from '../../../apis/gpib';
+import axios from 'axios';
 
 let resolveLoginPromise = null;
 let pendingRequests = [];
@@ -21,29 +21,29 @@ const RefreshLoginModal = () => {
   // Hide/Show other modals if 401 received while modal is open
   useEffect(() => {
     if (!el.current) return;
-    const children = document.querySelector("#modal").children;
+    const children = document.querySelector('#modal').children;
     if (isOpen) {
-      Object.keys(children).forEach(key => {
+      Object.keys(children).forEach((key) => {
         if (!children[key].contains(el.current))
-          children[key].style.display = "none";
+          children[key].style.display = 'none';
       });
     } else {
-      Object.keys(children).forEach(key => {
+      Object.keys(children).forEach((key) => {
         if (!children[key].contains(el.current))
-          children[key].style.display = "block";
+          children[key].style.display = 'block';
       });
     }
   }, [isOpen]);
 
   useEffect(() => {
     gpib.secure.interceptors.response.use(
-      res => res,
-      async e => {
+      (res) => res,
+      async (e) => {
         const original = e.config;
         if (e.response.status === 401) {
           if (isRefreshing) {
             return new Promise(
-              resolve =>
+              (resolve) =>
                 (pendingRequests = [
                   ...pendingRequests,
                   { config: original, resolve }
@@ -52,11 +52,11 @@ const RefreshLoginModal = () => {
           }
           setRefreshing(true);
           setOpen(true);
-          const loginPromise = new Promise(res => {
+          const loginPromise = new Promise((res) => {
             resolveLoginPromise = res;
           });
           await loginPromise;
-          const user = JSON.parse(localStorage.getItem("user"));
+          const user = JSON.parse(localStorage.getItem('user'));
           const { token } = user;
           pendingRequests.forEach(({ config, res }) => {
             if (token) config.headers.Authorization = `Bearer ${token}`;

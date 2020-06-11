@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import useResource from "../hooks/useResource";
 import TransactionTable from "../components/tables/TransactionTable";
 import AddressTable from "../components/tables/AddressTable";
+import AddressPie from "../components/AddressPie";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
@@ -35,6 +36,7 @@ const Dashboard = () => {
           <ErrorMessage error={fetchAddressError} />
           <Loader loading={isFetchingAddresses} />
           <AddressTable addresses={addresses} />
+          <AddressPie addresses={addresses} />
         </section>
         <section style={{ position: "relative" }}>
           <h2>User Stats</h2>

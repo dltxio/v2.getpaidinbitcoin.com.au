@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import useResource from "../hooks/useResource";
 import TransactionTable from "../components/tables/TransactionTable";
+import AddressTable from "../components/tables/AddressTable";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
@@ -21,9 +22,20 @@ const Dashboard = () => {
     {}
   );
 
+  const [addresses, fetchAddressError, isFetchingAddresses] = useResource(
+    "/address",
+    []
+  );
+
   return (
     <Layout>
       <div className="container-fluid py-4">
+        <section style={{ position: "relative" }}>
+          <h2>Addresses</h2>
+          <ErrorMessage error={fetchAddressError} />
+          <Loader loading={isFetchingAddresses} />
+          <AddressTable addresses={addresses} />
+        </section>
         <section style={{ position: "relative" }}>
           <h2>User Stats</h2>
           <ErrorMessage error={fetchStatsError} />

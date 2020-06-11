@@ -32,16 +32,6 @@ const statKeys = {
   }
 };
 
-// {
-//   "totalBTC": 0, //btc
-//   "totalAUD": 0, // $
-//   "depositCount": 0, // int
-//   "averagePurchasePrice": 0, // $
-//   "maxPrice": 0, // $ per BTC
-//   "minPrice": 0, // $ per BTC
-//   "referralRevenueEarned": 0 // $
-// }
-
 const UserStats = ({ stats }) => {
   return (
     <Table>

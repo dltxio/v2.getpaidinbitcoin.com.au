@@ -9,66 +9,76 @@ import prefixID from '../../utils/prefixID';
 
 // dataField (key) props (value)
 const columnConfig = {
-  id: {
-    children: 'ID',
-    dataFormat: (cell) => prefixID(cell, 'D'),
-    width: '8%',
-    dataSort: true
-  },
-  amount: {
-    children: 'Amount',
-    dataFormat: (cell) => format$(cell, { code: 'AUD' }),
-    width: '8%',
-    dataSort: true
-  },
-  reference: {
-    children: 'Reference',
-    width: '45%',
-    tdStyle: { whiteSpace: 'normal' },
-    dataSort: true
-  },
-  fee: {
-    children: 'Fee',
-    dataFormat: (cell) => format$(cell, { code: 'AUD' }),
-    dataSort: true
-  },
-  bank: { children: 'Bank', width: '15%', dataSort: true },
-  bankID: { children: 'Bank ID', width: '5%', dataSort: true },
   created: {
     children: 'Created',
     dataFormat: (cell) => cell && moment(cell).format('DD-MM-YYYY'),
-    width: '10%',
     dataSort: true
+  },
+  type: {
+    children: 'Type'
+  },
+  description: {
+    children: 'Description'
+  },
+  amount: {
+    children: 'Amount',
+    tdStyle: { textAlign: 'right' },
+    thStyle: { textAlign: 'right' }
   }
 };
 
-const options = {
-  defaultSortName: 'id',
-  defaultSortOrder: 'desc'
+const blendTransfersAndDeposits = (transfers, deposits) => {
+  const parsedTransfers = transfers.map((t) => ({
+    id: prefixID(t.id, 'T'),
+    created: t.created,
+    type: 'Transfer',
+    description: t.type,
+    amount: `${t.amount} ${t.coin}`
+  }));
+
+  const parsedDepostis = deposits.map((d) => ({
+    id: prefixID(d.id, 'D'),
+    created: d.created,
+    type: 'Deposit',
+    description: d.reference,
+    amount: format$(d.amount, { code: 'AUD' })
+  }));
+
+  return [...parsedTransfers, ...parsedDepostis].sort((a, b) =>
+    moment(a.created).isBefore(b.created) ? 1 : -1
+  );
 };
 
-const DepositsTable = ({ deposits, selectRow, hidden = [] }) => (
-  <Table
-    data={deposits}
-    striped
-    hover
-    version="4"
-    pagination
-    selectRow={selectRow}
-    tableContainerClass="table-responsive"
-    keyField="id"
-    options={options}
-  >
-    {Object.keys(columnConfig)
-      .filter((dataField) => hidden.indexOf(dataField) < 0)
-      .map((dataField) => (
-        <Column
-          key={dataField}
-          dataField={dataField}
-          {...columnConfig[dataField]}
-        />
-      ))}
-  </Table>
-);
+const tableOptions = {
+  hideSizePerPage: true,
+  sizePerPage: 5
+};
 
-export default DepositsTable;
+const TransactionTable = ({ transfers, deposits, selectRow, hidden = [] }) => {
+  const data = blendTransfersAndDeposits(transfers, deposits);
+
+  return (
+    <Table
+      data={data}
+      striped
+      hover
+      version="4"
+      pagination
+      selectRow={selectRow}
+      tableContainerClass="table-responsive"
+      keyField="id"
+      options={tableOptions}
+    >
+      {Object.keys(columnConfig)
+        .filter((dataField) => hidden.indexOf(dataField) < 0)
+        .map((dataField) => (
+          <Column
+            key={dataField}
+            dataField={dataField}
+            {...columnConfig[dataField]}
+          />
+        ))}
+    </Table>
+  );
+};
+export default TransactionTable;

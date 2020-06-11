@@ -15,13 +15,13 @@ const secure = axios.create({
 });
 
 secure.interceptors.request.use(
-  async config => {
+  async (config) => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { token } = user;
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   }
 );

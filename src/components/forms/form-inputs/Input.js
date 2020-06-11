@@ -7,7 +7,7 @@ const FormGroupWrap = ({ isWrapped, children }) =>
 
 const Input = ({ label, onChange, skinny, ...props }) => {
   let [field, meta, helpers] = useField(props);
-  if (onChange) field.onChange = e => onChange(e, helpers);
+  if (onChange) field.onChange = (e) => onChange(e, helpers);
   if (props.value) field.value = props.value;
   return (
     <FormGroupWrap isWrapped={!skinny}>

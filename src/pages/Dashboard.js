@@ -4,6 +4,7 @@ import useResource from "../hooks/useResource";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
 import AddressTable from "../components/tables/AddressTable";
+import AddressPie from "../components/AddressPie";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
@@ -58,6 +59,10 @@ const Dashboard = () => {
               <ErrorMessage error={fetchAddressError} />
               <Loader loading={isFetchingAddresses} />
               <AddressTable addresses={addresses} />
+            </section>
+            <section className="d-flex justify-content-center">
+              <Loader loading={isFetchingAddresses} />
+              <AddressPie addresses={addresses} />
             </section>
           </aside>
           <section className="content">

@@ -1,0 +1,90 @@
+@import "../constants/colors";
+@import "../constants/mixins";
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins/breakpoints";
+
+
+$pendingColor: $gray-400;
+$activeColor: $primary;
+$completedColor: rgba($primary, 0.3);
+
+
+.verification-tracker {
+  position: relative;
+  cursor: default;
+
+  .label {
+    @include flex();
+    padding-bottom: 2rem;
+  }
+  .blobs {
+    @include flex(space-between);
+  }
+
+  .stage {
+      @include flex();
+      // border: 2px solid $pendingColor;
+      color: $pendingColor;
+      color: white;
+      background-color: $pendingColor;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      transition: background-color 200ms ease-in, height 200ms ease-in, width 200ms ease-in;
+      
+      span {
+        display: none;
+      }
+      &.active {
+        border-color: $activeColor;
+        background-color: $activeColor;
+        width: 1.5rem;
+        height: 1.5rem;
+        @include boxShadow();
+      }
+
+      &.completed {
+        border-color: $completedColor;
+        // background-color: rgba($completedColor, 0.1);
+        background-color: $completedColor;
+      }
+    }
+
+    .line {
+      flex: 1;
+      border: 1px solid $pendingColor;
+      transition: border-color 200ms ease-in;
+
+      &.completed {
+        border-color: $completedColor;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+
+      .label {
+        display: none;
+      }
+      .stage {
+        width: 7rem;
+        height: 7rem;
+        padding: 1rem;
+
+        &.active {
+          width: 7rem;
+          height: 7rem;
+        }
+      }
+      .stage span {
+        display: block;
+        font-size: 80%;
+        overflow: hidden;
+        text-align: center;
+  
+      }
+    }
+    
+  }
+
+  

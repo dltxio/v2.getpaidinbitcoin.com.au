@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import Layout from "../components/Layout";
 import useResource from "../hooks/useResource";
+import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
 import AddressTable from "../components/tables/AddressTable";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
+import { AuthContext } from "../components/Auth";
+import "./Dashboard.scss";
 
 const Dashboard = () => {
+  const { user } = useContext(AuthContext);
+
+  const [
+    [{ idVerificationStatus }],
+    fetchStatusError
+  ] = useResource(`/accountinfoes/user/${user.id}`, [{}]);
+
   const [transfers, fetchTransferError, isFetchingTransfers] = useResource(
     "/transfer",
     []
@@ -29,24 +39,33 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="container-fluid py-4">
-        <section style={{ position: "relative" }}>
-          <h2>Addresses</h2>
-          <ErrorMessage error={fetchAddressError} />
-          <Loader loading={isFetchingAddresses} />
-          <AddressTable addresses={addresses} />
+      <Loader />
+      <div className="dashboard container">
+        <section className="head container">
+          <ErrorMessage error={fetchStatusError} />
+          <VerificationTracker status={idVerificationStatus} />
         </section>
-        <section style={{ position: "relative" }}>
-          <h2>User Stats</h2>
-          <ErrorMessage error={fetchStatsError} />
-          <Loader loading={isFetchingStats} />
-          <UserStats stats={userStats} />
-        </section>
-        <section style={{ position: "relative" }}>
-          <h2>Transactions</h2>
-          <ErrorMessage error={fetchTransferError || fetchDepositError} />
-          <Loader loading={isFetchingTransfers || isFetchingDeposits} />
-          <TransactionTable transfers={transfers} deposits={deposits} />
+        <section className="main">
+          <aside>
+            <section>
+              <h2>User Stats</h2>
+              <ErrorMessage error={fetchStatsError} />
+              <Loader loading={isFetchingStats} />
+              <UserStats stats={userStats} />
+            </section>
+            <section>
+              <h2>Addresses</h2>
+              <ErrorMessage error={fetchAddressError} />
+              <Loader loading={isFetchingAddresses} />
+              <AddressTable addresses={addresses} />
+            </section>
+          </aside>
+          <section className="content">
+            <h2>Transactions</h2>
+            <ErrorMessage error={fetchTransferError || fetchDepositError} />
+            <Loader loading={isFetchingTransfers || isFetchingDeposits} />
+            <TransactionTable transfers={transfers} deposits={deposits} />
+          </section>
         </section>
       </div>
     </Layout>

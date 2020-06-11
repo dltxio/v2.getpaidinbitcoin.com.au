@@ -15,15 +15,15 @@ const statKeys = {
     label: "Deposit Count"
   },
   averagePurchasePrice: {
-    label: "Average Purchase Price ($ / BTC)",
+    label: "Average Purchase Price ($/BTC)",
     format: (v) => format$(v, { code: "AUD" })
   },
   maxPrice: {
-    label: "Max Price ($ / BTC)",
+    label: "Max Price ($/BTC)",
     format: (v) => format$(v, { code: "AUD" })
   },
   minPrice: {
-    label: "Min Price ($ / BTC)",
+    label: "Min Price ($/BTC)",
     format: (v) => format$(v, { code: "AUD" })
   },
   referralRevenueEarned: {
@@ -39,7 +39,7 @@ const UserStats = ({ stats }) => {
         {Object.keys(statKeys).map((key) => (
           <tr key={key}>
             <td>{statKeys[key].label}</td>
-            <td style={{ textAlign: "right" }}>
+            <td style={{ textAlign: "right", minWidth: "30%" }}>
               {statKeys[key].format
                 ? statKeys[key].format(stats[key])
                 : stats[key]}

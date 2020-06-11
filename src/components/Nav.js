@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
-import { AuthContext } from './Auth';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { history } from './Router';
+import React, { useContext } from "react";
+import { AuthContext } from "./Auth";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { history } from "./Router";
 
 const _Nav = ({ links, noBrand = false }) => {
   const { logout } = useContext(AuthContext);
 
   // Set default links
-  if (!links) links = [{ label: 'Log out', onClick: logout }];
+  if (!links) links = [{ label: "Log out", onClick: logout }];
 
   // For a dropdown menu item, add an object like this to the links array
   // {
@@ -22,8 +22,8 @@ const _Nav = ({ links, noBrand = false }) => {
 
   const renderBrand = () => (
     <Navbar.Brand
-      style={{ cursor: 'pointer' }}
-      onClick={() => history.push('/')}
+      style={{ cursor: "pointer" }}
+      onClick={() => history.push("/")}
       children="Dash"
     />
   );

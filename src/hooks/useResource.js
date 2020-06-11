@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo } from 'react';
-import gpib from '../apis/gpib';
-import axios from 'axios';
+import { useEffect, useState, useMemo } from "react";
+import gpib from "../apis/gpib";
+import axios from "axios";
 
 const defaultOptions = { useSecureApi: true };
 

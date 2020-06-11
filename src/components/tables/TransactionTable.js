@@ -1,47 +1,47 @@
-import React from 'react';
-import moment from 'moment';
-import { format as format$ } from 'currency-formatter';
+import React from "react";
+import moment from "moment";
+import { format as format$ } from "currency-formatter";
 import {
   BootstrapTable as Table,
   TableHeaderColumn as Column
-} from 'react-bootstrap-table';
-import prefixID from '../../utils/prefixID';
+} from "react-bootstrap-table";
+import prefixID from "../../utils/prefixID";
 
 // dataField (key) props (value)
 const columnConfig = {
   created: {
-    children: 'Created',
-    dataFormat: (cell) => cell && moment(cell).format('DD-MM-YYYY'),
+    children: "Created",
+    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY"),
     dataSort: true
   },
   type: {
-    children: 'Type'
+    children: "Type"
   },
   description: {
-    children: 'Description'
+    children: "Description"
   },
   amount: {
-    children: 'Amount',
-    tdStyle: { textAlign: 'right' },
-    thStyle: { textAlign: 'right' }
+    children: "Amount",
+    tdStyle: { textAlign: "right" },
+    thStyle: { textAlign: "right" }
   }
 };
 
 const blendTransfersAndDeposits = (transfers, deposits) => {
   const parsedTransfers = transfers.map((t) => ({
-    id: prefixID(t.id, 'T'),
+    id: prefixID(t.id, "T"),
     created: t.created,
-    type: 'Transfer',
+    type: "Transfer",
     description: t.type,
     amount: `${t.amount} ${t.coin}`
   }));
 
   const parsedDepostis = deposits.map((d) => ({
-    id: prefixID(d.id, 'D'),
+    id: prefixID(d.id, "D"),
     created: d.created,
-    type: 'Deposit',
+    type: "Deposit",
     description: d.reference,
-    amount: format$(d.amount, { code: 'AUD' })
+    amount: format$(d.amount, { code: "AUD" })
   }));
 
   return [...parsedTransfers, ...parsedDepostis].sort((a, b) =>

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -7,18 +7,18 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initialUser = JSON.parse(window.localStorage.getItem('user'));
+    const initialUser = JSON.parse(window.localStorage.getItem("user"));
     setUser(initialUser);
     setLoading(false);
   }, []);
 
   const login = (user) => {
-    window.localStorage.setItem('user', JSON.stringify(user));
+    window.localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
   };
 
   const logout = () => {
-    window.localStorage.removeItem('user');
+    window.localStorage.removeItem("user");
     setUser(null);
   };
 

@@ -58,17 +58,6 @@ const TransactionTable = ({ addresses = [], selectRow, hidden = [] }) => {
     })();
   }, [addresses]);
 
-  // useEffect(() => {
-  //   data.forEach(async (a, i) => {
-  //     const { data: res } = await blockCypher.get(
-  //       `/addrs/${a.address1}/balance`
-  //     );
-  //     const newData = [...data];
-  //     newData[i].balance = res.balance;
-  //     setData(newData);
-  //   });
-  // }, [data]);
-
   return (
     <Table
       data={data}

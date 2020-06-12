@@ -5,7 +5,7 @@ const Loader = ({
   loading,
   children,
   noBackground,
-  diameter = "3rem",
+  diameter = "1.5rem",
   noStretch,
   light
 }) => {

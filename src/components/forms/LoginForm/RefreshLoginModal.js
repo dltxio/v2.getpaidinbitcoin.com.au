@@ -23,12 +23,12 @@ const RefreshLoginModal = () => {
     if (!el.current) return;
     const children = document.querySelector("#modal").children;
     if (isOpen) {
-      Object.keys(children).forEach(key => {
+      Object.keys(children).forEach((key) => {
         if (!children[key].contains(el.current))
           children[key].style.display = "none";
       });
     } else {
-      Object.keys(children).forEach(key => {
+      Object.keys(children).forEach((key) => {
         if (!children[key].contains(el.current))
           children[key].style.display = "block";
       });
@@ -37,13 +37,13 @@ const RefreshLoginModal = () => {
 
   useEffect(() => {
     gpib.secure.interceptors.response.use(
-      res => res,
-      async e => {
+      (res) => res,
+      async (e) => {
         const original = e.config;
         if (e.response.status === 401) {
           if (isRefreshing) {
             return new Promise(
-              resolve =>
+              (resolve) =>
                 (pendingRequests = [
                   ...pendingRequests,
                   { config: original, resolve }
@@ -52,7 +52,7 @@ const RefreshLoginModal = () => {
           }
           setRefreshing(true);
           setOpen(true);
-          const loginPromise = new Promise(res => {
+          const loginPromise = new Promise((res) => {
             resolveLoginPromise = res;
           });
           await loginPromise;

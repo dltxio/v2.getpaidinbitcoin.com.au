@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = user => {
+  const login = (user) => {
     window.localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
   };

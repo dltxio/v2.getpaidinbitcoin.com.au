@@ -11,7 +11,7 @@ import Loader from "../components/Loader";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const [userStatus] = useResource("/userstatus", -1);
+  const [userStatus] = useResource("/user/status", -1);
 
   const [transfers, fetchTransferError, isFetchingTransfers] = useResource(
     "/transfer",

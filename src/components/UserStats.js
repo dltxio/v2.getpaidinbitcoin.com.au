@@ -39,7 +39,7 @@ const UserStats = ({ stats }) => {
         {Object.keys(statKeys).map((key) => (
           <tr key={key}>
             <td>{statKeys[key].label}</td>
-            <td style={{ textAlign: "right" }}>
+            <td style={{ textAlign: "right", minWidth: "30%" }}>
               {statKeys[key].format
                 ? statKeys[key].format(stats[key])
                 : stats[key]}

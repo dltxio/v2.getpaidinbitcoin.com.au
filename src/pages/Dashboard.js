@@ -11,8 +11,7 @@ import Loader from "../components/Loader";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const [userStatus, fetchStatusError] = useResource("/userstatus");
-  // const [userStatus, fetchStatusError] = ["3", null];
+  const [userStatus] = useResource("/userstatus", -1);
 
   const [transfers, fetchTransferError, isFetchingTransfers] = useResource(
     "/transfer",
@@ -38,7 +37,6 @@ const Dashboard = () => {
       <Loader />
       <div className="dashboard container">
         <section className="head container">
-          <ErrorMessage error={fetchStatusError} />
           <VerificationTracker status={userStatus} />
         </section>
         <section className="main">

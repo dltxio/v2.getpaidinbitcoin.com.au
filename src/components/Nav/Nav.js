@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../Auth";
-import { Nav, Navbar, NavDropdown, NavbarBrand } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { history } from "../Router";
 import logo from "./gpib-logo.png";
 
@@ -26,7 +26,7 @@ const _Nav = ({ links, noBrand = false }) => {
       style={{ cursor: "pointer" }}
       onClick={() => history.push("/")}
     >
-      <img src={logo} />
+      <img src={logo} alt="Get Paid In Bitcoin" />
     </Navbar.Brand>
   );
 

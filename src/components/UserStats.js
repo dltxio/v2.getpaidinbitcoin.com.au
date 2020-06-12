@@ -8,22 +8,22 @@ const statKeys = {
     format: (v) => `${v || 0} BTC`
   },
   totalAUD: {
-    label: "Total AUD",
+    label: "Total Fiat Deposited (AUD)",
     format: (v) => format$(v, { code: "AUD" })
   },
   depositCount: {
     label: "Deposit Count"
   },
   averagePurchasePrice: {
-    label: "Average Purchase Price ($ / BTC)",
+    label: "Average Purchase Price ($/BTC)",
     format: (v) => format$(v, { code: "AUD" })
   },
   maxPrice: {
-    label: "Max Price ($ / BTC)",
+    label: "Max Price ($/BTC)",
     format: (v) => format$(v, { code: "AUD" })
   },
   minPrice: {
-    label: "Min Price ($ / BTC)",
+    label: "Min Price ($/BTC)",
     format: (v) => format$(v, { code: "AUD" })
   },
   referralRevenueEarned: {

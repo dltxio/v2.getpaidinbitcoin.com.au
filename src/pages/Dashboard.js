@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Layout from "../components/Layout";
 import useResource from "../hooks/useResource";
 import VerificationTracker from "../components/VerificationTracker";
@@ -8,16 +8,10 @@ import AddressPie from "../components/AddressPie";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
-import { AuthContext } from "../components/Auth";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
-
-  const [
-    [{ idVerificationStatus }],
-    fetchStatusError
-  ] = useResource(`/accountinfoes/user/${user.id}`, [{}]);
+  const [userStatus, fetchStatusError] = useResource("/userstatus");
 
   const [transfers, fetchTransferError, isFetchingTransfers] = useResource(
     "/transfer",
@@ -44,9 +38,10 @@ const Dashboard = () => {
       <div className="dashboard container">
         <section className="head container">
           <ErrorMessage error={fetchStatusError} />
-          <VerificationTracker status={idVerificationStatus} />
+          <VerificationTracker status={userStatus} />
         </section>
         <section className="main">
+          <div className={userStatus === "5" ? "overlay" : "overlay active"} />
           <aside>
             <section>
               <h2>User Stats</h2>

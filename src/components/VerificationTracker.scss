@@ -15,12 +15,23 @@ $completedColor: rgba($primary, 0.3);
   cursor: default;
 
   .label {
-    @include flex();
-    padding-bottom: 2rem;
+    padding: 2rem;
+  }
+  .blob {
+    position: relative;
+    .label {
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 80%;
+      text-align: center;
+      display: none;
+      padding: 0;
+    }
   }
   .blobs {
     @include flex(space-between);
   }
+
 
   .stage {
       @include flex();
@@ -28,25 +39,27 @@ $completedColor: rgba($primary, 0.3);
       color: $pendingColor;
       color: white;
       background-color: $pendingColor;
-      width: 1rem;
-      height: 1rem;
+      width: 2rem;
+      height: 2rem;
       border-radius: 50%;
       transition: background-color 200ms ease-in, height 200ms ease-in, width 200ms ease-in;
       
       span {
         display: none;
       }
+
       &.active {
+        cursor: pointer;
         border-color: $activeColor;
         background-color: $activeColor;
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 140%;
         @include boxShadow();
       }
 
       &.completed {
         border-color: $completedColor;
-        // background-color: rgba($completedColor, 0.1);
         background-color: $completedColor;
       }
     }
@@ -66,14 +79,23 @@ $completedColor: rgba($primary, 0.3);
       .label {
         display: none;
       }
+
+      .blob .label {
+        display: block;
+        position: absolute;
+      }
       .stage {
-        width: 7rem;
-        height: 7rem;
+        width: 5.5rem;
+        height: 5.5rem;
         padding: 1rem;
 
         &.active {
           width: 7rem;
           height: 7rem;
+        }
+
+        ion-icon {
+          font-size: 300%;
         }
       }
       .stage span {

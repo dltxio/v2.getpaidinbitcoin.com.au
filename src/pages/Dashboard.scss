@@ -10,6 +10,20 @@
   height: 100%;
   width: 100%;
   padding-top: 4rem;
+  position: relative;
+
+  .overlay {
+    display: none;
+
+    &.active {
+      display: block;
+      position: absolute;
+      background-color: rgba(white, 0.5);
+      z-index: 99;
+      height: 100%;
+      width: 100%;
+    }
+  }
 
   section {
     position: relative;

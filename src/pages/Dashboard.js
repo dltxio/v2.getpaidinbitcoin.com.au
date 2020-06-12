@@ -12,6 +12,7 @@ import "./Dashboard.scss";
 
 const Dashboard = () => {
   const [userStatus, fetchStatusError] = useResource("/userstatus");
+  // const [userStatus, fetchStatusError] = ["3", null];
 
   const [transfers, fetchTransferError, isFetchingTransfers] = useResource(
     "/transfer",

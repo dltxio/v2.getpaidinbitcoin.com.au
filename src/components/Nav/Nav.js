@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { AuthContext } from "./Auth";
-import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { history } from "./Router";
+import { AuthContext } from "../Auth";
+import { Nav, Navbar, NavDropdown, NavbarBrand } from "react-bootstrap";
+import { history } from "../Router";
+import logo from "./gpib-logo.png";
 
 const _Nav = ({ links, noBrand = false }) => {
   const { logout } = useContext(AuthContext);
@@ -24,8 +25,9 @@ const _Nav = ({ links, noBrand = false }) => {
     <Navbar.Brand
       style={{ cursor: "pointer" }}
       onClick={() => history.push("/")}
-      children="Dash"
-    />
+    >
+      <img src={logo} />
+    </Navbar.Brand>
   );
 
   const renderLinks = () => (

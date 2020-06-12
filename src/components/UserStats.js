@@ -8,7 +8,7 @@ const statKeys = {
     format: (v) => `${v || 0} BTC`
   },
   totalAUD: {
-    label: "Total AUD",
+    label: "Total Fiat Deposited (AUD)",
     format: (v) => format$(v, { code: "AUD" })
   },
   depositCount: {

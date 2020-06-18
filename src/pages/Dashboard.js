@@ -40,7 +40,7 @@ const Dashboard = () => {
           <VerificationTracker status={userStatus} />
         </section>
         <section className="main">
-          <div className={userStatus === "5" ? "overlay" : "overlay active"} />
+          <div className={userStatus === 5 ? "overlay" : "overlay active"} />
           <aside>
             <section>
               <h2>User Stats</h2>

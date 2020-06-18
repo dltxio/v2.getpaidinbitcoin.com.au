@@ -8,29 +8,29 @@ const statuses = {
     icon: "person-outline"
   },
   "1": {
-    label: "Add BTC Address",
-    onClick: () => {},
-    icon: "logo-bitcoin"
-  },
-  "2": {
     label: "Verify Email",
     onClick: () => {},
     icon: "mail-outline"
   },
-  "3": {
+  "2": {
     label: "Verify Mobile",
     onClick: () => {},
     icon: "phone-portrait-outline"
   },
-  "4": {
-    label: "Verify ID",
-    onClick: () => {},
-    icon: "newspaper-outline"
-  },
-  "5": {
+  "3": {
     label: "Add Payroll Information",
     onClick: () => {},
     icon: "cash-outline"
+  },
+  "4": {
+    label: "Add BTC Address",
+    onClick: () => {},
+    icon: "logo-bitcoin"
+  },
+  "5": {
+    label: "Verify ID",
+    onClick: () => {},
+    icon: "newspaper-outline"
   },
   "6": {
     label: "Completed",

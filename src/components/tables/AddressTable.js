@@ -31,7 +31,9 @@ const tableOptions = {
   sizePerPage: 5
 };
 
-const TransactionTable = ({ addresses = [], ...props }) => {
+const defaultAddresses = [];
+
+const TransactionTable = ({ addresses = defaultAddresses, ...props }) => {
   const [data, setData] = useState();
 
   useEffect(() => {

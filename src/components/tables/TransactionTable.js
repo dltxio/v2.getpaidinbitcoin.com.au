@@ -51,7 +51,7 @@ const tableOptions = {
   sizePerPage: 5
 };
 
-const TransactionTable = ({ transfers, deposits, ...props }) => {
+const TransactionTable = ({ transfers = [], deposits = [], ...props }) => {
   const data = blendTransfersAndDeposits(transfers, deposits);
 
   return (

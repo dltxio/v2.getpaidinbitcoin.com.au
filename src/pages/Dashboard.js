@@ -1,4 +1,5 @@
 import React from "react";
+import useSWR from "swr";
 import Layout from "../components/Layout";
 import useResource from "../hooks/useResource";
 import VerificationTracker from "../components/VerificationTracker";
@@ -13,24 +14,14 @@ import "./Dashboard.scss";
 const Dashboard = () => {
   const [userStatus] = useResource("/user/status", -1);
 
-  const [transfers, fetchTransferError, isFetchingTransfers] = useResource(
-    "/transfer",
-    []
-  );
-  const [deposits, fetchDepositError, isFetchingDeposits] = useResource(
-    "/deposit",
-    []
-  );
-
-  const [userStats, fetchStatsError, isFetchingStats] = useResource(
-    "/userstats",
-    {}
-  );
-
-  const [addresses, fetchAddressError, isFetchingAddresses] = useResource(
-    "/address",
-    []
-  );
+  const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
+  const { data: deposits, error: fetchDepositError } = useSWR("/deposit");
+  const { data: userStats, error: fetchStatsError } = useSWR("/userstats");
+  const { data: addresses, error: fetchAddressError } = useSWR("/address");
+  const isFetchingDeposits = !deposits && !fetchDepositError;
+  const isFetchingTransfers = !transfers && !fetchTransferError;
+  const isFetchingStats = !userStats && !fetchStatsError;
+  const isFetchingAddresses = !addresses && !fetchAddressError;
 
   return (
     <Layout>
@@ -62,7 +53,7 @@ const Dashboard = () => {
           <section className="content">
             <h2>Transactions</h2>
             <ErrorMessage error={fetchTransferError || fetchDepositError} />
-            <Loader loading={isFetchingTransfers || isFetchingDeposits} />
+            <Loader loading={isFetchingDeposits || isFetchingTransfers} />
             <TransactionTable transfers={transfers} deposits={deposits} />
           </section>
         </section>

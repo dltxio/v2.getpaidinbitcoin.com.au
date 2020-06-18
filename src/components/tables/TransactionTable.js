@@ -1,10 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { format as format$ } from "currency-formatter";
-import {
-  BootstrapTable as Table,
-  TableHeaderColumn as Column
-} from "react-bootstrap-table";
+import Table from "./Table";
 import prefixID from "../../utils/prefixID";
 
 // dataField (key) props (value)
@@ -54,31 +51,17 @@ const tableOptions = {
   sizePerPage: 5
 };
 
-const TransactionTable = ({ transfers, deposits, selectRow, hidden = [] }) => {
+const TransactionTable = ({ transfers, deposits, ...props }) => {
   const data = blendTransfersAndDeposits(transfers, deposits);
 
   return (
     <Table
       data={data}
-      striped
-      hover
-      version="4"
-      pagination
-      selectRow={selectRow}
-      tableContainerClass="table-responsive"
+      columnConfig={columnConfig}
       keyField="id"
       options={tableOptions}
-    >
-      {Object.keys(columnConfig)
-        .filter((dataField) => hidden.indexOf(dataField) < 0)
-        .map((dataField) => (
-          <Column
-            key={dataField}
-            dataField={dataField}
-            {...columnConfig[dataField]}
-          />
-        ))}
-    </Table>
+      {...props}
+    />
   );
 };
 export default TransactionTable;

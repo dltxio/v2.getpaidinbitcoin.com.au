@@ -1,7 +1,6 @@
 import React from "react";
 import useSWR from "swr";
 import Layout from "../components/Layout";
-import useResource from "../hooks/useResource";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
 import AddressTable from "../components/tables/AddressTable";
@@ -12,8 +11,7 @@ import Loader from "../components/Loader";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const [userStatus] = useResource("/user/status", -1);
-
+  const { data: userStatus } = useSWR("/user/status");
   const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
   const { data: deposits, error: fetchDepositError } = useSWR("/deposit");
   const { data: userStats, error: fetchStatsError } = useSWR("/userstats");

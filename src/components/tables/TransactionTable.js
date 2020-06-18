@@ -58,7 +58,6 @@ const TransactionTable = ({ transfers, deposits, ...props }) => {
     <Table
       data={data}
       columnConfig={columnConfig}
-      keyField="id"
       options={tableOptions}
       {...props}
     />

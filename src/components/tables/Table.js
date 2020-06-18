@@ -8,11 +8,12 @@ const Table = ({ columnConfig = {}, hidden = [], ...props }) => (
     version="4"
     pagination
     tableContainerClass="table-responsive"
+    keyField="id"
     {...props}
   >
     {Object.keys(columnConfig)
-      .filter(dataField => hidden.indexOf(dataField) < 0)
-      .map(dataField => (
+      .filter((dataField) => hidden.indexOf(dataField) < 0)
+      .map((dataField) => (
         <TableHeaderColumn
           key={dataField}
           dataField={dataField}

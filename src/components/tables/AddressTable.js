@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BootstrapTable as Table,
-  TableHeaderColumn as Column
-} from "react-bootstrap-table";
+import Table from "./Table";
 import Loader from "../Loader";
 import blockCypher from "../../apis/blockCypher";
 
@@ -36,11 +33,7 @@ const tableOptions = {
 
 const defaultAddresses = [];
 
-const TransactionTable = ({
-  addresses = defaultAddresses,
-  selectRow,
-  hidden = []
-}) => {
+const TransactionTable = ({ addresses = defaultAddresses, ...props }) => {
   const [data, setData] = useState();
 
   useEffect(() => {
@@ -67,24 +60,11 @@ const TransactionTable = ({
   return (
     <Table
       data={data}
-      striped
-      hover
-      version="4"
-      selectRow={selectRow}
-      tableContainerClass="table-responsive"
+      columnConfig={columnConfig}
       keyField="id"
       options={tableOptions}
-    >
-      {Object.keys(columnConfig)
-        .filter((dataField) => hidden.indexOf(dataField) < 0)
-        .map((dataField) => (
-          <Column
-            key={dataField}
-            dataField={dataField}
-            {...columnConfig[dataField]}
-          />
-        ))}
-    </Table>
+      {...props}
+    />
   );
 };
 export default TransactionTable;

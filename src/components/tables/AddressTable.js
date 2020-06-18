@@ -34,7 +34,13 @@ const tableOptions = {
   sizePerPage: 5
 };
 
-const TransactionTable = ({ addresses = [], selectRow, hidden = [] }) => {
+const defaultAddresses = [];
+
+const TransactionTable = ({
+  addresses = defaultAddresses,
+  selectRow,
+  hidden = []
+}) => {
   const [data, setData] = useState();
 
   useEffect(() => {

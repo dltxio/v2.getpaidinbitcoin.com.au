@@ -32,7 +32,7 @@ const statKeys = {
   }
 };
 
-const UserStats = ({ stats }) => {
+const UserStats = ({ stats = {} }) => {
   return (
     <Table>
       <tbody>

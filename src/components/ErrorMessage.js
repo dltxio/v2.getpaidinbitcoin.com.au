@@ -4,7 +4,7 @@ import { Alert } from "react-bootstrap";
 const ErrorMessage = ({ error, isHidden, ...props }) => {
   let message = error;
   if (typeof error !== "string") {
-    message = error?.message?.response?.error || error?.message;
+    message = error?.response?.data?.error || error?.message;
   }
 
   return error && !isHidden ? (

@@ -3,9 +3,9 @@ import { Formik, Form } from "formik";
 import { Redirect } from "react-router-dom";
 import validate from "./validate";
 import gpib from "../../../apis/gpib";
-import Loader from "../../Loader";
 import Input from "../form-inputs/Input";
 import { AuthContext } from "../../Auth";
+import SubmitSpinnerButton from "../SubmitSpinnerButton";
 import "./LoginForm.scss";
 
 const LoginForm = ({
@@ -40,20 +40,7 @@ const LoginForm = ({
         <Form className="login-form">
           <Input name="username" placeholder="email" />
           <Input name="password" type="password" placeholder="password" />
-          <button
-            className="btn btn-primary btn-block relative d-flex justify-content-center"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            <Loader
-              loading={isSubmitting}
-              noBackground
-              noStretch
-              light
-              diameter="1.4rem"
-            />
-            <span className="mx-2">Login</span>
-          </button>
+          <SubmitSpinnerButton submitText="Login" isSubmitting={isSubmitting} />
         </Form>
       )}
     </Formik>

@@ -1,6 +1,5 @@
 import React from "react";
 import useSWR from "swr";
-import { Button } from "react-bootstrap";
 import { history } from "../components/Router";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";

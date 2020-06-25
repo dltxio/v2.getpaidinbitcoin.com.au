@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Table from "./Table";
 import Loader from "../Loader";
 import blockCypher from "../../apis/blockCypher";
+import { Cache } from "memory-cache";
 
 const columnConfig = {
   address1: {
@@ -20,7 +21,7 @@ const columnConfig = {
     tdStyle: { textAlign: "right" },
     thStyle: { textAlign: "right" },
     dataFormat: (v) => {
-      const hasValue = v !== undefined && v !== null;
+      const hasValue = v !== undefined;
       return hasValue ? `${v} BTC` : <Loader loading noStretch noBackground />;
     }
   }
@@ -33,8 +34,14 @@ const tableOptions = {
 
 const defaultAddresses = [];
 
-const TransactionTable = ({ addresses = defaultAddresses, ...props }) => {
+const cache = new Cache();
+
+const AddressTable = ({ addresses = defaultAddresses, ...props }) => {
   const [data, setData] = useState();
+
+  useEffect(() => {
+    cache.clear();
+  }, []);
 
   useEffect(() => {
     const addr = addresses.slice(0, 2);
@@ -42,9 +49,11 @@ const TransactionTable = ({ addresses = defaultAddresses, ...props }) => {
     (async () => {
       const balances = await Promise.all(
         addr.map(async (a) => {
-          const { data: res } = await blockCypher.get(
-            `/addrs/${a.address1}/balance`
-          );
+          const url = `/addrs/${a.address1}/balance`;
+          const cached = cache.get(url);
+          if (cached !== null) return cached;
+          const { data: res } = await blockCypher.get(url);
+          cache.put(url, res.balance);
           return res.balance;
         })
       );
@@ -67,4 +76,4 @@ const TransactionTable = ({ addresses = defaultAddresses, ...props }) => {
     />
   );
 };
-export default TransactionTable;
+export default AddressTable;

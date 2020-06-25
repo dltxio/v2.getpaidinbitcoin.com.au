@@ -6,7 +6,6 @@ import { AuthProvider } from "./Auth";
 import "./App.scss";
 
 const swrConfig = {
-  refreshInterval: 3000,
   fetcher: (url) => gpib.secure.get(url).then((res) => res.data)
 };
 

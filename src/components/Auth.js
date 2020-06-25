@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import { cache } from "swr";
 
 export const AuthContext = createContext(null);
 
@@ -20,6 +21,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     window.localStorage.removeItem("user");
     setUser(null);
+    cache.clear();
   };
 
   return (

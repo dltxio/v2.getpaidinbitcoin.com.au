@@ -30,7 +30,7 @@
     margin-bottom: 4rem;
   }
 
-  @include media-breakpoint-up(lg){
+  @include media-breakpoint-up(xl){
     .main {
       @include flex(space-between, flex-start);
 

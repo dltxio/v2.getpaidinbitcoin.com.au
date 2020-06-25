@@ -3,12 +3,22 @@ import { AuthContext } from "../Auth";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { history } from "../Router";
 import logo from "./gpib-logo.png";
+import "./Nav.scss";
 
-const _Nav = ({ links, noBrand = false }) => {
+const _Nav = ({ links, noBrand = false, activeTab }) => {
   const { logout } = useContext(AuthContext);
 
   // Set default links
-  if (!links) links = [{ label: "Log out", onClick: logout }];
+  if (!links)
+    links = [
+      {
+        label: "Addresses",
+        onClick: () => {
+          history.push("/addresses");
+        }
+      },
+      { label: "Log out", onClick: logout }
+    ];
 
   // For a dropdown menu item, add an object like this to the links array
   // {
@@ -33,24 +43,26 @@ const _Nav = ({ links, noBrand = false }) => {
   const renderLinks = () => (
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav>
-        {links.map(({ label, onClick, children }, i) =>
-          !children ? (
-            <Nav.Link onClick={onClick} key={i}>
-              {label}
-            </Nav.Link>
+        {links.map(({ label, onClick, children }, i) => {
+          const classes = label === activeTab ? "active" : "";
+          return !children ? (
+            <Nav.Link
+              onClick={onClick}
+              key={i}
+              className={classes}
+              children={label}
+            />
           ) : (
-            <NavDropdown title={label} key={i}>
+            <NavDropdown title={label} key={i} className={classes}>
               {children.map((c, ind) => {
                 const Item = NavDropdown[c.type];
                 return (
-                  <Item onClick={c.onClick} key={ind}>
-                    {c.label}
-                  </Item>
+                  <Item onClick={c.onClick} key={ind} children={c.label} />
                 );
               })}
             </NavDropdown>
-          )
-        )}
+          );
+        })}
       </Nav>
     </Navbar.Collapse>
   );

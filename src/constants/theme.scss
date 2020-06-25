@@ -1,0 +1,31 @@
+
+/**
+* Cheat sheet for variables; https://bootstrapvars.com/
+**/
+
+
+@import "./colors";
+
+
+$grid-breakpoints:
+(
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 1000px,
+    xl: 1200px
+);
+
+$container-max-widths:
+(
+    xs: 500,
+    sm: 600px,
+    md: 720px,
+    lg: 950px,
+    xl: 1550px
+);
+$nav-tabs-link-active-color :	$warning;
+$navbar-nav-link-padding-x	:1rem;
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap";

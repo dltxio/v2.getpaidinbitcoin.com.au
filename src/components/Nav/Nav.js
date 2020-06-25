@@ -9,16 +9,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
   const { logout } = useContext(AuthContext);
 
   // Set default links
-  if (!links)
-    links = [
-      {
-        label: "Addresses",
-        onClick: () => {
-          history.push("/addresses");
-        }
-      },
-      { label: "Log out", onClick: logout }
-    ];
+  if (!links) links = [{ label: "Log out", onClick: logout }];
 
   // For a dropdown menu item, add an object like this to the links array
   // {

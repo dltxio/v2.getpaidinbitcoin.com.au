@@ -18,13 +18,13 @@ const columnConfig = {
     children: "Label"
   },
   balance: {
-    children: "Balance",
+    children: "Balance BTC",
     tdStyle: { textAlign: "right" },
     thStyle: { textAlign: "right" },
     dataFormat: (v) => {
       const hasValue = v !== undefined;
       return hasValue ? (
-        `${parseSATS(v)} BTC`
+        parseSATS(v)
       ) : (
         <Loader loading noStretch noBackground />
       );
@@ -49,11 +49,10 @@ const AddressTable = ({ addresses = defaultAddresses, ...props }) => {
   }, []);
 
   useEffect(() => {
-    const addr = addresses.slice(0, 2);
-    setData(addr);
+    setData(addresses);
     (async () => {
       const balances = await Promise.all(
-        addr.map(async (a) => {
+        addresses.map(async (a) => {
           const url = `/addrs/${a.address1}/balance`;
           const cached = cache.get(url);
           if (cached !== null) return cached;
@@ -63,7 +62,7 @@ const AddressTable = ({ addresses = defaultAddresses, ...props }) => {
         })
       );
       const withBalances = balances.map((balance, i) => {
-        const newAddr = addr[i];
+        const newAddr = addresses[i];
         newAddr.balance = balance;
         return newAddr;
       });

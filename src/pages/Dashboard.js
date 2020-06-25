@@ -11,6 +11,7 @@ import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
 import "./Dashboard.scss";
+import IconButton from "../components/IconButton";
 const Dashboard = () => {
   const { data: userStatus } = useSWR("/user/status");
   const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
@@ -41,12 +42,11 @@ const Dashboard = () => {
             <section>
               <div className="d-flex justify-content-between align-items-center">
                 <h2>Addresses</h2>
-                <Button
+                <IconButton
                   title="Add an address"
                   onClick={() => history.push("/address/add")}
-                >
-                  <ion-icon name="add" />
-                </Button>
+                  icon="add"
+                />
               </div>
               <ErrorMessage error={fetchAddressError} />
               <Loader loading={isFetchingAddresses} />

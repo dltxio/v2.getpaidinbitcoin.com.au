@@ -3,10 +3,12 @@ import { Alert } from "react-bootstrap";
 
 const ErrorMessage = ({ error, isHidden, ...props }) => {
   let message = error;
-  if (typeof error !== "string") {
-    message = error?.response?.data?.error || error?.message;
-  }
+  const data = error?.response?.data;
 
+  if (typeof error !== "string") {
+    message = data?.error || error?.message || error;
+  }
+  if (typeof data === "string") message = data;
   return error && !isHidden ? (
     <Alert variant="danger" {...props}>
       {message}

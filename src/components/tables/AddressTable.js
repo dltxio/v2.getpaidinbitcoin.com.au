@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import Loader from "../Loader";
 import blockCypher from "../../apis/blockCypher";
 import { Cache } from "memory-cache";
+import parseSATS from "../../utils/parseSATS";
 
 const columnConfig = {
   address1: {
@@ -22,7 +23,11 @@ const columnConfig = {
     thStyle: { textAlign: "right" },
     dataFormat: (v) => {
       const hasValue = v !== undefined;
-      return hasValue ? `${v} BTC` : <Loader loading noStretch noBackground />;
+      return hasValue ? (
+        `${parseSATS(v)} BTC`
+      ) : (
+        <Loader loading noStretch noBackground />
+      );
     }
   }
 };

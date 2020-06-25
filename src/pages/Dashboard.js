@@ -1,5 +1,7 @@
 import React from "react";
 import useSWR from "swr";
+import { Button } from "react-bootstrap";
+import { history } from "../components/Router";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
@@ -9,7 +11,6 @@ import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
 import "./Dashboard.scss";
-
 const Dashboard = () => {
   const { data: userStatus } = useSWR("/user/status");
   const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
@@ -38,10 +39,18 @@ const Dashboard = () => {
               <UserStats stats={userStats} />
             </section>
             <section>
-              <h2>Addresses</h2>
+              <div className="d-flex justify-content-between align-items-center">
+                <h2>Addresses</h2>
+                <Button
+                  title="Add an address"
+                  onClick={() => history.push("/address/add")}
+                >
+                  <ion-icon name="add" />
+                </Button>
+              </div>
               <ErrorMessage error={fetchAddressError} />
               <Loader loading={isFetchingAddresses} />
-              <AddressTable addresses={addresses} />
+              <AddressTable addresses={addresses} pagination={false} />
             </section>
             <section className="d-flex justify-content-center">
               <Loader loading={isFetchingAddresses} />

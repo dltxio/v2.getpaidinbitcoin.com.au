@@ -1,13 +1,16 @@
 import React from "react";
 import Loader from "../Loader";
+import { Button } from "react-bootstrap";
 
 const SubmitButtonSpinner = ({
   submitText,
   isSubmitting = false,
   ...props
 }) => (
-  <button
-    className="btn btn-primary btn-block relative d-flex justify-content-center"
+  <Button
+    className="relative d-flex justify-content-center"
+    variant="primary"
+    block
     type="submit"
     disabled={isSubmitting}
     {...props}
@@ -20,7 +23,7 @@ const SubmitButtonSpinner = ({
       diameter="1.4rem"
     />
     <span className="mx-2">{submitText}</span>
-  </button>
+  </Button>
 );
 
 export default SubmitButtonSpinner;

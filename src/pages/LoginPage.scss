@@ -1,0 +1,58 @@
+@import "../constants/mixins";
+@import "../constants/colors";
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins/breakpoints";
+
+$spacing: 2rem;
+
+.login-page {
+
+  .card-container {
+    width: 100%;
+    flex: 1;
+    padding: $spacing;
+
+
+    .col-sm {
+      @include flex();
+      &:first-child {
+        border-bottom: 1px solid rgba($primary, 0.2);
+        padding-bottom: $spacing;
+      }
+
+      &:last-child {
+        padding-top: $spacing;
+
+      }
+    }
+  }
+
+  @include media-breakpoint-up(sm){
+
+    .card-container {
+      max-width: 65rem;
+
+      .col-sm {
+        
+        &:first-child {
+          padding: inherit;
+          border-right: 1px solid rgba($primary, 0.2);
+          padding-right: $spacing;
+          border-bottom: none;
+
+
+        }
+        &:last-child {
+          padding: inherit;
+          padding-left: $spacing;
+
+        }
+
+      }
+
+    }
+    
+  }
+}

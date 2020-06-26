@@ -8,11 +8,15 @@ const Layout = ({
   children,
   noFooter,
   noHeader,
-  activeTab
+  activeTab,
+  navLinks,
+  ...props
 }) => (
   <>
-    <header>{noHeader || header || <Nav activeTab={activeTab} />}</header>
-    <main>{children}</main>
+    <header>
+      {noHeader || header || <Nav activeTab={activeTab} links={navLinks} />}
+    </header>
+    <main {...props}>{children}</main>
     <footer>{noFooter || footer || <Footer />}</footer>
   </>
 );

@@ -1,14 +1,24 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import validate from "./validate";
-import gpib from "../../../apis/gpib";
 import Input from "../form-inputs/Input";
 import SubmitSpinnerButton from "../SubmitSpinnerButton";
 
-const RegisterForm = ({ initialValues = { username: "", password: "" } }) => {
+const defaultValues = {
+  email: "",
+  password: "",
+  passwordMatch: "",
+  firstName: "",
+  lastName: "",
+  referredBy: ""
+};
+
+const RegisterForm = ({ initialValues: _iv }) => {
+  const initialValues = { ...defaultValues, ..._iv };
   const onSubmit = async (values, actions) => {
     try {
-      // const { data: user } = await gpib.open.post("/user/authenticate", values);
+      // TODO: submit form to backend
+      alert("Registered");
     } catch (e) {
       console.log(e);
       actions.setErrors({ hidden: "error" });

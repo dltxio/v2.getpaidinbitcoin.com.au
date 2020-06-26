@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
+import qs from "qs";
 import { AuthContext } from "../components/Auth";
 import Layout from "../components/Layout";
 import LoginForm from "../components/forms/LoginForm";
@@ -9,7 +10,11 @@ import "./LoginPage.scss";
 
 const LoginPage = () => {
   const { user } = useContext(AuthContext);
-  if (user) return <Redirect to="/" />;
+  const location = useLocation();
+  const referredBy =
+    location?.search &&
+    qs.parse(location.search, { ignoreQueryPrefix: true })?.referredBy;
+  if (user && !referredBy) return <Redirect to="/" />;
   return (
     <Layout noHeader className="login-page">
       <div
@@ -18,11 +23,13 @@ const LoginPage = () => {
       >
         <Card className="card-container">
           <div className="row">
+            {!referredBy && (
+              <div className="col-sm">
+                <LoginForm />
+              </div>
+            )}
             <div className="col-sm">
-              <LoginForm />
-            </div>
-            <div className="col-sm">
-              <RegisterForm />
+              <RegisterForm initialValues={{ referredBy }} />
             </div>
           </div>
         </Card>

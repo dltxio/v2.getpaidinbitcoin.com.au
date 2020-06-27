@@ -1,21 +1,16 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
 import validate from "./validate";
 import gpib from "../../../apis/gpib";
 import Input from "../form-inputs/Input";
 import { AuthContext } from "../../Auth";
 import SubmitSpinnerButton from "../SubmitSpinnerButton";
-import "./LoginForm.scss";
 
 const LoginForm = ({
   initialValues = { username: "", password: "" },
-  noRedirect,
   onLogin
 }) => {
-  const { user, login } = useContext(AuthContext);
-  if (user && !noRedirect) return <Redirect to="/" />;
-
+  const { login } = useContext(AuthContext);
   const onSubmit = async (values, actions) => {
     try {
       const { data: user } = await gpib.open.post("/user/authenticate", values);
@@ -37,7 +32,13 @@ const LoginForm = ({
       onSubmit={onSubmit}
     >
       {({ isSubmitting }) => (
-        <Form className="login-form">
+        <Form
+          className="login-form"
+          style={{
+            flex: 1,
+            width: "100%"
+          }}
+        >
           <Input name="username" placeholder="email" />
           <Input name="password" type="password" placeholder="password" />
           <SubmitSpinnerButton submitText="Login" isSubmitting={isSubmitting} />

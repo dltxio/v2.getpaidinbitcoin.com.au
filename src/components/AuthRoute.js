@@ -11,7 +11,7 @@ const AuthRoute = ({ component, ...props }) => {
       {...props}
       render={() => {
         if (isLoading) return <Loader loading />;
-        return user ? <Component /> : <Redirect to="/login" />;
+        return user ? <Component /> : <Redirect to="/auth" />;
       }}
     />
   );

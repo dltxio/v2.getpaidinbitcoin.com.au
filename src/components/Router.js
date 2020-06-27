@@ -11,7 +11,7 @@ export const history = createBrowserHistory();
 const Router = () => (
   <ReactRouter history={history}>
     <Switch>
-      <Route path="/login" component={LoginPage} />
+      <Route path="/auth" component={LoginPage} />
       <AuthRoute path="/" component={Dashboard} />
     </Switch>
     <Switch>

@@ -49,7 +49,7 @@ const AddressModalForm = () => {
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading={heading}>
+    <Modal isOpen onDismiss={onDismiss} heading={heading} large>
       {({ onDismiss, wrapCallback }) => (
         <>
           <Loader loading={isLoading} diameter="2rem" />

@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../Auth";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { history } from "../Router";
 import logo from "./gpib-logo.png";
 import "./Nav.scss";
 
-const _Nav = ({ links, noBrand = false, activeTab }) => {
-  const { logout } = useContext(AuthContext);
-
+const _Nav = ({ links = [], noBrand = false, activeTab }) => {
+  const { logout, user } = useContext(AuthContext);
+  const history = useHistory();
   // Set default links
-  if (!links) links = [{ label: "Log out", onClick: logout }];
+  if (!links.length) {
+    const authLink = user
+      ? { label: "Log out", onClick: logout }
+      : { label: "Log in", onClick: () => history.push("/auth") };
+    links = [authLink];
+  }
 
   // For a dropdown menu item, add an object like this to the links array
   // {

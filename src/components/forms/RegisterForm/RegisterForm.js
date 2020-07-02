@@ -31,7 +31,10 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode }) => {
     try {
       const parsedValues = parseSubmitValues(values);
       await gpib.open.post("/user", parsedValues);
-      const { data: user } = await gpib.open.post("/user/authenticate", values);
+      const { data: user } = await gpib.open.post("/user/authenticate", {
+        email: parsedValues.email,
+        password: parsedValues.password
+      });
       login(user);
     } catch (e) {
       console.log(e);

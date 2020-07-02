@@ -1,5 +1,7 @@
 import { isEmail } from "validator";
 
+const minPasswordLength = 6;
+
 const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
   const requiredMsg = "This field is required";
   const errors = {};
@@ -13,6 +15,8 @@ const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
 
   // Formatting
   if (!isEmail(email)) errors.email = "Please enter a valid email";
+  if (password.length < minPasswordLength)
+    errors.password = `Password must be at least ${minPasswordLength} characters`;
 
   // Password match
   if (password !== passwordMatch)

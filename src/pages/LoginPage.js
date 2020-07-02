@@ -11,10 +11,10 @@ import "./LoginPage.scss";
 const LoginPage = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
-  const referredBy =
+  const referralCode =
     location?.search &&
-    qs.parse(location.search, { ignoreQueryPrefix: true })?.referredBy;
-  if (user && !referredBy) return <Redirect to="/" />;
+    qs.parse(location.search, { ignoreQueryPrefix: true })?.referralCode;
+  if (user && !referralCode) return <Redirect to="/" />;
   return (
     <Layout noHeader className="login-page">
       <div
@@ -23,13 +23,16 @@ const LoginPage = () => {
       >
         <Card className="card-container">
           <div className="row">
-            {!referredBy && (
+            {!referralCode && (
               <div className="col-sm">
                 <LoginForm />
               </div>
             )}
             <div className="col-sm">
-              <RegisterForm initialValues={{ referredBy }} />
+              <RegisterForm
+                initialValues={{ referralCode }}
+                lockReferralCode={referralCode}
+              />
             </div>
           </div>
         </Card>

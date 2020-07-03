@@ -16,7 +16,7 @@ const LoginPage = () => {
     qs.parse(location.search, { ignoreQueryPrefix: true })?.referralCode;
   if (user && !referralCode) return <Redirect to="/" />;
   return (
-    <Layout noHeader className="login-page">
+    <Layout className="login-page">
       <div
         className="d-flex justify-content-center container py-5 align-items-center"
         style={{ height: "100vh" }}

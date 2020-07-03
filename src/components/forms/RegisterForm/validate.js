@@ -1,6 +1,5 @@
 import { isEmail } from "validator";
-
-const minPasswordLength = 6;
+import { minPasswordLength } from "../../../constants";
 
 const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
   const requiredMsg = "This field is required";

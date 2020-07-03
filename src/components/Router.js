@@ -5,15 +5,15 @@ import AuthRoute from "../components/AuthRoute";
 import Dashboard from "../pages/Dashboard";
 import { createBrowserHistory } from "history";
 import AddressModalForm from "./forms/AddressForm/AddressModalForm";
-import ResetPassword from "../pages/ResetPassword";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 export const history = createBrowserHistory();
 
 const Router = () => (
   <ReactRouter history={history}>
     <Switch>
-      <Route path="/auth/resetpassword/:token" component={ResetPassword} />
-      <Route path="/auth/resetpassword" component={ResetPassword} />
+      <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
+      <Route path="/auth/resetpassword" component={ResetPasswordPage} />
       <Route path="/auth" component={LoginPage} />
       <AuthRoute path="/" component={Dashboard} />
     </Switch>

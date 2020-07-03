@@ -13,7 +13,7 @@ const validate = ({ email }) => {
   return errors;
 };
 
-const ResetPWLinkForm = ({ initialValues = { email: "" } }) => {
+const ResetPasswordLinkForm = ({ initialValues = { email: "" } }) => {
   const [timer, setTimer] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const isDisabled = timer || timer === 0;
@@ -82,4 +82,4 @@ const ResetPWLinkForm = ({ initialValues = { email: "" } }) => {
   );
 };
 
-export default ResetPWLinkForm;
+export default ResetPasswordLinkForm;

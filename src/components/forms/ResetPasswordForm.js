@@ -32,7 +32,7 @@ const initialValues = {
   passwordMatch: ""
 };
 
-const ResetPWForm = ({ onSuccess, onError, email, token }) => {
+const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
   const { login, isLoggingIn } = useContext(AuthContext);
   const [password, setPassword] = useState(null);
   const history = useHistory();
@@ -107,4 +107,4 @@ const ResetPWForm = ({ onSuccess, onError, email, token }) => {
   );
 };
 
-export default ResetPWForm;
+export default ResetPasswordForm;

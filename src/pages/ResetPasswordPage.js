@@ -2,10 +2,10 @@ import React from "react";
 import { useParams, useLocation } from "react-router-dom";
 import qs from "qs";
 import Layout from "../components/Layout";
-import ResetPWLinkForm from "../components/forms/ResetPWLinkForm";
-import ResetPWForm from "../components/forms/ResetPWForm";
+import ResetPasswordLinkForm from "../components/forms/ResetPasswordLinkForm";
+import ResetPasswordForm from "../components/forms/ResetPasswordForm";
 
-const ResetPassword = () => {
+const ResetPasswordPage = () => {
   const { token } = useParams();
   const location = useLocation();
   const { email } = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -17,13 +17,13 @@ const ResetPassword = () => {
         style={{ maxWidth: "50rem" }}
       >
         {token ? (
-          <ResetPWForm token={token} email={email} />
+          <ResetPasswordForm token={token} email={email} />
         ) : (
-          <ResetPWLinkForm email={email} />
+          <ResetPasswordLinkForm email={email} />
         )}
       </div>
     </Layout>
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;

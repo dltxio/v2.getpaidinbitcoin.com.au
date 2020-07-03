@@ -3,7 +3,6 @@ import { Formik, Form } from "formik";
 import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import validate from "./validate";
-import gpib from "../../../apis/gpib";
 import Input from "../form-inputs/Input";
 import { AuthContext } from "../../Auth";
 import SubmitSpinnerButton from "../SubmitSpinnerButton";
@@ -16,9 +15,8 @@ const LoginForm = ({
   const history = useHistory();
   const onSubmit = async (values, actions) => {
     try {
-      const { data: user } = await gpib.open.post("/user/authenticate", values);
-      login(user);
-      if (onLogin) onLogin();
+      await login(values);
+      if (onLogin) onLogin(values);
     } catch (e) {
       console.log(e);
       actions.setErrors({

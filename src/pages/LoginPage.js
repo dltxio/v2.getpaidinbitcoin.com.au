@@ -17,10 +17,7 @@ const LoginPage = () => {
   if (user && !referralCode) return <Redirect to="/" />;
   return (
     <Layout className="login-page">
-      <div
-        className="d-flex justify-content-center container py-5 align-items-center"
-        style={{ height: "100vh" }}
-      >
+      <div className="d-flex justify-content-center container py-5 align-items-center">
         <Card className="card-container">
           <div className="row">
             {!referralCode && (

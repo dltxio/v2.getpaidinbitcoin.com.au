@@ -35,8 +35,11 @@ const panels = [
       },
       {
         icon: "lock-closed",
-        text: "PGP PubKey (FCCE5C14)",
-        link: "/FCCE5C14.asc"
+        jsx: (
+          <a href="/FCCE5C14.asc" children="PGP PubKey (FCCE5C14)" download>
+            bit.do/GPIB_BitcoinTalk
+          </a>
+        )
       }
     ]
   },

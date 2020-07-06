@@ -8,7 +8,9 @@ const ErrorMessage = ({ error, isHidden, ...props }) => {
   if (typeof error !== "string") {
     message = data?.error || error?.message || error;
   }
-  if (typeof data === "string") message = data;
+  if (typeof data === "string" && data) {
+    message = data;
+  }
   return error && !isHidden ? (
     <Alert variant="danger" {...props}>
       {message}

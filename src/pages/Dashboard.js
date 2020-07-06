@@ -25,8 +25,8 @@ const Dashboard = () => {
   return (
     <Layout>
       <Loader />
-      <div className="dashboard container">
-        <section className="head container">
+      <div className="dashboard container-fluid">
+        <section className="head">
           <VerificationTracker status={userStatus} />
         </section>
         <section className="main">

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import validate from "./validate";
 import Input from "../form-inputs/Input";
 import SubmitSpinnerButton from "../SubmitSpinnerButton";
+import gpib from "../../../apis/gpib";
+import ErrorMessage from "../../ErrorMessage";
+import { AuthContext } from "../../Auth";
 
 const defaultValues = {
   email: "",
@@ -10,18 +13,31 @@ const defaultValues = {
   passwordMatch: "",
   firstName: "",
   lastName: "",
-  referredBy: ""
+  referralCode: ""
 };
 
-const RegisterForm = ({ initialValues: _iv }) => {
+const parseSubmitValues = (v) => ({
+  firstName: v.firstName,
+  lastName: v.lastName,
+  email: v.email,
+  password: v.password,
+  referralCode: v.referralCode
+});
+
+const RegisterForm = ({ initialValues: _iv, lockReferralCode }) => {
   const initialValues = { ...defaultValues, ..._iv };
+  const { login } = useContext(AuthContext);
   const onSubmit = async (values, actions) => {
     try {
-      // TODO: submit form to backend
-      alert("Registered");
+      const parsedValues = parseSubmitValues(values);
+      await gpib.open.post("/user", parsedValues);
+      login({
+        username: parsedValues.email,
+        password: parsedValues.password
+      });
     } catch (e) {
       console.log(e);
-      actions.setErrors({ hidden: "error" });
+      actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
     }
   };
@@ -32,7 +48,7 @@ const RegisterForm = ({ initialValues: _iv }) => {
       validate={validate}
       onSubmit={onSubmit}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, errors }) => (
         <Form style={{ flex: 1, width: "100%" }}>
           <Input
             name="email"
@@ -46,7 +62,12 @@ const RegisterForm = ({ initialValues: _iv }) => {
           />
           <Input name="firstName" placeholder="First Name" />
           <Input name="lastName" placeholder="Last Name" />
-          <Input name="referredBy" placeholder="Referral Code" />
+          <Input
+            name="referralCode"
+            placeholder="Referral Code"
+            disabled={lockReferralCode}
+          />
+          <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton
             variant="secondary"
             submitText="Join"

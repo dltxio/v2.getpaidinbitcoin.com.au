@@ -11,16 +11,32 @@ import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
 import "./Dashboard.scss";
 import IconButton from "../components/IconButton";
+import AccountLine from "../components/AccountLine";
 const Dashboard = () => {
   const { data: userStatus } = useSWR("/user/status");
   const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
   const { data: deposits, error: fetchDepositError } = useSWR("/deposit");
   const { data: userStats, error: fetchStatsError } = useSWR("/userstats");
   const { data: addresses, error: fetchAddressError } = useSWR("/address");
+  // TODO: Perhaps make a route for deposit hint so or consolidate fetches. This just feels weird.
+  const { data: userDetails, error: fetchDetailsError } = useSWR("/user");
+  // End TODO
+  // TODO: Bank Account route using the bankID from the userDetails or get someone to do a join
+  // const { data: bank, error: fetchBankError} = useSWR('')
+  const bank = {
+    bsb: 123456,
+    number: 12345678,
+    bankName: "Bob's Discount Bankary",
+    name: "Davette"
+  };
+  const fetchBankError = false;
+  // End TODO
   const isFetchingDeposits = !deposits && !fetchDepositError;
   const isFetchingTransfers = !transfers && !fetchTransferError;
   const isFetchingStats = !userStats && !fetchStatsError;
   const isFetchingAddresses = !addresses && !fetchAddressError;
+  const isFetchingBank = !bank && !fetchBankError;
+  const isFetchingDetails = !userDetails && !fetchDetailsError;
 
   return (
     <Layout>
@@ -57,6 +73,10 @@ const Dashboard = () => {
             </section>
           </aside>
           <section className="content">
+            <h2>Bank Account</h2>
+            <ErrorMessage error={fetchDetailsError || fetchBankError} />
+            <Loader loading={isFetchingDetails || isFetchingBank} />
+            <AccountLine bankInfo={bank} details={userDetails} />
             <h2>Transactions</h2>
             <ErrorMessage error={fetchTransferError || fetchDepositError} />
             <Loader loading={isFetchingDeposits || isFetchingTransfers} />

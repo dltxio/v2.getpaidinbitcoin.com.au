@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import useSWR from "swr";
 import { history } from "../components/Router";
 import Layout from "../components/Layout";
@@ -10,19 +10,21 @@ import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
 import "./Dashboard.scss";
+import { AuthContext } from "../components/Auth";
 import IconButton from "../components/IconButton";
 import AccountLine from "../components/AccountLine";
 const Dashboard = () => {
+  const { user } = useContext(AuthContext);
   const { data: userStatus } = useSWR("/user/status");
   const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
   const { data: deposits, error: fetchDepositError } = useSWR("/deposit");
   const { data: userStats, error: fetchStatsError } = useSWR("/userstats");
   const { data: addresses, error: fetchAddressError } = useSWR("/address");
-  // TODO: Perhaps make a route for deposit hint so or consolidate fetches. This just feels weird.
-  const { data: userDetails, error: fetchDetailsError } = useSWR("/user");
-  // End TODO
+  const { data: userDetails, error: fetchDetailsError } = useSWR(
+    `/User/details/${user.id}`
+  );
   // TODO: Bank Account route using the bankID from the userDetails or get someone to do a join
-  // const { data: bank, error: fetchBankError} = useSWR('')
+  // const { data: bank, error: fetchBankError} = useSWR('/bank/${userDetails.bankID}')
   const bank = {
     bsb: 123456,
     number: 12345678,

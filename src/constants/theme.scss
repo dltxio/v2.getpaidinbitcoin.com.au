@@ -1,0 +1,15 @@
+@import "./colors";
+
+/**
+* Cheat sheet for variables; https://bootstrapvars.com/
+**/
+
+
+$headings-color: $primary;
+$nav-tabs-link-active-color :	$warning;
+$navbar-nav-link-padding-x	:1rem;
+$font-family-sans-serif: "Qucksand",-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-base: $font-family-sans-serif;
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap";

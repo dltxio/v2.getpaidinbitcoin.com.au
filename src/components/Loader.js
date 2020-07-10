@@ -22,9 +22,7 @@ const Loader = ({
       <div
         className="loader"
         style={{
-          backgroundColor: noBackground
-            ? "rgba(0,0,0,0)"
-            : "rgba(255,255,255,0.7)",
+          backgroundColor: noBackground ? "rgba(0,0,0,0)" : undefined,
           position: noStretch ? "" : "absolute"
         }}
       >

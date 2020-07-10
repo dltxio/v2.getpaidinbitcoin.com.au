@@ -1,26 +1,22 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import validate from "./validate";
-import gpib from "../../../apis/gpib";
-import Loader from "../../Loader";
 import Input from "../form-inputs/Input";
 import { AuthContext } from "../../Auth";
-import "./LoginForm.scss";
+import SubmitSpinnerButton from "../SubmitSpinnerButton";
 
 const LoginForm = ({
   initialValues = { username: "", password: "" },
-  noRedirect,
   onLogin
 }) => {
-  const { user, login } = useContext(AuthContext);
-  if (user && !noRedirect) return <Redirect to="/" />;
-
+  const { login } = useContext(AuthContext);
+  const history = useHistory();
   const onSubmit = async (values, actions) => {
     try {
-      const { data: user } = await gpib.open.post("/user/authenticate", values);
-      login(user);
-      if (onLogin) onLogin();
+      await login(values);
+      if (onLogin) onLogin(values);
     } catch (e) {
       console.log(e);
       actions.setErrors({
@@ -30,6 +26,7 @@ const LoginForm = ({
     }
   };
 
+  const navToResetPassword = () => history.push("/auth/resetpassword");
   return (
     <Formik
       initialValues={initialValues}
@@ -37,23 +34,16 @@ const LoginForm = ({
       onSubmit={onSubmit}
     >
       {({ isSubmitting }) => (
-        <Form className="login-form">
+        <Form className="login-form" style={{ flex: 1, width: "100%" }}>
           <Input name="username" placeholder="email" />
           <Input name="password" type="password" placeholder="password" />
-          <button
-            className="btn btn-primary btn-block relative d-flex justify-content-center"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            <Loader
-              loading={isSubmitting}
-              noBackground
-              noStretch
-              light
-              diameter="1.4rem"
-            />
-            <span className="mx-2">Login</span>
-          </button>
+          <SubmitSpinnerButton submitText="Login" isSubmitting={isSubmitting} />
+          <Button
+            variant="light"
+            block
+            onClick={navToResetPassword}
+            children="Reset Password"
+          />
         </Form>
       )}
     </Formik>

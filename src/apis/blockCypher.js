@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const blockCypher = axios.create({
-  baseURL: "https://api.blockcypher.com/v1/btc/main"
+  baseURL: process.env.REACT_APP_BLOCKCYPHER_URL
 });
 
 export default blockCypher;

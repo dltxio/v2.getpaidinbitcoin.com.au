@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  BootstrapTable as Table,
-  TableHeaderColumn as Column
-} from "react-bootstrap-table";
+import Table from "./Table";
 import Loader from "../Loader";
 import blockCypher from "../../apis/blockCypher";
+import { Cache } from "memory-cache";
+import parseSATS from "../../utils/parseSATS";
 
 const columnConfig = {
   address1: {
@@ -19,12 +18,16 @@ const columnConfig = {
     children: "Label"
   },
   balance: {
-    children: "Balance",
+    children: "Balance BTC",
     tdStyle: { textAlign: "right" },
     thStyle: { textAlign: "right" },
     dataFormat: (v) => {
-      const hasValue = v !== undefined && v !== null;
-      return hasValue ? `${v} BTC` : <Loader loading noStretch noBackground />;
+      const hasValue = v !== undefined;
+      return hasValue ? (
+        parseSATS(v)
+      ) : (
+        <Loader loading noStretch noBackground />
+      );
     }
   }
 };
@@ -34,23 +37,32 @@ const tableOptions = {
   sizePerPage: 5
 };
 
-const TransactionTable = ({ addresses = [], selectRow, hidden = [] }) => {
+const defaultAddresses = [];
+
+const cache = new Cache();
+
+const AddressTable = ({ addresses = defaultAddresses, ...props }) => {
   const [data, setData] = useState();
 
   useEffect(() => {
-    const addr = addresses.slice(0, 2);
-    setData(addr);
+    cache.clear();
+  }, []);
+
+  useEffect(() => {
+    setData(addresses);
     (async () => {
       const balances = await Promise.all(
-        addr.map(async (a) => {
-          const { data: res } = await blockCypher.get(
-            `/addrs/${a.address1}/balance`
-          );
+        addresses.map(async (a) => {
+          const url = `/addrs/${a.address1}/balance`;
+          const cached = cache.get(url);
+          if (cached !== null) return cached;
+          const { data: res } = await blockCypher.get(url);
+          cache.put(url, res.balance);
           return res.balance;
         })
       );
       const withBalances = balances.map((balance, i) => {
-        const newAddr = addr[i];
+        const newAddr = addresses[i];
         newAddr.balance = balance;
         return newAddr;
       });
@@ -61,24 +73,11 @@ const TransactionTable = ({ addresses = [], selectRow, hidden = [] }) => {
   return (
     <Table
       data={data}
-      striped
-      hover
-      version="4"
-      selectRow={selectRow}
-      tableContainerClass="table-responsive"
+      columnConfig={columnConfig}
       keyField="id"
       options={tableOptions}
-    >
-      {Object.keys(columnConfig)
-        .filter((dataField) => hidden.indexOf(dataField) < 0)
-        .map((dataField) => (
-          <Column
-            key={dataField}
-            dataField={dataField}
-            {...columnConfig[dataField]}
-          />
-        ))}
-    </Table>
+      {...props}
+    />
   );
 };
-export default TransactionTable;
+export default AddressTable;

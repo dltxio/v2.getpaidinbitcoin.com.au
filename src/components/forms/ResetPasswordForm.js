@@ -7,6 +7,7 @@ import Input from "./form-inputs/Input";
 import SubmitSpinnerButton from "./SubmitSpinnerButton";
 import { minPasswordLength } from "../../constants";
 import { AuthContext } from "../Auth";
+import ErrorMessage from "../ErrorMessage";
 
 const validate = ({ password, passwordMatch }) => {
   const requiredMsg = "This field is required";
@@ -34,12 +35,18 @@ const initialValues = {
 
 const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
   const { login, isLoggingIn } = useContext(AuthContext);
+  const [loginError, setLoginError] = useState(null);
   const [password, setPassword] = useState(null);
   const history = useHistory();
 
   const wrappedLogin = async () => {
-    if (email && password) await login({ email, password });
-    history.push("/");
+    try {
+      setLoginError(null);
+      if (email && password) await login({ username: email, password });
+      history.push("/");
+    } catch (e) {
+      setLoginError(e);
+    }
   };
 
   const onSubmit = async (values, actions) => {
@@ -56,7 +63,7 @@ const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
         }
       );
       actions.setSubmitting(false);
-      setPassword({ email, password: values.password });
+      setPassword(values.password);
       if (onSuccess) onSuccess(values, actions);
     } catch (e) {
       console.log(e);
@@ -71,6 +78,7 @@ const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
       {password ? (
         <>
           <Alert variant="primary">Your password has been reset</Alert>
+          <ErrorMessage error={loginError} />
           <SubmitSpinnerButton
             submitText="Login"
             isSubmitting={isLoggingIn}
@@ -83,7 +91,7 @@ const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
           validate={validate}
           onSubmit={onSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, errors }) => (
             <Form>
               <Input
                 name="password"
@@ -95,6 +103,7 @@ const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
                 placeholder="Confirm your new password"
                 type="password"
               />
+              <ErrorMessage error={errors.hidden} />
               <SubmitSpinnerButton
                 submitText="Reset Password"
                 isSubmitting={isSubmitting}

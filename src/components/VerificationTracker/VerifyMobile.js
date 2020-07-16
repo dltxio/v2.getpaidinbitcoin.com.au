@@ -1,9 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { isMobilePhone } from "validator";
 import SubmitSpinnerButton from "../forms/SubmitSpinnerButton";
 import SingleInputForm from "../forms/SingleInputForm";
-import gpib from "../../apis/gpib";
 import { mutate } from "swr";
 
 const VerifyEmail = () => {

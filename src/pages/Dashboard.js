@@ -9,49 +9,38 @@ import AddressPie from "../components/AddressPie";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
-import "./Dashboard.scss";
 import { AuthContext } from "../components/Auth";
 import IconButton from "../components/IconButton";
 import BankDetailsTable from "../components/tables/BankDetailsTable";
-<<<<<<< Updated upstream
-=======
 import "./Dashboard.scss";
 import Card from "../components/Card";
 
->>>>>>> Stashed changes
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
-  const { data: userStatus } = useSWR("/user/status");
-  const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
-  const { data: deposits, error: fetchDepositError } = useSWR("/deposit");
-  const { data: depositHints, error: fetchDepositHintsError } = useSWR(
-    `/user/${user.id}/deposithints`
+  const { data: userStatus, error: fetchStatusError } = useSWR("/user/status");
+  const isVerified = userStatus === 5;
+  const { data: transfers, error: fetchTransferError } = useSWR(
+    isVerified && `/transfer`
   );
-  const { data: userStats, error: fetchStatsError } = useSWR("/userstats");
-  const { data: addresses, error: fetchAddressError } = useSWR("/address");
+  const { data: deposits, error: fetchDepositError } = useSWR(
+    isVerified && "/deposit"
+  );
+  const { data: depositHints, error: fetchDepositHintsError } = useSWR(
+    isVerified && `/user/${user.id}/deposithints`
+  );
+  const { data: userStats, error: fetchStatsError } = useSWR(
+    isVerified && "/userstats"
+  );
+  const { data: addresses, error: fetchAddressError } = useSWR(
+    isVerified && "/address"
+  );
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
-    `/user/${user.id}/bankdetails`
+    isVerified && `/user/${user.id}/bankdetails`
   );
   const { data: userDetails, error: fetchDetailsError } = useSWR(
-    `/User/details/${user.id}`
+    isVerified && `/User/details/${user.id}`
   );
-  const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
-  const isFetchingDeposits = !deposits && !fetchDepositError;
-  const isFetchingTransfers = !transfers && !fetchTransferError;
-  const isFetchingStats = !userStats && !fetchStatsError;
-  const isFetchingAddresses = !addresses && !fetchAddressError;
-  const isFetchingBankDetails = !bankDetails && !fetchBankDetailsError;
-  const isFetchingDetails = !userDetails && !fetchDetailsError;
 
-<<<<<<< Updated upstream
-  return (
-    <Layout>
-      <Loader />
-      <div className="dashboard container-fluid">
-        <section className="head">
-          <VerificationTracker status={userStatus} />
-        </section>
-=======
   const isFetchingStatus = !String(userStatus) && !fetchStatusError;
   const isFetchingDepositHints =
     isVerified && !depositHints && !fetchDepositHintsError;
@@ -78,59 +67,10 @@ const Dashboard = () => {
             <VerificationTracker status={userStatus} />
           </section>
         )}
->>>>>>> Stashed changes
         <section className="main">
-          <div className={userStatus === 5 ? "overlay" : "overlay active"} />
+          <div className={isVerified ? "overlay" : "overlay active"} />
           <aside>
             <section>
-<<<<<<< Updated upstream
-              <h2>User Stats</h2>
-              <ErrorMessage error={fetchStatsError} />
-              <Loader loading={isFetchingStats} />
-              <UserStats stats={userStats} />
-            </section>
-            <section>
-              <div className="d-flex justify-content-between align-items-center">
-                <h2>Addresses</h2>
-                <IconButton
-                  title="Add an address"
-                  onClick={() => history.push("/address/add")}
-                  icon="add"
-                />
-              </div>
-              <ErrorMessage error={fetchAddressError} />
-              <Loader loading={isFetchingAddresses} />
-              <AddressTable addresses={addresses} pagination={false} />
-            </section>
-            <section className="d-flex justify-content-center">
-              <Loader loading={isFetchingAddresses} />
-              <AddressPie addresses={addresses} />
-            </section>
-          </aside>
-          <section className="content">
-            <section style={{ position: "relative" }}>
-              <h2>Bank Account</h2>
-              <ErrorMessage
-                error={
-                  fetchDepositHintsError ||
-                  fetchBankDetailsError ||
-                  fetchDetailsError
-                }
-              />
-              <Loader
-                loading={
-                  isFetchingDepositHints ||
-                  isFetchingBankDetails ||
-                  isFetchingDetails
-                }
-              />
-              <BankDetailsTable
-                bankDetails={bankDetails}
-                depositHints={depositHints}
-                userDetails={userDetails}
-              />
-            </section>
-=======
               <Card>
                 <h2>Stats</h2>
                 <ErrorMessage error={fetchStatsError} />
@@ -187,7 +127,6 @@ const Dashboard = () => {
                 </Card>
               </section>
             )}
->>>>>>> Stashed changes
             <section style={{ position: "relative" }}>
               <Card>
                 <h2>Transactions</h2>
@@ -199,8 +138,10 @@ const Dashboard = () => {
           </section>
         </section>
       </div>
-    </Layout>
-  );
+    );
+  };
+
+  return <Layout>{renderContent()}</Layout>;
 };
 
 export default Dashboard;

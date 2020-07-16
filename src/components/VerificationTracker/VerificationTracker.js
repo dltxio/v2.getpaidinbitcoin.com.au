@@ -9,8 +9,7 @@ import VerifyID from "./VerifyID";
 import "./VerificationTracker.scss";
 
 const VerificationTracker = ({ status = -1 }) => {
-  // status = parseInt(status);
-  status = 4;
+  status = parseInt(status);
 
   const statuses = {
     "0": {
@@ -90,9 +89,14 @@ const VerificationTracker = ({ status = -1 }) => {
 
   return (
     <div className="verification-tracker">
-      <div className="blobs mb-4">{Object.keys(statuses).map(renderBlob)}</div>
       <Card>
-        <div className="container py-5">{activeStep.panel}</div>
+        <div className="container py-5">
+          <div className="blobs mb-4">
+            {Object.keys(statuses).map(renderBlob)}
+          </div>
+
+          {activeStep.panel}
+        </div>
       </Card>
     </div>
   );

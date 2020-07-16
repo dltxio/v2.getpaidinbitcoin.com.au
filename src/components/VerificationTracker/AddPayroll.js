@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useContext } from "react";
 import DepositHintsForm from "../forms/DepositHintsForm/DepositHintsForm";
 import gpib from "../../apis/gpib";
 import { AuthContext } from "../Auth";

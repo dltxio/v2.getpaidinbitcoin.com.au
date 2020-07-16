@@ -22,11 +22,14 @@ const SubmitButtonSpinner = ({
         noStretch
         light
         diameter="1.4rem"
+        className="mr-2"
       />
       {icon && !isSubmitting && (
-        <ion-icon name={icon} style={{ fontSize: "150%" }} />
+        <div className="mr-2 d-flex align-items-center">
+          <ion-icon name={icon} style={{ fontSize: "150%" }} />
+        </div>
       )}
-      <span className="mx-2">{submitText}</span>
+      <span>{submitText}</span>
     </div>
   </Button>
 );

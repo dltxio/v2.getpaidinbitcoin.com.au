@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard";
 import { createBrowserHistory } from "history";
 import AddressModalForm from "./forms/AddressForm/AddressModalForm";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+import VerifyEmailPage from "../pages/VerifyEmailPage";
 
 export const history = createBrowserHistory();
 
@@ -14,6 +15,7 @@ const Router = () => (
     <Switch>
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
+      <Route path="/verify/email/:token" component={VerifyEmailPage} />
       <Route path="/auth" component={LoginPage} />
       <AuthRoute path="/" component={Dashboard} />
     </Switch>

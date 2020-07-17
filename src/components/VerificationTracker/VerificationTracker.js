@@ -1,10 +1,10 @@
 import React from "react";
 import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
-import VerifyMobile from "./VerifyMobile";
-import AddPayroll from "./AddPayroll";
-import AddAddress from "./AddAddress";
-import VerifyID from "./VerifyID";
+// import VerifyMobile from "./VerifyMobile";
+// import AddPayroll from "./AddPayroll";
+// import AddAddress from "./AddAddress";
+// import VerifyID from "./VerifyID";
 
 import "./VerificationTracker.scss";
 

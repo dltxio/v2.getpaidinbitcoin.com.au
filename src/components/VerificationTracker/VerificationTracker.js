@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
-// import VerifyMobile from "./VerifyMobile";
+import VerifyMobile from "./VerifyMobile";
 // import AddPayroll from "./AddPayroll";
 // import AddAddress from "./AddAddress";
 // import VerifyID from "./VerifyID";
@@ -26,8 +26,8 @@ const VerificationTracker = ({ status = -1 }) => {
     "2": {
       label: "Verify Mobile",
       onClick: () => {},
-      icon: "phone-portrait-outline"
-      // panel: <VerifyMobile />
+      icon: "phone-portrait-outline",
+      panel: <VerifyMobile />
     },
     "3": {
       label: "Add Payroll Information",

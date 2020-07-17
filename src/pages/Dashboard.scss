@@ -18,7 +18,7 @@
     &.active {
       display: block;
       position: absolute;
-      background-color: rgba(white, 0.5);
+      background-color: rgba($body-bg, 0.5);
       z-index: 99;
       height: 100%;
       width: 100%;
@@ -27,7 +27,7 @@
 
   section {
     position: relative;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
   }
 
   @include media-breakpoint-up(xl){

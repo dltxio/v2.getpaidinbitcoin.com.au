@@ -7,9 +7,12 @@ const Loader = ({
   noBackground,
   diameter = "1.5rem",
   noStretch,
-  light
+  light,
+  className
 }) => {
   if (!loading) return children || null;
+  let classes = "loader";
+  if (className) classes += ` ${className}`;
 
   const style = {
     width: diameter,
@@ -20,7 +23,7 @@ const Loader = ({
   return (
     <div>
       <div
-        className="loader"
+        className={classes}
         style={{
           backgroundColor: noBackground ? "rgba(0,0,0,0)" : undefined,
           position: noStretch ? "" : "absolute"

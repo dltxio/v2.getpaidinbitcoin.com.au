@@ -26,26 +26,26 @@ const VerificationTracker = ({ status = -1 }) => {
     "2": {
       label: "Verify Mobile",
       onClick: () => {},
-      icon: "phone-portrait-outline",
-      panel: <VerifyMobile />
+      icon: "phone-portrait-outline"
+      // panel: <VerifyMobile />
     },
     "3": {
       label: "Add Payroll Information",
       onClick: () => {},
-      icon: "cash-outline",
-      panel: <AddPayroll />
+      icon: "cash-outline"
+      // panel: <AddPayroll />
     },
     "4": {
       label: "Add BTC Address",
       onClick: () => {},
-      icon: "logo-bitcoin",
-      panel: <AddAddress />
+      icon: "logo-bitcoin"
+      // panel: <AddAddress />
     },
     "5": {
       label: "Verify ID",
       onClick: () => {},
-      icon: "newspaper-outline",
-      panel: <VerifyID />
+      icon: "newspaper-outline"
+      // panel: <VerifyID />
     },
     "6": {
       label: "Completed",
@@ -91,12 +91,15 @@ const VerificationTracker = ({ status = -1 }) => {
     <div className="verification-tracker">
       <Card>
         <div className="py-5">
-          <div className="blobs mb-4">
-            {Object.keys(statuses).map(renderBlob)}
-          </div>
-          <div style={{ maxWidth: "50rem", margin: "auto" }} className="py-5">
-            {activeStep.panel}
-          </div>
+          <div className="blobs">{Object.keys(statuses).map(renderBlob)}</div>
+          {activeStep.panel && (
+            <div
+              style={{ maxWidth: "50rem", margin: "auto" }}
+              className="mt-4 py-5"
+            >
+              {activeStep.panel}
+            </div>
+          )}
         </div>
       </Card>
     </div>

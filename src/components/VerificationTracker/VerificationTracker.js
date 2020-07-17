@@ -90,12 +90,13 @@ const VerificationTracker = ({ status = -1 }) => {
   return (
     <div className="verification-tracker">
       <Card>
-        <div className="container py-5">
+        <div className="py-5">
           <div className="blobs mb-4">
             {Object.keys(statuses).map(renderBlob)}
           </div>
-
-          {activeStep.panel}
+          <div style={{ maxWidth: "50rem", margin: "auto" }} className="py-5">
+            {activeStep.panel}
+          </div>
         </div>
       </Card>
     </div>

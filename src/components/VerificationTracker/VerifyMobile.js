@@ -4,14 +4,21 @@ import { isMobilePhone } from "validator";
 import SubmitSpinnerButton from "../forms/SubmitSpinnerButton";
 import SingleInputForm from "../forms/SingleInputForm";
 import { mutate } from "swr";
+<<<<<<< HEAD
 import gpib from "../../apis/gpib";
+=======
+>>>>>>> development
 
 const VerifyEmail = () => {
   const [hasSent, setSent] = useState(false);
 
   const sendSMS = async (values, actions) => {
     try {
+<<<<<<< HEAD
       await gpib.secure.get(`/user/verifymobile?mobile=${values.mobile}`);
+=======
+      // await gpib.secure.get(`/user/verifymobile?mobile=${values.mobile}`);
+>>>>>>> development
       actions.setSubmitting(false);
       setSent(true);
     } catch (e) {
@@ -22,9 +29,13 @@ const VerifyEmail = () => {
 
   const verifyCode = async (values, actions) => {
     try {
+<<<<<<< HEAD
       await gpib.secure.post("/user/verifymobile", {
         code: parseInt(values.code)
       });
+=======
+      // await gpib.secure.post("/user/verifymobile");
+>>>>>>> development
       await mutate("/user/status");
       actions.setSubmitting(false);
     } catch (e) {

@@ -26,7 +26,6 @@ const VerifyEmailPage = () => {
             }
           }
         );
-        console.log(data);
         setVerifying(false);
         await mutate("/user/status");
         history.push("/");

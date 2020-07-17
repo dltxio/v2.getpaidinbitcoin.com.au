@@ -9,6 +9,7 @@ const VerifyEmail = () => {
   const [error, setError] = useState(null);
   const onResendClick = async () => {
     try {
+      setError(null);
       setSending(true);
       await gpib.secure.get("/user/verifyemail");
       setResent(true);

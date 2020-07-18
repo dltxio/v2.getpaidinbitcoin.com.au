@@ -2,7 +2,7 @@ import React from "react";
 import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
 import VerifyMobile from "./VerifyMobile";
-// import AddPayroll from "./AddPayroll";
+import AddPayroll from "./AddPayroll";
 // import AddAddress from "./AddAddress";
 // import VerifyID from "./VerifyID";
 
@@ -32,8 +32,8 @@ const VerificationTracker = ({ status = -1 }) => {
     "3": {
       label: "Add Payroll Information",
       onClick: () => {},
-      icon: "cash-outline"
-      // panel: <AddPayroll />
+      icon: "cash-outline",
+      panel: <AddPayroll />
     },
     "4": {
       label: "Add BTC Address",

@@ -7,10 +7,9 @@ import { mutate } from "swr";
 const AddPayroll = () => {
   const { user } = useContext(AuthContext);
   const updatePayroll = async (v, actions) => {
-    console.log(v);
     const parsedValues = {
       employerName: v.employerName,
-      amount: Number(v.amount)
+      depositAmount: Number(v.depositAmount)
     };
     try {
       await gpib.secure.put(`/user/${user?.id}/deposithints`, parsedValues);

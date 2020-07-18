@@ -17,7 +17,7 @@ const VerifyEmailPage = () => {
   useEffect(() => {
     const verifytoken = async () => {
       try {
-        const { data } = await gpib.open.post(
+        await gpib.open.post(
           "/user/verifyemail",
           {},
           {

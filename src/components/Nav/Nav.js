@@ -5,15 +5,17 @@ import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import logo from "./gpib-logo.png";
 import "./Nav.scss";
 
-const _Nav = ({ links = [], noBrand = false, activeTab }) => {
+const _Nav = ({ links, noBrand = false, activeTab }) => {
   const { logout, user } = useContext(AuthContext);
   const history = useHistory();
   // Set default links
-  if (!links.length) {
+  if (!links) {
     const authLink = user
       ? { label: "Log out", onClick: logout }
-      : { label: "Log in", onClick: () => history.push("/auth") };
+      : { label: "Log in", onClick: () => history.push("/login") };
+
     links = [authLink];
+    // if (user)
   }
 
   // For a dropdown menu item, add an object like this to the links array

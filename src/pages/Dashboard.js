@@ -12,13 +12,18 @@ import Loader from "../components/Loader";
 import { AuthContext } from "../components/Auth";
 import IconButton from "../components/IconButton";
 import BankDetailsTable from "../components/tables/BankDetailsTable";
-import "./Dashboard.scss";
 import Card from "../components/Card";
+import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
-  const { data: userStatus, error: fetchStatusError } = useSWR("/user/status");
-  const isVerified = userStatus === 5;
+  const {
+    user,
+    isVerified,
+    userStatus,
+    isLoading,
+    fetchStatusError
+  } = useContext(AuthContext);
+
   const { data: transfers, error: fetchTransferError } = useSWR(
     isVerified && `/transfer`
   );
@@ -41,7 +46,7 @@ const Dashboard = () => {
     isVerified && `/User/details/${user.id}`
   );
 
-  const isFetchingStatus = !String(userStatus) && !fetchStatusError;
+  // const isFetchingStatus = !String(userStatus) && !fetchStatusError;
   const isFetchingDepositHints =
     isVerified && !depositHints && !fetchDepositHintsError;
   const isFetchingDeposits = isVerified && !deposits && !fetchDepositError;
@@ -52,24 +57,20 @@ const Dashboard = () => {
     isVerified && !bankDetails && !fetchBankDetailsError;
   const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
 
-  const renderContent = () => {
-    if (isFetchingStatus || fetchStatusError)
-      return (
-        <div>
-          <ErrorMessage error={fetchStatusError} />
-          <Loader loading={isFetchingStatus} />
-        </div>
-      );
-    return (
+  if (isLoading) return <Loader loading />;
+
+  return (
+    <Layout>
       <div className="dashboard container-fluid py-4">
+        <ErrorMessage error={fetchStatusError} />
         {!isVerified && (
           <section className="head">
             <VerificationTracker status={userStatus} />
           </section>
         )}
-        <section className="main">
+        <section className="main row">
           <div className={isVerified ? "overlay" : "overlay active"} />
-          <aside>
+          <aside className="col-lg-5">
             <section>
               <Card>
                 <h2>Stats</h2>
@@ -92,7 +93,7 @@ const Dashboard = () => {
                 <Loader loading={isFetchingAddresses} />
                 <AddressTable addresses={addresses} pagination={false} />
               </section>
-              {isVerified && (
+              {isVerified && userStatus && (
                 <section className="d-flex justify-content-center">
                   <Loader loading={isFetchingAddresses} />
                   <AddressPie addresses={addresses} />
@@ -100,7 +101,7 @@ const Dashboard = () => {
               )}
             </Card>
           </aside>
-          <section className="content">
+          <section className="content col-lg-7">
             {isVerified && (
               <section style={{ position: "relative" }}>
                 <Card>
@@ -138,10 +139,8 @@ const Dashboard = () => {
           </section>
         </section>
       </div>
-    );
-  };
-
-  return <Layout>{renderContent()}</Layout>;
+    </Layout>
+  );
 };
 
 export default Dashboard;

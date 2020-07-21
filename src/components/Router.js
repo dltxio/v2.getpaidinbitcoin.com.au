@@ -1,6 +1,7 @@
 import React from "react";
 import { Router as ReactRouter, Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 import AuthRoute from "../components/AuthRoute";
 import Dashboard from "../pages/Dashboard";
 import { createBrowserHistory } from "history";
@@ -16,7 +17,8 @@ const Router = () => (
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
       <Route path="/verify/email/:token" component={VerifyEmailPage} />
-      <Route path="/auth" component={LoginPage} />
+      <Route path="/login" component={LoginPage} />
+      <Route path="/register" component={RegisterPage} />
       <AuthRoute path="/" component={Dashboard} />
     </Switch>
     <Switch>

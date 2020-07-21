@@ -30,16 +30,16 @@
     margin-bottom: 3rem;
   }
 
-  @include media-breakpoint-up(xl){
-    .main {
-      @include flex(space-between, flex-start);
+  // @include media-breakpoint-up(xl){
+  //   .main {
+  //     @include flex(space-between, flex-start);
 
 
-      aside {
-        max-width: 40%;
-        padding-right: 2rem;
-      }
-    }
+  //     aside {
+  //       max-width: 40%;
+  //       padding-right: 2rem;
+  //     }
+  //   }
    
-  }
+  // }
 }

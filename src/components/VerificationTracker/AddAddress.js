@@ -25,7 +25,11 @@ const AddPayroll = () => {
         <b>Add a bitcoin address.</b>
       </p>
       <div>
-        <AddressForm onSubmit={addAddress} submitText="Add Address" />
+        <AddressForm
+          onSubmit={addAddress}
+          submitText="Add Address"
+          omit={["percent"]}
+        />
       </div>
     </div>
   );

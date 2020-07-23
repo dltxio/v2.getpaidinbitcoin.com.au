@@ -19,11 +19,10 @@ const Dashboard = () => {
   const {
     user,
     isVerified,
+    isVerifying,
     userStatus,
-    isLoading,
     fetchStatusError
   } = useContext(AuthContext);
-
   const { data: transfers, error: fetchTransferError } = useSWR(
     isVerified && `/transfer`
   );
@@ -57,13 +56,13 @@ const Dashboard = () => {
     isVerified && !bankDetails && !fetchBankDetailsError;
   const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
 
-  if (isLoading) return <Loader loading />;
+  if (isVerifying) return <Loader loading />;
 
   return (
     <Layout>
       <div className="dashboard container-fluid py-4">
         <ErrorMessage error={fetchStatusError} />
-        {!isVerified && (
+        {!isVerified && !isVerifying && (
           <section className="head">
             <VerificationTracker status={userStatus} />
           </section>

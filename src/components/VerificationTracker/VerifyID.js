@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
 import { mutate } from "swr";
-// import gpib from "../../apis/gpib";
+import gpib from "../../apis/gpib";
 import { AuthContext } from "../Auth";
 import RapidIDForm from "../forms/RapidIDForm";
 import ErrorMessage from "../ErrorMessage";
@@ -52,10 +52,9 @@ const VerifyID = () => {
   const showAlert = alert && !resend;
 
   const sendVerificationSMS = async (v, actions) => {
-    const parsedValues = { ...v };
+    const parsedValues = { ...v, yob: Number(v.yob) };
     try {
-      // await gpib.secure.post(`/address`, parsedValues);
-      console.log(parsedValues);
+      await gpib.secure.post(`/rapidid/${user.id}`, parsedValues);
       await mutate(`/user/${user.id}`, (user) => ({
         ...user,
         idVerificationStatus: 1

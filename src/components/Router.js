@@ -8,6 +8,7 @@ import { createBrowserHistory } from "history";
 import AddressModalForm from "./forms/AddressForm/AddressModalForm";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import VerifyEmailPage from "../pages/VerifyEmailPage";
+import ProfilePage from "../pages/ProfilePage";
 
 export const history = createBrowserHistory();
 
@@ -19,7 +20,8 @@ const Router = () => (
       <Route path="/verify/email/:token" component={VerifyEmailPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
-      <AuthRoute path="/" component={Dashboard} />
+      <AuthRoute path="/profile" component={ProfilePage} />
+      <AuthRoute path="/" component={Dashboard} allowUnverified />
     </Switch>
     <Switch>
       <AuthRoute path="/address/add" component={AddressModalForm} />

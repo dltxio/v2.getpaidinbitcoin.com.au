@@ -72,7 +72,7 @@ const Dashboard = () => {
           <aside className="col-lg-5">
             <section>
               <Card>
-                <h2>Stats</h2>
+                <h4>Stats</h4>
                 <ErrorMessage error={fetchStatsError} />
                 <Loader loading={isFetchingStats} />
                 <UserStats stats={userStats} />
@@ -81,7 +81,7 @@ const Dashboard = () => {
             <Card>
               <section>
                 <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h2>Addresses</h2>
+                  <h4>Addresses</h4>
                   <IconButton
                     title="Add an address"
                     onClick={() => history.push("/address/add")}
@@ -104,7 +104,7 @@ const Dashboard = () => {
             {isVerified && (
               <section style={{ position: "relative" }}>
                 <Card>
-                  <h2>Bank Account</h2>
+                  <h4>Bank Account</h4>
                   <ErrorMessage
                     error={
                       fetchDepositHintsError ||
@@ -129,7 +129,7 @@ const Dashboard = () => {
             )}
             <section style={{ position: "relative" }}>
               <Card>
-                <h2>Transactions</h2>
+                <h4>Transactions</h4>
                 <ErrorMessage error={fetchTransferError || fetchDepositError} />
                 <Loader loading={isFetchingDeposits || isFetchingTransfers} />
                 <TransactionTable transfers={transfers} deposits={deposits} />

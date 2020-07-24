@@ -13,11 +13,11 @@ export const AuthProvider = ({ children }) => {
     user && `/user/${user.id}`
   );
   const isFetchingDetails = user && !userDetails && !fetchDetailsError;
-  const { data: userStatus, error: fetchStatusError } = useSWR(
+  const { data: userStatus, error: fetchStatusError, isValidating } = useSWR(
     user && "/user/status"
   );
   const isVerified = userStatus === 5;
-  const isVerifying = !userStatus && !fetchStatusError;
+  const isVerifying = !userStatus && !fetchStatusError && isValidating;
 
   useEffect(() => {
     cache.clear();

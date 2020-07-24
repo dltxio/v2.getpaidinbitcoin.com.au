@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import useSWR, { mutate } from "swr";
 import { AuthContext } from "../../Auth";
 import gpib from "../../../apis/gpib";
 import AddressForm from "./AddressForm";
 import Modal from "../../Modal";
-import { history } from "../../Router";
 import Loader from "../../Loader";
 import ErrorMessage from "../../ErrorMessage";
 
@@ -26,6 +25,7 @@ const addressFormAlert = (
 const AddressModalForm = () => {
   let id = parseInt(useParams().id);
   const location = useLocation();
+  const history = useHistory();
   const isEditForm = !!id;
   const heading = isEditForm ? "Edit Address" : "Add Address";
   const submitText = isEditForm ? "Save" : "Add Address";

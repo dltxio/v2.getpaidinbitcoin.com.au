@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
-import { history } from "../components/Router";
+import { useHistory } from "react-router-dom";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
-import AddressTable from "../components/tables/AddressTable";
+import AddressTableWithBalance from "../components/tables/AddressTableWithBalance";
 import AddressPie from "../components/AddressPie";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
@@ -16,6 +16,7 @@ import Card from "../components/Card";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
+  const history = useHistory();
   const {
     user,
     isVerified,
@@ -36,13 +37,13 @@ const Dashboard = () => {
     isVerified && "/userstats"
   );
   const { data: addresses, error: fetchAddressError } = useSWR(
-    isVerified && "/address"
+    isVerified && `/user/${user.id}/address`
   );
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
     isVerified && `/user/${user.id}/bankdetails`
   );
   const { data: userDetails, error: fetchDetailsError } = useSWR(
-    isVerified && `/User/details/${user.id}`
+    isVerified && `/User/${user.id}`
   );
 
   // const isFetchingStatus = !String(userStatus) && !fetchStatusError;
@@ -90,7 +91,10 @@ const Dashboard = () => {
                 </div>
                 <ErrorMessage error={fetchAddressError} />
                 <Loader loading={isFetchingAddresses} />
-                <AddressTable addresses={addresses} pagination={false} />
+                <AddressTableWithBalance
+                  addresses={addresses}
+                  pagination={false}
+                />
               </section>
               {isVerified && userStatus && (
                 <section className="d-flex justify-content-center">

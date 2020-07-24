@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
 // import { Button } from "react-bootstrap";
-import { useHistory, useLocation } from "react-router-dom";
+// import { useHistory, useLocation } from "react-router-dom";
 import Layout from "../components/Layout";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";

@@ -4,14 +4,20 @@ import { AuthContext } from "./Auth";
 import Loader from "./Loader";
 
 const AuthRoute = ({ component, allowUnverified, ...props }) => {
-  const { user, isLoggingIn, isVerified, isVerifying } = useContext(
-    AuthContext
-  );
+  const {
+    user,
+    isLoggingIn,
+    isLoading: isPageLoading,
+    isVerified,
+    isVerifying
+  } = useContext(AuthContext);
   const Component = component;
-  const isLoading = isLoggingIn && (!allowUnverified || isVerifying);
+  const isLoading =
+    isLoggingIn || isPageLoading || (!allowUnverified && isVerifying);
   const isPass = user && (allowUnverified || isVerified);
   let redirectPath = "/login";
   if (user && !isPass) redirectPath = "/";
+
   return (
     <Route
       {...props}

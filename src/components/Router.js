@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import AddressModalForm from "./forms/AddressForm/AddressModalForm";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import VerifyEmailPage from "../pages/VerifyEmailPage";
+import AddressesPage from "../pages/AddressesPage";
 import ProfilePage from "../pages/ProfilePage";
 import DepositHintsModalEdit from "../components/forms/DepositHintsForm/DepositHintsModalEdit";
 
@@ -18,6 +19,7 @@ const Router = () => (
       <Route path="/verify/email/:token" component={VerifyEmailPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
+      <AuthRoute path="/addresses" component={AddressesPage} />
       <AuthRoute path="/profile" component={ProfilePage} />
       <AuthRoute path="/" component={Dashboard} allowUnverified />
     </Switch>

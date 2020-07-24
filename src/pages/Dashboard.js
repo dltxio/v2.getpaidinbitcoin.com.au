@@ -43,7 +43,7 @@ const Dashboard = () => {
     isVerified && `/user/${user.id}/bankdetails`
   );
   const { data: userDetails, error: fetchDetailsError } = useSWR(
-    isVerified && `/User/details/${user.id}`
+    isVerified && `/User/${user.id}`
   );
 
   // const isFetchingStatus = !String(userStatus) && !fetchStatusError;

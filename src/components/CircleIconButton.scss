@@ -1,0 +1,16 @@
+@import "../../constants/typography";
+@import "../../constants/colors";
+
+.circle-icon-button {
+  outline: none;
+  border:none;
+  // background-color: $body-bg;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding: 0 !important;
+  width: $font-size-base * 3;
+  height: $font-size-base * 3;
+  font-size: $font-size-base * 1.6 !important;
+}

@@ -10,6 +10,19 @@ import { history } from "../../Router";
 import Loader from "../../Loader";
 import ErrorMessage from "../../ErrorMessage";
 
+const addressFormAlert = (
+  <div>
+    <b className="alert-heading">
+      Your payment can be sent to multiple bitcoin addresses.
+    </b>
+    <span className="ml-2">
+      For example, you may want to split your payment and send 50% to a cold
+      storage wallet and 50% to a hot wallet. Please set the percentage required
+      in the below field or leave at 100.
+    </span>
+  </div>
+);
+
 const AddressModalForm = () => {
   let id = parseInt(useParams().id);
   const location = useLocation();
@@ -67,6 +80,7 @@ const AddressModalForm = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={data}
               submitText={submitText}
+              alert={addressFormAlert}
             />
           )}
         </>

@@ -12,13 +12,17 @@ import Loader from "../components/Loader";
 import { AuthContext } from "../components/Auth";
 import IconButton from "../components/IconButton";
 import BankDetailsTable from "../components/tables/BankDetailsTable";
-import "./Dashboard.scss";
 import Card from "../components/Card";
+import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
-  const { data: userStatus, error: fetchStatusError } = useSWR("/user/status");
-  const isVerified = userStatus === 5;
+  const {
+    user,
+    isVerified,
+    isVerifying,
+    userStatus,
+    fetchStatusError
+  } = useContext(AuthContext);
   const { data: transfers, error: fetchTransferError } = useSWR(
     isVerified && `/transfer`
   );
@@ -41,7 +45,7 @@ const Dashboard = () => {
     isVerified && `/User/details/${user.id}`
   );
 
-  const isFetchingStatus = !String(userStatus) && !fetchStatusError;
+  // const isFetchingStatus = !String(userStatus) && !fetchStatusError;
   const isFetchingDepositHints =
     isVerified && !depositHints && !fetchDepositHintsError;
   const isFetchingDeposits = isVerified && !deposits && !fetchDepositError;
@@ -52,27 +56,23 @@ const Dashboard = () => {
     isVerified && !bankDetails && !fetchBankDetailsError;
   const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
 
-  const renderContent = () => {
-    if (isFetchingStatus || fetchStatusError)
-      return (
-        <div>
-          <ErrorMessage error={fetchStatusError} />
-          <Loader loading={isFetchingStatus} />
-        </div>
-      );
-    return (
+  if (isVerifying) return <Loader loading />;
+
+  return (
+    <Layout>
       <div className="dashboard container-fluid py-4">
-        {!isVerified && (
+        <ErrorMessage error={fetchStatusError} />
+        {!isVerified && !isVerifying && (
           <section className="head">
             <VerificationTracker status={userStatus} />
           </section>
         )}
-        <section className="main">
+        <section className="main row">
           <div className={isVerified ? "overlay" : "overlay active"} />
-          <aside>
+          <aside className="col-lg-5">
             <section>
               <Card>
-                <h2>Stats</h2>
+                <h4>Stats</h4>
                 <ErrorMessage error={fetchStatsError} />
                 <Loader loading={isFetchingStats} />
                 <UserStats stats={userStats} />
@@ -81,7 +81,7 @@ const Dashboard = () => {
             <Card>
               <section>
                 <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h2>Addresses</h2>
+                  <h4>Addresses</h4>
                   <IconButton
                     title="Add an address"
                     onClick={() => history.push("/address/add")}
@@ -92,7 +92,7 @@ const Dashboard = () => {
                 <Loader loading={isFetchingAddresses} />
                 <AddressTable addresses={addresses} pagination={false} />
               </section>
-              {isVerified && (
+              {isVerified && userStatus && (
                 <section className="d-flex justify-content-center">
                   <Loader loading={isFetchingAddresses} />
                   <AddressPie addresses={addresses} />
@@ -100,11 +100,11 @@ const Dashboard = () => {
               )}
             </Card>
           </aside>
-          <section className="content">
+          <section className="content col-lg-7">
             {isVerified && (
               <section style={{ position: "relative" }}>
                 <Card>
-                  <h2>Bank Account</h2>
+                  <h4>Bank Account</h4>
                   <ErrorMessage
                     error={
                       fetchDepositHintsError ||
@@ -129,7 +129,7 @@ const Dashboard = () => {
             )}
             <section style={{ position: "relative" }}>
               <Card>
-                <h2>Transactions</h2>
+                <h4>Transactions</h4>
                 <ErrorMessage error={fetchTransferError || fetchDepositError} />
                 <Loader loading={isFetchingDeposits || isFetchingTransfers} />
                 <TransactionTable transfers={transfers} deposits={deposits} />
@@ -138,10 +138,8 @@ const Dashboard = () => {
           </section>
         </section>
       </div>
-    );
-  };
-
-  return <Layout>{renderContent()}</Layout>;
+    </Layout>
+  );
 };
 
 export default Dashboard;

@@ -19,5 +19,5 @@ export default function BankDetailsTable({
     ["Bank", bankDetails?.name],
     ["Amount", getAmount()]
   ];
-  return <LabelledTable columns={columnConfig} />;
+  return <LabelledTable hover={false} columns={columnConfig} />;
 }

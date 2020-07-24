@@ -3,8 +3,8 @@ import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
 import VerifyMobile from "./VerifyMobile";
 import AddPayroll from "./AddPayroll";
-// import AddAddress from "./AddAddress";
-// import VerifyID from "./VerifyID";
+import AddAddress from "./AddAddress";
+import VerifyID from "./VerifyID";
 
 import "./VerificationTracker.scss";
 
@@ -38,14 +38,14 @@ const VerificationTracker = ({ status = -1 }) => {
     "4": {
       label: "Add BTC Address",
       onClick: () => {},
-      icon: "logo-bitcoin"
-      // panel: <AddAddress />
+      icon: "logo-bitcoin",
+      panel: <AddAddress />
     },
     "5": {
       label: "Verify ID",
       onClick: () => {},
-      icon: "newspaper-outline"
-      // panel: <VerifyID />
+      icon: "newspaper-outline",
+      panel: <VerifyID />
     },
     "6": {
       label: "Completed",

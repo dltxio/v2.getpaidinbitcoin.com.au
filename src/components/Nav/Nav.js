@@ -5,15 +5,27 @@ import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import logo from "./gpib-logo.png";
 import "./Nav.scss";
 
-const _Nav = ({ links = [], noBrand = false, activeTab }) => {
-  const { logout, user } = useContext(AuthContext);
+const _Nav = ({ links, noBrand = false, activeTab }) => {
+  const { logout, user, isVerified } = useContext(AuthContext);
   const history = useHistory();
   // Set default links
-  if (!links.length) {
-    const authLink = user
-      ? { label: "Log out", onClick: logout }
-      : { label: "Log in", onClick: () => history.push("/auth") };
-    links = [authLink];
+
+  const loginLink = user
+    ? { label: "Log out", onClick: logout }
+    : { label: "Log in", onClick: () => history.push("/login") };
+
+  const verifiedOnlyLinks = !isVerified
+    ? []
+    : [
+        {
+          label: user?.firstName || "Profile",
+          onClick: () => history.push("/profile"),
+          name: "profile"
+        }
+      ];
+
+  if (!links) {
+    links = [...verifiedOnlyLinks, loginLink];
   }
 
   // For a dropdown menu item, add an object like this to the links array
@@ -39,15 +51,15 @@ const _Nav = ({ links = [], noBrand = false, activeTab }) => {
   const renderLinks = () => (
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav>
-        {links.map(({ label, onClick, children }, i) => {
-          const classes = label === activeTab ? "active" : "";
+        {links.map(({ label, onClick, children, name }, i) => {
+          const isActiveTab = activeTab === label || activeTab === String(name);
+          const classes = isActiveTab ? "active" : "";
           return !children ? (
-            <Nav.Link
-              onClick={onClick}
-              key={i}
-              className={classes}
-              children={label}
-            />
+            <Nav.Link onClick={onClick} key={i} className={classes}>
+              <div className="d-flex align-items-center justify-content-center">
+                {label}
+              </div>
+            </Nav.Link>
           ) : (
             <NavDropdown title={label} key={i} className={classes}>
               {children.map((c, ind) => {

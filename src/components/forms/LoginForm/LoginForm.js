@@ -9,7 +9,8 @@ import SubmitSpinnerButton from "../SubmitSpinnerButton";
 
 const LoginForm = ({
   initialValues = { username: "", password: "" },
-  onLogin
+  onLogin,
+  style = {}
 }) => {
   const { login } = useContext(AuthContext);
   const history = useHistory();
@@ -34,10 +35,16 @@ const LoginForm = ({
       onSubmit={onSubmit}
     >
       {({ isSubmitting }) => (
-        <Form className="login-form" style={{ flex: 1, width: "100%" }}>
-          <Input name="username" placeholder="email" />
-          <Input name="password" type="password" placeholder="password" />
-          <SubmitSpinnerButton submitText="Login" isSubmitting={isSubmitting} />
+        <Form
+          className="login-form"
+          style={{ flex: 1, width: "100%", ...style }}
+        >
+          <Input name="username" placeholder="Email" />
+          <Input name="password" type="password" placeholder="Password" />
+          <SubmitSpinnerButton
+            submitText="Log in"
+            isSubmitting={isSubmitting}
+          />
           <Button
             variant="light"
             block

@@ -10,10 +10,13 @@ const Layout = ({
   noFooter,
   noHeader,
   activeTab,
+  navLinks,
   ...props
 }) => (
   <>
-    <header>{noHeader || header || <Nav activeTab={activeTab} />}</header>
+    <header>
+      {noHeader || header || <Nav activeTab={activeTab} links={navLinks} />}
+    </header>
     <main {...props}>{children}</main>
     <footer>{noFooter || footer || <Footer />}</footer>
   </>

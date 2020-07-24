@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Table from "./Table";
 import Loader from "../Loader";
 import blockCypher from "../../apis/blockCypher";
 import { Cache } from "memory-cache";

@@ -27,7 +27,12 @@ const AddressForm = ({
     return map;
   }, {});
   return (
-    <Formik initialValues={iv} validate={validate} onSubmit={onSubmit}>
+    <Formik
+      initialValues={iv}
+      validate={validate}
+      onSubmit={onSubmit}
+      enableReinitialize
+    >
       {({ isSubmitting, errors }) => (
         <Form>
           {alert && (

@@ -4,7 +4,8 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import AuthRoute from "../components/AuthRoute";
 import Dashboard from "../pages/Dashboard";
-import AddressModalForm from "./forms/AddressForm/AddressModalForm";
+import AddressModalAdd from "./forms/AddressForm/AddressModalAdd";
+import AddressModalEdit from "./forms/AddressForm/AddressModalEdit";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import VerifyEmailPage from "../pages/VerifyEmailPage";
 import AddressesPage from "../pages/AddressesPage";
@@ -24,7 +25,8 @@ const Router = () => (
       <AuthRoute path="/" component={Dashboard} allowUnverified />
     </Switch>
     <Switch>
-      <AuthRoute path="*/address/add" component={AddressModalForm} />
+      <AuthRoute path="*/addresses/add" component={AddressModalAdd} />
+      <AuthRoute path="*/addresses/edit/:id" component={AddressModalEdit} />
       <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
     </Switch>
   </BrowserRouter>

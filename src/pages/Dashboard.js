@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
-import { useHistory } from "react-router-dom";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
@@ -10,13 +9,11 @@ import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
 import { AuthContext } from "../components/Auth";
-import IconButton from "../components/IconButton";
 import BankDetailsTable from "../components/tables/BankDetailsTable";
 import Card from "../components/Card";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const history = useHistory();
   const {
     user,
     isVerified,
@@ -81,14 +78,7 @@ const Dashboard = () => {
             </section>
             <Card>
               <section>
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4>Addresses</h4>
-                  <IconButton
-                    title="Add an address"
-                    onClick={() => history.push("/address/add")}
-                    icon="add"
-                  />
-                </div>
+                <h4>Addresses</h4>
                 <ErrorMessage error={fetchAddressError} />
                 <Loader loading={isFetchingAddresses} />
                 <AddressTableWithBalance

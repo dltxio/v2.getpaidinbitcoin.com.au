@@ -4,48 +4,14 @@ import Loader from "../Loader";
 import blockCypher from "../../apis/blockCypher";
 import { Cache } from "memory-cache";
 import parseSATS from "../../utils/parseSATS";
-
-const columnConfig = {
-  address1: {
-    children: "Address",
-    tdStyle: {
-      overflowWrap: "break-word",
-      whiteSpace: "normal"
-    },
-    width: "50%"
-  },
-  label: {
-    children: "Label"
-  },
-  balance: {
-    children: "Balance BTC",
-    tdStyle: { textAlign: "right" },
-    thStyle: { textAlign: "right" },
-    dataFormat: (v) => {
-      const hasValue = v !== undefined;
-      return hasValue ? (
-        parseSATS(v)
-      ) : (
-        <Loader loading noStretch noBackground />
-      );
-    }
-  }
-};
-
-const tableOptions = {
-  hideSizePerPage: true,
-  sizePerPage: 5
-};
+import LabelledTable from "./LabelledTable";
 
 const defaultAddresses = [];
 
 const cache = new Cache();
 
-const AddressTableWithBalance = ({
-  addresses = defaultAddresses,
-  ...props
-}) => {
-  const [data, setData] = useState();
+const AddressTableWithBalance = ({ addresses = defaultAddresses }) => {
+  const [data, setData] = useState(defaultAddresses);
 
   useEffect(() => {
     cache.clear();
@@ -73,14 +39,17 @@ const AddressTableWithBalance = ({
     })();
   }, [addresses]);
 
-  return (
-    <Table
-      data={data}
-      columnConfig={columnConfig}
-      keyField="id"
-      options={tableOptions}
-      {...props}
-    />
-  );
+  const renderBalance = (b) => {
+    const hasValue = b !== undefined;
+    return hasValue ? (
+      parseSATS(b) + " BTC"
+    ) : (
+      <Loader loading noStretch noBackground diameter="1rem" />
+    );
+  };
+
+  const columnConfig = data.map((a) => [a.label, renderBalance(a.balance)]);
+
+  return <LabelledTable hover={false} columns={columnConfig} />;
 };
 export default AddressTableWithBalance;

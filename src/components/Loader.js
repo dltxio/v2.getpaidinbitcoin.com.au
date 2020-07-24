@@ -21,7 +21,7 @@ const Loader = ({
     borderTopColor: light ? "rgba(250, 250, 250, 0.5)" : "rgba(0, 0, 0, 0.2)"
   };
   return (
-    <div>
+    <div style={{ display: noStretch ? "inline-block" : undefined }}>
       <div
         className={classes}
         style={{

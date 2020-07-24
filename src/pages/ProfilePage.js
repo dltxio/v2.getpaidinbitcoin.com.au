@@ -15,7 +15,6 @@ const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const history = useHistory();
   const location = useLocation();
-  console.log(location);
 
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`

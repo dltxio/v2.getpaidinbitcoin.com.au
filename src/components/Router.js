@@ -1,19 +1,17 @@
 import React from "react";
-import { Router as ReactRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import AuthRoute from "../components/AuthRoute";
 import Dashboard from "../pages/Dashboard";
-import { createBrowserHistory } from "history";
 import AddressModalForm from "./forms/AddressForm/AddressModalForm";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import VerifyEmailPage from "../pages/VerifyEmailPage";
 import ProfilePage from "../pages/ProfilePage";
-
-export const history = createBrowserHistory();
+import DepositHintsModalEdit from "../components/forms/DepositHintsForm/DepositHintsModalEdit";
 
 const Router = () => (
-  <ReactRouter history={history}>
+  <BrowserRouter>
     <Switch>
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
@@ -24,9 +22,10 @@ const Router = () => (
       <AuthRoute path="/" component={Dashboard} allowUnverified />
     </Switch>
     <Switch>
-      <AuthRoute path="/address/add" component={AddressModalForm} />
+      <AuthRoute path="*/address/add" component={AddressModalForm} />
+      <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
     </Switch>
-  </ReactRouter>
+  </BrowserRouter>
 );
 
 export default Router;

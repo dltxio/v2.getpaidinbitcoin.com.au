@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
-import { history } from "../components/Router";
+import { useHistory } from "react-router-dom";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
@@ -16,6 +16,7 @@ import Card from "../components/Card";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
+  const history = useHistory();
   const {
     user,
     isVerified,

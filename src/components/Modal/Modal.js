@@ -22,7 +22,7 @@ const Modal = ({
   const body = document.querySelector("body");
   const [display, setDisplay] = useState("none");
   const [show, setShow] = useState("");
-  console.log(props.onDismiss);
+
   useEffect(() => {
     if (isOpen) {
       body.classList.add("modal-open");

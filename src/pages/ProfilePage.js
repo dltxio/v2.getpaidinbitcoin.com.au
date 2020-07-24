@@ -40,9 +40,6 @@ const Dashboard = () => {
     <Layout activeTab="profile">
       <div className="container py-5">
         <Card>
-          <h2>{user.firstName}</h2>
-        </Card>
-        <Card>
           <div className="d-flex justify-content-between">
             <h2>Payroll</h2>
 

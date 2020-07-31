@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import useSWR from "swr";
+import React, { useContext, useState } from "react";
+import useSWR, { mutate } from "swr";
 import { ButtonGroup } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -10,18 +10,18 @@ import Card from "../components/Card";
 import AddressTable from "../components/tables/AddressTable";
 import IconButton from "../components/IconButton";
 import useSelectedRow from "../hooks/useSelectedRow";
+import ConfirmModal from "../components/ConfirmModal";
 
 import "./Dashboard.scss";
+import gpib from "../apis/gpib";
 
 const AddressesPage = () => {
   const { user } = useContext(AuthContext);
   const history = useHistory();
-
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+  const getAddressesUrl = `/user/${user.id}/address`;
   const [selected, , selectRowConfig] = useSelectedRow(null);
-  const { data: addresses, error: fetchAddressError } = useSWR(
-    `/user/${user.id}/address`
-  );
-
+  const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
   const isFetchingAddresses = !addresses && !fetchAddressError;
   const hasMultipleAddresses = !(addresses?.length > 1);
 
@@ -41,15 +41,22 @@ const AddressesPage = () => {
     {
       icon: "swap-horizontal-outline",
       title: "Swap",
+      onClick: () => history.push(`/addresses/swap/${selected}`),
       disabled: !selected
     },
     {
       icon: "archive-outline",
       title: "Archive",
+      onClick: () => setConfirmModalOpen(true),
       disabled: !selected,
       hide: hasMultipleAddresses
     }
   ];
+
+  const archiveSelected = async () => {
+    await gpib.secure.delete(`/address/${selected}`);
+    await mutate(getAddressesUrl);
+  };
 
   return (
     <Layout activeTab="Addresses">
@@ -71,6 +78,13 @@ const AddressesPage = () => {
             selectRow={selectRowConfig}
           />
         </Card>
+        <ConfirmModal
+          isOpen={isConfirmModalOpen}
+          onDismiss={() => setConfirmModalOpen(false)}
+          heading="Are you sure?"
+          confirmText="Archive"
+          onConfirm={archiveSelected}
+        />
       </div>
     </Layout>
   );

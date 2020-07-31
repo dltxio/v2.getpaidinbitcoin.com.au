@@ -2,7 +2,6 @@ import React from "react";
 import { Formik, Form } from "formik";
 import validate from "./validate";
 import Input from "../form-inputs/Input";
-import Selector from "../form-inputs/Selector";
 import SubmitSpinnerButton from "../SubmitSpinnerButton";
 import ErrorMessage from "../../ErrorMessage";
 import { Alert } from "react-bootstrap";

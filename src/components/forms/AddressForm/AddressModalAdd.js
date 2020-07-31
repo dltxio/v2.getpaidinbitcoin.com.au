@@ -64,7 +64,7 @@ const AddressModalAdd = () => {
             <AddressForm
               onDismiss={onDismiss}
               onSubmit={wrapCallback(onSubmit)}
-              initialValues={addresses}
+              initialValues={{ userID: user.id }}
               submitText={submitText}
             />
           )}

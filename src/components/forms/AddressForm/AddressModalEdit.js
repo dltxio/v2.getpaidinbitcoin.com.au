@@ -72,7 +72,7 @@ const AddressModalEdit = () => {
               initialValues={initialValues}
               submitText={submitText}
               disablePercent={!hasMultipleAddresses}
-              disableAddress
+              omit={["address1"]}
             />
           )}
         </>

@@ -9,7 +9,7 @@ import Modal from "../../Modal";
 import Loader from "../../Loader";
 import ErrorMessage from "../../ErrorMessage";
 
-const AddressModalAdd = () => {
+const AddressModalEdit = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const { id } = useParams();
@@ -21,6 +21,7 @@ const AddressModalAdd = () => {
   const { data: addresses, error, isValidating } = useSWR(getUrl, {
     revalidateOnFocus: false
   });
+  const hasMultipleAddresses = addresses && addresses.length > 1;
 
   const initialValues = addresses && addresses.find((a) => String(a.id) === id);
 
@@ -36,9 +37,8 @@ const AddressModalAdd = () => {
   const onSubmit = async (values, formActions, modalActions) => {
     try {
       const parsedValues = parseSubmitValues(values);
-      await gpib.secure.patch(`/address/${id}`, parsedValues);
-      // const add = (ads) => [...ads, { id: Infinity, ...parsedValues }];
-      // mutate(getUrl, add);
+      await gpib.secure.put(`/address/${id}`, parsedValues);
+      await mutate(getUrl);
       modalActions.onDismiss();
     } catch (e) {
       console.log(e);
@@ -71,6 +71,8 @@ const AddressModalAdd = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText={submitText}
+              disablePercent={!hasMultipleAddresses}
+              disableAddress
             />
           )}
         </>
@@ -79,4 +81,4 @@ const AddressModalAdd = () => {
   );
 };
 
-export default AddressModalAdd;
+export default AddressModalEdit;

@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
 import { useLocation, useHistory, useParams } from "react-router-dom";
-import { Button, Alert } from "react-bootstrap";
-import useSWR, { mutate } from "swr";
+import { Alert } from "react-bootstrap";
+import { mutate } from "swr";
 import { AuthContext } from "../../Auth";
 import gpib from "../../../apis/gpib";
-import AddressForm from "./AddressForm";
 import Modal from "../../Modal";
-import Loader from "../../Loader";
-import ErrorMessage from "../../ErrorMessage";
 import AddressFormSwap from "./AddressFormSwap";
 
 const AddressModalSwap = () => {
@@ -41,7 +38,7 @@ const AddressModalSwap = () => {
       {({ onDismiss, wrapCallback }) => (
         <>
           <Alert variant="primary">
-            Use this form to replace an existing address with a new address.
+            Replace an existing address with a new address.
           </Alert>
           <AddressFormSwap
             onDismiss={onDismiss}

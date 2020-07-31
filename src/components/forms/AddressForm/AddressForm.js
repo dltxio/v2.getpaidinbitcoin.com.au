@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form } from "formik";
 import validate from "./validate";
 import Input from "../form-inputs/Input";
+import Selector from "../form-inputs/Selector";
 import SubmitSpinnerButton from "../SubmitSpinnerButton";
 import ErrorMessage from "../../ErrorMessage";
 import { Alert } from "react-bootstrap";
@@ -19,6 +20,8 @@ const AddressForm = ({
   onSubmit,
   submitText = "Submit",
   omit: _omit = [],
+  disablePercent,
+  disableAddress,
   alert
 }) => {
   const iv = { ...defaultInitialValues, ...initialValues };
@@ -27,7 +30,12 @@ const AddressForm = ({
     return map;
   }, {});
   return (
-    <Formik initialValues={iv} validate={validate} onSubmit={onSubmit}>
+    <Formik
+      initialValues={iv}
+      validate={validate}
+      onSubmit={onSubmit}
+      enableReinitialize
+    >
       {({ isSubmitting, errors }) => (
         <Form>
           {alert && (
@@ -35,7 +43,9 @@ const AddressForm = ({
               {alert}
             </Alert>
           )}
-          {!omit.percent && <Input name="percent" label="Percent" />}
+          {!omit.percent && (
+            <Input name="percent" label="Percent" disabled={disablePercent} />
+          )}
           {!omit.label && (
             <Input
               name="label"
@@ -48,6 +58,7 @@ const AddressForm = ({
               name="address1"
               label="Address"
               placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              disabled={disableAddress}
             />
           )}
           <ErrorMessage error={errors.hidden} />

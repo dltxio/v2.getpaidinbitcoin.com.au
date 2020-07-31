@@ -20,13 +20,7 @@ const Dashboard = () => {
     `/user/${user.id}/deposithints`
   );
 
-  // const { data: userDetails, error: fetchDetailsError } = useSWR(
-  //   `/User/details/${user.id}`
-  // );
-
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
-
-  // const isFetchingDetails = !userDetails && !fetchDetailsError;
 
   const payrollColumns = [
     ["Employer", depositHints?.employerName],

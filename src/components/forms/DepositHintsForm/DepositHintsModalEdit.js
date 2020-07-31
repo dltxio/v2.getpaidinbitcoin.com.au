@@ -49,9 +49,7 @@ const DepositHintsModalForm = (props) => {
   };
 
   const onDismiss = () => {
-    console.log("called");
     const path = location.pathname.replace(/\/payroll\/edit/g, "");
-    console.log(path);
     history.push(path);
   };
 

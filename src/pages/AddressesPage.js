@@ -41,6 +41,7 @@ const AddressesPage = () => {
     {
       icon: "swap-horizontal-outline",
       title: "Swap",
+      onClick: () => history.push(`/addresses/swap/${selected}`),
       disabled: !selected
     },
     {

@@ -22,6 +22,7 @@ const AddressModalAdd = () => {
   });
 
   const parseSubmitValues = (v) => {
+    console.log(v);
     const values = { ...v, userID: user?.id, percent: Number(v.percent) };
     return values;
   };
@@ -64,7 +65,7 @@ const AddressModalAdd = () => {
             <AddressForm
               onDismiss={onDismiss}
               onSubmit={wrapCallback(onSubmit)}
-              initialValues={addresses}
+              initialValues={{ userID: user.id }}
               submitText={submitText}
             />
           )}

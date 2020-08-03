@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
 import { AuthContext } from "../../Auth";
 import gpib from "../../../apis/gpib";
 import AddressForm from "./AddressForm";
 import Modal from "../../Modal";
-import Loader from "../../Loader";
-import ErrorMessage from "../../ErrorMessage";
 
 const AddressModalAdd = () => {
   const { user } = useContext(AuthContext);
@@ -16,10 +13,6 @@ const AddressModalAdd = () => {
   const heading = "Add Address";
   const submitText = "Add Address";
   const getUrl = user && `/user/${user.id}/address`;
-
-  const { data: addresses, error, isValidating } = useSWR(getUrl, {
-    revalidateOnFocus: false
-  });
 
   const parseSubmitValues = (v) => {
     const values = { ...v, userID: user?.id, percent: Number(v.percent) };
@@ -50,25 +43,12 @@ const AddressModalAdd = () => {
   return (
     <Modal isOpen onDismiss={onDismiss} heading={heading} large>
       {({ onDismiss, wrapCallback }) => (
-        <>
-          <Loader loading={isValidating} diameter="2rem" />
-          <ErrorMessage error={error} />
-          {error ? (
-            <Button
-              onClick={onDismiss}
-              variant="secondary"
-              block
-              children="Close"
-            />
-          ) : (
-            <AddressForm
-              onDismiss={onDismiss}
-              onSubmit={wrapCallback(onSubmit)}
-              initialValues={{ userID: user.id }}
-              submitText={submitText}
-            />
-          )}
-        </>
+        <AddressForm
+          onDismiss={onDismiss}
+          onSubmit={wrapCallback(onSubmit)}
+          initialValues={{ userID: user.id }}
+          submitText={submitText}
+        />
       )}
     </Modal>
   );

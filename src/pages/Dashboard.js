@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
+import { Alert } from "react-bootstrap";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
@@ -9,7 +10,7 @@ import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
 import { AuthContext } from "../components/Auth";
-import BankDetailsTable from "../components/tables/BankDetailsTable";
+import PayInformationTable from "../components/tables/PayInformationTable";
 import Card from "../components/Card";
 import "./Dashboard.scss";
 
@@ -98,7 +99,12 @@ const Dashboard = () => {
             {isVerified && (
               <section style={{ position: "relative" }}>
                 <Card>
-                  <h4>Bank Account</h4>
+                  <h4>Our Receiving Account</h4>
+                  <p>
+                    Please direct your employer to use the following account
+                    information when processing the part of your salary to be
+                    paid in bitcoin.
+                  </p>
                   <ErrorMessage
                     error={
                       fetchDepositHintsError ||
@@ -113,7 +119,7 @@ const Dashboard = () => {
                       isFetchingDetails
                     }
                   />
-                  <BankDetailsTable
+                  <PayInformationTable
                     bankDetails={bankDetails}
                     depositHints={depositHints}
                     userDetails={userDetails}

@@ -9,7 +9,7 @@ import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
 import { AuthContext } from "../components/Auth";
-import BankDetailsTable from "../components/tables/BankDetailsTable";
+import PayInformationTable from "../components/tables/PayInformationTable";
 import Card from "../components/Card";
 import "./Dashboard.scss";
 
@@ -98,7 +98,12 @@ const Dashboard = () => {
             {isVerified && (
               <section style={{ position: "relative" }}>
                 <Card>
-                  <h4>Bank Account</h4>
+                  <h4>Unique Bitcoin Pay Information</h4>
+                  <p>
+                    Please provide the following Unique Bitcoin Pay information
+                    to your employer for processing the part of you salary to be
+                    paid in bitcoin.
+                  </p>
                   <ErrorMessage
                     error={
                       fetchDepositHintsError ||
@@ -113,7 +118,7 @@ const Dashboard = () => {
                       isFetchingDetails
                     }
                   />
-                  <BankDetailsTable
+                  <PayInformationTable
                     bankDetails={bankDetails}
                     depositHints={depositHints}
                     userDetails={userDetails}

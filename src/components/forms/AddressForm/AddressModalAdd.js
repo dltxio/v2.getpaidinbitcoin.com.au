@@ -24,7 +24,6 @@ const AddressModalAdd = () => {
       const parsedValues = parseSubmitValues(values);
       const url = `/address`;
       await gpib.secure.post(url, parsedValues);
-
       const add = (ads) => [...ads, { id: Infinity, ...parsedValues }];
       mutate(getUrl, add);
       modalActions.onDismiss();

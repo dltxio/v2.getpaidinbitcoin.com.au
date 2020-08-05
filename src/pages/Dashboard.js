@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
-import { Alert } from "react-bootstrap";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
@@ -99,10 +98,10 @@ const Dashboard = () => {
             {isVerified && (
               <section style={{ position: "relative" }}>
                 <Card>
-                  <h4>Our Receiving Account</h4>
+                  <h4>Receiving Account</h4>
                   <p>
-                    Please direct your employer to use the following account
-                    information when processing the part of your salary to be
+                    Please provide the following Unique Bitcoin Pay information
+                    to your employer for processing the part of you salary to be
                     paid in bitcoin.
                   </p>
                   <ErrorMessage

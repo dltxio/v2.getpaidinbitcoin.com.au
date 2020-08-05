@@ -98,7 +98,7 @@ const Dashboard = () => {
             {isVerified && (
               <section style={{ position: "relative" }}>
                 <Card>
-                  <h4>Receiving Account</h4>
+                  <h4>Unique Bitcoin Pay Information</h4>
                   <p>
                     Please provide the following Unique Bitcoin Pay information
                     to your employer for processing the part of you salary to be

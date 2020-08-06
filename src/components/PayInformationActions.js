@@ -18,10 +18,10 @@ const messages = {
     default: "Email Pay Instructions to me",
     error: "Something went wrong. Try emailing instructions again?"
   },
-  // sms: {
-  //   default: "SMS Pay Instructions to me",
-  //   error: "Something went wrong. Try sending instructions by SMS again?"
-  // },
+  sms: {
+    default: "SMS Pay Instructions to me",
+    error: "Something went wrong. Try sending instructions by SMS again?"
+  },
   customEmail: {
     default: "Email Pay Instructions to another address",
     error: "Something went wrong. Try emailing instructions again?"
@@ -70,13 +70,13 @@ const initialState = {
     icon: icons.email,
     message: messages.email.default
   },
-  // sms: {
-  //   isSent: false,
-  //   isSending: false,
-  //   error: null,
-  //   icon: icons.sms,
-  //   message: messages.sms.default
-  // },SubmitSpinnerButton
+  sms: {
+    isSent: false,
+    isSending: false,
+    error: null,
+    icon: icons.sms,
+    message: messages.sms.default
+  },
   customEmail: {
     isSent: false,
     isSending: false,
@@ -96,6 +96,17 @@ const actionSharedProps = {
 const PayInformationActions = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { user } = useContext(AuthContext);
+
+  const smsInstructionsToMe = async () => {
+    const target = "sms";
+    try {
+      dispatch({ target, type: "BEGIN" });
+      await gpib.secure.get(`/sms/payinstructions/${user.id}`);
+      dispatch({ target, type: "DONE" });
+    } catch (error) {
+      dispatch({ target, type: "ERROR", error });
+    }
+  };
 
   const emailInstructionsToMe = async () => {
     await emailInstructions(user?.email, "email");
@@ -130,6 +141,14 @@ const PayInformationActions = () => {
         submitText={state.email.message}
         isSubmitting={state.email.isSending}
         onClick={emailInstructionsToMe}
+        {...actionSharedProps}
+      />
+      <br />
+      <SubmitSpinnerButton
+        icon={state.sms.icon}
+        submitText={state.sms.message}
+        isSubmitting={state.sms.isSending}
+        onClick={smsInstructionsToMe}
         {...actionSharedProps}
       />
       <br />

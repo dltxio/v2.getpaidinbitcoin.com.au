@@ -18,17 +18,10 @@ const messages = {
     default: "Email Pay Instructions to me",
     error: "Something went wrong. Try emailing instructions again?"
   },
-<<<<<<< HEAD
   sms: {
     default: "SMS Pay Instructions to me",
     error: "Something went wrong. Try sending instructions by SMS again?"
   },
-=======
-  // sms: {
-  //   default: "SMS Pay Instructions to me",
-  //   error: "Something went wrong. Try sending instructions by SMS again?"
-  // },
->>>>>>> development
   customEmail: {
     default: "Email Pay Instructions to another address",
     error: "Something went wrong. Try emailing instructions again?"
@@ -77,7 +70,6 @@ const initialState = {
     icon: icons.email,
     message: messages.email.default
   },
-<<<<<<< HEAD
   sms: {
     isSent: false,
     isSending: false,
@@ -85,15 +77,6 @@ const initialState = {
     icon: icons.sms,
     message: messages.sms.default
   },
-=======
-  // sms: {
-  //   isSent: false,
-  //   isSending: false,
-  //   error: null,
-  //   icon: icons.sms,
-  //   message: messages.sms.default
-  // },SubmitSpinnerButton
->>>>>>> development
   customEmail: {
     isSent: false,
     isSending: false,

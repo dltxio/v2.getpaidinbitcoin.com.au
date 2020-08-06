@@ -1,0 +1,30 @@
+@import "../../constants/mixins";
+@import "../../constants/colors";
+
+$text-color: rgba(white, 0.8);
+$link-color: rgba(white, 0.5);
+
+.footer {
+  flex: 1;
+  width: 100%;
+  font-size: 80%;
+  background-color: rgba($primary, 1);
+  color: $text-color;
+  padding-top: 3rem;
+  
+  a {
+    color:$link-color;
+  }
+
+  .row {
+    margin: 0;
+  }
+
+
+  .copyright {
+    background-color: rgba($gray-800, 0.6);
+    padding: 1rem;
+    text-align: center;
+    color: $gray-500;
+  }
+}

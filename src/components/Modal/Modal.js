@@ -43,7 +43,7 @@ const Modal = ({
 
   const transitionOut = () => {
     setShow("");
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         setDisplay("none");
         resolve();
@@ -57,7 +57,7 @@ const Modal = ({
     props.onDismiss();
   };
 
-  const wrapCallback = func => (...args) => func(...args, { onDismiss });
+  const wrapCallback = (func) => (...args) => func(...args, { onDismiss });
 
   const renderModal = () => (
     <div>
@@ -71,9 +71,9 @@ const Modal = ({
           className={`modal-dialog modal-dialog-centered ${
             large ? "modal-xl" : ""
           } ${small ? "modal-sm" : ""}`}
-          onClick={e => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
         >
-          <div className="modal-content" onSubmit={e => e.stopPropagation()}>
+          <div className="modal-content" onSubmit={(e) => e.stopPropagation()}>
             <ModalHeader
               heading={heading}
               onDismiss={onDismiss}

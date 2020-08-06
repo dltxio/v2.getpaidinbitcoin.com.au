@@ -7,9 +7,13 @@ const Loader = ({
   noBackground,
   diameter = "1.5rem",
   noStretch,
-  light
+  light,
+  className,
+  style: _style = {}
 }) => {
   if (!loading) return children || null;
+  let classes = "loader";
+  if (className) classes += ` ${className}`;
 
   const style = {
     width: diameter,
@@ -18,9 +22,9 @@ const Loader = ({
     borderTopColor: light ? "rgba(250, 250, 250, 0.5)" : "rgba(0, 0, 0, 0.2)"
   };
   return (
-    <div>
+    <div style={{ display: noStretch ? "inline-block" : undefined, ..._style }}>
       <div
-        className="loader"
+        className={classes}
         style={{
           backgroundColor: noBackground ? "rgba(0,0,0,0)" : undefined,
           position: noStretch ? "" : "absolute"

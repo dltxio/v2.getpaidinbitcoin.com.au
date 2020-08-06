@@ -68,11 +68,7 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode }) => {
             disabled={lockReferralCode}
           />
           <ErrorMessage error={errors.hidden} />
-          <SubmitSpinnerButton
-            variant="secondary"
-            submitText="Join"
-            isSubmitting={isSubmitting}
-          />
+          <SubmitSpinnerButton submitText="Join" isSubmitting={isSubmitting} />
         </Form>
       )}
     </Formik>

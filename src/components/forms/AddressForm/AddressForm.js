@@ -17,26 +17,49 @@ const defaultInitialValues = {
 const AddressForm = ({
   initialValues = {},
   onSubmit,
-  submitText = "Submit"
+  submitText = "Submit",
+  omit: _omit = [],
+  disablePercent,
+  disableAddress,
+  alert
 }) => {
   const iv = { ...defaultInitialValues, ...initialValues };
+  const omit = _omit.reduce((map, item) => {
+    map[item] = true;
+    return map;
+  }, {});
   return (
-    <Formik initialValues={iv} validate={validate} onSubmit={onSubmit}>
+    <Formik
+      initialValues={iv}
+      validate={validate}
+      onSubmit={onSubmit}
+      enableReinitialize
+    >
       {({ isSubmitting, errors }) => (
         <Form>
-          <Alert variant="primary" className="mb-4">
-            <b className="alert-heading">
-              Your payment can be sent to multiple bitcoin addresses.
-            </b>
-            <span className="ml-2">
-              For example, you may want to split your payment and send 50% to a
-              cold storage wallet and 50% to a hot wallet. Please set the
-              percentage required in the below field or leave at 100.
-            </span>
-          </Alert>
-          <Input name="percent" label="Percent" />
-          <Input name="label" label="Label" />
-          <Input name="address1" label="Address" />
+          {alert && (
+            <Alert variant="primary" className="mb-4">
+              {alert}
+            </Alert>
+          )}
+          {!omit.percent && (
+            <Input name="percent" label="Percent" disabled={disablePercent} />
+          )}
+          {!omit.label && (
+            <Input
+              name="label"
+              label="Label"
+              placeholder="Give your address a personal label"
+            />
+          )}
+          {!omit.address1 && (
+            <Input
+              name="address1"
+              label="Address"
+              placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              disabled={disableAddress}
+            />
+          )}
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton
             submitText={submitText}

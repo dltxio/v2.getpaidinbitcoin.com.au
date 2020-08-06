@@ -5,24 +5,37 @@ import { Button } from "react-bootstrap";
 const SubmitButtonSpinner = ({
   submitText,
   isSubmitting = false,
+  icon,
+  iconStyle,
+  spaceBetween = "1rem",
   ...props
 }) => (
   <Button
-    className="relative d-flex justify-content-center"
     variant="primary"
     block
     type="submit"
     disabled={isSubmitting}
     {...props}
   >
-    <Loader
-      loading={isSubmitting}
-      noBackground
-      noStretch
-      light
-      diameter="1.4rem"
-    />
-    <span className="mx-2">{submitText}</span>
+    <div className="relative d-flex justify-content-center align-items-center">
+      <Loader
+        loading={isSubmitting}
+        noBackground
+        noStretch
+        light
+        diameter="1.4rem"
+        style={{ marginRight: spaceBetween }}
+      />
+      {icon && !isSubmitting && (
+        <div
+          className="d-flex align-items-center"
+          style={{ marginRight: spaceBetween }}
+        >
+          <ion-icon name={icon} style={{ fontSize: "150%", ...iconStyle }} />
+        </div>
+      )}
+      <span style={{ flex: 1 }}>{submitText}</span>
+    </div>
   </Button>
 );
 

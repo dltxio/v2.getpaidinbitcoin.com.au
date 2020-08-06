@@ -6,6 +6,8 @@ const SubmitButtonSpinner = ({
   submitText,
   isSubmitting = false,
   icon,
+  iconStyle,
+  spaceBetween = "1rem",
   ...props
 }) => (
   <Button
@@ -22,11 +24,14 @@ const SubmitButtonSpinner = ({
         noStretch
         light
         diameter="1.4rem"
-        className="mr-2"
+        style={{ marginRight: spaceBetween }}
       />
       {icon && !isSubmitting && (
-        <div className="mr-2 d-flex align-items-center">
-          <ion-icon name={icon} style={{ fontSize: "150%" }} />
+        <div
+          className="d-flex align-items-center"
+          style={{ marginRight: spaceBetween }}
+        >
+          <ion-icon name={icon} style={{ fontSize: "150%", ...iconStyle }} />
         </div>
       )}
       <span>{submitText}</span>

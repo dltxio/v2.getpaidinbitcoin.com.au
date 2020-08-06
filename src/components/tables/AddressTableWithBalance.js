@@ -21,12 +21,14 @@ const AddressTableWithBalance = ({ addresses = defaultAddresses }) => {
     (async () => {
       const balances = await Promise.all(
         addresses.map(async (a) => {
-          const url = `/addrs/${a.address1}/balance`;
-          const cached = cache.get(url);
-          if (cached !== null) return cached;
-          const { data: res } = await blockCypher.get(url);
-          cache.put(url, res.balance);
-          return res.balance;
+          try {
+            const url = `/addrs/${a.address1}/balance`;
+            const cached = cache.get(url);
+            if (cached !== null) return cached;
+            const { data: res } = await blockCypher.get(url);
+            cache.put(url, res.balance);
+            return res.balance;
+          } catch (e) {}
         })
       );
       const withBalances = balances.map((balance, i) => {

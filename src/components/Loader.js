@@ -8,7 +8,8 @@ const Loader = ({
   diameter = "1.5rem",
   noStretch,
   light,
-  className
+  className,
+  style: _style = {}
 }) => {
   if (!loading) return children || null;
   let classes = "loader";
@@ -21,7 +22,7 @@ const Loader = ({
     borderTopColor: light ? "rgba(250, 250, 250, 0.5)" : "rgba(0, 0, 0, 0.2)"
   };
   return (
-    <div style={{ display: noStretch ? "inline-block" : undefined }}>
+    <div style={{ display: noStretch ? "inline-block" : undefined, ..._style }}>
       <div
         className={classes}
         style={{

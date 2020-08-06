@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext, useState } from "react";
 import SubmitSpinnerButton from "./forms/SubmitSpinnerButton";
 import { AuthContext } from "./Auth";
 import gpib from "../apis/gpib";
@@ -85,11 +85,15 @@ const actionSharedProps = {
 
 const PayInformationActions = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [customEmail, setCustomEmail] = useState("");
   const { user } = useContext(AuthContext);
-  const email = "callum.john.gibson@gmail.com";
 
   const emailInstructionsToMe = async () => {
-    await emailInstructions();
+    await emailInstructions(user?.email, "email");
+  };
+
+  const emailInstructionsToOther = async () => {
+    // await emailInstructions(customEmail, "customEmail");
   };
 
   const emailInstructions = async (email, target) => {
@@ -108,16 +112,18 @@ const PayInformationActions = () => {
         icon={state.email.icon}
         submitText={state.email.message}
         isSubmitting={state.email.isSending}
-        onClick={emailUserInstructions}
+        onClick={emailInstructionsToMe}
         {...actionSharedProps}
       />
+      <br />
       <SubmitSpinnerButton
         icon={state.customEmail.icon}
         submitText={state.customEmail.message}
         isSubmitting={state.customEmail.isSending}
-        onClick={emailUserInstructions}
+        onClick={emailInstructionsToOther}
         {...actionSharedProps}
       />
+      <input />
     </div>
   );
 };

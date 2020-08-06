@@ -40,6 +40,10 @@ footer {
 #root {
   @include media-breakpoint-down(sm){
     font-size: $font-size-base * .8;
+    .btn {
+    font-size: $font-size-base * .8;
+
+    }
 
   }
 }

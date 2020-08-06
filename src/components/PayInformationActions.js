@@ -1,7 +1,9 @@
-import React, { useReducer, useContext, useState } from "react";
+import React, { useReducer, useContext } from "react";
+import { isEmail } from "validator";
 import SubmitSpinnerButton from "./forms/SubmitSpinnerButton";
 import { AuthContext } from "./Auth";
 import gpib from "../apis/gpib";
+import ButtonInputSwitcher from "./ButtonInputSwitcher";
 
 const icons = {
   email: "mail-outline",
@@ -31,6 +33,7 @@ const reducer = (state, action) => {
   const newState = { ...state };
   switch (type) {
     case "BEGIN":
+      newState[target].message = messages[target].default;
       newState[target].isSending = true;
       newState[target].error = null;
       newState[target].isSent = false;
@@ -46,6 +49,13 @@ const reducer = (state, action) => {
       newState[target].error = error;
       newState[target].icon = icons.error;
       newState[target].message = messages[target].error;
+      return newState;
+    case "RESET":
+      newState[target].isSending = false;
+      newState[target].isSent = false;
+      newState[target].error = null;
+      newState[target].icon = icons[target];
+      newState[target].message = messages[target].default;
       return newState;
     default:
     //  no default
@@ -66,7 +76,7 @@ const initialState = {
   //   error: null,
   //   icon: icons.sms,
   //   message: messages.sms.default
-  // },
+  // },SubmitSpinnerButton
   customEmail: {
     isSent: false,
     isSending: false,
@@ -85,24 +95,31 @@ const actionSharedProps = {
 
 const PayInformationActions = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [customEmail, setCustomEmail] = useState("");
   const { user } = useContext(AuthContext);
 
   const emailInstructionsToMe = async () => {
     await emailInstructions(user?.email, "email");
   };
 
-  const emailInstructionsToOther = async () => {
-    // await emailInstructions(customEmail, "customEmail");
+  const emailInstructionsToOther = async (customEmail, actions) => {
+    if (!isEmail(customEmail))
+      return dispatch({
+        target: "customEmail",
+        type: "ERROR",
+        error: "Invalid email"
+      });
+    actions.setInputShown(false);
+
+    await emailInstructions(customEmail, "customEmail");
   };
 
   const emailInstructions = async (email, target) => {
     try {
-      dispatch({ target: "email", type: "BEGIN" });
+      dispatch({ target, type: "BEGIN" });
       await gpib.secure.get(`/email/payinstructions/${user.id}?email=${email}`);
-      dispatch({ target: "email", type: "DONE" });
+      dispatch({ target, type: "DONE" });
     } catch (error) {
-      dispatch({ target: "email", type: "ERROR", error });
+      dispatch({ target, type: "ERROR", error });
     }
   };
 
@@ -116,14 +133,15 @@ const PayInformationActions = () => {
         {...actionSharedProps}
       />
       <br />
-      <SubmitSpinnerButton
+      <ButtonInputSwitcher
         icon={state.customEmail.icon}
         submitText={state.customEmail.message}
         isSubmitting={state.customEmail.isSending}
-        onClick={emailInstructionsToOther}
+        onSubmit={emailInstructionsToOther}
+        confirmText="Send"
+        onCancel={() => dispatch({ type: "RESET", target: "customEmail" })}
         {...actionSharedProps}
       />
-      <input />
     </div>
   );
 };

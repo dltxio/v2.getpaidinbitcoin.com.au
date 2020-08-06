@@ -11,6 +11,7 @@ import Loader from "../components/Loader";
 import { AuthContext } from "../components/Auth";
 import PayInformationTable from "../components/tables/PayInformationTable";
 import Card from "../components/Card";
+import PayInformationActions from "../components/PayInformationActions";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
@@ -123,6 +124,7 @@ const Dashboard = () => {
                     depositHints={depositHints}
                     userDetails={userDetails}
                   />
+                  <PayInformationActions />
                 </Card>
               </section>
             )}

@@ -24,7 +24,6 @@ const SubmitButtonSpinner = ({
         noStretch
         light
         diameter="1.4rem"
-        // className="mr-2"
         style={{ marginRight: spaceBetween }}
       />
       {icon && !isSubmitting && (

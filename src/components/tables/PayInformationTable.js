@@ -9,7 +9,7 @@ export default function BankDetailsTable({
   userDetails
 }) {
   const { user } = useContext(AuthContext);
-  const ref = user?.id.slice(-5).toUpperCase();
+  const ref = user?.id.slice(0, 6).toUpperCase();
   const getAmount = () => {
     let amount = Number(depositHints?.depositAmount);
     if (userDetails?.randomCent) amount += Number(userDetails.randomCent / 100);

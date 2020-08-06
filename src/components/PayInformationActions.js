@@ -1,5 +1,7 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import SubmitSpinnerButton from "./forms/SubmitSpinnerButton";
+import { AuthContext } from "./Auth";
+import gpib from "../apis/gpib";
 
 const icons = {
   email: "mail-outline",
@@ -45,6 +47,8 @@ const reducer = (state, action) => {
       newState[target].icon = icons.error;
       newState[target].message = messages[target].error;
       return newState;
+    default:
+    //  no default
   }
 };
 
@@ -74,7 +78,6 @@ const initialState = {
 
 const actionSharedProps = {
   variant: "link",
-  variant: "link",
   className: "mb-2",
   iconStyle: { fontSize: "120%" },
   block: false
@@ -82,10 +85,12 @@ const actionSharedProps = {
 
 const PayInformationActions = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { user } = useContext(AuthContext);
+  const email = "callum.john.gibson@gmail.com";
   const emailUserInstructions = async () => {
     try {
       dispatch({ target: "email", type: "BEGIN" });
-      // TODO: api call here
+      await gpib.secure.get(`/email/payinstructions/${user.id}?email=${email}`);
       dispatch({ target: "email", type: "DONE" });
     } catch (error) {
       dispatch({ target: "email", type: "ERROR", error });

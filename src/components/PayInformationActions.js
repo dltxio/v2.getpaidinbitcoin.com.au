@@ -86,11 +86,13 @@ const actionSharedProps = {
 const PayInformationActions = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { user } = useContext(AuthContext);
-  const email = "callum.john.gibson@gmail.com";
+
   const emailUserInstructions = async () => {
     try {
       dispatch({ target: "email", type: "BEGIN" });
-      await gpib.secure.get(`/email/payinstructions/${user.id}?email=${email}`);
+      await gpib.secure.get(
+        `/email/payinstructions/${user.id}?email=${user?.email}`
+      );
       dispatch({ target: "email", type: "DONE" });
     } catch (error) {
       dispatch({ target: "email", type: "ERROR", error });

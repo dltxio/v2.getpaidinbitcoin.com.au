@@ -14,7 +14,7 @@ const AddressModalEdit = () => {
   const location = useLocation();
   const { id } = useParams();
   const history = useHistory();
-  const heading = "Edit Address";
+  const heading = "Edit BTC Address";
   const submitText = "Save";
   const getUrl = user && `/user/${user.id}/address`;
 

@@ -1,18 +1,31 @@
 import React, { useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
+import { Button } from "react-bootstrap";
 import { AuthContext } from "../../Auth";
 import gpib from "../../../apis/gpib";
 import AddressForm from "./AddressForm";
 import Modal from "../../Modal";
+import Loader from "../../Loader";
+import ErrorMessage from "../../ErrorMessage";
 
 const AddressModalAdd = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const history = useHistory();
-  const heading = "Add Address";
-  const submitText = "Add Address";
+  const heading = "Add BTC Address";
+  const submitText = "Add BTC Address";
   const getUrl = user && `/user/${user.id}/address`;
+
+  const { data: addresses, error, isValidating } = useSWR(getUrl, {
+    revalidateOnFocus: false
+  });
+  const isFirstAddress = addresses && addresses.length === 0;
+
+  const initialValues = {
+    userID: user.id,
+    percent: isFirstAddress ? 100 : ""
+  };
 
   const parseSubmitValues = (v) => {
     const values = { ...v, userID: user?.id, percent: Number(v.percent) };
@@ -42,12 +55,25 @@ const AddressModalAdd = () => {
   return (
     <Modal isOpen onDismiss={onDismiss} heading={heading} large>
       {({ onDismiss, wrapCallback }) => (
-        <AddressForm
-          onDismiss={onDismiss}
-          onSubmit={wrapCallback(onSubmit)}
-          initialValues={{ userID: user.id }}
-          submitText={submitText}
-        />
+        <>
+          <Loader loading={isValidating} diameter="2rem" />
+          <ErrorMessage error={error} />
+          {error ? (
+            <Button
+              onClick={onDismiss}
+              variant="secondary"
+              block
+              children="Close"
+            />
+          ) : (
+            <AddressForm
+              onDismiss={onDismiss}
+              onSubmit={wrapCallback(onSubmit)}
+              initialValues={initialValues}
+              submitText={submitText}
+            />
+          )}
+        </>
       )}
     </Modal>
   );

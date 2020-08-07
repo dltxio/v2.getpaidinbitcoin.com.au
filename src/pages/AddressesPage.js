@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import useSWR, { mutate } from "swr";
+import React, { useContext } from "react";
+import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -10,15 +10,11 @@ import Card from "../components/Card";
 import AddressTable from "../components/tables/AddressTable";
 import IconButton from "../components/IconButton";
 import useSelectedRow from "../hooks/useSelectedRow";
-import ConfirmModal from "../components/ConfirmModal";
-
 import "./Dashboard.scss";
-import gpib from "../apis/gpib";
 
 const AddressesPage = () => {
   const { user } = useContext(AuthContext);
   const history = useHistory();
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const getAddressesUrl = `/user/${user.id}/address`;
   const [selected, , selectRowConfig] = useSelectedRow(null);
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);

@@ -36,8 +36,8 @@ const panels = [
       {
         icon: "lock-closed",
         jsx: (
-          <a href="/FCCE5C14.asc" children="PGP PubKey (FCCE5C14)" download>
-            bit.do/GPIB_BitcoinTalk
+          <a href="http://keys.gnupg.net/pks/lookup?search=info%40getpaidinbitcoin.com.au&fingerprint=on&op=index" children="PGP PubKey (3DB82649)" download>
+            PGP Public Key
           </a>
         )
       }

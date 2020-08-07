@@ -22,12 +22,6 @@ const Dashboard = () => {
     userStatus,
     fetchStatusError
   } = useContext(AuthContext);
-  const { data: transfers, error: fetchTransferError } = useSWR(
-    isVerified && `/transfer`
-  );
-  const { data: deposits, error: fetchDepositError } = useSWR(
-    isVerified && "/deposit"
-  );
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     isVerified && `/user/${user.id}/deposithints`
   );
@@ -41,19 +35,22 @@ const Dashboard = () => {
     isVerified && `/user/${user.id}/bankdetails`
   );
   const { data: userDetails, error: fetchDetailsError } = useSWR(
-    isVerified && `/User/${user.id}`
+    isVerified && `/user/${user.id}`
+  );
+  const { data: transactions, error: fetchTransactionsError } = useSWR(
+    isVerified && `/transaction`
   );
 
   // const isFetchingStatus = !String(userStatus) && !fetchStatusError;
   const isFetchingDepositHints =
     isVerified && !depositHints && !fetchDepositHintsError;
-  const isFetchingDeposits = isVerified && !deposits && !fetchDepositError;
-  const isFetchingTransfers = isVerified && !transfers && !fetchTransferError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
   const isFetchingAddresses = isVerified && !addresses && !fetchAddressError;
   const isFetchingBankDetails =
     isVerified && !bankDetails && !fetchBankDetailsError;
   const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
+  const isFetchingTransactions =
+    isVerified && !transactions && !fetchTransactionsError;
 
   if (isVerifying) return <Loader loading />;
 
@@ -131,9 +128,9 @@ const Dashboard = () => {
             <section style={{ position: "relative" }}>
               <Card>
                 <h4>Transactions</h4>
-                <ErrorMessage error={fetchTransferError || fetchDepositError} />
-                <Loader loading={isFetchingDeposits || isFetchingTransfers} />
-                <TransactionTable transfers={transfers} deposits={deposits} />
+                <ErrorMessage error={fetchTransactionsError} />
+                <Loader loading={isFetchingTransactions} />
+                <TransactionTable transactions={transactions} />
               </Card>
             </section>
           </section>

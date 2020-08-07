@@ -6,7 +6,8 @@ import { AuthProvider } from "./Auth";
 import "./App.scss";
 
 const swrConfig = {
-  fetcher: (url) => gpib.secure.get(url).then((res) => res.data)
+  fetcher: (url) => gpib.secure.get(url).then((res) => res.data),
+  shouldRetryOnError: false
 };
 
 const App = () => (

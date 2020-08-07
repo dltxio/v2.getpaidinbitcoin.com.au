@@ -20,6 +20,7 @@ $separator: 1px solid $gray-300;
 
     .col-sm {
       @include flex();
+      flex-direction: column;
       padding: $spacing;
       &:first-child {
         border-bottom: $separator;

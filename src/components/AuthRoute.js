@@ -3,15 +3,27 @@ import { Route, Redirect } from "react-router-dom";
 import { AuthContext } from "./Auth";
 import Loader from "./Loader";
 
-const AuthRoute = ({ component, ...props }) => {
-  const { user, isLoading } = useContext(AuthContext);
+const AuthRoute = ({ component, allowUnverified, ...props }) => {
+  const {
+    user,
+    isLoggingIn,
+    isLoading: isPageLoading,
+    isVerified,
+    isVerifying
+  } = useContext(AuthContext);
   const Component = component;
+  const isLoading =
+    isLoggingIn || isPageLoading || (!allowUnverified && isVerifying);
+  const isPass = user && (allowUnverified || isVerified);
+  let redirectPath = "/login";
+  if (user && !isPass) redirectPath = "/";
+
   return (
     <Route
       {...props}
       render={() => {
         if (isLoading) return <Loader loading />;
-        return user ? <Component /> : <Redirect to="/auth" />;
+        return isPass ? <Component /> : <Redirect to={redirectPath} />;
       }}
     />
   );

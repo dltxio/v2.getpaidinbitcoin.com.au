@@ -1,104 +1,137 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
-import { history } from "../components/Router";
 import Layout from "../components/Layout";
 import VerificationTracker from "../components/VerificationTracker";
 import TransactionTable from "../components/tables/TransactionTable";
-import AddressTable from "../components/tables/AddressTable";
+import AddressTableWithBalance from "../components/tables/AddressTableWithBalance";
 import AddressPie from "../components/AddressPie";
 import UserStats from "../components/UserStats";
 import ErrorMessage from "../components/ErrorMessage";
 import Loader from "../components/Loader";
-import "./Dashboard.scss";
 import { AuthContext } from "../components/Auth";
-import IconButton from "../components/IconButton";
-import BankDetailsTable from "../components/tables/BankDetailsTable";
+import PayInformationTable from "../components/tables/PayInformationTable";
+import Card from "../components/Card";
+import PayInformationActions from "../components/PayInformationActions";
+import "./Dashboard.scss";
+
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
-  const { data: userStatus } = useSWR("/user/status");
-  const { data: transfers, error: fetchTransferError } = useSWR("/transfer");
-  const { data: deposits, error: fetchDepositError } = useSWR("/deposit");
+  const {
+    user,
+    isVerified,
+    isVerifying,
+    userStatus,
+    fetchStatusError
+  } = useContext(AuthContext);
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
-    `/user/${user.id}/deposithints`
+    isVerified && `/user/${user.id}/deposithints`
   );
-  const { data: userStats, error: fetchStatsError } = useSWR("/userstats");
-  const { data: addresses, error: fetchAddressError } = useSWR("/address");
+  const { data: userStats, error: fetchStatsError } = useSWR(
+    isVerified && "/userstats"
+  );
+  const { data: addresses, error: fetchAddressError } = useSWR(
+    isVerified && `/user/${user.id}/address`
+  );
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
-    `/user/${user.id}/bankdetails`
+    isVerified && `/user/${user.id}/bankdetails`
   );
   const { data: userDetails, error: fetchDetailsError } = useSWR(
-    `/User/details/${user.id}`
+    isVerified && `/user/${user.id}`
   );
-  const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
-  const isFetchingDeposits = !deposits && !fetchDepositError;
-  const isFetchingTransfers = !transfers && !fetchTransferError;
-  const isFetchingStats = !userStats && !fetchStatsError;
-  const isFetchingAddresses = !addresses && !fetchAddressError;
-  const isFetchingBankDetails = !bankDetails && !fetchBankDetailsError;
-  const isFetchingDetails = !userDetails && !fetchDetailsError;
+  const { data: transactions, error: fetchTransactionsError } = useSWR(
+    isVerified && `/transaction`
+  );
+
+  // const isFetchingStatus = !String(userStatus) && !fetchStatusError;
+  const isFetchingDepositHints =
+    isVerified && !depositHints && !fetchDepositHintsError;
+  const isFetchingStats = isVerified && !userStats && !fetchStatsError;
+  const isFetchingAddresses = isVerified && !addresses && !fetchAddressError;
+  const isFetchingBankDetails =
+    isVerified && !bankDetails && !fetchBankDetailsError;
+  const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
+  const isFetchingTransactions =
+    isVerified && !transactions && !fetchTransactionsError;
+
+  if (isVerifying) return <Loader loading />;
 
   return (
     <Layout>
-      <Loader />
-      <div className="dashboard container-fluid">
-        <section className="head">
-          <VerificationTracker status={userStatus} />
-        </section>
-        <section className="main">
-          <div className={userStatus === 5 ? "overlay" : "overlay active"} />
-          <aside>
+      <div className="dashboard container-fluid py-4">
+        <ErrorMessage error={fetchStatusError} />
+        {!isVerified && !isVerifying && (
+          <section className="head">
+            <VerificationTracker status={userStatus} />
+          </section>
+        )}
+        <section className="main row">
+          <div className={isVerified ? "overlay" : "overlay active"} />
+          <aside className="col-lg-5">
             <section>
-              <h2>User Stats</h2>
-              <ErrorMessage error={fetchStatsError} />
-              <Loader loading={isFetchingStats} />
-              <UserStats stats={userStats} />
+              <Card>
+                <h4>Stats</h4>
+                <ErrorMessage error={fetchStatsError} />
+                <Loader loading={isFetchingStats} />
+                <UserStats stats={userStats} />
+              </Card>
             </section>
-            <section>
-              <div className="d-flex justify-content-between align-items-center">
-                <h2>Addresses</h2>
-                <IconButton
-                  title="Add an address"
-                  onClick={() => history.push("/address/add")}
-                  icon="add"
+            <Card>
+              <section>
+                <h4>Addresses</h4>
+                <ErrorMessage error={fetchAddressError} />
+                <Loader loading={isFetchingAddresses} />
+                <AddressTableWithBalance
+                  addresses={addresses}
+                  pagination={false}
                 />
-              </div>
-              <ErrorMessage error={fetchAddressError} />
-              <Loader loading={isFetchingAddresses} />
-              <AddressTable addresses={addresses} pagination={false} />
-            </section>
-            <section className="d-flex justify-content-center">
-              <Loader loading={isFetchingAddresses} />
-              <AddressPie addresses={addresses} />
-            </section>
+              </section>
+              {isVerified && userStatus && (
+                <section className="d-flex justify-content-center">
+                  <Loader loading={isFetchingAddresses} />
+                  <AddressPie addresses={addresses} />
+                </section>
+              )}
+            </Card>
           </aside>
-          <section className="content">
+          <section className="content col-lg-7">
+            {isVerified && (
+              <section style={{ position: "relative" }}>
+                <Card>
+                  <h4>Unique Bitcoin Pay Information</h4>
+                  <p>
+                    Please provide the following Unique Bitcoin Pay Information
+                    to your employer for processing the part of your salary to
+                    be paid in bitcoin.
+                  </p>
+                  <ErrorMessage
+                    error={
+                      fetchDepositHintsError ||
+                      fetchBankDetailsError ||
+                      fetchDetailsError
+                    }
+                  />
+                  <Loader
+                    loading={
+                      isFetchingDepositHints ||
+                      isFetchingBankDetails ||
+                      isFetchingDetails
+                    }
+                  />
+                  <PayInformationTable
+                    bankDetails={bankDetails}
+                    depositHints={depositHints}
+                    userDetails={userDetails}
+                  />
+                  <PayInformationActions />
+                </Card>
+              </section>
+            )}
             <section style={{ position: "relative" }}>
-              <h2>Bank Account</h2>
-              <ErrorMessage
-                error={
-                  fetchDepositHintsError ||
-                  fetchBankDetailsError ||
-                  fetchDetailsError
-                }
-              />
-              <Loader
-                loading={
-                  isFetchingDepositHints ||
-                  isFetchingBankDetails ||
-                  isFetchingDetails
-                }
-              />
-              <BankDetailsTable
-                bankDetails={bankDetails}
-                depositHints={depositHints}
-                userDetails={userDetails}
-              />
-            </section>
-            <section style={{ position: "relative" }}>
-              <h2>Transactions</h2>
-              <ErrorMessage error={fetchTransferError || fetchDepositError} />
-              <Loader loading={isFetchingDeposits || isFetchingTransfers} />
-              <TransactionTable transfers={transfers} deposits={deposits} />
+              <Card>
+                <h4>Transactions</h4>
+                <ErrorMessage error={fetchTransactionsError} />
+                <Loader loading={isFetchingTransactions} />
+                <TransactionTable transactions={transactions} />
+              </Card>
             </section>
           </section>
         </section>

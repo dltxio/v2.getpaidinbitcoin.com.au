@@ -1,20 +1,18 @@
 import React from "react";
 import moment from "moment";
-import { format as format$ } from "currency-formatter";
 import Table from "./Table";
-import prefixID from "../../utils/prefixID";
+import "./TransactionTable.scss";
 
 // dataField (key) props (value)
 const columnConfig = {
-  created: {
+  date: {
     children: "Created",
-    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY"),
-    dataSort: true
+    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY")
   },
   type: {
     children: "Type"
   },
-  description: {
+  reference: {
     children: "Description"
   },
   amount: {
@@ -24,41 +22,35 @@ const columnConfig = {
   }
 };
 
-const blendTransfersAndDeposits = (transfers, deposits) => {
-  const parsedTransfers = transfers.map((t) => ({
-    id: prefixID(t.id, "T"),
-    created: t.created,
-    type: "Transfer",
-    description: t.type,
-    amount: `${t.amount} ${t.coin}`
-  }));
-
-  const parsedDepostis = deposits.map((d) => ({
-    id: prefixID(d.id, "D"),
-    created: d.created,
-    type: "Deposit",
-    description: d.reference,
-    amount: format$(d.amount, { code: "AUD" })
-  }));
-
-  return [...parsedTransfers, ...parsedDepostis].sort((a, b) =>
-    moment(a.created).isBefore(b.created) ? 1 : -1
-  );
-};
-
 const tableOptions = {
   hideSizePerPage: true,
-  sizePerPage: 5
+  sizePerPage: 10
 };
 
-const TransactionTable = ({ transfers = [], deposits = [], ...props }) => {
-  const data = blendTransfersAndDeposits(transfers, deposits);
+let gid = 0;
+
+const TransactionTable = ({ transactions = [], ...props }) => {
+  const unStyled = transactions
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .sort((a, b) => b.groupID - a.groupID)
+    .map((t, id) => ({ id, ...t }));
+
+  const data = unStyled.map((t, i) => {
+    if (i !== 0 && t.groupID !== unStyled[i - 1].groupID) gid += 1;
+    return { ...t, gid };
+  });
+
+  const formatRow = (row, i) => {
+    return row.gid % 2 === 0 ? undefined : "transaction-table-row";
+  };
 
   return (
     <Table
       data={data}
       columnConfig={columnConfig}
       options={tableOptions}
+      trClassName={formatRow}
+      striped={false}
       {...props}
     />
   );

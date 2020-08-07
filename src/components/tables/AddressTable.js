@@ -1,83 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Table from "./Table";
-import Loader from "../Loader";
-import blockCypher from "../../apis/blockCypher";
-import { Cache } from "memory-cache";
-import parseSATS from "../../utils/parseSATS";
 
+// dataField (key) props (value)
 const columnConfig = {
-  address1: {
-    children: "Address",
-    tdStyle: {
-      overflowWrap: "break-word",
-      whiteSpace: "normal"
-    },
-    width: "50%"
-  },
   label: {
-    children: "Label"
+    children: "Label",
+    width: "30%"
   },
-  balance: {
-    children: "Balance BTC",
-    tdStyle: { textAlign: "right" },
-    thStyle: { textAlign: "right" },
-    dataFormat: (v) => {
-      const hasValue = v !== undefined;
-      return hasValue ? (
-        parseSATS(v)
-      ) : (
-        <Loader loading noStretch noBackground />
-      );
+  address1: {
+    children: "Address"
+  },
+  percent: {
+    children: "%",
+    thStyle: {
+      width: "15%",
+      textAlign: "right"
+    },
+    tdStyle: {
+      width: "15%",
+      textAlign: "right"
     }
   }
 };
 
-const tableOptions = {
-  hideSizePerPage: true,
-  sizePerPage: 5
-};
+const AddressTable = ({ addresses, ...props }) => (
+  <Table
+    data={addresses}
+    columnConfig={columnConfig}
+    keyField="id"
+    {...props}
+  />
+);
 
-const defaultAddresses = [];
-
-const cache = new Cache();
-
-const AddressTable = ({ addresses = defaultAddresses, ...props }) => {
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    cache.clear();
-  }, []);
-
-  useEffect(() => {
-    setData(addresses);
-    (async () => {
-      const balances = await Promise.all(
-        addresses.map(async (a) => {
-          const url = `/addrs/${a.address1}/balance`;
-          const cached = cache.get(url);
-          if (cached !== null) return cached;
-          const { data: res } = await blockCypher.get(url);
-          cache.put(url, res.balance);
-          return res.balance;
-        })
-      );
-      const withBalances = balances.map((balance, i) => {
-        const newAddr = addresses[i];
-        newAddr.balance = balance;
-        return newAddr;
-      });
-      setData(withBalances);
-    })();
-  }, [addresses]);
-
-  return (
-    <Table
-      data={data}
-      columnConfig={columnConfig}
-      keyField="id"
-      options={tableOptions}
-      {...props}
-    />
-  );
-};
 export default AddressTable;

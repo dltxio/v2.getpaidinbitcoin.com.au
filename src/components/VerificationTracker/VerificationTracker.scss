@@ -1,14 +1,14 @@
-@import "../constants/colors";
-@import "../constants/mixins";
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
-@import "../../node_modules/bootstrap/scss/mixins/breakpoints";
+@import "../../constants/colors";
+@import "../../constants/mixins";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins/breakpoints";
 
 
 $pendingColor: $gray-400;
 $activeColor: $primary;
 $completedColor: rgba($primary, 0.3);
-
+$labelSpaceAbove: 1.5rem;
 
 .verification-tracker {
   position: relative;
@@ -20,7 +20,7 @@ $completedColor: rgba($primary, 0.3);
   .blob {
     position: relative;
     .label {
-      margin-top: 1.5rem;
+      margin-top: $labelSpaceAbove;
       width: 100%;
       font-size: 80%;
       text-align: center;
@@ -30,6 +30,7 @@ $completedColor: rgba($primary, 0.3);
   }
   .blobs {
     @include flex(space-between);
+    
   }
 
 
@@ -52,9 +53,9 @@ $completedColor: rgba($primary, 0.3);
         cursor: pointer;
         border-color: $activeColor;
         background-color: $activeColor;
-        width: 3.5rem;
-        height: 3.5rem;
-        font-size: 140%;
+        width: 4rem;
+        height: 4rem;
+        font-size: 180%;
         @include boxShadow();
       }
 
@@ -79,19 +80,23 @@ $completedColor: rgba($primary, 0.3);
       .label {
         display: none;
       }
-
+      .blobs {
+        padding-bottom: $labelSpaceAbove * 2;
+      }
       .blob .label {
         display: block;
         position: absolute;
       }
       .stage {
-        width: 5.5rem;
-        height: 5.5rem;
+        width: 4.5rem;
+        height: 4.5rem;
         padding: 1rem;
 
         &.active {
           width: 7rem;
           height: 7rem;
+          font-size: 150%;
+
         }
 
         ion-icon {

@@ -1,23 +1,36 @@
 import React, { useContext } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import useSWR, { mutate } from "swr";
 import { AuthContext } from "../../Auth";
 import gpib from "../../../apis/gpib";
 import AddressForm from "./AddressForm";
 import Modal from "../../Modal";
-import { history } from "../../Router";
 import Loader from "../../Loader";
 import ErrorMessage from "../../ErrorMessage";
+
+const addressFormAlert = (
+  <div>
+    <b className="alert-heading">
+      Your payment can be sent to multiple bitcoin addresses.
+    </b>
+    <span className="ml-2">
+      For example, you may want to split your payment and send 50% to a cold
+      storage wallet and 50% to a hot wallet. Please set the percentage required
+      in the below field or leave at 100.
+    </span>
+  </div>
+);
 
 const AddressModalForm = () => {
   let id = parseInt(useParams().id);
   const location = useLocation();
+  const history = useHistory();
   const isEditForm = !!id;
   const heading = isEditForm ? "Edit Address" : "Add Address";
   const submitText = isEditForm ? "Save" : "Add Address";
   const method = isEditForm ? "put" : "post";
-  const url = isEditForm ? `/address/${id}` : "/address";
+  const url = isEditForm ? `/addresses/${id}` : "/address";
   const { data, error, isValidating } = useSWR(id && url);
   const isLoading = id && isValidating;
   const { user } = useContext(AuthContext);
@@ -44,7 +57,7 @@ const AddressModalForm = () => {
   };
 
   const onDismiss = () => {
-    const base = location.pathname.replace(/\/address\/.*/, "");
+    const base = location.pathname.replace(/(\/addresses)\/.*/, "$1");
     history.push(base);
   };
 
@@ -67,6 +80,7 @@ const AddressModalForm = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={data}
               submitText={submitText}
+              alert={addressFormAlert}
             />
           )}
         </>

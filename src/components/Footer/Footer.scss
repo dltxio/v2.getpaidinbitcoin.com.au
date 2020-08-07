@@ -1,0 +1,36 @@
+@import "../../constants/mixins";
+@import "../../constants/colors";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins/breakpoints";
+
+$text-color: rgba(white, 0.8);
+$link-color: rgba(white, 0.5);
+
+.footer {
+  flex: 1;
+  width: 100%;
+  background-color: rgba($primary, 1);
+  color: $text-color;
+  padding-top: 3rem;
+  
+  a {
+    color:$link-color;
+  }
+
+  .row {
+    margin: 0;
+  }
+
+
+  .copyright {
+    background-color: rgba($gray-800, 0.6);
+    padding: 1rem;
+    text-align: center;
+    color: $gray-500;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: 90%;
+  }
+}

@@ -1,9 +1,10 @@
 @import '../constants/mixins';
 @import '../constants/colors';
 
-.card {
+.gpib-card {
   @include boxShadowShallow();
   padding: 1.5rem;
   margin-bottom: 2rem;
   border-radius: 5px;
+  position: relative;
 }

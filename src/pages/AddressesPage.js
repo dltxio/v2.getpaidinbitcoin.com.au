@@ -53,16 +53,11 @@ const AddressesPage = () => {
     {
       icon: "archive-outline",
       title: "Archive",
-      onClick: () => setConfirmModalOpen(true),
+      onClick: () => history.push(`/addresses/archive/${selected}`),
       disabled: !selected,
       hide: !hasMultipleAddresses
     }
   ];
-
-  const archiveSelected = async () => {
-    await gpib.secure.delete(`/address/${selected}`);
-    await mutate(getAddressesUrl);
-  };
 
   return (
     <Layout activeTab="Addresses">
@@ -87,13 +82,6 @@ const AddressesPage = () => {
             selectRow={selectRowConfig}
           />
         </Card>
-        <ConfirmModal
-          isOpen={isConfirmModalOpen}
-          onDismiss={() => setConfirmModalOpen(false)}
-          heading="Are you sure?"
-          confirmText="Archive"
-          onConfirm={archiveSelected}
-        />
       </div>
     </Layout>
   );

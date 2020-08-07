@@ -53,7 +53,7 @@ const AddressModalEdit = () => {
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading={heading} large>
+    <Modal isOpen onDismiss={onDismiss} heading={heading}>
       {({ onDismiss, wrapCallback }) => (
         <>
           <Loader loading={isValidating} diameter="2rem" />

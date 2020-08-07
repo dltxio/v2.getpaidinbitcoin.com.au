@@ -12,6 +12,7 @@ import AddressesPage from "../pages/AddressesPage";
 import ProfilePage from "../pages/ProfilePage";
 import DepositHintsModalEdit from "../components/forms/DepositHintsForm/DepositHintsModalEdit";
 import AddressModalSwap from "./forms/AddressForm/AddressModalSwap";
+import AddressModalArchive from "./forms/AddressForm/AddressModalArchive";
 
 const Router = () => (
   <BrowserRouter>
@@ -29,6 +30,10 @@ const Router = () => (
       <AuthRoute path="*/addresses/add" component={AddressModalAdd} />
       <AuthRoute path="*/addresses/edit/:id" component={AddressModalEdit} />
       <AuthRoute path="*/addresses/swap/:id" component={AddressModalSwap} />
+      <AuthRoute
+        path="*/addresses/archive/:id"
+        component={AddressModalArchive}
+      />
       <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
     </Switch>
   </BrowserRouter>

@@ -34,7 +34,7 @@ const AddressModalSwap = () => {
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading={heading} large>
+    <Modal isOpen onDismiss={onDismiss} heading={heading}>
       {({ onDismiss, wrapCallback }) => (
         <>
           <Alert variant="primary">

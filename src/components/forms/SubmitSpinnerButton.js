@@ -34,7 +34,7 @@ const SubmitButtonSpinner = ({
           <ion-icon name={icon} style={{ fontSize: "150%", ...iconStyle }} />
         </div>
       )}
-      <span style={{ flex: 1 }}>{submitText}</span>
+      <span>{submitText}</span>
     </div>
   </Button>
 );

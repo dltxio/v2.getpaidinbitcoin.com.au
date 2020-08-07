@@ -5,12 +5,11 @@ import Table from "./Table";
 const columnConfig = {
   label: {
     children: "Label",
-    width: "15%"
+    width: "40%"
   },
   address1: {
     children: "Address"
   },
-
   percent: {
     children: "Percent",
     width: "10%"

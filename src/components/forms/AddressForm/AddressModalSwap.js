@@ -13,7 +13,7 @@ const AddressModalSwap = () => {
   const history = useHistory();
   const location = useLocation();
   const heading = "Swap Address";
-  const submitText = "Update";
+  const submitText = "Swap";
   const getUrl = user && `/user/${user.id}/address`;
 
   const onSubmit = async (values, formActions, modalActions) => {

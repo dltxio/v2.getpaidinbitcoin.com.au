@@ -22,7 +22,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
           onClick: () => history.push("/addresses")
         },
         {
-          label: user?.firstName || "Profile",
+          label: "Profile",
           onClick: () => history.push("/profile"),
           name: "profile"
         }

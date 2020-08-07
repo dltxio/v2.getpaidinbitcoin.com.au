@@ -5,14 +5,21 @@ import Table from "./Table";
 const columnConfig = {
   label: {
     children: "Label",
-    width: "40%"
+    width: "30%"
   },
   address1: {
     children: "Address"
   },
   percent: {
-    children: "Percent",
-    width: "10%"
+    children: "%",
+    thStyle: {
+      width: "15%",
+      textAlign: "right"
+    },
+    tdStyle: {
+      width: "15%",
+      textAlign: "right"
+    }
   }
 };
 

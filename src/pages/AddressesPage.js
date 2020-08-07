@@ -26,7 +26,7 @@ const AddressesPage = () => {
   const hasMultipleAddresses = addresses?.length > 1;
 
   const alertText = hasMultipleAddresses
-    ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address`
+    ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`
     : `Your payment can be sent up to two bitcoin addresses. For example,
         you may want to split your payment and send 50% to a cold storage
         wallet and 50% to a hot wallet.`;

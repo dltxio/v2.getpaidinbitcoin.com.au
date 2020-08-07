@@ -101,9 +101,9 @@ const Dashboard = () => {
                 <Card>
                   <h4>Unique Bitcoin Pay Information</h4>
                   <p>
-                    Please provide the following Unique Bitcoin Pay information
-                    to your employer for processing the part of you salary to be
-                    paid in bitcoin.
+                    Please provide the following Unique Bitcoin Pay Information
+                    to your employer for processing the part of your salary to
+                    be paid in bitcoin.
                   </p>
                   <ErrorMessage
                     error={

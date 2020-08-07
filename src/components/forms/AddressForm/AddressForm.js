@@ -55,8 +55,7 @@ const AddressForm = ({
           {!omit.address1 && (
             <Input
               name="address1"
-              label="Address"
-              placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              label="BTC Address"
               disabled={disableAddress}
             />
           )}

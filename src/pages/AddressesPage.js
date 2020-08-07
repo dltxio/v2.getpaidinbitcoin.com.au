@@ -69,7 +69,7 @@ const AddressesPage = () => {
       <div className="container py-5">
         <Card>
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h4>Addresses</h4>
+            <h4>BTC Addresses</h4>
             <ButtonGroup>
               {actions.map(({ hide, ...props }, i) =>
                 hide ? null : <IconButton key={i} {...props} />

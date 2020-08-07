@@ -12,7 +12,7 @@ const AddressModalSwap = () => {
   const { id } = useParams();
   const history = useHistory();
   const location = useLocation();
-  const heading = "Swap Address";
+  const heading = "Swap BTC Address";
   const submitText = "Swap";
   const getUrl = user && `/user/${user.id}/address`;
 

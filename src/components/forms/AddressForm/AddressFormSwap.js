@@ -31,11 +31,7 @@ const AddressFormSwap = ({
     >
       {({ isSubmitting, errors }) => (
         <Form>
-          <Input
-            name="address"
-            label="New Address"
-            placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          />
+          <Input name="address" label="New BTC Address" />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton
             submitText={submitText}

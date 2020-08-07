@@ -8,10 +8,8 @@ const columnConfig = {
     width: "40%"
   },
   address1: {
-    children: "Address",
-    width: "40%"
+    children: "Address"
   },
-
   percent: {
     children: "Percent",
     width: "10%"

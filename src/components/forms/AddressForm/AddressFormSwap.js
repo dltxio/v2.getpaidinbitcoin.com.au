@@ -5,7 +5,8 @@ import SubmitSpinnerButton from "../SubmitSpinnerButton";
 import ErrorMessage from "../../ErrorMessage";
 
 const defaultInitialValues = {
-  address: ""
+  address: "",
+  label: ""
 };
 
 const validate = ({ address }) => {
@@ -31,6 +32,11 @@ const AddressFormSwap = ({
     >
       {({ isSubmitting, errors }) => (
         <Form>
+          <Input
+            name="label"
+            label="Label"
+            placeholder="Give your address a personal label"
+          />
           <Input name="address" label="New BTC Address" />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton

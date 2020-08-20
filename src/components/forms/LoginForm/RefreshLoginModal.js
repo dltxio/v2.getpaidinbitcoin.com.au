@@ -5,16 +5,19 @@ import Modal from "../../Modal";
 import gpib from "../../../apis/gpib";
 import axios from "axios";
 
-let resolveLoginPromise = null;
 let pendingRequests = [];
 
 const RefreshLoginModal = () => {
   const [isOpen, setOpen] = useState(false);
-  const [isRefreshing, setRefreshing] = useState(false);
   const el = useRef(null);
   const onDismiss = () => setOpen(false);
   const onLogin = () => {
-    if (resolveLoginPromise) resolveLoginPromise();
+    const { token } = JSON.parse(localStorage.getItem("user"));
+    pendingRequests.forEach(({ config, res }) => {
+      if (token) config.headers.Authorization = `Bearer ${token}`;
+      res(axios(config));
+    });
+    pendingRequests = [];
     onDismiss();
   };
 
@@ -35,42 +38,20 @@ const RefreshLoginModal = () => {
     }
   }, [isOpen]);
 
+  // Catch any 401 errors
   useEffect(() => {
     gpib.secure.interceptors.response.use(
       (res) => res,
       async (e) => {
         const original = e.config;
-        if (e.response.status === 401) {
-          if (isRefreshing) {
-            return new Promise(
-              (resolve) =>
-                (pendingRequests = [
-                  ...pendingRequests,
-                  { config: original, resolve }
-                ])
-            );
-          }
-          setRefreshing(true);
-          setOpen(true);
-          const loginPromise = new Promise((res) => {
-            resolveLoginPromise = res;
-          });
-          await loginPromise;
-          const user = JSON.parse(localStorage.getItem("user"));
-          const { token } = user;
-          pendingRequests.forEach(({ config, res }) => {
-            if (token) config.headers.Authorization = `Bearer ${token}`;
-            res(axios(config));
-          });
-          original.headers.Authorization = `Bearer ${token}`;
-          pendingRequests = [];
-          resolveLoginPromise = null;
-          return axios(original);
-        }
-        throw e;
+        if (e?.response?.status !== 401) throw e;
+        setOpen(true);
+        return new Promise((res) =>
+          pendingRequests.push({ config: original, res })
+        );
       }
     );
-  }, [isRefreshing]);
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onDismiss={onDismiss} heading="Login" noExit>

@@ -31,12 +31,11 @@ const VerifyEmail = () => {
       </p>
       <SubmitSpinnerButton
         isSubmitting={isSending}
-        variant="link"
+        variant="primary"
         submitText="Resend verification email"
         block={false}
         onClick={onResendClick}
         icon={hasResent && !error && "checkmark-circle"}
-        style={{ padding: 0 }}
       />
     </div>
   );

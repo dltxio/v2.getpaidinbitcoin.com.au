@@ -29,8 +29,16 @@ const tableOptions = {
 
 let gid = 0;
 
+const columnOrder = ["Deposit", "Fee", "Exchange", "Transfer"].reverse();
+
 const TransactionTable = ({ transactions = [], ...props }) => {
   const unStyled = transactions
+    .sort((a, b) => columnOrder.indexOf(a.type) - columnOrder.indexOf(b.type))
+    .sort(
+      (a, b) =>
+        (columnOrder[b.type.toLowerCase()] || Infinity) -
+        (columnOrder[a.type.toLowerCase()] || Infinity)
+    )
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .sort((a, b) => b.groupID - a.groupID)
     .map((t, id) => ({ id, ...t }));

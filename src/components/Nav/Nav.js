@@ -18,6 +18,10 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
     ? []
     : [
         {
+          label: "Dashboard",
+          onClick: () => history.push("/")
+        },
+        {
           label: "Addresses",
           onClick: () => history.push("/addresses")
         },

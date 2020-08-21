@@ -55,7 +55,7 @@ const Dashboard = () => {
   if (isVerifying) return <Loader loading />;
 
   return (
-    <Layout>
+    <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
         <ErrorMessage error={fetchStatusError} />
         {!isVerified && !isVerifying && (

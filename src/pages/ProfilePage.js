@@ -35,8 +35,7 @@ const Dashboard = () => {
       <div className="container py-5">
         <Card>
           <div className="d-flex justify-content-between">
-            <h2>Payroll</h2>
-
+            <h4>Payroll</h4>
             <Button className="mb-3" onClick={onEditPayrollClick}>
               <span className="mr-2">Edit</span>
               <ion-icon name="create-outline" />

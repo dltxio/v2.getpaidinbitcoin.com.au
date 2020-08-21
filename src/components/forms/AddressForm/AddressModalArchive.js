@@ -53,6 +53,7 @@ const AddressModalAdd = () => {
           {!error && (
             <>
               <p>{`Are you sure you want to archive the following address?`}</p>
+              <b>{address?.label}</b>
               <p>{address?.address1}</p>
               <SubmitButtonSpinner
                 block

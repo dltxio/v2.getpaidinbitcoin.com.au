@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import { useLocation, useHistory, useParams } from "react-router-dom";
-import { Alert, Button } from "react-bootstrap";
-import useSWR, { mutate } from "swr";
+import { Alert } from "react-bootstrap";
+import { mutate } from "swr";
 import { AuthContext } from "../../Auth";
 import gpib from "../../../apis/gpib";
 import Modal from "../../Modal";
 import AddressFormSwap from "./AddressFormSwap";
-import Loader from "../../Loader";
-import ErrorMessage from "../../ErrorMessage";
 
 const AddressModalSwap = () => {
   const { user } = useContext(AuthContext);
@@ -16,19 +14,11 @@ const AddressModalSwap = () => {
   const location = useLocation();
   const heading = "Swap BTC Address";
   const submitText = "Swap";
-  const getUrl = user && `/user/${user.id}/address`;
-
-  const { data: addresses, error, isValidating } = useSWR(getUrl, {
-    revalidateOnFocus: false
-  });
-
-  const address = addresses && addresses.find((a) => String(a.id) === id);
-  const initialValues = address && { label: address.label };
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
       await gpib.secure.post(`/address/${id}/swap`, values);
-      await mutate(getUrl);
+      await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (e) {
       console.log(e);
@@ -46,28 +36,14 @@ const AddressModalSwap = () => {
     <Modal isOpen onDismiss={onDismiss} heading={heading}>
       {({ onDismiss, wrapCallback }) => (
         <>
-          <Loader loading={isValidating} diameter="2rem" />
-          <ErrorMessage error={error} />
-          {error ? (
-            <Button
-              onClick={onDismiss}
-              variant="secondary"
-              block
-              children="Close"
-            />
-          ) : (
-            <>
-              <Alert variant="primary">
-                Replace an existing address with a new address.
-              </Alert>
-              <AddressFormSwap
-                onDismiss={onDismiss}
-                onSubmit={wrapCallback(onSubmit)}
-                submitText={submitText}
-                initialValues={initialValues}
-              />
-            </>
-          )}
+          <Alert variant="primary">
+            Replace an existing address with a new address.
+          </Alert>
+          <AddressFormSwap
+            onDismiss={onDismiss}
+            onSubmit={wrapCallback(onSubmit)}
+            submitText={submitText}
+          />
         </>
       )}
     </Modal>

@@ -9,10 +9,11 @@ const defaultInitialValues = {
   label: ""
 };
 
-const validate = ({ address }) => {
+const validate = ({ address, label }) => {
   const errors = {};
   const reqMsg = "This field is required";
   if (!address) errors.address = reqMsg;
+  if (!label) errors.label = reqMsg;
   return errors;
 };
 

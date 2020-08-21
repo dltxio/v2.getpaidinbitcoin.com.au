@@ -1,17 +1,17 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
-import Layout from "../components/Layout";
-import VerificationTracker from "../components/VerificationTracker";
-import TransactionTable from "../components/tables/TransactionTable";
-import AddressTableWithBalance from "../components/tables/AddressTableWithBalance";
-import AddressPie from "../components/AddressPie";
-import UserStats from "../components/UserStats";
-import ErrorMessage from "../components/ErrorMessage";
-import Loader from "../components/Loader";
-import { AuthContext } from "../components/Auth";
-import PayInformationTable from "../components/tables/PayInformationTable";
-import Card from "../components/Card";
-import PayInformationActions from "../components/PayInformationActions";
+import Layout from "components/Layout";
+import VerificationTracker from "components/VerificationTracker";
+import TransactionTable from "components/tables/TransactionTable";
+import AddressTableWithBalance from "components/tables/AddressTableWithBalance";
+import AddressPie from "components/AddressPie";
+import UserStats from "components/UserStats";
+import ErrorMessage from "components/ErrorMessage";
+import Loader from "components/Loader";
+import { AuthContext } from "components/Auth";
+import PayInformationTable from "components/tables/PayInformationTable";
+import Card from "components/Card";
+import PayInformationActions from "components/PayInformationActions";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
@@ -55,7 +55,7 @@ const Dashboard = () => {
   if (isVerifying) return <Loader loading />;
 
   return (
-    <Layout>
+    <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
         <ErrorMessage error={fetchStatusError} />
         {!isVerified && !isVerifying && (

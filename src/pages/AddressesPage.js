@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import Layout from "../components/Layout";
-import ErrorMessage from "../components/ErrorMessage";
-import Loader from "../components/Loader";
-import { AuthContext } from "../components/Auth";
-import Card from "../components/Card";
-import AddressTable from "../components/tables/AddressTable";
-import IconButton from "../components/IconButton";
-import useSelectedRow from "../hooks/useSelectedRow";
+import Layout from "components/Layout";
+import ErrorMessage from "components/ErrorMessage";
+import Loader from "components/Loader";
+import { AuthContext } from "components/Auth";
+import Card from "components/Card";
+import AddressTable from "components/tables/AddressTable";
+import IconButton from "components/IconButton";
+import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
 
 const AddressesPage = () => {

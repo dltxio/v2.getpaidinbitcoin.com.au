@@ -3,12 +3,12 @@ import useSWR from "swr";
 import { Button } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import { format as format$ } from "currency-formatter";
-import Layout from "../components/Layout";
-import ErrorMessage from "../components/ErrorMessage";
-import Loader from "../components/Loader";
-import { AuthContext } from "../components/Auth";
-import Card from "../components/Card";
-import LabelledTable from "../components/tables/LabelledTable";
+import Layout from "components/Layout";
+import ErrorMessage from "components/ErrorMessage";
+import Loader from "components/Loader";
+import { AuthContext } from "components/Auth";
+import Card from "components/Card";
+import LabelledTable from "components/tables/LabelledTable";
 import "./Dashboard.scss";
 
 const Dashboard = () => {

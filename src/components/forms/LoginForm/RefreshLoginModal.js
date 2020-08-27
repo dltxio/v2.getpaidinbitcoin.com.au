@@ -43,9 +43,12 @@ const RefreshLoginModal = () => {
     gpib.secure.interceptors.response.use(
       (res) => res,
       async (e) => {
+        console.log("CAUGHT");
         const original = e.config;
         if (e?.response?.status !== 401) throw e;
+        console.log("pro");
         setOpen(true);
+        console.log(isOpen);
         return new Promise((res) =>
           pendingRequests.push({ config: original, res })
         );

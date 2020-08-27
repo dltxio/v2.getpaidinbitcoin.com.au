@@ -13,9 +13,11 @@ import ProfilePage from "../pages/ProfilePage";
 import DepositHintsModalEdit from "../components/forms/DepositHintsForm/DepositHintsModalEdit";
 import AddressModalSwap from "./forms/AddressForm/AddressModalSwap";
 import AddressModalArchive from "./forms/AddressForm/AddressModalArchive";
+import RefreshLoginModal from "./forms/LoginForm/RefreshLoginModal";
 
-const Router = () => (
+const RouterComponent = () => (
   <BrowserRouter>
+    {/* <RefreshLoginModal /> */}
     <Switch>
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
@@ -39,4 +41,4 @@ const Router = () => (
   </BrowserRouter>
 );
 
-export default Router;
+export default RouterComponent;

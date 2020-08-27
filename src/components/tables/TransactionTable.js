@@ -33,7 +33,6 @@ const TransactionTable = ({ transactions = [], ...props }) => {
   const unStyled = transactions
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .sort((a, b) => b.groupID - a.groupID)
-    .map((t, id) => ({ id, ...t }));
 
   const data = unStyled.map((t, i) => {
     if (i !== 0 && t.groupID !== unStyled[i - 1].groupID) gid += 1;

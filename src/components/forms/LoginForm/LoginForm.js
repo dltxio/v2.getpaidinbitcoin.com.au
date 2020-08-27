@@ -10,6 +10,7 @@ import SubmitSpinnerButton from "../SubmitSpinnerButton";
 const LoginForm = ({
   initialValues = { username: "", password: "" },
   onLogin,
+  noReset,
   style = {}
 }) => {
   const { login } = useContext(AuthContext);
@@ -45,12 +46,14 @@ const LoginForm = ({
             submitText="Log in"
             isSubmitting={isSubmitting}
           />
-          <Button
-            variant="light"
-            block
-            onClick={navToResetPassword}
-            children="Reset Password"
-          />
+          {!noReset && (
+            <Button
+              variant="light"
+              block
+              onClick={navToResetPassword}
+              children="Reset Password"
+            />
+          )}
         </Form>
       )}
     </Formik>

@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Alert } from "react-bootstrap";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Alert, Button } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 import Modal from "../../Modal";
 import gpib from "../../../apis/gpib";
 import axios from "axios";
+import { AuthContext } from "components/Auth";
 
 let pendingRequests = [];
 
 const RefreshLoginModal = () => {
+  const { logout } = useContext(AuthContext);
   const [isOpen, setOpen] = useState(false);
   const el = useRef(null);
   const onDismiss = () => setOpen(false);
@@ -19,6 +21,13 @@ const RefreshLoginModal = () => {
     });
     pendingRequests = [];
     onDismiss();
+  };
+
+  const onCancel = () => {
+    setOpen(false);
+    pendingRequests = pendingRequests.forEach(({ res }) => res());
+    pendingRequests = [];
+    logout();
   };
 
   // Hide/Show other modals if 401 received while modal is open
@@ -55,9 +64,16 @@ const RefreshLoginModal = () => {
 
   return isOpen ? (
     <Modal isOpen={isOpen} onDismiss={onDismiss} heading="Login" noExit>
-      <div className="py-3" ref={el}>
+      <div ref={el}>
         <Alert variant="primary" children="Your session has expired." />
-        <LoginForm noRedirect onLogin={onLogin} />
+        <LoginForm onLogin={onLogin} noReset />
+        <Button
+          variant="light"
+          block
+          children="Cancel"
+          className="mt-3"
+          onClick={onCancel}
+        />
       </div>
     </Modal>
   ) : null;

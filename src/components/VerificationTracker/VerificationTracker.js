@@ -12,42 +12,42 @@ const VerificationTracker = ({ status = -1 }) => {
   status = parseInt(status);
 
   const statuses = {
-    "0": {
+    0: {
       label: "Registered",
       onClick: () => {},
       icon: "person-outline"
     },
-    "1": {
+    1: {
       label: "Verify Email",
       onClick: () => {},
       icon: "mail-outline",
       panel: <VerifyEmail />
     },
-    "2": {
+    2: {
       label: "Verify Mobile",
       onClick: () => {},
       icon: "phone-portrait-outline",
       panel: <VerifyMobile />
     },
-    "3": {
+    3: {
       label: "Add Payroll Information",
       onClick: () => {},
       icon: "cash-outline",
       panel: <AddPayroll />
     },
-    "4": {
+    4: {
       label: "Add BTC Address",
       onClick: () => {},
       icon: "logo-bitcoin",
       panel: <AddAddress />
     },
-    "5": {
+    5: {
       label: "Verify ID",
       onClick: () => {},
       icon: "newspaper-outline",
       panel: <VerifyID />
     },
-    "6": {
+    6: {
       label: "Completed",
       onClick: () => {},
       icon: "checkmark-circle-outline"

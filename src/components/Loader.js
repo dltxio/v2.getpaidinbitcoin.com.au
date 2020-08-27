@@ -7,6 +7,7 @@ const Loader = ({
   noBackground,
   diameter = "1.5rem",
   noStretch,
+  backgroundColor,
   light,
   className,
   style: _style = {}
@@ -26,7 +27,9 @@ const Loader = ({
       <div
         className={classes}
         style={{
-          backgroundColor: noBackground ? "rgba(0,0,0,0)" : undefined,
+          backgroundColor: noBackground
+            ? "rgba(0,0,0,0)"
+            : backgroundColor || undefined,
           position: noStretch ? "" : "absolute"
         }}
       >

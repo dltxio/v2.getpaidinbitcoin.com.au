@@ -43,12 +43,9 @@ const RefreshLoginModal = () => {
     gpib.secure.interceptors.response.use(
       (res) => res,
       async (e) => {
-        console.log("CAUGHT");
         const original = e.config;
         if (e?.response?.status !== 401) throw e;
-        console.log("pro");
         setOpen(true);
-        console.log(isOpen);
         return new Promise((res) =>
           pendingRequests.push({ config: original, res })
         );
@@ -56,14 +53,14 @@ const RefreshLoginModal = () => {
     );
   }, []);
 
-  return (
+  return isOpen ? (
     <Modal isOpen={isOpen} onDismiss={onDismiss} heading="Login" noExit>
       <div className="py-3" ref={el}>
         <Alert variant="primary" children="Your session has expired." />
         <LoginForm noRedirect onLogin={onLogin} />
       </div>
     </Modal>
-  );
+  ) : null;
 };
 
 export default RefreshLoginModal;

@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import useSWR, { cache } from "swr";
-import gpib from "../apis/gpib";
+import gpib from "apis/gpib";
 
 export const AuthContext = createContext(null);
 

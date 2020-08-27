@@ -1,5 +1,4 @@
 import axios from "axios";
-import { history } from "../components/Router";
 
 const open = axios.create({
   baseURL: process.env.REACT_APP_API_URL,

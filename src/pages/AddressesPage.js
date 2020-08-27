@@ -1,25 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import Layout from "../components/Layout";
-import ErrorMessage from "../components/ErrorMessage";
-import Loader from "../components/Loader";
-import { AuthContext } from "../components/Auth";
-import Card from "../components/Card";
-import AddressTable from "../components/tables/AddressTable";
-import IconButton from "../components/IconButton";
-import useSelectedRow from "../hooks/useSelectedRow";
+import Layout from "components/Layout";
+import ErrorMessage from "components/ErrorMessage";
+import Loader from "components/Loader";
+import { AuthContext } from "components/Auth";
+import Card from "components/Card";
+import AddressTable from "components/tables/AddressTable";
+import IconButton from "components/IconButton";
+import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
 
 const AddressesPage = () => {
   const { user } = useContext(AuthContext);
   const history = useHistory();
   const getAddressesUrl = `/user/${user.id}/address`;
-  const [selected, , selectRowConfig] = useSelectedRow(null);
+  const [selected, setSelected, selectRowConfig] = useSelectedRow(null);
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
   const isFetchingAddresses = !addresses && !fetchAddressError;
   const hasMultipleAddresses = addresses?.length > 1;
+
+  useEffect(() => {
+    if (!addresses) return;
+    const hasAddress = addresses.find((a) => a.id === selected);
+    if (!hasAddress) setSelected(null);
+  }, [addresses, selected, setSelected]);
 
   const alertText = hasMultipleAddresses
     ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`

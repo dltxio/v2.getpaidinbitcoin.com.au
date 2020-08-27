@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { AuthContext } from "../components/Auth";
-import Layout from "../components/Layout";
-import LoginForm from "../components/forms/LoginForm";
-import Card from "../components/Card";
+import { AuthContext } from "components/Auth";
+import Layout from "components/Layout";
+import LoginForm from "components/forms/LoginForm";
+import Card from "components/Card";
 
 const LoginPage = () => {
   const { user } = useContext(AuthContext);

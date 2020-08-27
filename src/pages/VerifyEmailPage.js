@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { mutate } from "swr";
-import Layout from "../components/Layout";
-import ErrorMessage from "../components/ErrorMessage";
-import Loader from "../components/Loader";
+import Layout from "components/Layout";
+import ErrorMessage from "components/ErrorMessage";
+import Loader from "components/Loader";
 import { useHistory, useParams } from "react-router-dom";
-import gpib from "../apis/gpib";
+import gpib from "apis/gpib";
 
 const VerifyEmailPage = () => {
   const { token } = useParams();

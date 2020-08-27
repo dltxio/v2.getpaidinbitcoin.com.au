@@ -1,0 +1,31 @@
+@import "../constants/mixins";
+
+.address-hover {
+
+    @include flex(flex-start, stretch);
+    cursor: default;
+
+
+    .label, .address {
+        overflow: hidden;
+        transition: width 250ms;
+        white-space: nowrap;
+    }
+
+    .label {
+        width: 100%;
+    }
+
+    .address {
+        width: 0%;
+    }
+
+    &:hover {
+        .label {
+            width: 0%;
+        }
+        .address {
+            width: 100%;
+        }
+    }
+}

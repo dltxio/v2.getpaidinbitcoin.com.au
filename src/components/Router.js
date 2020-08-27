@@ -16,7 +16,7 @@ import AddressModalArchive from "./forms/AddressForm/AddressModalArchive";
 import ContactSupportPage from "pages/ContactSupportPage";
 import RefreshLoginModal from "components/forms/LoginForm/RefreshLoginModal";
 
-const RouterComponent = () => (
+const Router = () => (
   <BrowserRouter>
     <RefreshLoginModal />
     <Switch>
@@ -43,4 +43,4 @@ const RouterComponent = () => (
   </BrowserRouter>
 );
 
-export default RouterComponent;
+export default Router;

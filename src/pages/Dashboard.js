@@ -49,7 +49,6 @@ const Dashboard = () => {
   const { data: userDetails, error: fetchDetailsError } = useSWR(
     isVerified && `/user/${user.id}`
   );
-
   const { data: transactions, error: fetchTransactionsError } = useSWR(
     isVerified && `/transaction`
   );

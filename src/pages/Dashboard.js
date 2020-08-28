@@ -27,7 +27,7 @@ const Dashboard = () => {
   );
 
   const { data: userStats, error: fetchStatsError } = useSWR(
-    isVerified && "/userstats"
+    isVerified && "/stats/all"
   );
 
   const { data: activeAddresses, error: fetchActiveAddressError } = useSWR(

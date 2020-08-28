@@ -53,7 +53,10 @@ const AddressModalAdd = () => {
           {!error && (
             <>
               <p>{`Are you sure you want to archive the following address?`}</p>
-              <p>{address?.address1}</p>
+              <p>
+                <b>{`${address?.label}:  `}</b>
+                {address?.address1}
+              </p>
               <SubmitButtonSpinner
                 block
                 onClick={wrapCallback(archive)}

@@ -14,12 +14,11 @@ const AddressModalSwap = () => {
   const location = useLocation();
   const heading = "Swap BTC Address";
   const submitText = "Swap";
-  const getUrl = user && `/user/${user.id}/address`;
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
       await gpib.secure.post(`/address/${id}/swap`, values);
-      await mutate(getUrl);
+      await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (e) {
       console.log(e);

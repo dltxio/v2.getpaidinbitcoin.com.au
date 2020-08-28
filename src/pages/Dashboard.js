@@ -12,6 +12,7 @@ import PayInformationTable from "components/tables/PayInformationTable";
 import Card from "components/Card";
 import PayInformationActions from "components/PayInformationActions";
 import "./Dashboard.scss";
+import AddressPercentBar from "components/AddressPercentBar";
 
 const Dashboard = () => {
   const {
@@ -98,7 +99,7 @@ const Dashboard = () => {
               </Card>
             </section>
             <Card>
-              <h4>Addresses</h4>
+              <h4>Active Addresses</h4>
               <ErrorMessage
                 error={
                   fetchActiveAddressError ||
@@ -113,10 +114,13 @@ const Dashboard = () => {
                   isFetchingArchivedAddresses
                 }
               />
+              <AddressPercentBar addresses={activeAddresses} className="my-5" />
+              <h4>BTC Received</h4>
               <AddressTotals
                 active={activeAddresses}
                 archived={archivedAddresses}
                 totals={addressTotals}
+                className="py-3"
               />
             </Card>
           </aside>

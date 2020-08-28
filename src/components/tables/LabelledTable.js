@@ -5,10 +5,12 @@ const LabelledTable = ({ columns, ...props }) => {
   return (
     <Table hover {...props}>
       <tbody>
-        {columns.map(([label, value, config]) => (
-          <tr key={label} {...config?.trProps}>
-            <td>{label}</td>
-            <td className="text-right">{value}</td>
+        {columns.map(([label, value, config], i) => (
+          <tr key={i} {...config?.trProps}>
+            <td {...config?.labelProps}>{label}</td>
+            <td className="text-right" {...config?.valueProps}>
+              {value}
+            </td>
           </tr>
         ))}
       </tbody>

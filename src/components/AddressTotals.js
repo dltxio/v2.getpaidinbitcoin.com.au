@@ -1,18 +1,54 @@
 import React from "react";
-import AddressHover from "./AddressHover";
+import LabelledTable from "components/tables/LabelledTable";
+import AddressHighlightPercent from "components/AddressHighlightPercent";
+import "./AddressTotals.scss";
 
-const AddressTotals = ({ active = [], archived = [], totals = {} }) => {
-  console.log(active);
-  console.log(archived);
-  console.log(totals);
+const getAddresses = (active, archived, totals) => {
+  return [...active, ...archived]
+    .map((a) => ({
+      total: totals[a.address1] || 0,
+      ...a
+    }))
+    .sort((a, b) => b.total - a.total);
+};
+
+const AddressTotals = ({
+  active = [],
+  archived = [],
+  totals = {},
+  className,
+  ...props
+}) => {
+  const addresses = getAddresses(active, archived, totals);
+  const max = addresses[0]?.total;
+
+  let classes = "address-totals";
+  if (className) classes += ` ${className}`;
+
+  const columns = addresses.reduce((columns, address) => {
+    const label = (
+      <AddressHighlightPercent
+        address={address}
+        max={max}
+        hoverProps={{ style: { padding: "0.8rem" } }}
+      />
+    );
+    const config = {
+      trProps: {
+        className: address.deleted ? "archived" : undefined
+      }
+    };
+    columns.push([label, address.total, config]);
+    return columns;
+  }, []);
 
   return (
-    <div>
-      {archived.map((a) => (
-        <div>
-          <AddressHover address={a} style={{ padding: "1rem" }} />
-        </div>
-      ))}
+    <div className={classes} {...props}>
+      <LabelledTable
+        columns={columns}
+        hover={false}
+        style={{ tableLayout: "fixed" }}
+      />
     </div>
   );
 };

@@ -1,54 +1,56 @@
 import React from "react";
 import { format as format$ } from "currency-formatter";
-import { Table } from "react-bootstrap";
+import LabelledTable from "./tables/LabelledTable";
 
-const statKeys = {
-  totalBTC: {
-    label: "Total BTC",
-    format: (v) => `${v || 0} BTC`
-  },
-  totalAUD: {
-    label: "Total Fiat Deposited (AUD)",
-    format: (v) => format$(v, { code: "AUD" })
-  },
-  depositCount: {
-    label: "Deposit Count"
-  },
-  averagePurchasePrice: {
-    label: "Average Purchase Price ($/BTC)",
-    format: (v) => format$(v, { code: "AUD" })
-  },
-  maxPrice: {
-    label: "Max Price ($/BTC)",
-    format: (v) => format$(v, { code: "AUD" })
-  },
-  minPrice: {
-    label: "Min Price ($/BTC)",
-    format: (v) => format$(v, { code: "AUD" })
-  },
-  referralRevenueEarned: {
-    label: "Referral Revenue (AUD)",
-    format: (v) => format$(v, { code: "AUD" })
-  }
+const flattenData = (stats) => {
+  return {
+    totalBTC: stats?.stats?.transfers?.total || 0,
+    totalAUD: stats?.stats?.deposits?.total || 0,
+    depositCount: stats?.stats?.deposits?.count || 0,
+    averageRate: stats?.stats?.transfers?.averageRate || 0,
+    maxRate: stats?.stats?.transfers?.maxRate || 0,
+    minRate: stats?.stats?.transfers?.minRate || 0
+  };
+};
+
+const getColumns = (data) => {
+  const map = {
+    totalBTC: {
+      label: "Total BTC Transferred",
+      format: (v) => `${v || 0} BTC`
+    },
+    totalAUD: {
+      label: "Total Fiat Deposited (AUD)",
+      format: (v) => format$(v, { code: "AUD" })
+    },
+    depositCount: {
+      label: "Deposit Count",
+      format: (v) => v
+    },
+    averageRate: {
+      label: "Average Purchase Price ($/BTC)",
+      format: (v) => format$(v, { code: "AUD" })
+    },
+    maxRate: {
+      label: "Max Price ($/BTC)",
+      format: (v) => format$(v, { code: "AUD" })
+    },
+    minRate: {
+      label: "Min Price ($/BTC)",
+      format: (v) => format$(v, { code: "AUD" })
+    }
+  };
+
+  return Object.keys(data).map((key) => {
+    return [map[key].label, map[key].format(data[key])];
+  });
 };
 
 const UserStats = ({ stats = {} }) => {
-  return (
-    <Table>
-      <tbody>
-        {Object.keys(statKeys).map((key) => (
-          <tr key={key}>
-            <td>{statKeys[key].label}</td>
-            <td style={{ textAlign: "right", minWidth: "30%" }}>
-              {statKeys[key].format
-                ? statKeys[key].format(stats[key])
-                : stats[key]}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  );
+  const data = flattenData(stats);
+  const columns = getColumns(data);
+
+  return <LabelledTable columns={columns} />;
 };
 
 export default UserStats;

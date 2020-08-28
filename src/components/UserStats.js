@@ -50,7 +50,7 @@ const UserStats = ({ stats = {} }) => {
   const data = flattenData(stats);
   const columns = getColumns(data);
 
-  return <LabelledTable columns={columns} />;
+  return <LabelledTable columns={columns} hover={false} />;
 };
 
 export default UserStats;

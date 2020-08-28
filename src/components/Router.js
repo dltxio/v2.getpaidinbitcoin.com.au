@@ -14,9 +14,11 @@ import DepositHintsModalEdit from "./forms/DepositHintsForm/DepositHintsModalEdi
 import AddressModalSwap from "./forms/AddressForm/AddressModalSwap";
 import AddressModalArchive from "./forms/AddressForm/AddressModalArchive";
 import ContactSupportPage from "pages/ContactSupportPage";
+import RefreshLoginModal from "components/forms/LoginForm/RefreshLoginModal";
 
 const Router = () => (
   <BrowserRouter>
+    <RefreshLoginModal />
     <Switch>
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />

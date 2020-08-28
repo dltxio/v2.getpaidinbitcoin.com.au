@@ -4,7 +4,7 @@ const useSelectedRows = (initialValue, tableConfig = {}) => {
   const [selected, setSelected] = useState(initialValue);
   const defaultConfig = {
     mode: "radio",
-    onSelect: row => setSelected(row.id)
+    onSelect: (row) => setSelected(row.id)
   };
 
   const config = { ...defaultConfig, ...tableConfig, selected: [selected] };

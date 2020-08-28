@@ -9,8 +9,7 @@ const ContactSupportPage = () => {
   const [isSent, setSent] = useState(false);
   const onSubmit = async (values, actions) => {
     try {
-      console.log(values);
-      await gpib.secure.post("/support", values);
+      await gpib.secure.post("/email/support", values);
       actions.setSubmitting(false);
       setSent(true);
     } catch (e) {

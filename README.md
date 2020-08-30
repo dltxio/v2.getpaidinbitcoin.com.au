@@ -1,6 +1,6 @@
 # v2.getpaidinbitcoin.com.au
 
-v2 Website for Get Paid In Bitcoin
+v2 Website for Get Paid In Bitcoin (https://v2.getpaidinbitcoin.com.au)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

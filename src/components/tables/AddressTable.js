@@ -1,5 +1,6 @@
 import React from "react";
 import Table from "./Table";
+import "./AddressTable.scss";
 
 // dataField (key) props (value)
 const columnConfig = {
@@ -28,6 +29,7 @@ const AddressTable = ({ addresses, ...props }) => (
     data={addresses}
     columnConfig={columnConfig}
     keyField="id"
+    className="address-table"
     {...props}
   />
 );

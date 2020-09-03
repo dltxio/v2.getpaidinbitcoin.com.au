@@ -30,6 +30,9 @@ const Dashboard = () => {
   const onEditPayrollClick = (e) =>
     history.push(`${location.pathname}/payroll/edit`);
 
+  const onUpdatePasswordClick = (e) => {
+    history.push("/auth/resetpassword");
+  };
   return (
     <Layout activeTab="profile">
       <div className="container py-5">
@@ -44,6 +47,16 @@ const Dashboard = () => {
           <ErrorMessage error={fetchDepositHintsError} />
           <Loader loading={isFetchingDepositHints} />
           <LabelledTable columns={payrollColumns} />
+        </Card>
+        <Card>
+          <h4>Settings</h4>
+          <Button
+            variant="primary"
+            className="mt-3"
+            onClick={onUpdatePasswordClick}
+          >
+            Reset Password
+          </Button>
         </Card>
       </div>
     </Layout>

@@ -38,8 +38,10 @@ const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
   const [loginError, setLoginError] = useState(null);
   const [password, setPassword] = useState(null);
   const history = useHistory();
+  const { user } = useContext(AuthContext);
 
   const wrappedLogin = async () => {
+    if (user) history.push("/");
     try {
       setLoginError(null);
       if (email && password) await login({ username: email, password });
@@ -80,7 +82,7 @@ const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
           <Alert variant="primary">Your password has been reset</Alert>
           <ErrorMessage error={loginError} />
           <SubmitSpinnerButton
-            submitText="Login"
+            submitText={user ? "Go to Dashboard" : "Login"}
             isSubmitting={isLoggingIn}
             onClick={wrappedLogin}
           />

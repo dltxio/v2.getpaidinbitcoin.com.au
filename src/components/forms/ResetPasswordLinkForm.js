@@ -59,6 +59,7 @@ const ResetPasswordLinkForm = ({ initialValues = { email: "" } }) => {
           className="container-fluid"
         >
           <Input
+            label="Please enter the email associated with your account"
             name="email"
             placeholder="email"
             disabled={isDisabled || isSubmitting}

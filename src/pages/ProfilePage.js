@@ -58,6 +58,8 @@ const Dashboard = () => {
   const onUpdatePasswordClick = (e) => {
     history.push("/auth/resetpassword");
   };
+
+  const goToSupport = () => history.push("/contactsupport");
   return (
     <Layout activeTab="profile">
       <div className="container py-5">
@@ -66,6 +68,15 @@ const Dashboard = () => {
           <ErrorMessage error={fetchDetailsError} />
           <Loader loading={isFetchingDetails} />
           <LabelledTable columns={profileColumns} />
+          <p style={{ fontSize: "95%" }}>
+            <i>
+              Please{" "}
+              <a href="#" onClick={goToSupport}>
+                contact support
+              </a>{" "}
+              if any information is incorrect or needs to be updated.
+            </i>
+          </p>
         </Card>
         <Card>
           <div className="d-flex justify-content-between">

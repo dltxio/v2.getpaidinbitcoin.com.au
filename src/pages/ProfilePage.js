@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
 import { Button } from "react-bootstrap";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useHistory, useLocation } from "react-router-dom";
 import { format as format$ } from "currency-formatter";
 import Layout from "components/Layout";
@@ -19,8 +20,32 @@ const Dashboard = () => {
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
   );
-
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
+
+  const { data: userDetails, error: fetchDetailsError } = useSWR(
+    `/user/${user.id}`
+  );
+  const isFetchingDetails = !userDetails && !fetchDetailsError;
+  const fullName = [
+    userDetails?.firstName,
+    userDetails?.middleName,
+    userDetails?.lastName
+  ]
+    .filter((n) => n)
+    .join(" ");
+
+  const mobile = parsePhoneNumberFromString(
+    userDetails?.mobileNumber,
+    "AU"
+  ).format("INTERNATIONAL");
+
+  const feesPerTransaction = userDetails?.fees;
+  const profileColumns = [
+    ["Name", fullName],
+    ["Mobile", mobile],
+    ["Email", userDetails?.email],
+    ["Fees per transaction", format$(feesPerTransaction, { code: "AUD" })]
+  ];
 
   const payrollColumns = [
     ["Employer", depositHints?.employerName],
@@ -33,9 +58,26 @@ const Dashboard = () => {
   const onUpdatePasswordClick = (e) => {
     history.push("/auth/resetpassword");
   };
+
+  const goToSupport = () => history.push("/contactsupport");
   return (
     <Layout activeTab="profile">
       <div className="container py-5">
+        <Card>
+          <h4>Profile Information</h4>
+          <ErrorMessage error={fetchDetailsError} />
+          <Loader loading={isFetchingDetails} />
+          <LabelledTable columns={profileColumns} />
+          <p style={{ fontSize: "95%" }}>
+            <i>
+              Please{" "}
+              <a href="#" onClick={goToSupport}>
+                contact support
+              </a>{" "}
+              if any information is incorrect or needs to be updated.
+            </i>
+          </p>
+        </Card>
         <Card>
           <div className="d-flex justify-content-between">
             <h4>Payroll</h4>

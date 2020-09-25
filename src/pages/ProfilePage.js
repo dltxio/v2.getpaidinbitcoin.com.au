@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useHistory, useLocation } from "react-router-dom";
 import { format as format$ } from "currency-formatter";
@@ -9,8 +10,10 @@ import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
 import { AuthContext } from "components/Auth";
 import Card from "components/Card";
+import Toggle from "components/forms/form-inputs/Toggle";
 import LabelledTable from "components/tables/LabelledTable";
 import "./Dashboard.scss";
+import gpib from "apis/gpib";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -26,6 +29,12 @@ const Dashboard = () => {
     `/user/${user.id}`
   );
   const isFetchingDetails = !userDetails && !fetchDetailsError;
+
+  const { data: settings, error: fetchSettingsError } = useSWR(
+    `/settings/${user.id}`
+  );
+  const isFetchingSettings = !settings && !fetchSettingsError;
+
   const fullName = [
     userDetails?.firstName,
     userDetails?.middleName,
@@ -51,6 +60,26 @@ const Dashboard = () => {
     ["Employer", depositHints?.employerName],
     ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })]
   ];
+  const updateSettings = async (updates) => {
+    const url = `/settings/${user.id}`;
+    await gpib.secure.patch(url, updates);
+    mutate(url, (state) => ({ ...state, ...updates }));
+  };
+
+  const settingsColumns = [
+    [
+      "Email Remittance on Transfer",
+      <Toggle
+        className="float-right"
+        value={settings?.sendEmailOnTransfer}
+        setValue={() =>
+          updateSettings({
+            sendEmailOnTransfer: !settings?.sendEmailOnTransfer
+          })
+        }
+      />
+    ]
+  ];
 
   const onEditPayrollClick = (e) =>
     history.push(`${location.pathname}/payroll/edit`);
@@ -59,7 +88,6 @@ const Dashboard = () => {
     history.push("/auth/resetpassword");
   };
 
-  const goToSupport = () => history.push("/contactsupport");
   return (
     <Layout activeTab="profile">
       <div className="container py-5">
@@ -70,11 +98,8 @@ const Dashboard = () => {
           <LabelledTable columns={profileColumns} />
           <p style={{ fontSize: "95%" }}>
             <i>
-              Please{" "}
-              <a href="#" onClick={goToSupport}>
-                contact support
-              </a>{" "}
-              if any information is incorrect or needs to be updated.
+              Please <Link to="/contactsupport">contact support</Link> if any
+              information is incorrect or needs to be updated.
             </i>
           </p>
         </Card>
@@ -91,7 +116,10 @@ const Dashboard = () => {
           <LabelledTable columns={payrollColumns} />
         </Card>
         <Card>
-          <h4>Settings</h4>
+          <h4 className="mb-3">Settings</h4>
+          <ErrorMessage error={fetchSettingsError} />
+          <Loader loading={isFetchingSettings} />
+          <LabelledTable columns={settingsColumns} />
           <Button
             variant="primary"
             className="mt-3"

@@ -62,8 +62,9 @@ const Dashboard = () => {
   ];
   const updateSettings = async (updates) => {
     const url = `/settings/${user.id}`;
+    mutate(url, (state) => ({ ...state, ...updates }), false);
     await gpib.secure.patch(url, updates);
-    mutate(url, (state) => ({ ...state, ...updates }));
+    mutate(url);
   };
 
   const settingsColumns = [

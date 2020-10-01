@@ -1,6 +1,7 @@
 import React from "react";
 import Nav from "components/layout/Nav";
 import Footer from "components/layout/Footer";
+import "./Layout.scss";
 
 const Layout = ({
   header,

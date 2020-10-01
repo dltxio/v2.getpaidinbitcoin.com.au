@@ -1,8 +1,8 @@
 import React from "react";
 import { SWRConfig } from "swr";
-import gpib from "../apis/gpib";
-import Router from "./Router";
-import { AuthProvider } from "./Auth";
+import gpib from "apis/gpib";
+import Router from "components/Router";
+import { AuthProvider } from "components/auth/Auth";
 import "./App.scss";
 
 const swrConfig = {

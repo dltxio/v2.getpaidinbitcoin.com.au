@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
-import Layout from "components/Layout";
+import Layout from "components/layout/Layout";
 import VerificationTracker from "components/VerificationTracker";
-import TransactionTable from "components/tables/TransactionTable";
-import AddressTotals from "components/AddressTotals";
-import UserStats from "components/UserStats";
+import TransactionTable from "components/transactions/TransactionTable";
+import AddressTotals from "components/addresses/AddressTotals";
+import AddressPercentBar from "components/addresses/AddressPercentBar";
+import UserStats from "components/users/UserStats";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
-import { AuthContext } from "components/Auth";
-import PayInformationTable from "components/tables/PayInformationTable";
+import { AuthContext } from "components/auth/Auth";
+import PayInformationTable from "components/pay-information/PayInformationTable";
 import Card from "components/Card";
-import PayInformationActions from "components/PayInformationActions";
+import PayInformationActions from "components/pay-information/PayInformationActions";
 import "./Dashboard.scss";
-import AddressPercentBar from "components/AddressPercentBar";
 
 const Dashboard = () => {
   const {

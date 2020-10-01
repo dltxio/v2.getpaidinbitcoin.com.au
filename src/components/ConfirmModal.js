@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
-import ErrorMessage from "./ErrorMessage";
-import SubmitButtonSpinner from "./forms/SubmitSpinnerButton";
+import Modal from "components/Modal";
+import ErrorMessage from "components/ErrorMessage";
+import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 
 const ConfirmModal = ({ onConfirm, onDismiss, confirmText, ...props }) => {
   const [isLoading, setLoading] = useState(false);

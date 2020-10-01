@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import AddressForm from "../forms/AddressForm/AddressForm";
-import gpib from "../../apis/gpib";
-import { AuthContext } from "../Auth";
 import { mutate } from "swr";
+import AddressForm from "components/addresses/AddressForm";
+import gpib from "apis/gpib";
+import { AuthContext } from "components/auth/Auth";
 
 const AddPayroll = () => {
   const { user } = useContext(AuthContext);

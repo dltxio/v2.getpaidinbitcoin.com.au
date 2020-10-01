@@ -1,0 +1,49 @@
+@import "../../constants/mixins";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins/breakpoints";
+
+html,
+body,
+#root {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+#root {
+  overflow: auto;
+  @include flex(flex-start, stretch, column);
+}
+
+main {
+  flex: 1;
+  overflow-y: visible;
+
+  & > div {
+    height: 100%;
+    overflow-x: auto;
+  }
+}
+
+header {
+  z-index: 999;
+}
+
+footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+#root {
+  @include media-breakpoint-down(sm){
+    font-size: $font-size-base * .8;
+    .btn {
+    font-size: $font-size-base * .8;
+
+    }
+
+  }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import Input from "components/forms/form-inputs/Input";
-import TextArea from "components/forms/form-inputs/TextArea";
+import Input from "components/forms/Input";
+import TextArea from "components/forms/TextArea";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
 

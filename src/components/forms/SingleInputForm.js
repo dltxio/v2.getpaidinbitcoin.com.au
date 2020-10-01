@@ -1,8 +1,8 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import Input from "./form-inputs/Input";
-import SubmitSpinnerButton from "./SubmitSpinnerButton";
-import ErrorMessage from "../ErrorMessage";
+import Input from "components/forms/Input";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
+import ErrorMessage from "components/ErrorMessage";
 
 const noValidate = () => {
   return {};

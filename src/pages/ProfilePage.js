@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useHistory, useLocation } from "react-router-dom";
 import { format as format$ } from "currency-formatter";
-import Layout from "components/Layout";
+import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
-import { AuthContext } from "components/Auth";
+import { AuthContext } from "components/auth/Auth";
 import Card from "components/Card";
-import Toggle from "components/forms/form-inputs/Toggle";
-import LabelledTable from "components/tables/LabelledTable";
+import Toggle from "components/forms/Toggle";
+import LabelledTable from "components/LabelledTable";
 import "./Dashboard.scss";
 import gpib from "apis/gpib";
 

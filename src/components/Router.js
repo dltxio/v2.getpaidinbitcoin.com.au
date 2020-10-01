@@ -2,19 +2,19 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
-import AuthRoute from "../components/AuthRoute";
+import AuthRoute from "components/auth/AuthRoute";
 import Dashboard from "pages/Dashboard";
-import AddressModalAdd from "./forms/AddressForm/AddressModalAdd";
-import AddressModalEdit from "./forms/AddressForm/AddressModalEdit";
+import AddressModalAdd from "components/addresses/AddressModalAdd";
+import AddressModalEdit from "components/addresses/AddressModalEdit";
 import ResetPasswordPage from "pages/ResetPasswordPage";
 import VerifyEmailPage from "pages/VerifyEmailPage";
 import AddressesPage from "pages/AddressesPage";
 import ProfilePage from "pages/ProfilePage";
-import DepositHintsModalEdit from "./forms/DepositHintsForm/DepositHintsModalEdit";
-import AddressModalSwap from "./forms/AddressForm/AddressModalSwap";
-import AddressModalArchive from "./forms/AddressForm/AddressModalArchive";
+import DepositHintsModalEdit from "components/deposit-hints/DepositHintsModalEdit";
+import AddressModalSwap from "components/addresses/AddressModalSwap";
+import AddressModalArchive from "components/addresses/AddressModalArchive";
 import ContactSupportPage from "pages/ContactSupportPage";
-import RefreshLoginModal from "components/forms/LoginForm/RefreshLoginModal";
+import RefreshLoginModal from "components/auth/RefreshLoginModal";
 
 const Router = () => (
   <BrowserRouter>

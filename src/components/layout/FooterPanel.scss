@@ -1,0 +1,14 @@
+@import "../../constants/mixins";
+@import "../../constants/colors";
+
+.footer-panel {
+  padding: 0 3rem 3rem 3rem;
+  .heading {
+    font-size: 120%;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    color: white;
+    border-bottom: 1px solid rgba(white, 0.2);
+    display: block;
+  }
+}

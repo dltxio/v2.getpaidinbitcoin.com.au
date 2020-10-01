@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { Redirect, useLocation, useHistory } from "react-router-dom";
 import qs from "qs";
 import { Button } from "react-bootstrap";
-import { AuthContext } from "components/Auth";
-import Layout from "components/Layout";
+import { AuthContext } from "components/auth/Auth";
+import Layout from "components/layout/Layout";
 import Card from "components/Card";
-import RegisterForm from "components/forms/RegisterForm";
+import RegisterForm from "components/auth/RegisterForm";
 
 const Register = () => {
   const { user } = useContext(AuthContext);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Button } from "react-bootstrap";
-import Layout from "components/Layout";
+import Layout from "components/layout/Layout";
 import ContactSupportForm from "components/forms/ContactSupportForm";
 import Card from "components/Card";
 import gpib from "apis/gpib";

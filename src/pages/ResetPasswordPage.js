@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams, useLocation } from "react-router-dom";
 import qs from "qs";
-import Layout from "components/Layout";
-import ResetPasswordLinkForm from "components/forms/ResetPasswordLinkForm";
-import ResetPasswordForm from "components/forms/ResetPasswordForm";
+import Layout from "components/layout/Layout";
+import ResetPasswordLinkForm from "components/auth/ResetPasswordLinkForm";
+import ResetPasswordForm from "components/auth/ResetPasswordForm";
 
 const ResetPasswordPage = () => {
   const { token } = useParams();

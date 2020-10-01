@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import SubmitSpinnerButton from "./forms/SubmitSpinnerButton";
 import { Button, ButtonGroup } from "react-bootstrap";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 
 const ButtonInputSwitcher = ({
   onSubmit,

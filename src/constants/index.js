@@ -1,1 +1,1 @@
-export const minPasswordLength = 6;
+exports.minPasswordLength = 6;

@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Alert, Button } from "react-bootstrap";
-import { mutate } from "swr";
-import gpib from "../../apis/gpib";
-import { AuthContext } from "../Auth";
-import RapidIDForm from "../forms/RapidIDForm";
-import ErrorMessage from "../ErrorMessage";
+import gpib from "apis/gpib";
+import { AuthContext } from "components/auth/Auth";
+import RapidIDForm from "components/auth/RapidIDForm";
+import ErrorMessage from "components/ErrorMessage";
 
 const statuses = {
   NOT_STARTED: 0,

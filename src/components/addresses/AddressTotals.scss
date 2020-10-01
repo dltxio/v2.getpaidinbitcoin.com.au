@@ -1,0 +1,26 @@
+@import "../../constants/colors";
+
+.address-totals {
+  font-size: 90%;
+  tr {
+    color: $primary;
+
+    &.archived {
+      color: $gray-500;
+    }
+
+    td:first-child {
+      max-width: 80%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
+    }
+
+    td:last-child {
+      width: 100px;
+      vertical-align: middle;
+    }
+  }
+
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { mutate } from "swr";
-import Layout from "components/Layout";
+import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
 import { useHistory, useParams } from "react-router-dom";

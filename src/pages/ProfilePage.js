@@ -12,8 +12,8 @@ import { AuthContext } from "components/auth/Auth";
 import Card from "components/Card";
 import Toggle from "components/forms/Toggle";
 import LabelledTable from "components/LabelledTable";
-import "./Dashboard.scss";
 import gpib from "apis/gpib";
+import "./Dashboard.scss";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);

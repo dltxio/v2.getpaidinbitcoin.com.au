@@ -22,7 +22,8 @@ const parseSubmitValues = (v) => ({
   lastName: v.lastName,
   email: v.email,
   password: v.password,
-  referralCode: v.referralCode
+  referralCode: v.referralCode,
+  createHDAddress: true
 });
 
 const validate = ({ email, password, passwordMatch, firstName, lastName }) => {

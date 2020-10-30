@@ -27,7 +27,7 @@ const AddressPercentBar = ({ addresses = [], className, ...props }) => {
 
   return (
     <div className={classes} {...props}>
-      {addresses.map(renderAddress)}
+      {addresses.sort((a, b) => b.percent - a.percent).map(renderAddress)}
     </div>
   );
 };

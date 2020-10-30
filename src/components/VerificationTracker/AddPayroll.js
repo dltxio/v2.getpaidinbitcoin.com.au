@@ -13,7 +13,7 @@ const AddPayroll = () => {
     };
     try {
       await gpib.secure.put(`/user/${user?.id}/deposithints`, parsedValues);
-      await mutate("/user/status");
+      await mutate(`/user/${user.id}/deposithints`);
       actions.setSubmitting(false);
     } catch (e) {
       console.log(e);

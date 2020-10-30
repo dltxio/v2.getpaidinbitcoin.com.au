@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { mutate } from "swr";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
 import { useHistory, useParams } from "react-router-dom";
 import gpib from "apis/gpib";
+import { AuthContext } from "components/auth/Auth";
 
 const VerifyEmailPage = () => {
   const { token } = useParams();
+  const { user } = useContext(AuthContext);
   const history = useHistory();
   const [isVerifying, setVerifying] = useState(true);
   const [error, setError] = useState(null);
@@ -26,8 +28,11 @@ const VerifyEmailPage = () => {
             }
           }
         );
+        await mutate(`/user/${user?.id}`, (state) => ({
+          ...state,
+          emailVerified: true
+        }));
         setVerifying(false);
-        await mutate("/user/status");
         history.push("/");
       } catch (e) {
         setError(e);
@@ -35,7 +40,7 @@ const VerifyEmailPage = () => {
       }
     };
     verifytoken();
-  }, [history, token]);
+  }, [history, token, user]);
 
   return (
     <Layout>

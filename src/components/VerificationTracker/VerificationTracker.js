@@ -1,84 +1,96 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
 import VerifyMobile from "./VerifyMobile";
 import AddPayroll from "./AddPayroll";
-import AddAddress from "./AddAddress";
 import VerifyID from "./VerifyID";
-
+import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
 
-const VerificationTracker = ({ status = -1 }) => {
-  status = parseInt(status);
+const VerificationTracker = ({ userDetails, depositHints, userStatus }) => {
+  const { isVerified, hasVerified, setHasVerified, setVerified } = useContext(
+    AuthContext
+  );
+  const { emailVerified, mobileVerified, idVerificationStatus } =
+    userDetails || {};
+  const { depositAmount } = depositHints || {};
+  const { isWhitelisted } = userStatus || {};
 
-  const statuses = {
-    0: {
+  useEffect(() => {
+    const isVerified =
+      emailVerified &&
+      mobileVerified &&
+      depositAmount !== undefined &&
+      (isWhitelisted || idVerificationStatus === 3);
+    setVerified(isVerified);
+  }, [
+    emailVerified,
+    mobileVerified,
+    depositAmount,
+    isWhitelisted,
+    idVerificationStatus,
+    setVerified
+  ]);
+
+  useEffect(() => {
+    const hasVerified = userDetails && depositHints && userStatus;
+    setHasVerified(hasVerified);
+  }, [depositHints, userDetails, userStatus, setHasVerified]);
+
+  const steps = [
+    {
       label: "Registered",
-      onClick: () => {},
-      icon: "person-outline"
+      icon: "person-outline",
+      isCompleted: true
     },
-    1: {
+    {
       label: "Verify Email",
-      onClick: () => {},
       icon: "mail-outline",
+      isCompleted: userDetails?.emailVerified,
       panel: <VerifyEmail />
     },
-    2: {
+    {
       label: "Verify Mobile",
-      onClick: () => {},
       icon: "phone-portrait-outline",
+      isCompleted: userDetails?.mobileVerified,
       panel: <VerifyMobile />
     },
-    3: {
+    {
       label: "Add Payroll Information",
-      onClick: () => {},
       icon: "cash-outline",
+      isCompleted: depositHints?.depositAmount !== undefined,
       panel: <AddPayroll />
-    },
-    4: {
-      label: "Add BTC Address",
-      onClick: () => {},
-      icon: "logo-bitcoin",
-      panel: <AddAddress />
-    },
-    5: {
-      label: "Verify ID",
-      onClick: () => {},
-      icon: "newspaper-outline",
-      panel: <VerifyID />
-    },
-    6: {
-      label: "Completed",
-      onClick: () => {},
-      icon: "checkmark-circle-outline"
     }
-  };
+  ];
 
-  const activeStep = statuses[status + 1] || {};
+  if (!userStatus?.isWhitelisted)
+    steps.push({
+      label: "Verify ID",
+      icon: "newspaper-outline",
+      panel: <VerifyID />,
+      isCompleted: userDetails?.idVerificationstatus === 3
+    });
 
-  const renderBlob = (key, i) => {
-    const { label, onClick, icon } = statuses[key] || {};
-    const isLastBlob = i === Object.keys(statuses).length - 1;
-    const isCurrentStep = parseInt(key) === status + 1;
+  const activeStepIndex = steps.map((v) => v.isCompleted).indexOf(false);
+  const activeStep = steps[activeStepIndex];
 
-    // Default classnames
+  const renderBlob = (step, i) => {
+    const isLastBlob = i === Object.keys(steps).length - 1;
+    const { label, icon } = step;
+    const isCompleted = i < activeStepIndex;
     let classes = "stage";
     let lineClasses = "line";
-
-    // Add compelted class
-    if (parseInt(key) <= status) {
+    if (isCompleted) {
       classes += " completed";
       lineClasses += " completed";
     }
-
-    // Add active class to next status
-    if (isCurrentStep) classes += " active";
+    if (i === activeStepIndex) classes += " active";
 
     return (
-      <React.Fragment key={key}>
-        <div className="blob" onClick={isCurrentStep ? onClick : undefined}>
+      <React.Fragment key={i}>
+        <div className="blob">
           <div className={classes} title={label}>
-            <ion-icon name={icon} />
+            <ion-icon name={isCompleted ? "checkmark-circle-outline" : icon} />
           </div>
           <span className="label">{label}</span>
         </div>
@@ -87,11 +99,12 @@ const VerificationTracker = ({ status = -1 }) => {
     );
   };
 
+  if (isVerified || !hasVerified || !activeStep) return null;
   return (
     <div className="verification-tracker">
       <Card>
         <div className="py-5">
-          <div className="blobs">{Object.keys(statuses).map(renderBlob)}</div>
+          <div className="blobs">{steps.map(renderBlob)}</div>
           {activeStep.panel && (
             <div
               style={{ maxWidth: "50rem", margin: "auto" }}

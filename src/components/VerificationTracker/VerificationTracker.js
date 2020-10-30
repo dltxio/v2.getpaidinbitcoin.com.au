@@ -7,35 +7,35 @@ import VerifyID from "./VerifyID";
 import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
 
-const VerificationTracker = ({ userDetails, depositHints, userStatus }) => {
+const VerificationTracker = ({ userDetails, depositHints, userEnterprise }) => {
   const { isVerified, hasVerified, setHasVerified, setVerified } = useContext(
     AuthContext
   );
   const { emailVerified, mobileVerified, idVerificationStatus } =
     userDetails || {};
   const { depositAmount } = depositHints || {};
-  const { isWhitelisted } = userStatus || {};
+  const { name: employerName } = userEnterprise || {};
 
   useEffect(() => {
     const isVerified =
       emailVerified &&
       mobileVerified &&
       depositAmount !== undefined &&
-      (isWhitelisted || idVerificationStatus === 3);
+      (employerName || idVerificationStatus === 3);
     setVerified(isVerified);
   }, [
     emailVerified,
     mobileVerified,
     depositAmount,
-    isWhitelisted,
+    employerName,
     idVerificationStatus,
     setVerified
   ]);
 
   useEffect(() => {
-    const hasVerified = userDetails && depositHints && userStatus;
+    const hasVerified = userDetails && depositHints && userEnterprise;
     setHasVerified(hasVerified);
-  }, [depositHints, userDetails, userStatus, setHasVerified]);
+  }, [depositHints, userDetails, userEnterprise, setHasVerified]);
 
   const steps = [
     {
@@ -59,11 +59,11 @@ const VerificationTracker = ({ userDetails, depositHints, userStatus }) => {
       label: "Add Payroll Information",
       icon: "cash-outline",
       isCompleted: depositHints?.depositAmount !== undefined,
-      panel: <AddPayroll />
+      panel: <AddPayroll userEnterprise={userEnterprise} />
     }
   ];
 
-  if (!userStatus?.isWhitelisted)
+  if (!employerName)
     steps.push({
       label: "Verify ID",
       icon: "newspaper-outline",

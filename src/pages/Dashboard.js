@@ -25,7 +25,7 @@ const Dashboard = () => {
     `/user/${user.id}`
   );
 
-  const { data: userStatus } = useSWR(`/user/${user.id}/status`);
+  const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
 
   // Only if verified
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
@@ -74,7 +74,7 @@ const Dashboard = () => {
         <VerificationTracker
           userDetails={userDetails}
           depositHints={depositHints}
-          userStatus={userStatus}
+          userEnterprise={userEnterprise}
         />
         <section className="main row">
           <div className={isVerified ? "overlay" : "overlay active"} />

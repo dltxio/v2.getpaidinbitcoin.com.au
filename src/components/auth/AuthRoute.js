@@ -1,30 +1,27 @@
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { AuthContext } from "components/auth/Auth";
-import Loader from "components/Loader";
+import LoadingPage from "pages/LoadingPage";
 
 const AuthRoute = ({ component, allowUnverified, ...props }) => {
-  const {
-    user,
-    isLoggingIn,
-    isLoading: isPageLoading,
-    isVerified,
-    isVerifying
-  } = useContext(AuthContext);
+  const { user, isLoggingIn, isLoading: isPageLoading } = useContext(
+    AuthContext
+  );
   const Component = component;
-  const isLoading =
-    isLoggingIn || isPageLoading || (!allowUnverified && isVerifying);
-  const isPass = user && (allowUnverified || isVerified);
-  let redirectPath = "/login";
-  if (user && !isPass) redirectPath = "/";
+  const redirectPath = user ? "/" : "/login";
 
   return (
     <Route
       {...props}
-      render={() => {
-        if (isLoading) return <Loader loading />;
-        return isPass ? <Component /> : <Redirect to={redirectPath} />;
-      }}
+      render={() =>
+        isLoggingIn || isPageLoading ? (
+          <LoadingPage />
+        ) : user ? (
+          <Component />
+        ) : (
+          <Redirect to={redirectPath} />
+        )
+      }
     />
   );
 };

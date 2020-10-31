@@ -4,14 +4,13 @@ import AddressForm from "components/addresses/AddressForm";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
-const AddPayroll = () => {
+const AddAddress = () => {
   const { user } = useContext(AuthContext);
 
   const addAddress = async (v, actions) => {
     const parsedValues = { ...v, userID: user?.id, percent: Number(v.percent) };
     try {
       await gpib.secure.post(`/address`, parsedValues);
-      await mutate("/user/status");
       actions.setSubmitting(false);
     } catch (e) {
       console.log(e);
@@ -35,4 +34,4 @@ const AddPayroll = () => {
   );
 };
 
-export default AddPayroll;
+export default AddAddress;

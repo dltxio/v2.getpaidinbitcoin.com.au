@@ -26,7 +26,6 @@ const DepositHintsForm = ({
     depositAmount: "",
     ..._inititalValues
   };
-
   return (
     <Formik
       initialValues={initialValues}

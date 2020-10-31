@@ -15,77 +15,67 @@ import PayInformationActions from "components/pay-information/PayInformationActi
 import "./Dashboard.scss";
 
 const Dashboard = () => {
-  const {
-    user,
-    isVerified,
-    isVerifying,
-    userStatus,
-    fetchStatusError
-  } = useContext(AuthContext);
+  const { user, isVerified, hasVerified } = useContext(AuthContext);
+
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
-    isVerified && `/user/${user.id}/deposithints`
+    `/user/${user.id}/deposithints`
+  );
+
+  const { data: userDetails, error: fetchDetailsError } = useSWR(
+    `/user/${user.id}`
+  );
+
+  const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
+
+  // Only if verified
+  const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
+    isVerified && `/user/${user.id}/bankdetails`
+  );
+
+  const { data: transactions, error: fetchTransactionsError } = useSWR(
+    isVerified && `/transaction`
   );
 
   const { data: userStats, error: fetchStatsError } = useSWR(
     isVerified && "/stats/all"
   );
 
-  const { data: activeAddresses, error: fetchActiveAddressError } = useSWR(
-    isVerified && `/user/${user.id}/address`
+  const { data: addressTotals, error: fetchAddressTotalsError } = useSWR(
+    isVerified && `/user/${user.id}/address/totals`
   );
 
   const { data: archivedAddresses, error: fetchArchivedAddressError } = useSWR(
     isVerified && `/user/${user.id}/address?deleted=true`
   );
 
-  const { data: addressTotals, error: fetchAddressTotalsError } = useSWR(
-    isVerified && `/user/${user.id}/address/totals`
+  const { data: activeAddresses, error: fetchActiveAddressError } = useSWR(
+    isVerified && `/user/${user.id}/address`
   );
 
-  const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
-    isVerified && `/user/${user.id}/bankdetails`
-  );
-
-  const { data: userDetails, error: fetchDetailsError } = useSWR(
-    isVerified && `/user/${user.id}`
-  );
-  const { data: transactions, error: fetchTransactionsError } = useSWR(
-    isVerified && `/transaction`
-  );
-
-  const isFetchingDepositHints =
-    isVerified && !depositHints && !fetchDepositHintsError;
-
+  // Loading status
+  const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
-
   const isFetchingActiveAddresses =
     isVerified && !activeAddresses && !fetchActiveAddressError;
-
   const isFetchingArchivedAddresses =
     isVerified && !archivedAddresses && !fetchArchivedAddressError;
-
   const isFetchingAddressTotals =
     isVerified && !addressTotals && !fetchAddressTotalsError;
-
   const isFetchingBankDetails =
     isVerified && !bankDetails && !fetchBankDetailsError;
-
   const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
-
   const isFetchingTransactions =
     isVerified && !transactions && !fetchTransactionsError;
-
-  if (isVerifying) return <Loader loading />;
 
   return (
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
-        <ErrorMessage error={fetchStatusError} />
-        {!isVerified && !isVerifying && (
-          <section className="head">
-            <VerificationTracker status={userStatus} />
-          </section>
-        )}
+        <Loader loading={!hasVerified} />
+        <VerificationTracker
+          userDetails={userDetails}
+          depositHints={depositHints}
+          userEnterprise={userEnterprise}
+        />
         <section className="main row">
           <div className={isVerified ? "overlay" : "overlay active"} />
           <aside className="col-lg-5">
@@ -107,7 +97,7 @@ const Dashboard = () => {
                 }
               />
               <Loader
-                isLoading={
+                loading={
                   isFetchingActiveAddresses ||
                   isFetchingAddressTotals ||
                   isFetchingArchivedAddresses

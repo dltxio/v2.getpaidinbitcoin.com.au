@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { mutate } from "swr";
 import DepositHintsForm from "components/deposit-hints/DepositHintsForm";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
-const AddPayroll = () => {
+const AddPayroll = ({ userEnterprise }) => {
+  const initialValues = useMemo(
+    () => ({ employerName: userEnterprise?.name }),
+    [userEnterprise]
+  );
   const { user } = useContext(AuthContext);
   const updatePayroll = async (v, actions) => {
     const parsedValues = {
@@ -13,7 +17,7 @@ const AddPayroll = () => {
     };
     try {
       await gpib.secure.put(`/user/${user?.id}/deposithints`, parsedValues);
-      await mutate("/user/status");
+      await mutate(`/user/${user.id}/deposithints`);
       actions.setSubmitting(false);
     } catch (e) {
       console.log(e);
@@ -27,7 +31,10 @@ const AddPayroll = () => {
         <b>Add your payroll information.</b>
       </p>
       <div>
-        <DepositHintsForm onSubmit={updatePayroll} />
+        <DepositHintsForm
+          onSubmit={updatePayroll}
+          initialValues={initialValues}
+        />
       </div>
     </div>
   );

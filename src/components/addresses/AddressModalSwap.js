@@ -6,6 +6,7 @@ import { AuthContext } from "components/auth/Auth";
 import gpib from "apis/gpib";
 import Modal from "components/Modal";
 import AddressFormSwap from "./AddressFormSwap";
+import axios from "axios";
 
 const AddressModalSwap = () => {
   const { user } = useContext(AuthContext);
@@ -17,7 +18,17 @@ const AddressModalSwap = () => {
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
-      await gpib.secure.post(`/address/${id}/swap`, values);
+      const userIp = await axios
+        .get("https://api.ipify.org")
+        .catch((errors) => {
+          console.log(errors);
+        });
+
+      await gpib.secure.post(`/address/${id}/swap`, values, {
+        headers: {
+          "X-Forwarded-For": userIp.data
+        }
+      });
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (e) {

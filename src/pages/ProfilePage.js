@@ -88,7 +88,13 @@ const Dashboard = () => {
   const onUpdatePasswordClick = (e) => {
     history.push("/auth/resetpassword");
   };
+  const onEditReferralClick = (e) =>
+    history.push(`${location.pathname}/referral/send`);
 
+  const referralColumns = [
+    ["Referral Code", `${user.id}`],
+    ["Referral Link", `${process.env.REACT_APP_API_URL}/${user.id}`]
+  ];
   return (
     <Layout activeTab="profile">
       <div className="container py-5">
@@ -115,6 +121,18 @@ const Dashboard = () => {
           <ErrorMessage error={fetchDepositHintsError} />
           <Loader loading={isFetchingDepositHints} />
           <LabelledTable columns={payrollColumns} />
+        </Card>
+        <Card>
+          <div className="d-flex justify-content-between">
+            <h4>Referral</h4>
+            <Button className="mb-3" onClick={onEditReferralClick}>
+              <span className="mr-2">Edit</span>
+              <ion-icon name="create-outline" />
+            </Button>
+          </div>
+          <ErrorMessage error={fetchDepositHintsError} />
+          <Loader loading={isFetchingDepositHints} />
+          <LabelledTable columns={referralColumns} />
         </Card>
         <Card>
           <h4 className="mb-3">Settings</h4>

@@ -39,6 +39,7 @@ const Router = () => (
         component={AddressModalArchive}
       />
       <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
+      <AuthRoute path="*/referral/send" component={RefreshLoginModal} />
     </Switch>
   </BrowserRouter>
 );

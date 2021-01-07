@@ -15,6 +15,7 @@ import AddressModalSwap from "components/addresses/AddressModalSwap";
 import AddressModalArchive from "components/addresses/AddressModalArchive";
 import ContactSupportPage from "pages/ContactSupportPage";
 import RefreshLoginModal from "components/auth/RefreshLoginModal";
+import ReferralSendModal from "components/users/ReferralSendModal";
 
 const Router = () => (
   <BrowserRouter>
@@ -39,7 +40,7 @@ const Router = () => (
         component={AddressModalArchive}
       />
       <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
-      <AuthRoute path="*/referral/send" component={RefreshLoginModal} />
+      <AuthRoute path="*/referral/send" component={ReferralSendModal} />
     </Switch>
   </BrowserRouter>
 );

@@ -93,7 +93,10 @@ const Dashboard = () => {
 
   const referralColumns = [
     ["Referral Code", `${user.id}`],
-    ["Referral Link", `${process.env.REACT_APP_API_URL}/${user.id}`]
+    [
+      "Referral Link",
+      `${process.env.REACT_APP_URL}/register?referralCode=${user.id}`
+    ]
   ];
   return (
     <Layout activeTab="profile">
@@ -124,9 +127,9 @@ const Dashboard = () => {
         </Card>
         <Card>
           <div className="d-flex justify-content-between">
-            <h4>Referral</h4>
+            <h4>Referral Program</h4>
             <Button className="mb-3" onClick={onEditReferralClick}>
-              <span className="mr-2">Edit</span>
+              <span className="mr-2">Send Email</span>
               <ion-icon name="create-outline" />
             </Button>
           </div>

@@ -1,19 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import ErrorMessage from "components/ErrorMessage";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isEmail from "validator/lib/isEmail";
+import { AuthContext } from "components/auth/Auth";
 
-const ReferralSendForm = ({
-  initialValues: _inititalValues,
-  onSubmit,
-  submitText = "Send Referral"
-}) => {
+const ReferralSendForm = ({ onSubmit, submitText = "Send Referral" }) => {
+  const { user } = useContext(AuthContext);
   const initialValues = {
     email: "",
-    referralLink: "",
-    ..._inititalValues
+    referralLink: `${process.env.REACT_APP_URL}/register?referralCode=${user.id}`
   };
   const validate = (values) => {
     const errors = {};

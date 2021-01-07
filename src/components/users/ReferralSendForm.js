@@ -29,7 +29,7 @@ const ReferralSendForm = ({ onSubmit, submitText = "Send Referral" }) => {
           <Input
             label="Email"
             name="email"
-            placeholder="Friend's emial address"
+            placeholder="Friend's email address"
           />
           <Input label="Referral Link" name="referralLink" readOnly />
           <ErrorMessage error={errors.hidden} />

@@ -22,7 +22,8 @@ const parseSubmitValues = (v) => ({
   lastName: v.lastName,
   email: v.email,
   password: v.password,
-  referralCode: v.referralCode
+  referralCode: v.referralCode,
+  createHDAddress: true
 });
 
 const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
@@ -88,7 +89,7 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode }) => {
           <Input name="lastName" placeholder="Last Name" />
           <Input
             name="referralCode"
-            placeholder="Referral Code"
+            placeholder="Offer or Referral Code"
             disabled={lockReferralCode}
           />
           <ErrorMessage error={errors.hidden} />

@@ -9,15 +9,13 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
   const [isLoggingIn, setLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState(null);
+  const [isVerified, setVerified] = useState(false);
+  const [hasVerified, setHasVerified] = useState(false);
+
   const { data: userDetails, error: fetchDetailsError } = useSWR(
     user && `/user/${user.id}`
   );
   const isFetchingDetails = user && !userDetails && !fetchDetailsError;
-  const { data: userStatus, error: fetchStatusError, isValidating } = useSWR(
-    user && "/user/status"
-  );
-  const isVerified = userStatus === 5;
-  const isVerifying = !userStatus && !fetchStatusError && isValidating;
 
   useEffect(() => {
     cache.clear();
@@ -48,6 +46,7 @@ export const AuthProvider = ({ children }) => {
     window.localStorage.removeItem("user");
     cache.clear();
     setUser(null);
+    setHasVerified(false);
   };
 
   return (
@@ -56,13 +55,13 @@ export const AuthProvider = ({ children }) => {
         user: user && { ...userDetails, ...user },
         isLoggingIn: isLoggingIn || isFetchingDetails,
         isLoading,
-        isVerified,
-        isVerifying,
         login,
         logout,
         loginError,
-        userStatus,
-        fetchStatusError
+        isVerified,
+        setVerified,
+        hasVerified,
+        setHasVerified
       }}
     >
       {children}

@@ -14,7 +14,7 @@ const Register = () => {
   const referralCode =
     location?.search &&
     qs.parse(location.search, { ignoreQueryPrefix: true })?.referralCode;
-  if (user && !referralCode) return <Redirect to="/" />;
+  if (user) return <Redirect to="/" />;
   return (
     <Layout navLinks={[]}>
       <div className="d-flex justify-content-center container py-5 align-items-center">

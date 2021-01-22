@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button } from "react-bootstrap";
 import { mutate } from "swr";
 import { isMobilePhone } from "validator";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import SingleInputForm from "components/forms/SingleInputForm";
 import gpib from "apis/gpib";
+import { AuthContext } from "components/auth/Auth";
 
 const VerifyEmail = () => {
   const [hasSent, setSent] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const sendSMS = async (values, actions) => {
     try {
@@ -25,7 +27,7 @@ const VerifyEmail = () => {
       await gpib.secure.post("/user/verifymobile", {
         code: parseInt(values.code)
       });
-      await mutate("/user/status");
+      await mutate(`/user/${user.id}`);
       actions.setSubmitting(false);
     } catch (e) {
       actions.setFieldError("hidden", e);

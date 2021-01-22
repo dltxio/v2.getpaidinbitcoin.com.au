@@ -14,7 +14,8 @@ The following environment variables are required:
 
 | Key               | Value                      |
 | :---------------- | :------------------------- |
-| REACT_APP_API_URL | e.g. http://localhost:5000 |
+| REACT_APP_URL | e.g. http://localhost:5000 |
+| REACT_APP_API_URL | e.g. http://localhost:3000 |
 | REACT_APP_BLOCKCYPHER_URL | e.g. https://api.blockcypher.com/v1/btc/test3 |
 
 See [example.env](./example.env) for more examples.

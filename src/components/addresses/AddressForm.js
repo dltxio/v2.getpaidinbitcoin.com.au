@@ -23,7 +23,8 @@ const validate = ({ percent, label, address1 }) => {
   if (!isNumeric(String(percent))) errors.percent = "Percent must be a number";
   if (Number(percent) < 0 || Number(percent) > 100)
     errors.percent = "Percent must be between 0 and 100";
-  if (isDecimal(percent)) errors.percent = "Percent can't be a decimal";
+  if (!isDecimal(String(percent), { decimal_digits: "0" }))
+    errors.percent = "Percent can't be a decimal";
   return errors;
 };
 

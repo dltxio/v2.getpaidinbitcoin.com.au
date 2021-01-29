@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import { mutate } from "swr";
 import { isMobilePhone } from "validator";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
@@ -10,6 +10,7 @@ import { AuthContext } from "components/auth/Auth";
 const VerifyEmail = () => {
   const [hasSent, setSent] = useState(false);
   const { user } = useContext(AuthContext);
+  const [message, setMessage] = useState();
 
   const sendSMS = async (values, actions) => {
     try {
@@ -27,8 +28,10 @@ const VerifyEmail = () => {
       await gpib.secure.post("/user/verifymobile", {
         code: parseInt(values.code)
       });
-      await mutate(`/user/${user.id}`);
       actions.setSubmitting(false);
+      setMessage("Your phone has been verified");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await mutate(`/user/${user.id}`);
     } catch (e) {
       actions.setFieldError("hidden", e);
       actions.setSubmitting(false);
@@ -73,6 +76,7 @@ const VerifyEmail = () => {
 
   return (
     <div>
+      {message && <Alert variant="success">{message}</Alert>}
       <p>
         <b>Verify your mobile to continue.</b>
       </p>

@@ -7,6 +7,14 @@ import Layout from "components/layout/Layout";
 import Card from "components/Card";
 import RegisterForm from "components/auth/RegisterForm";
 
+const urlCheck = (firstName, lastName, email) => {
+  if (firstName && lastName && email) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const Register = () => {
   const { user } = useContext(AuthContext);
   const history = useHistory();
@@ -14,6 +22,18 @@ const Register = () => {
   const referralCode =
     location?.search &&
     qs.parse(location.search, { ignoreQueryPrefix: true })?.referralCode;
+  const firstName =
+    location?.search &&
+    qs.parse(location.search, { ignoreQueryPrefix: true })?.first;
+  const lastName =
+    location?.search &&
+    qs.parse(location.search, { ignoreQueryPrefix: true })?.last;
+  const email =
+    location?.search &&
+    qs.parse(location.search, { ignoreQueryPrefix: true })?.email;
+
+  const enterprise = urlCheck(firstName, lastName, email);
+
   if (user) return <Redirect to="/" />;
   return (
     <Layout navLinks={[]}>
@@ -23,7 +43,8 @@ const Register = () => {
           style={{ flex: 1, maxWidth: "40rem" }}
         >
           <RegisterForm
-            initialValues={{ referralCode }}
+            enterprise={enterprise}
+            initialValues={{ firstName, lastName, email, referralCode }}
             lockReferralCode={referralCode}
           />
           <Button

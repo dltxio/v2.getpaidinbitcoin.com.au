@@ -16,11 +16,13 @@ import AddressModalArchive from "components/addresses/AddressModalArchive";
 import ContactSupportPage from "pages/ContactSupportPage";
 import RefreshLoginModal from "components/auth/RefreshLoginModal";
 import ReferralSendModal from "components/users/ReferralSendModal";
+import EnterpriseOnboard from "pages/EnterpriseOnboard";
 
 const Router = () => (
   <BrowserRouter>
     <RefreshLoginModal />
     <Switch>
+      <Route path="/enterprise" component={EnterpriseOnboard} />
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
       <Route path="/verify/email/:token" component={VerifyEmailPage} />

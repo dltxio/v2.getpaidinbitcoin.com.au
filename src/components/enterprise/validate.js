@@ -1,8 +1,9 @@
-import { isEmail, isMobilePhone, isInt, isByteLength } from "validator";
+import { isEmail, isInt, isByteLength } from "validator";
 
 const validate = (values) => {
   const requiredMsg = "This field is required";
   const errors = {};
+  const phoneRegex = /^(\+?61|0)+[2｜3｜4|7｜8]\d{8}$/;
 
   if (!values.name) errors.name = requiredMsg;
   if (!values.abn) errors.abn = requiredMsg;
@@ -16,7 +17,7 @@ const validate = (values) => {
   if (!isEmail(values.contactEmail))
     errors.contactEmail = "Please enter a valid email";
 
-  if (!isMobilePhone(values.contactPhoneNumber, "en-AU"))
+  if (!values.contactPhoneNumber.match(phoneRegex))
     errors.contactPhoneNumber = "Please enter a valid phone number";
 
   if (!isInt(values.numberOfEmployers))

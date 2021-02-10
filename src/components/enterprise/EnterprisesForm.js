@@ -30,7 +30,7 @@ const EnterprisesForm = ({ style = {} }) => {
       actions.setSubmitting(false);
     } catch (error) {
       console.error(error);
-      actions.setErrors(error);
+      actions.setErrors({ hidden: error });
       actions.setSubmitting(false);
     }
   };
@@ -69,7 +69,6 @@ const EnterprisesForm = ({ style = {} }) => {
           style={{ flex: 1, width: "100%", ...style }}
         >
           {message && <Alert variant="success">{message}</Alert>}
-
           <Input label="Business Name" name="name" />
           <Input
             label="ABN"
@@ -83,7 +82,7 @@ const EnterprisesForm = ({ style = {} }) => {
           <Input label="Domain Name" name="emailDomain" />
           <Input label="Contact Email" name="contactEmail" />
           <Input label="Contact Mobile" name="contactPhoneNumber" />
-          <Input label="Payroll Contact" name="payrollContact" />
+          <Input label="Contact Name" name="payrollContact" />
           <Input label="Payroll Information" name="payrollInformation" />
           <Input label="Number of Employees" name="numberOfEmployers" />
           <ErrorMessage error={errors.hidden} />

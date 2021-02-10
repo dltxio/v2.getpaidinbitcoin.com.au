@@ -5,7 +5,6 @@ import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
 const AddPayroll = ({ userEnterprise }) => {
-  console.log(userEnterprise);
   const initialValues = useMemo(
     () => ({ employerName: userEnterprise?.name }),
     [userEnterprise]

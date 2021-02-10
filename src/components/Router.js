@@ -25,7 +25,7 @@ const Router = () => (
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
       <Route path="/verify/email/:token" component={VerifyEmailPage} />
       <Route path="/login" component={LoginPage} />
-      <Route path="/register" component={RegisterPage} />
+      <Route path="*/register" component={RegisterPage} />
       <AuthRoute path="/contactsupport" component={ContactSupportPage} />
       <AuthRoute path="/addresses" component={AddressesPage} />
       <AuthRoute path="/profile" component={ProfilePage} />

@@ -17,6 +17,11 @@ const AddPayroll = ({ userEnterprise }) => {
     };
     try {
       await gpib.secure.put(`/user/${user?.id}/deposithints`, parsedValues);
+      if (userEnterprise) {
+        await gpib.secure.get(
+          `/email/payinstructions/${user.id}?email=${userEnterprise.contactEmail}`
+        );
+      }
       await mutate(`/user/${user.id}/deposithints`);
       actions.setSubmitting(false);
     } catch (e) {

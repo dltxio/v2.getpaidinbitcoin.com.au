@@ -12,7 +12,7 @@ const validate = (values) => {
   if (!values.contactPhoneNumber) errors.contactPhoneNumber = requiredMsg;
   if (!values.payrollContact) errors.payrollContact = requiredMsg;
   if (!values.payrollInformation) errors.payrollInformation = requiredMsg;
-  if (!values.numberOfEmployers) errors.numberOfEmployers = requiredMsg;
+  if (!values.numberOfEmployees) errors.numberOfEmployees = requiredMsg;
 
   if (!isEmail(values.contactEmail))
     errors.contactEmail = "Please enter a valid email";
@@ -20,8 +20,8 @@ const validate = (values) => {
   if (!values.contactPhoneNumber.match(phoneRegex))
     errors.contactPhoneNumber = "Please enter a valid phone number";
 
-  if (!isInt(values.numberOfEmployers))
-    errors.numberOfEmployers = "Please enter a valid number of employers";
+  if (!isInt(values.numberOfEmployees))
+    errors.numberOfEmployees = "Please enter a valid number of employees";
 
   if (
     !isByteLength(String(values.abn).trim().replace(/\s/gi, ""), {

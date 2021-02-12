@@ -12,7 +12,7 @@ const validate = (values) => {
   if (!values.contactPhoneNumber) errors.contactPhoneNumber = requiredMsg;
   if (!values.payrollContact) errors.payrollContact = requiredMsg;
   if (!values.payrollInformation) errors.payrollInformation = requiredMsg;
-  if (!values.numberOfEmployees) errors.numberOfEmployers = requiredMsg;
+  if (!values.numberOfEmployees) errors.numberOfEmployees = requiredMsg;
 
   if (!isEmail(values.contactEmail))
     errors.contactEmail = "Please enter a valid email";

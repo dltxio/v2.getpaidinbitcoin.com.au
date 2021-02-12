@@ -17,7 +17,7 @@ const EnterprisesForm = ({ style = {} }) => {
     contactPhoneNumber: "",
     payrollContact: "",
     payrollInformation: "",
-    numberOfEmployers: ""
+    numberOfEmployees: ""
   };
 
   const onSubmit = async (values, actions) => {
@@ -42,7 +42,7 @@ const EnterprisesForm = ({ style = {} }) => {
     contactPhoneNumber: v.contactPhoneNumber,
     payrollContact: v.payrollContact,
     payrollInformation: v.payrollInformation,
-    numberOfEmployers: Number(v.numberOfEmployers)
+    numberOfEmployees: Number(v.numberOfEmployees)
   });
   const formatABN = (val) => {
     return val
@@ -84,7 +84,7 @@ const EnterprisesForm = ({ style = {} }) => {
           <Input label="Contact Mobile" name="contactPhoneNumber" />
           <Input label="Contact Name" name="payrollContact" />
           <Input label="Payroll Information" name="payrollInformation" />
-          <Input label="Number of Employees" name="numberOfEmployers" />
+          <Input label="Number of Employees" name="numberOfEmployees" />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton
             submitText="Submit"

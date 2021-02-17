@@ -62,14 +62,16 @@ const VerificationTracker = ({ userDetails, depositHints, userEnterprise }) => {
       panel: <AddPayroll userEnterprise={userEnterprise} />
     }
   ];
-
-  if (!employerName)
+  if (!employerName) {
     steps.push({
       label: "Verify ID",
       icon: "newspaper-outline",
       panel: <VerifyID />,
       isCompleted: userDetails?.idVerificationstatus === 3
     });
+  } else if (employerName) {
+    steps.splice(2, 1);
+  }
 
   const activeStepIndex = steps.map((v) => v.isCompleted).indexOf(false);
   const activeStep = steps[activeStepIndex];

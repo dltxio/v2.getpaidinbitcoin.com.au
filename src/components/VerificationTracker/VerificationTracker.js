@@ -69,7 +69,7 @@ const VerificationTracker = ({ userDetails, depositHints, userEnterprise }) => {
       panel: <VerifyID />,
       isCompleted: userDetails?.idVerificationstatus === 3
     });
-  } else if (employerName) {
+  } else {
     steps.splice(2, 1);
   }
 

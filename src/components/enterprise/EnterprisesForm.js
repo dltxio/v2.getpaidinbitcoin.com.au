@@ -83,7 +83,6 @@ const EnterprisesForm = ({ style = {} }) => {
           <Input label="Contact Email" name="contactEmail" />
           <Input label="Contact Mobile" name="contactPhoneNumber" />
           <Input label="Contact Name" name="payrollContact" />
-          <Input label="Payroll Information" name="payrollInformation" />
           <Input label="Number of Employees" name="numberOfEmployees" />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton

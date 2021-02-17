@@ -16,7 +16,6 @@ const EnterprisesForm = ({ style = {} }) => {
     contactEmail: "",
     contactPhoneNumber: "",
     payrollContact: "",
-    payrollInformation: "",
     numberOfEmployees: ""
   };
 
@@ -41,7 +40,6 @@ const EnterprisesForm = ({ style = {} }) => {
     contactEmail: v.contactEmail,
     contactPhoneNumber: v.contactPhoneNumber,
     payrollContact: v.payrollContact,
-    payrollInformation: v.payrollInformation,
     numberOfEmployees: Number(v.numberOfEmployees)
   });
   const formatABN = (val) => {
@@ -83,7 +81,6 @@ const EnterprisesForm = ({ style = {} }) => {
           <Input label="Contact Email" name="contactEmail" />
           <Input label="Contact Mobile" name="contactPhoneNumber" />
           <Input label="Contact Name" name="payrollContact" />
-          <Input label="Payroll Information" name="payrollInformation" />
           <Input label="Number of Employees" name="numberOfEmployees" />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton

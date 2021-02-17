@@ -11,7 +11,6 @@ const validate = (values) => {
   if (!values.contactEmail) errors.contactEmail = requiredMsg;
   if (!values.contactPhoneNumber) errors.contactPhoneNumber = requiredMsg;
   if (!values.payrollContact) errors.payrollContact = requiredMsg;
-  if (!values.payrollInformation) errors.payrollInformation = requiredMsg;
   if (!values.numberOfEmployees) errors.numberOfEmployees = requiredMsg;
 
   if (!isEmail(values.contactEmail))

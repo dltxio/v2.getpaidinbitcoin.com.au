@@ -43,10 +43,11 @@ const Dashboard = () => {
     .filter((n) => n)
     .join(" ");
 
-  const mobile = parsePhoneNumberFromString(
-    userDetails?.mobileNumber,
-    "AU"
-  ).format("INTERNATIONAL");
+  const mobile = userDetails?.mobileNumber
+    ? parsePhoneNumberFromString(userDetails?.mobileNumber, "AU").format(
+        "INTERNATIONAL"
+      )
+    : "";
 
   const feesPerTransaction = userDetails?.fees;
   const profileColumns = [

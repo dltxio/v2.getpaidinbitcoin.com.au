@@ -45,7 +45,7 @@ const DepositHintsModalForm = (props) => {
           `/email/payinstructions/${user.id}?email=${userEnterprise.contactEmail}`
         );
         setMessage(
-          "Your company will be automatically emailed with the updated details, there is no action required from you "
+          "Your employer has been emailed your updated pay instructions. You will also be emailed a copy to keep as a personal record. "
         );
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }

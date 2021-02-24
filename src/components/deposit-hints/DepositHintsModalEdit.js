@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { useHistory, useLocation } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import gpib from "apis/gpib";
 import Modal from "components/Modal";
 import DepositHintsForm from "components/deposit-hints/DepositHintsForm";
@@ -29,7 +29,8 @@ const DepositHintsModalForm = (props) => {
     `/user/${user.id}/deposithints`,
     { revalidateOnFocus: false }
   );
-
+  const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
+  const [message, setMessage] = useState();
   const initialValues = parseInitialValues(data);
   const location = useLocation();
   const history = useHistory();
@@ -39,6 +40,15 @@ const DepositHintsModalForm = (props) => {
       const parsedValues = parseSubmitValues(values);
       const url = `/user/${user.id}/deposithints`;
       await gpib.secure.put(url, parsedValues);
+      if (userEnterprise) {
+        await gpib.secure.get(
+          `/email/payinstructions/${user.id}?email=${userEnterprise.contactEmail}`
+        );
+        setMessage(
+          "Your company will be automatically emailed with the updated details, there is no action required from you "
+        );
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
       mutate(url, (ac) => ({ ...ac, ...parsedValues }));
       modalActions.onDismiss();
     } catch (e) {
@@ -59,6 +69,7 @@ const DepositHintsModalForm = (props) => {
         <>
           <Loader loading={isValidating} diameter="2rem" />
           <ErrorMessage error={error} />
+          {message && <Alert variant="success">{message}</Alert>}
           {!error ? (
             <DepositHintsForm
               onDismiss={onDismiss}

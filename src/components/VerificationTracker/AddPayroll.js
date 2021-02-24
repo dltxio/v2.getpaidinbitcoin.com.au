@@ -24,7 +24,7 @@ const AddPayroll = ({ userEnterprise }) => {
           `/email/payinstructions/${user.id}?email=${userEnterprise.contactEmail}`
         );
         setMessage(
-          Your employer has been emailed your new pay instructions. You will also be emailed a copy to keep as a personal record. 
+          "Your employer has been emailed your new pay instructions. You will also be emailed a copy to keep as a personal record. "
         );
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }

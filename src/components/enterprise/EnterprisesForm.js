@@ -24,7 +24,7 @@ const EnterprisesForm = ({ style = {} }) => {
       actions.setSubmitting(true);
       await gpib.open.post("/Enterprise", parseSubmitValues(values));
       setMessage(
-        "We have received your application for the following enterprise registration with Get Paid In Bitcoin, thank you for your interest, we will get back to you soon"
+        "We have received your application for enterprise registration with Get Paid In Bitcoin. Thank you for your interest and we will get back to you soon"
       );
       actions.setSubmitting(false);
     } catch (error) {

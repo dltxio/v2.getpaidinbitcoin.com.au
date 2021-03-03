@@ -56,7 +56,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
       style={{ cursor: "pointer" }}
       onClick={() => history.push("/")}
     >
-      <img src={logo} alt="Get Paid In Bitcoin" />
+      <img className="GPIBLogo" src={logo} alt="Get Paid In Bitcoin" />
     </Navbar.Brand>
   );
 

@@ -40,7 +40,7 @@ const Register = () => {
       <div className="d-flex flex-column justify-content-center container align-items-center">
         <div className="p-3 mt-4">
           <h3>
-            Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin,
+            Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin
             in your weekly wages.
           </h3>
           <br></br>

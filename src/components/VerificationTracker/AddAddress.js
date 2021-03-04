@@ -31,10 +31,7 @@ const AddAddress = ({ setVerifyAddress }) => {
   const generateHDAddress = async () => {
     setIsSubmitting(true);
     try {
-      const { data } = await gpib.secure.post("/User/HDAddress");
-      console.log(data);
-      setHDAddress(data);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await gpib.secure.post("/User/HDAddress");
       await mutate(`/user/${user.id}/address`);
       setIsSubmitting(false);
     } catch (error) {

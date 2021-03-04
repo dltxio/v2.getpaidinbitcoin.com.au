@@ -7,12 +7,11 @@ import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
 import { Button, Spinner } from "react-bootstrap";
 
-const AddAddress = ({ setVerifyAddress }) => {
+const AddAddress = () => {
   const { user } = useContext(AuthContext);
   const { data: userHDAddress, error: fetchHDAddressError } = useSWR(
     `/user/${user.id}/address`
   );
-  const [HDAddress, setHDAddress] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isFetchingHDAddress = !userHDAddress && !fetchHDAddressError;
   const addAddress = async (v, actions) => {
@@ -68,7 +67,6 @@ const AddAddress = ({ setVerifyAddress }) => {
           onSubmit={addAddress}
           submitText="Add Address"
           omit={["percent"]}
-          initialValues={HDAddress}
         />
         <ErrorMessage error={fetchHDAddressError} />
         <Loader loading={isFetchingHDAddress} />

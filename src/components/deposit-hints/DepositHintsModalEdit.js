@@ -40,7 +40,7 @@ const DepositHintsModalForm = (props) => {
       const parsedValues = parseSubmitValues(values);
       const url = `/user/${user.id}/deposithints`;
       await gpib.secure.put(url, parsedValues);
-      if (userEnterprise && userEnterprise?.name) {
+      if (userEnterprise?.name) {
         await gpib.secure.get(
           `/email/payinstructions/${user.id}?email=${userEnterprise.contactEmail}`
         );

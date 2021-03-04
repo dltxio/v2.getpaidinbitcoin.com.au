@@ -12,7 +12,7 @@ const AddPayroll = ({ userEnterprise }) => {
     [userEnterprise]
   );
   const { user } = useContext(AuthContext);
-  const enterprise = userEnterprise && userEnterprise.name;
+  const enterprise = userEnterprise?.name;
   const updatePayroll = async (v, actions) => {
     const parsedValues = {
       employerName: v.employerName,

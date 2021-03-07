@@ -19,7 +19,8 @@ const validate = (values) => {
 const DepositHintsForm = ({
   initialValues: _inititalValues,
   onSubmit,
-  submitText = "Submit"
+  submitText = "Submit",
+  enterprise
 }) => {
   const initialValues = {
     employerName: "",
@@ -39,6 +40,7 @@ const DepositHintsForm = ({
             label="Employer Name"
             name="employerName"
             placeholder="Example Pty Ltd"
+            disabled={enterprise}
           />
           <Input
             label="Deposit Amount (AUD)"

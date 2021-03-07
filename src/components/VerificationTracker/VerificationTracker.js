@@ -8,29 +8,8 @@ import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
 
 const VerificationTracker = ({ userDetails, depositHints, userEnterprise }) => {
-  const { isVerified, hasVerified, setHasVerified, setVerified } = useContext(
-    AuthContext
-  );
-  const { emailVerified, mobileVerified, idVerificationStatus } =
-    userDetails || {};
-  const { depositAmount } = depositHints || {};
+  const { isVerified, hasVerified, setHasVerified } = useContext(AuthContext);
   const { name: employerName } = userEnterprise || {};
-
-  useEffect(() => {
-    const isVerified =
-      emailVerified &&
-      mobileVerified &&
-      depositAmount !== undefined &&
-      (employerName || idVerificationStatus === 3);
-    setVerified(isVerified);
-  }, [
-    emailVerified,
-    mobileVerified,
-    depositAmount,
-    employerName,
-    idVerificationStatus,
-    setVerified
-  ]);
 
   useEffect(() => {
     const hasVerified = userDetails && depositHints && userEnterprise;

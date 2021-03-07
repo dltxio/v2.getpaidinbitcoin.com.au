@@ -40,7 +40,7 @@ const Register = () => {
       <div className="d-flex flex-column justify-content-center container align-items-center">
         <div className="p-3 mt-4">
           <h3>
-            Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin,
+            Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin
             in your weekly wages.
           </h3>
           <br></br>
@@ -48,7 +48,7 @@ const Register = () => {
           thousands of Australians that use GPIB to receive bitcoin in their
           wages. <br></br>You will also be eligible to participate in our
           referral program when you refer your friends and work mates and
-          receive addition bitcoin payments. <br></br>
+          receive additional bitcoin payments. <br></br>
           <p></p>We look forward to processing your first bitcoin pay soon.
           <br></br>
           <p></p>From the GPIB Team

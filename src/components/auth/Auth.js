@@ -17,6 +17,33 @@ export const AuthProvider = ({ children }) => {
   );
   const isFetchingDetails = user && !userDetails && !fetchDetailsError;
 
+  const { data: depositHints } = useSWR(
+    user && `/user/${user.id}/deposithints`
+  );
+  const { data: userEnterprise } = useSWR(
+    user && `/user/${user.id}/enterprise`
+  );
+  const { emailVerified, mobileVerified, idVerificationStatus } =
+    userDetails || {};
+  const { depositAmount } = depositHints || {};
+  const { name: employerName } = userEnterprise || {};
+
+  useEffect(() => {
+    const isVerified =
+      emailVerified &&
+      mobileVerified &&
+      depositAmount !== undefined &&
+      (employerName || idVerificationStatus === 3);
+    setVerified(isVerified);
+  }, [
+    emailVerified,
+    mobileVerified,
+    depositAmount,
+    employerName,
+    idVerificationStatus,
+    setVerified
+  ]);
+
   useEffect(() => {
     cache.clear();
     const initialUser = JSON.parse(window.localStorage.getItem("user"));
@@ -52,7 +79,10 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        user: user && { ...userDetails, ...user },
+        user: user && {
+          ...userDetails,
+          ...user
+        },
         isLoggingIn: isLoggingIn || isFetchingDetails,
         isLoading,
         login,

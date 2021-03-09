@@ -12,6 +12,7 @@ const AddPayroll = ({ userEnterprise }) => {
     [userEnterprise]
   );
   const { user } = useContext(AuthContext);
+  const enterprise = userEnterprise?.name;
   const updatePayroll = async (v, actions) => {
     const parsedValues = {
       employerName: v.employerName,
@@ -19,7 +20,7 @@ const AddPayroll = ({ userEnterprise }) => {
     };
     try {
       await gpib.secure.put(`/user/${user?.id}/deposithints`, parsedValues);
-      if (userEnterprise) {
+      if (userEnterprise?.name) {
         await gpib.secure.get(
           `/email/payinstructions/${user.id}?email=${userEnterprise.contactEmail}`
         );
@@ -46,6 +47,7 @@ const AddPayroll = ({ userEnterprise }) => {
         <DepositHintsForm
           onSubmit={updatePayroll}
           initialValues={initialValues}
+          enterprise={enterprise}
         />
       </div>
     </div>

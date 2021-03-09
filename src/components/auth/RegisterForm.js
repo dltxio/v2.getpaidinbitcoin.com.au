@@ -23,8 +23,8 @@ const parseSubmitValues = (v) => ({
   email: v.email,
   password: v.password,
   referralCode: v.referralCode,
-  createHDAddress: false,
   trackHDAddress: false
+  createHDAddress: process.env.REACT_APP_USE_HD ?? false
 });
 
 const validate = ({ email, password, passwordMatch, firstName, lastName }) => {

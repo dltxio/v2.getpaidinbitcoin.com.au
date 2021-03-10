@@ -70,8 +70,7 @@ const AddAddress = () => {
           <Alert variant="primary" className="mb-4">
             I want GPIB to create a custodial address for me. I understand that
             I won’t be able to access the BTC in this account until I add my own
-            BTC address. We want transactions to only be DB entries rather than
-            on the chain to minimise transaction costs.
+            BTC address.
           </Alert>
           <Button onClick={generateHDAddress} disabled={isSubmitting} block>
             {isSubmitting ? (

@@ -35,6 +35,7 @@ const AddAddress = () => {
       setIsSubmitting(false);
     } catch (error) {
       console.error(error);
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -45,7 +46,7 @@ const AddAddress = () => {
           <b>Add a bitcoin address.</b>
         </p>
         <div className="d-flex align-items-end">
-          <Button onClick={generateHDAddress}>
+          <Button onClick={generateHDAddress} disabled={isSubmitting}>
             {isSubmitting ? (
               <>
                 <Spinner

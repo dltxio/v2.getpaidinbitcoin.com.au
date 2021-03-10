@@ -23,6 +23,7 @@ const AddAddress = () => {
     } catch (e) {
       console.log(e);
       actions.setErrors({ hidden: e });
+    } finally {
       actions.setSubmitting(false);
     }
   };
@@ -30,7 +31,7 @@ const AddAddress = () => {
   const generateHDAddress = async () => {
     setIsSubmitting(true);
     try {
-      await gpib.secure.post("/User/HDAddress");
+      await gpib.secure.post("/user/hdaddress");
       await mutate(`/user/${user.id}/address`);
       setIsSubmitting(false);
     } catch (error) {

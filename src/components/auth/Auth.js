@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   const { data: userEnterprise } = useSWR(
     user && `/user/${user.id}/enterprise`
   );
+  const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
   const { emailVerified, mobileVerified, idVerificationStatus } =
     userDetails || {};
   const { depositAmount } = depositHints || {};
@@ -30,12 +31,15 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const isVerified =
+      userAddress &&
+      userAddress.length > 0 &&
       emailVerified &&
       mobileVerified &&
       depositAmount !== undefined &&
       (employerName || idVerificationStatus === 3);
     setVerified(isVerified);
   }, [
+    userAddress,
     emailVerified,
     mobileVerified,
     depositAmount,

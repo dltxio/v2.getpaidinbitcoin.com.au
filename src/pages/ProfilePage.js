@@ -33,7 +33,12 @@ const Dashboard = () => {
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
   );
-  const isFetchingSettings = !settings && !fetchSettingsError;
+
+  const { data: referralRate, error: fetchReferralRate } = useSWR(
+    "/referral/rate"
+  );
+  const isFetchingSettings =
+    !settings && !fetchSettingsError && !fetchReferralRate;
 
   const fullName = [
     userDetails?.firstName,
@@ -97,7 +102,8 @@ const Dashboard = () => {
     [
       "Referral Link",
       `${process.env.REACT_APP_URL}/register?referralCode=${user.id}`
-    ]
+    ],
+    ["Referral bonus per transaction", `$ ${referralRate?.fixedAmount}`]
   ];
   return (
     <Layout activeTab="profile">

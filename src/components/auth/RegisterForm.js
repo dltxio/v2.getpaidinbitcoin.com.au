@@ -23,6 +23,7 @@ const parseSubmitValues = (v) => ({
   email: v.email,
   password: v.password,
   referralCode: v.referralCode,
+  trackHDAddress: false,
   createHDAddress: false
 });
 
@@ -49,7 +50,7 @@ const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
   return errors;
 };
 
-const RegisterForm = ({ initialValues: _iv, lockReferralCode }) => {
+const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise }) => {
   const initialValues = { ...defaultValues, ..._iv };
   const { login } = useContext(AuthContext);
   const onSubmit = async (values, actions) => {
@@ -78,6 +79,7 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode }) => {
           <Input
             name="email"
             placeholder="Please register with your own email"
+            disabled={enterprise}
           />
           <Input name="password" type="password" placeholder="Password" />
           <Input
@@ -85,13 +87,24 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode }) => {
             type="password"
             placeholder="Confirm Password"
           />
-          <Input name="firstName" placeholder="First Name" />
-          <Input name="lastName" placeholder="Last Name" />
           <Input
-            name="referralCode"
-            placeholder="Offer or Referral Code"
-            disabled={lockReferralCode}
+            name="firstName"
+            placeholder="First Name"
+            disabled={enterprise}
           />
+          <Input
+            name="lastName"
+            placeholder="Last Name"
+            disabled={enterprise}
+          />
+          {!enterprise && (
+            <Input
+              name="referralCode"
+              placeholder="Offer or Referral Code"
+              disabled={lockReferralCode}
+            />
+          )}
+
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton submitText="Join" isSubmitting={isSubmitting} />
         </Form>

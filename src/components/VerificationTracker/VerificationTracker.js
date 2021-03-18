@@ -6,37 +6,22 @@ import AddPayroll from "./AddPayroll";
 import VerifyID from "./VerifyID";
 import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
+import AddAddress from "./AddAddress";
 
-const VerificationTracker = ({ userDetails, depositHints, userEnterprise }) => {
-  const { isVerified, hasVerified, setHasVerified, setVerified } = useContext(
-    AuthContext
-  );
-  const { emailVerified, mobileVerified, idVerificationStatus } =
-    userDetails || {};
-  const { depositAmount } = depositHints || {};
+const VerificationTracker = ({
+  userDetails,
+  depositHints,
+  userEnterprise,
+  userAddress
+}) => {
+  const { isVerified, hasVerified, setHasVerified } = useContext(AuthContext);
   const { name: employerName } = userEnterprise || {};
 
   useEffect(() => {
-    const isVerified =
-      emailVerified &&
-      mobileVerified &&
-      depositAmount !== undefined &&
-      (employerName || idVerificationStatus === 3);
-    setVerified(isVerified);
-  }, [
-    emailVerified,
-    mobileVerified,
-    depositAmount,
-    employerName,
-    idVerificationStatus,
-    setVerified
-  ]);
-
-  useEffect(() => {
-    const hasVerified = userDetails && depositHints && userEnterprise;
+    const hasVerified =
+      userDetails && depositHints && userEnterprise && userAddress;
     setHasVerified(hasVerified);
-  }, [depositHints, userDetails, userEnterprise, setHasVerified]);
-
+  }, [depositHints, userDetails, userEnterprise, setHasVerified, userAddress]);
   const steps = [
     {
       label: "Registered",
@@ -56,20 +41,28 @@ const VerificationTracker = ({ userDetails, depositHints, userEnterprise }) => {
       panel: <VerifyMobile />
     },
     {
+      label: "Add BTC address",
+      icon: "logo-bitcoin",
+      isCompleted: userAddress && userAddress.length > 0,
+      panel: <AddAddress />
+    },
+    {
       label: "Add Payroll Information",
       icon: "cash-outline",
       isCompleted: depositHints?.depositAmount !== undefined,
       panel: <AddPayroll userEnterprise={userEnterprise} />
     }
   ];
-
-  if (!employerName)
+  if (!employerName) {
     steps.push({
       label: "Verify ID",
       icon: "newspaper-outline",
       panel: <VerifyID />,
       isCompleted: userDetails?.idVerificationstatus === 3
     });
+  } else {
+    steps.splice(2, 1);
+  }
 
   const activeStepIndex = steps.map((v) => v.isCompleted).indexOf(false);
   const activeStep = steps[activeStepIndex];

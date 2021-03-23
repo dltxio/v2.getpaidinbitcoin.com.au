@@ -14,14 +14,18 @@ const parseSubmitValues = (v) => ({
   userID: v.userID,
   employerName: v.employerName,
   depositReference: v.depositReference,
-  depositAmount: Number(v.depositAmount)
+  depositAmount: Number(v.depositAmount),
+  bankStatement: v.bankStatement
 });
 
 const parseInitialValues = (fetchedData) =>
-  ["id", "userID", "employerName", "depositAmount"].reduce((map, item) => {
-    if (fetchedData[item]) map[item] = fetchedData[item];
-    return map;
-  }, {});
+  ["id", "userID", "employerName", "depositAmount", "bankStatement"].reduce(
+    (map, item) => {
+      if (fetchedData[item]) map[item] = fetchedData[item];
+      return map;
+    },
+    {}
+  );
 
 const DepositHintsModalForm = (props) => {
   const { user } = useContext(AuthContext);

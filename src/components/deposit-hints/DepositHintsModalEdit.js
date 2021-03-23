@@ -80,7 +80,6 @@ const DepositHintsModalForm = (props) => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText="Save"
-              editPayroll="true"
               {...props}
             />
           ) : (

@@ -66,7 +66,7 @@ const Dashboard = () => {
   const payrollColumns = [
     ["Employer", depositHints?.employerName],
     ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
-    ["Bank Statement", depositHints?.bankStatement]
+    ["Deposit Reference", depositHints?.bankStatement]
   ];
   const updateSettings = async (updates) => {
     const url = `/settings/${user.id}`;

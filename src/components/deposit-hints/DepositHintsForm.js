@@ -49,7 +49,7 @@ const DepositHintsForm = ({
             placeholder="0.00"
           />
           <Input
-            label="Deposit Description"
+            label="Deposit Reference"
             name="bankStatement"
             placeholder="Bank statement"
           />

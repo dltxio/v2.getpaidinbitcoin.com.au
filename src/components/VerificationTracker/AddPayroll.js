@@ -16,7 +16,8 @@ const AddPayroll = ({ userEnterprise }) => {
   const updatePayroll = async (v, actions) => {
     const parsedValues = {
       employerName: v.employerName,
-      depositAmount: Number(v.depositAmount)
+      depositAmount: Number(v.depositAmount),
+      bankStatement: v.bankStatement
     };
     try {
       await gpib.secure.put(`/user/${user?.id}/deposithints`, parsedValues);

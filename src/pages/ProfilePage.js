@@ -23,6 +23,7 @@ const Dashboard = () => {
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
   );
+
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
 
   const { data: userDetails, error: fetchDetailsError } = useSWR(
@@ -64,7 +65,8 @@ const Dashboard = () => {
 
   const payrollColumns = [
     ["Employer", depositHints?.employerName],
-    ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })]
+    ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
+    ["Deposit Reference", depositHints?.bankStatement]
   ];
   const updateSettings = async (updates) => {
     const url = `/settings/${user.id}`;

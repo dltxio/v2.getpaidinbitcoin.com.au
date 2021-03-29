@@ -12,7 +12,7 @@ const validate = (values) => {
   if (!values.employerName) errors.employerName = requiredMsg;
   if (!values.depositAmount && String(values.depositAmount) !== "0")
     errors.depositAmount = requiredMsg;
-
+  if (!values.bankStatement) errors.bankStatement = requiredMsg;
   return errors;
 };
 
@@ -25,6 +25,7 @@ const DepositHintsForm = ({
   const initialValues = {
     employerName: "",
     depositAmount: "",
+    bankStatement: "",
     ..._inititalValues
   };
   return (
@@ -46,6 +47,11 @@ const DepositHintsForm = ({
             label="Deposit Amount (AUD)"
             name="depositAmount"
             placeholder="0.00"
+          />
+          <Input
+            label="Deposit Reference"
+            name="bankStatement"
+            placeholder="Bank statement"
           />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton

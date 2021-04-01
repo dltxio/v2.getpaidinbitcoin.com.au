@@ -13,9 +13,14 @@ import PayInformationTable from "components/pay-information/PayInformationTable"
 import Card from "components/Card";
 import PayInformationActions from "components/pay-information/PayInformationActions";
 import "./Dashboard.scss";
+import ReferralCreditTable from "components/referral/ReferralCreditTable";
 
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
+
+  const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
+    "/referralCredits"
+  );
 
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
@@ -67,6 +72,8 @@ const Dashboard = () => {
   const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
   const isFetchingTransactions =
     isVerified && !transactions && !fetchTransactionsError;
+  const isFetchingReferralCredits =
+    isVerified && !referralCredits && !fetchReferralCreditsError;
 
   return (
     <Layout activeTab="Dashboard">
@@ -114,6 +121,14 @@ const Dashboard = () => {
                 className="py-3"
               />
             </Card>
+            <section>
+              <Card>
+                <h4>Referral Credits</h4>
+                <ErrorMessage error={fetchReferralCreditsError} />
+                <Loader loading={isFetchingReferralCredits} />
+                <ReferralCreditTable referralCredits={referralCredits} />
+              </Card>
+            </section>
           </aside>
           <section className="content col-lg-7">
             {isVerified && (

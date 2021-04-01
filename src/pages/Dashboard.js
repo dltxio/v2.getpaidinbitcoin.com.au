@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import Layout from "components/layout/Layout";
 import VerificationTracker from "components/VerificationTracker";
@@ -14,9 +14,17 @@ import Card from "components/Card";
 import PayInformationActions from "components/pay-information/PayInformationActions";
 import "./Dashboard.scss";
 import ReferralCreditTable from "components/referral/ReferralCreditTable";
+import { CSVLink } from "react-csv";
+import { Alert } from "react-bootstrap";
 
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [transactionsDownload, setTransactionsDowload] = useState();
+  const [downloadError, setDownloadError] = useState({
+    show: false,
+    message: ""
+  });
 
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
     "/referralCredits"
@@ -41,7 +49,6 @@ const Dashboard = () => {
   const { data: transactions, error: fetchTransactionsError } = useSWR(
     isVerified && `/transaction`
   );
-
   const { data: userStats, error: fetchStatsError } = useSWR(
     isVerified && "/stats/all"
   );
@@ -75,6 +82,31 @@ const Dashboard = () => {
   const isFetchingReferralCredits =
     isVerified && !referralCredits && !fetchReferralCreditsError;
 
+  const defaultArray = [];
+  const headers = [
+    { label: "Created", key: "date" },
+    { label: "Type", key: "type" },
+    { label: "Description", key: "reference" },
+    { label: "Amount", key: "amount" }
+  ];
+
+  const currentYear = new Date().getFullYear();
+
+  const handleDownload = (event, done) => {
+    setDownloadError({ show: false, message: "" });
+    if (year) {
+      const filterTransactions = transactions.filter(
+        (ts) => new Date(ts.date).getFullYear().toString() === year.toString()
+      );
+      if (filterTransactions.length > 0) {
+        setTransactionsDowload(filterTransactions);
+        done(true);
+      } else {
+        setDownloadError({ show: true, message: "Transactions not found" });
+        done(false);
+      }
+    }
+  };
   return (
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
@@ -165,7 +197,40 @@ const Dashboard = () => {
             )}
             <section style={{ position: "relative" }}>
               <Card>
-                <h4>Transactions</h4>
+                <div className="d-flex flex-row">
+                  <div className="mr-auto p-2">
+                    <h4>Transactions</h4>
+                  </div>
+                  <div className="p-2">
+                    <select
+                      className="form-control"
+                      id="downloadYear"
+                      onChange={(e) => {
+                        setYear(e.target.value);
+                      }}
+                    >
+                      <option>{currentYear}</option>
+                      <option>{currentYear - 1}</option>
+                      <option>{currentYear - 2}</option>
+                    </select>
+                  </div>
+                  <div className="p-2">
+                    <CSVLink
+                      data={transactionsDownload || defaultArray}
+                      headers={headers}
+                      filename={"User-transactions.csv"}
+                      className="btn btn-primary mr-2 mx-2"
+                      target="_blank"
+                      asyncOnClick={true}
+                      onClick={handleDownload}
+                    >
+                      Download CSV
+                    </CSVLink>
+                  </div>
+                </div>
+                {downloadError.show && (
+                  <Alert variant="danger">{downloadError.message}</Alert>
+                )}
                 <ErrorMessage error={fetchTransactionsError} />
                 <Loader loading={isFetchingTransactions} />
                 <TransactionTable transactions={transactions} />

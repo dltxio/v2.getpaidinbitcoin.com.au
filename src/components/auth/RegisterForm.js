@@ -7,6 +7,7 @@ import gpib from "apis/gpib";
 import ErrorMessage from "components/ErrorMessage";
 import { AuthContext } from "components/auth/Auth";
 import { minPasswordLength } from "constants/index";
+import { useHistory } from "react-router-dom";
 
 const defaultValues = {
   email: "",
@@ -53,6 +54,7 @@ const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
 const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise }) => {
   const initialValues = { ...defaultValues, ..._iv };
   const { login } = useContext(AuthContext);
+  const history = useHistory();
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
@@ -61,6 +63,7 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise }) => {
         username: parsedValues.email,
         password: parsedValues.password
       });
+      history.push("/");
     } catch (e) {
       console.log(e);
       actions.setErrors({ hidden: e });

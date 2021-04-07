@@ -11,7 +11,6 @@ const VerifyEmail = () => {
   const [hasSent, setSent] = useState(false);
   const { user } = useContext(AuthContext);
   const [message, setMessage] = useState();
-
   const sendSMS = async (values, actions) => {
     try {
       await gpib.secure.get(`/user/verifymobile?mobile=${values.mobile}`);

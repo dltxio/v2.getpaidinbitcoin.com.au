@@ -8,8 +8,8 @@ import Loader from "components/Loader";
 import { Button, Spinner, Alert } from "react-bootstrap";
 import Card from "components/Card";
 
-const AddAddress = () => {
-  const { user } = useContext(AuthContext);
+const AddAddress = ({ userEnterprise }) => {
+  const { user, setVerified, setSkipKYC } = useContext(AuthContext);
   const { data: userHDAddress, error: fetchHDAddressError } = useSWR(
     `/user/${user.id}/address`
   );
@@ -35,6 +35,10 @@ const AddAddress = () => {
       await gpib.secure.post("/user/hdaddress");
       await mutate(`/user/${user.id}/address`);
       setIsSubmitting(false);
+      if (!userEnterprise?.name) {
+        setSkipKYC(true);
+        setVerified(true);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -83,8 +87,10 @@ const AddAddress = () => {
                 />
                 Submitting
               </>
-            ) : (
+            ) : userEnterprise?.name ? (
               "Generate HD Address"
+            ) : (
+              "Generate HD Address and Skip KYC"
             )}
           </Button>
         </div>

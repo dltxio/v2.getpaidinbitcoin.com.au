@@ -41,7 +41,7 @@ const VerificationTracker = ({
       panel: <VerifyMobile />
     },
     {
-      label: "Add BTC address",
+      label: "Add BTC Address",
       icon: "logo-bitcoin",
       isCompleted: userAddress && userAddress.length > 0,
       panel: <AddAddress />

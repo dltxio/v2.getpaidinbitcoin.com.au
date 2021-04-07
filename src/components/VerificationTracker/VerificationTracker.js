@@ -47,7 +47,7 @@ const VerificationTracker = ({
       panel: <AddPayroll userEnterprise={userEnterprise} />
     },
     {
-      label: "Add BTC address",
+      label: "Add BTC Address",
       icon: "logo-bitcoin",
       isCompleted: userAddress && userAddress.length > 0,
       panel: <AddAddress userEnterprise={userEnterprise} />

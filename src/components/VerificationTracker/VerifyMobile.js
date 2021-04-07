@@ -29,7 +29,7 @@ const VerifyEmail = () => {
         code: parseInt(values.code)
       });
       actions.setSubmitting(false);
-      setMessage("Your phone has been verified");
+      setMessage("Your mobile has been verified");
       await new Promise((resolve) => setTimeout(resolve, 5000));
       await mutate(`/user/${user.id}`);
     } catch (e) {
@@ -78,7 +78,7 @@ const VerifyEmail = () => {
     <div>
       {message && <Alert variant="success">{message}</Alert>}
       <p>
-        <b>Verify your mobile to continue.</b>
+        <b>Verify your mobile to continue</b>
       </p>
       <SingleInputForm
         submitText="Send verification code"

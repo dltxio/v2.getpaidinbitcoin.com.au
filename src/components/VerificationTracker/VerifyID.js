@@ -106,15 +106,13 @@ const VerifyID = () => {
           />
         )}
       </div>
-      {userAddress &&
-        userAddress[0].label.toLowerCase() ===
-          "GPIB Custodial Wallet".toLowerCase() && (
-          <div className="mt-2 d-flex flex-row-reverse">
-            <Button variant="primary" block onClick={handleSkipKYC}>
-              Skip KYC
-            </Button>
-          </div>
-        )}
+      {userAddress && userAddress[0].isCustodial && (
+        <div className="mt-2 d-flex flex-row-reverse">
+          <Button variant="primary" block onClick={handleSkipKYC}>
+            Skip KYC
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

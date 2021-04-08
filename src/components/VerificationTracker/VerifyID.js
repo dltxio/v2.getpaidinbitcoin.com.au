@@ -5,6 +5,7 @@ import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 import RapidIDForm from "components/auth/RapidIDForm";
 import ErrorMessage from "components/ErrorMessage";
+import Verify from "../../utils/Verify";
 
 const statuses = {
   NOT_STARTED: 0,
@@ -113,6 +114,9 @@ const VerifyID = () => {
           </Button>
         </div>
       )}
+      <div>
+        <Verify />
+      </div>
     </div>
   );
 };

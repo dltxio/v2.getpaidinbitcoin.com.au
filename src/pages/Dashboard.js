@@ -89,7 +89,6 @@ const Dashboard = () => {
     { label: "Deposit ID", key: "depositID" },
     { label: "Amount", key: "depositAmount" },
     { label: "Reference", key: "reference" },
-    { label: "Fee", key: "fees" },
     { label: "Bank ID", key: "bankID" },
     { label: "Created", key: "depositCreated" },
     { label: "Transfer ID", key: "transferID" },

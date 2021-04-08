@@ -118,7 +118,7 @@ const Dashboard = () => {
         setTransactionsDowload(filterTransactions);
         done(true);
       } else {
-        setDownloadError({ show: true, message: "Transactions not found" });
+        setDownloadError({ show: true, message: "No transactions found" });
         done(false);
       }
     }

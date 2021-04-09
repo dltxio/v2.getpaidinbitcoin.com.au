@@ -114,7 +114,7 @@ const VerifyID = () => {
           </Button>
         </div>
       )}
-      <div>
+      <div className="mt-2">
         <Verify />
       </div>
     </div>

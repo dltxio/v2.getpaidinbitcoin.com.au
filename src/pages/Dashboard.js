@@ -90,12 +90,12 @@ const Dashboard = () => {
     { label: "Amount", key: "depositAmount" },
     { label: "Reference", key: "reference" },
     { label: "Bank ID", key: "bankID" },
-    { label: "Created", key: "depositCreated" },
+    { label: "Deposit Created", key: "depositCreated" },
     { label: "Transfer ID", key: "transferID" },
     { label: "Coin", key: "coin" },
     { label: "Amount", key: "cryptoAmount" },
     { label: "Address", key: "address" },
-    { label: "Created", key: "transferCreated" },
+    { label: "Transfer Created", key: "transferCreated" },
     { label: "Rate", key: "rate" },
     { label: "TX", key: "tx" }
   ];

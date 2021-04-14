@@ -1,17 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import gpib from "../apis/gpib";
+import { mutate } from "swr";
 
-export default class Verify extends React.Component {
-  render() {
-    return (
-      <div
-        id="digitalid-verify"
-        className="d-flex justify-content-center"
-      ></div>
-    );
-  }
-
-  componentDidMount() {
+const Verify = () => {
+  useEffect(() => {
     const script = document.createElement("script");
 
     script.src = "https://digitalid-sandbox.com/sdk/app.js";
@@ -31,7 +23,13 @@ export default class Verify extends React.Component {
               code: msg.code,
               transactionID: msg.transaction_id
             });
-            console.log(response);
+            if (response.status === 200) {
+              //TODO refresh the page
+              mutate("/");
+            }
+            if (response.status === 400) {
+              //TODO show alert
+            }
           }
         },
         onClick: function (opts) {
@@ -40,5 +38,9 @@ export default class Verify extends React.Component {
         onKeepAlive: function () {}
       });
     };
-  }
-}
+  }, []);
+  return (
+    <div id="digitalid-verify" className="d-flex justify-content-center"></div>
+  );
+};
+export default Verify;

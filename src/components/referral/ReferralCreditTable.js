@@ -6,15 +6,17 @@ const columnConfig = {
     children: "Crypto Amount"
   },
   coin: {
-    children: "Coin"
+    children: "Coin",
+    width: "12%"
   },
   transferCreated: {
-    children: "Transfered"
+    children: "Transfered",
+    width: "20%"
   }
 };
 const tableOptions = {
   hideSizePerPage: true,
-  sizePerPage: 10
+  sizePerPage: 5
 };
 
 const ReferralCreditTable = ({ referralCredits }) => {

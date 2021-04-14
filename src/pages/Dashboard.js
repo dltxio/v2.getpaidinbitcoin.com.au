@@ -14,6 +14,10 @@ import Card from "components/Card";
 import PayInformationActions from "components/pay-information/PayInformationActions";
 import "./Dashboard.scss";
 import ReferralCreditTable from "components/referral/ReferralCreditTable";
+import ReferralTransferTable from "components/referral/ReferralTransferTable";
+import { CSVLink } from "react-csv";
+import { Alert } from "react-bootstrap";
+import prefixID from "../utils/prefixID";
 
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
@@ -21,6 +25,11 @@ const Dashboard = () => {
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
     "/referralCredits"
   );
+
+  const {
+    data: referralTransfers,
+    error: fetchReferralTransfersError
+  } = useSWR("/referralTransfer");
 
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
@@ -31,6 +40,7 @@ const Dashboard = () => {
   );
 
   const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
+
   const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
 
   // Only if verified
@@ -74,6 +84,8 @@ const Dashboard = () => {
     isVerified && !transactions && !fetchTransactionsError;
   const isFetchingReferralCredits =
     isVerified && !referralCredits && !fetchReferralCreditsError;
+  const isFetchingReferralTransfers =
+    isVerified && !referralTransfers && !fetchReferralTransfersError;
 
   return (
     <Layout activeTab="Dashboard">
@@ -122,6 +134,12 @@ const Dashboard = () => {
               />
             </Card>
             <section>
+              <Card>
+                <h4>Referral Transactions</h4>
+                <ErrorMessage error={fetchReferralTransfersError} />
+                <Loader loading={isFetchingReferralTransfers} />
+                <ReferralTransferTable referralTransfers={referralTransfers} />
+              </Card>
               <Card>
                 <h4>Referral Credits</h4>
                 <ErrorMessage error={fetchReferralCreditsError} />

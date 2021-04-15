@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import Layout from "components/layout/Layout";
 import VerificationTracker from "components/VerificationTracker";
@@ -21,6 +21,12 @@ import prefixID from "../utils/prefixID";
 
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [transactionsDownload, setTransactionsDowload] = useState();
+  const [downloadError, setDownloadError] = useState({
+    show: false,
+    message: ""
+  });
 
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
     "/referralCredits"
@@ -51,7 +57,6 @@ const Dashboard = () => {
   const { data: transactions, error: fetchTransactionsError } = useSWR(
     isVerified && `/transaction`
   );
-
   const { data: userStats, error: fetchStatsError } = useSWR(
     isVerified && "/stats/all"
   );
@@ -68,6 +73,7 @@ const Dashboard = () => {
     isVerified && `/user/${user.id}/address`
   );
 
+  const { data: userTransactions } = useSWR("/transaction/user");
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
@@ -87,6 +93,45 @@ const Dashboard = () => {
   const isFetchingReferralTransfers =
     isVerified && !referralTransfers && !fetchReferralTransfersError;
 
+  const defaultArray = [];
+  const headers = [
+    { label: "Deposit ID", key: "depositID" },
+    { label: "Amount", key: "depositAmount" },
+    { label: "Reference", key: "reference" },
+    { label: "Bank ID", key: "bankID" },
+    { label: "Created", key: "depositCreated" },
+    { label: "Transfer ID", key: "transferID" },
+    { label: "Coin", key: "coin" },
+    { label: "Amount", key: "cryptoAmount" },
+    { label: "Address", key: "address" },
+    { label: "Created", key: "transferCreated" },
+    { label: "Rate", key: "rate" },
+    { label: "TX", key: "tx" }
+  ];
+
+  const currentYear = new Date().getFullYear();
+
+  const handleDownload = (event, done) => {
+    setDownloadError({ show: false, message: "" });
+    if (year) {
+      const filterTransactions = userTransactions.filter(
+        (ts) =>
+          new Date(ts.depositCreated).getFullYear().toString() ===
+          year.toString()
+      );
+      if (filterTransactions.length > 0) {
+        for (let fts of filterTransactions) {
+          fts.depositID = prefixID(fts.depositID, "D");
+          fts.transferID = prefixID(fts.transferID, "T");
+        }
+        setTransactionsDowload(filterTransactions);
+        done(true);
+      } else {
+        setDownloadError({ show: true, message: "No transactions found" });
+        done(false);
+      }
+    }
+  };
   return (
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
@@ -183,7 +228,40 @@ const Dashboard = () => {
             )}
             <section style={{ position: "relative" }}>
               <Card>
-                <h4>Transactions</h4>
+                <div className="d-flex flex-row">
+                  <div className="mr-auto p-2">
+                    <h4>Transactions</h4>
+                  </div>
+                  <div className="p-2">
+                    <select
+                      className="form-control"
+                      id="downloadYear"
+                      onChange={(e) => {
+                        setYear(e.target.value);
+                      }}
+                    >
+                      <option>{currentYear}</option>
+                      <option>{currentYear - 1}</option>
+                      <option>{currentYear - 2}</option>
+                    </select>
+                  </div>
+                  <div className="p-2">
+                    <CSVLink
+                      data={transactionsDownload || defaultArray}
+                      headers={headers}
+                      filename={"User-transactions.csv"}
+                      className="btn btn-primary mr-2 mx-2"
+                      target="_blank"
+                      asyncOnClick={true}
+                      onClick={handleDownload}
+                    >
+                      Download CSV
+                    </CSVLink>
+                  </div>
+                </div>
+                {downloadError.show && (
+                  <Alert variant="danger">{downloadError.message}</Alert>
+                )}
                 <ErrorMessage error={fetchTransactionsError} />
                 <Loader loading={isFetchingTransactions} />
                 <TransactionTable transactions={transactions} />

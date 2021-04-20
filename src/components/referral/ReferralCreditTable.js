@@ -11,7 +11,10 @@ const columnConfig = {
   },
   transferCreated: {
     children: "Transfered",
-    width: "20%"
+    width: "20%",
+    dataFormat: (cell) => {
+      return cell.toString().charAt().toUpperCase() + cell.toString().slice(1)
+    }
   }
 };
 const tableOptions = {

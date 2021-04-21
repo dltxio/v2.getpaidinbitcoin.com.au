@@ -67,7 +67,7 @@ const Dashboard = () => {
     ["Employer", depositHints?.employerName],
     ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
     [
-      "DepositRef (Staff Number or Reference Number)",
+      "Deposit Reference (Staff Number or Reference Number)",
       depositHints?.bankStatement
     ]
   ];

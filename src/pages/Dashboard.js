@@ -180,12 +180,6 @@ const Dashboard = () => {
             </Card>
             <section>
               <Card>
-                <h4>Referral Transactions</h4>
-                <ErrorMessage error={fetchReferralTransfersError} />
-                <Loader loading={isFetchingReferralTransfers} />
-                <ReferralTransferTable referralTransfers={referralTransfers} />
-              </Card>
-              <Card>
                 <h4>Referral Credits</h4>
                 <ErrorMessage error={fetchReferralCreditsError} />
                 <Loader loading={isFetchingReferralCredits} />
@@ -265,6 +259,12 @@ const Dashboard = () => {
                 <ErrorMessage error={fetchTransactionsError} />
                 <Loader loading={isFetchingTransactions} />
                 <TransactionTable transactions={transactions} />
+              </Card>
+              <Card>
+                <h4>Referral Transactions</h4>
+                <ErrorMessage error={fetchReferralTransfersError} />
+                <Loader loading={isFetchingReferralTransfers} />
+                <ReferralTransferTable referralTransfers={referralTransfers} />
               </Card>
             </section>
           </section>

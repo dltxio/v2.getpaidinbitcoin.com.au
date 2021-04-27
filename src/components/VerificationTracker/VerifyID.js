@@ -34,10 +34,11 @@ const statusAlerts = {
 };
 
 const VerifyID = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setVerified, setSkipKYC } = useContext(AuthContext);
   const { data: userDetails, error: fetchDetailsError } = useSWR(
     user && `/user/${user.id}`
   );
+  const { data: userAddress } = useSWR(`/user/${user.id}/address`);
   const idVerificationStatus = userDetails?.idVerificationStatus;
   const mobile = userDetails?.mobileNumber;
   const isStarted = idVerificationStatus >= statuses.STARTED;
@@ -71,6 +72,10 @@ const VerifyID = () => {
     setResend(true);
   };
 
+  const handleSkipKYC = () => {
+    setSkipKYC(true);
+    setVerified(true);
+  };
   return (
     <div>
       <p>
@@ -101,6 +106,13 @@ const VerifyID = () => {
           />
         )}
       </div>
+      {userAddress && userAddress[0].isCustodial && (
+        <div className="mt-2 d-flex flex-row-reverse">
+          <Button variant="primary" block onClick={handleSkipKYC}>
+            Skip KYC
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

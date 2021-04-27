@@ -49,9 +49,9 @@ const DepositHintsForm = ({
             placeholder="0.00"
           />
           <Input
-            label="Deposit Reference"
+            label="Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)"
             name="bankStatement"
-            placeholder="Bank statement"
+            placeholder="Wage Transfer Description or Staff Number"
           />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton

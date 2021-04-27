@@ -51,6 +51,12 @@ const VerificationTracker = ({
       icon: "cash-outline",
       isCompleted: depositHints?.depositAmount !== undefined,
       panel: <AddPayroll userEnterprise={userEnterprise} />
+    },
+    {
+      label: "Add BTC Address",
+      icon: "logo-bitcoin",
+      isCompleted: userAddress && userAddress.length > 0,
+      panel: <AddAddress userEnterprise={userEnterprise} />
     }
   ];
   if (!employerName) {

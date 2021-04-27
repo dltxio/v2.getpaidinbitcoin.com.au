@@ -41,7 +41,7 @@ const AddPayroll = ({ userEnterprise }) => {
   return (
     <div>
       <p>
-        <b>Add your payroll information.</b>
+        <b>Add your payroll information</b>
       </p>
       {message && <Alert variant="success">{message}</Alert>}
       <div>

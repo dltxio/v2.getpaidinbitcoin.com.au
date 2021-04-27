@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import { Redirect, useLocation, useHistory } from "react-router-dom";
+import React from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import qs from "qs";
 import { Button } from "react-bootstrap";
-import { AuthContext } from "components/auth/Auth";
 import Layout from "components/layout/Layout";
 import Card from "components/Card";
 import RegisterForm from "components/auth/RegisterForm";
@@ -16,7 +15,6 @@ const urlCheck = (firstName, lastName, email) => {
 };
 
 const Register = () => {
-  const { user } = useContext(AuthContext);
   const history = useHistory();
   const location = useLocation();
   const referralCode =
@@ -33,8 +31,6 @@ const Register = () => {
     qs.parse(location.search, { ignoreQueryPrefix: true })?.email;
 
   const enterprise = urlCheck(firstName, lastName, email);
-
-  if (user) return <Redirect to="/" />;
   return (
     <Layout navLinks={[]}>
       <div className="d-flex flex-column justify-content-center container align-items-center">

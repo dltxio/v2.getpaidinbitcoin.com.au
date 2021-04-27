@@ -22,7 +22,7 @@ const VerifyEmail = () => {
   return (
     <div>
       <p>
-        <b>Verify your email to continue.</b>
+        <b>Verify your email to continue</b>
       </p>
       <ErrorMessage error={error} />
       <p>

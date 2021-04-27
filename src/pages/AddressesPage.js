@@ -13,7 +13,7 @@ import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
 
 const AddressesPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, skipKYC } = useContext(AuthContext);
   const history = useHistory();
   const getAddressesUrl = `/user/${user.id}/address`;
   const [selected, setSelected, selectRowConfig] = useSelectedRow(null);
@@ -38,7 +38,8 @@ const AddressesPage = () => {
       icon: "add",
       title: "Add",
       onClick: () => history.push("/addresses/add"),
-      hide: hasMultipleAddresses
+      hide: hasMultipleAddresses,
+      disabled: skipKYC
     },
     {
       icon: "create-outline",

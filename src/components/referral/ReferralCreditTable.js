@@ -3,7 +3,10 @@ import Table from "components/Table";
 
 const columnConfig = {
   cryptoAmount: {
-    children: "Crypto Amount"
+    children: "Crypto Amount",
+    dataFormat: (cell) => {
+      return Number(cell).toPrecision(3);
+    }
   },
   coin: {
     children: "Coin",
@@ -13,7 +16,7 @@ const columnConfig = {
     children: "Transfered",
     width: "20%",
     dataFormat: (cell) => {
-      return cell.toString().charAt().toUpperCase() + cell.toString().slice(1)
+      return cell.toString().charAt().toUpperCase() + cell.toString().slice(1);
     }
   }
 };

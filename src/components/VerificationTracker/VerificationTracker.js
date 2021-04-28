@@ -41,12 +41,6 @@ const VerificationTracker = ({
       panel: <VerifyMobile />
     },
     {
-      label: "Add BTC address",
-      icon: "logo-bitcoin",
-      isCompleted: userAddress && userAddress.length > 0,
-      panel: <AddAddress />
-    },
-    {
       label: "Add Payroll Information",
       icon: "cash-outline",
       isCompleted: depositHints?.depositAmount !== undefined,

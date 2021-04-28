@@ -5,7 +5,7 @@ const columnConfig = {
   cryptoAmount: {
     children: "Crypto Amount",
     dataFormat: (cell) => {
-      return Number(cell).toPrecision(3);
+      return Number(cell).toFixed(8);
     }
   },
   coin: {

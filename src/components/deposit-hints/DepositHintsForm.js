@@ -44,7 +44,7 @@ const DepositHintsForm = ({
             disabled={enterprise}
           />
           <Input
-            label="Deposit Amount (AUD)"
+            label="Dollar Amount of your Wages to Receive in BTC"
             name="depositAmount"
             placeholder="0.00"
           />

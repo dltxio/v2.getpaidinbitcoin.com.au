@@ -39,9 +39,6 @@ const DepositHintsForm = ({
   enterprise,
   sourceFrom
 }) => {
-  // const abc = (e) => {
-  //   const re = /^[0-9\b]+$/;
-  // };
   const [showInput, setShowInput] = useState(false);
   const initialValues = {
     employerName: "",

@@ -1,8 +1,9 @@
-import React from "react";
-import { Formik, Form } from "formik";
+import React, { useState } from "react";
+import { Formik, Form, Field } from "formik";
 import Input from "components/forms/Input";
 import ErrorMessage from "components/ErrorMessage";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
+import isEmail from "validator/lib/isEmail";
 
 const validate = (values) => {
   const requiredMsg = "This field is required";
@@ -13,6 +14,14 @@ const validate = (values) => {
   if (!values.depositAmount && String(values.depositAmount) !== "0")
     errors.depositAmount = requiredMsg;
   if (!values.bankStatement) errors.bankStatement = requiredMsg;
+  if (values.sendAnotherEmail && !values.emailToAnotherAddress)
+    errors.emailToAnotherAddress = requiredMsg;
+  if (
+    values.sendAnotherEmail &&
+    values.emailToAnotherAddress &&
+    !isEmail(values.emailToAnotherAddress)
+  )
+    errors.emailToAnotherAddress = "Please enter a valid email address";
   return errors;
 };
 
@@ -20,14 +29,20 @@ const DepositHintsForm = ({
   initialValues: _inititalValues,
   onSubmit,
   submitText = "Submit",
-  enterprise
+  enterprise,
+  sourceFrom
 }) => {
+  const [showInput, setShowInput] = useState(false);
   const initialValues = {
     employerName: "",
     depositAmount: "",
     bankStatement: "",
+    sendInstructions: [],
+    emailToAnotherAddress: "",
+    sendAnotherEmail: "",
     ..._inititalValues
   };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -53,6 +68,41 @@ const DepositHintsForm = ({
             name="bankStatement"
             placeholder="Wage Transfer Description or Staff Number"
           />
+          {sourceFrom && sourceFrom === "EditModal" && (
+            <>
+              <label>
+                <Field
+                  type="checkbox"
+                  name="sendInstructions"
+                  value="sendEmail"
+                  className="m-2"
+                />
+                Email Pay Instructions to me
+              </label><br></br>
+              <label>
+                <Field
+                  type="checkbox"
+                  name="sendInstructions"
+                  value="sendSMS"
+                  className="m-2"
+                />
+                SMS Pay Instructions to me
+              </label>
+              <label>
+                <Field
+                  type="checkbox"
+                  name="sendAnotherEmail"
+                  className="m-2"
+                  onClick={(e) =>
+                    e.target.checked ? setShowInput(true) : setShowInput(false)
+                  }
+                />
+                Email Pay Instructions to another address
+              </label>
+              {showInput && <Input name="emailToAnotherAddress" />}
+            </>
+          )}
+
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton
             submitText={submitText}

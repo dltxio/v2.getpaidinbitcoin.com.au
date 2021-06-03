@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import qs from "qs";
 import { Button } from "react-bootstrap";
 import Layout from "components/layout/Layout";
 import Card from "components/Card";
 import RegisterForm from "components/auth/RegisterForm";
+import gpib from "../apis/gpib"
 
 const urlCheck = (firstName, lastName, email) => {
   if (firstName && lastName && email) {
@@ -31,6 +32,23 @@ const Register = () => {
     qs.parse(location.search, { ignoreQueryPrefix: true })?.email;
 
   const enterprise = urlCheck(firstName, lastName, email);
+  const [logo, setLogo] = useState();
+
+  useEffect(() => {
+
+    const fetchEnterprise = async () => {
+      if (email && enterprise) {
+        try {
+          const logo = await gpib.open.get(`/enterprise/getLogo/${email}`);
+          if (logo) setLogo(logo.data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    };
+    fetchEnterprise();
+  }, [email, enterprise])
+
   return (
     <Layout navLinks={[]}>
       <div className="d-flex flex-column justify-content-center container align-items-center">
@@ -56,6 +74,7 @@ const Register = () => {
           >
             <RegisterForm
               enterprise={enterprise}
+              logo={logo}
               initialValues={{ firstName, lastName, email, referralCode }}
               lockReferralCode={referralCode}
             />

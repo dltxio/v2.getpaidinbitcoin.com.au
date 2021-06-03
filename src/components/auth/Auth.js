@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       emailVerified &&
       mobileVerified &&
       depositAmount !== undefined &&
-      (employerName || idVerificationStatus === 3);
+      (idVerificationStatus === 3);
     setVerified(isVerified);
   }, [
     userAddress,

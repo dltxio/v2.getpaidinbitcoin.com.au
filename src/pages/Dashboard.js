@@ -46,7 +46,6 @@ const Dashboard = () => {
   );
 
   const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
-
   const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
 
   // Only if verified

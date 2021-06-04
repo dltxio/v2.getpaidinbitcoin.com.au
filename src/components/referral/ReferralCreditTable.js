@@ -10,11 +10,11 @@ const columnConfig = {
   },
   coin: {
     children: "Coin",
-    width: "12%"
+    width: "20%"
   },
   transferCreated: {
     children: "Transfered",
-    width: "20%",
+    width: "25%",
     dataFormat: (cell) => {
       return cell.toString().charAt().toUpperCase() + cell.toString().slice(1);
     }

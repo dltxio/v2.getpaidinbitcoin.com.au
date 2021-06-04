@@ -97,7 +97,7 @@ const DepositHintsForm = ({
                     e.target.checked ? setShowInput(true) : setShowInput(false)
                   }
                 />
-                Email Pay Instructions to Another Address
+                Email Updated Pay Instructions to Another Address
               </label>
               {showInput && <Input name="emailToAnotherAddress" placeholder="Email Address" />}
             </>

@@ -51,8 +51,8 @@ const Dashboard = () => {
 
   const mobile = userDetails?.mobileNumber
     ? parsePhoneNumberFromString(userDetails?.mobileNumber, "AU").format(
-        "INTERNATIONAL"
-      )
+      "INTERNATIONAL"
+    )
     : "";
 
   const feesPerTransaction = userDetails?.fees;

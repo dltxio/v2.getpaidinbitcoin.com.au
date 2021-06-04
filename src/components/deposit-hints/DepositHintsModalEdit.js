@@ -13,7 +13,7 @@ const parseSubmitValues = (v) => ({
   id: v.id,
   userID: v.userID,
   employerName: v.employerName,
-  depositReference: v.depositReference,
+  depositReference: v.bankStatement,
   depositAmount: Number(v.depositAmount),
   bankStatement: v.bankStatement
 });
@@ -53,6 +53,15 @@ const DepositHintsModalForm = (props) => {
         );
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }
+      if (values.sendInstructions.length > 0) {
+        for (let instruction of values.sendInstructions) {
+          if (instruction === "sendEmail") await gpib.secure.get(`/email/payinstructions/${user.id}?email=${user.email}`);
+          if (instruction === "sendSMS") await gpib.secure.get(`/sms/payinstructions/${user.id}`);
+        }
+      }
+      if (values.emailToAnotherAddress) {
+        await gpib.secure.get(`/email/payinstructions/${user.id}?email=${values.emailToAnotherAddress}`);
+      }
       mutate(url, (ac) => ({ ...ac, ...parsedValues }));
       modalActions.onDismiss();
     } catch (e) {
@@ -80,6 +89,7 @@ const DepositHintsModalForm = (props) => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText="Save"
+              sourceFrom="EditModal"
               {...props}
             />
           ) : (

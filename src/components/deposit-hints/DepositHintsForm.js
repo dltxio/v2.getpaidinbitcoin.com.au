@@ -13,13 +13,9 @@ const validate = (values) => {
 
   // Required fields
   if (!values.employerName) errors.employerName = requiredMsg;
-  if (values.depositAmount === "" || re.test(values.depositAmount)) {
-    if (!values.depositAmount && String(values.depositAmount) !== "0")
-      errors.depositAmount = requiredMsg;
-  } else {
+  if (!values.depositAmount) errors.depositAmount = requiredMsg;
+  if (values.depositAmount && !re.test(values.depositAmount))
     errors.depositAmount = depositAmountMsg;
-  }
-
   if (!values.bankStatement) errors.bankStatement = requiredMsg;
   if (values.sendAnotherEmail && !values.emailToAnotherAddress)
     errors.emailToAnotherAddress = requiredMsg;

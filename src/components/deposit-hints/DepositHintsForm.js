@@ -6,7 +6,7 @@ import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isEmail from "validator/lib/isEmail";
 
 const validate = (values) => {
-  const re = /^[0-9\b]+$/;
+  const re = /^[1-9]\d*(\.\d+)?$/;
   const requiredMsg = "This field is required";
   const depositAmountMsg = "Deposit Amount must be a valid currency amount.";
   const errors = {};

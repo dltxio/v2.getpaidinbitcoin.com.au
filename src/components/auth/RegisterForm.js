@@ -8,6 +8,7 @@ import ErrorMessage from "components/ErrorMessage";
 import { AuthContext } from "components/auth/Auth";
 import { minPasswordLength } from "constants/index";
 import { useHistory } from "react-router-dom";
+import "./RegisterForm.scss"
 
 const defaultValues = {
   email: "",
@@ -51,7 +52,7 @@ const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
   return errors;
 };
 
-const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise }) => {
+const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, logo }) => {
   const initialValues = { ...defaultValues, ..._iv };
   const { login } = useContext(AuthContext);
   const history = useHistory();
@@ -79,6 +80,9 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise }) => {
     >
       {({ isSubmitting, errors }) => (
         <Form style={{ flex: 1, width: "100%" }}>
+          <div className="">
+            {logo && (<div className="mb-5 mt-2 d-flex justify-content-center"><img src={`${process.env.REACT_APP_API_URL}/Logos/${logo}`} alt="logo" className="logo-image" /></div>)}
+          </div>
           <Input
             name="email"
             placeholder="Please register with your own email"

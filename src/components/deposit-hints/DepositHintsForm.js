@@ -6,13 +6,16 @@ import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isEmail from "validator/lib/isEmail";
 
 const validate = (values) => {
+  const re = /^[1-9]\d*(\.\d+)?$/;
   const requiredMsg = "This field is required";
+  const depositAmountMsg = "Deposit Amount must be a valid currency amount.";
   const errors = {};
 
   // Required fields
   if (!values.employerName) errors.employerName = requiredMsg;
-  if (!values.depositAmount && String(values.depositAmount) !== "0")
-    errors.depositAmount = requiredMsg;
+  if (!values.depositAmount) errors.depositAmount = requiredMsg;
+  if (values.depositAmount && !re.test(values.depositAmount))
+    errors.depositAmount = depositAmountMsg;
   if (!values.bankStatement) errors.bankStatement = requiredMsg;
   if (values.sendAnotherEmail && !values.emailToAnotherAddress)
     errors.emailToAnotherAddress = requiredMsg;
@@ -78,7 +81,8 @@ const DepositHintsForm = ({
                   className="m-2"
                 />
                 Email Pay Instructions to me
-              </label><br></br>
+              </label>
+              <br></br>
               <label>
                 <Field
                   type="checkbox"

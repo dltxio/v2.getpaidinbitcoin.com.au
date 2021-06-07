@@ -80,9 +80,8 @@ const DepositHintsForm = ({
                   value="sendEmail"
                   className="m-2"
                 />
-                Email Pay Instructions to me
-              </label>
-              <br></br>
+                Email Updated Pay Instructions to Me
+              </label><br></br>
               <label>
                 <Field
                   type="checkbox"
@@ -90,7 +89,7 @@ const DepositHintsForm = ({
                   value="sendSMS"
                   className="m-2"
                 />
-                SMS Pay Instructions to me
+                SMS Updated Pay Instructions to Me
               </label>
               <label>
                 <Field
@@ -101,9 +100,9 @@ const DepositHintsForm = ({
                     e.target.checked ? setShowInput(true) : setShowInput(false)
                   }
                 />
-                Email Pay Instructions to another address
+                Email Updated Pay Instructions to Another Address
               </label>
-              {showInput && <Input name="emailToAnotherAddress" />}
+              {showInput && <Input name="emailToAnotherAddress" placeholder="Email Address" />}
             </>
           )}
 

@@ -51,16 +51,15 @@ const VerificationTracker = ({
       icon: "logo-bitcoin",
       isCompleted: userAddress && userAddress.length > 0,
       panel: <AddAddress userEnterprise={userEnterprise} />
-    }
-  ];
-  if (!employerName) {
-    steps.push({
+    },
+    {
       label: "Verify ID",
       icon: "newspaper-outline",
       panel: <VerifyID />,
       isCompleted: userDetails?.idVerificationstatus === 3
-    });
-  } else {
+    }
+  ];
+  if (employerName) {
     steps.splice(2, 1);
   }
 

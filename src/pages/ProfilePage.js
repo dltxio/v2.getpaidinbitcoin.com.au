@@ -51,8 +51,8 @@ const Dashboard = () => {
 
   const mobile = userDetails?.mobileNumber
     ? parsePhoneNumberFromString(userDetails?.mobileNumber, "AU").format(
-        "INTERNATIONAL"
-      )
+      "INTERNATIONAL"
+    )
     : "";
 
   const feesPerTransaction = userDetails?.fees;
@@ -60,14 +60,14 @@ const Dashboard = () => {
     ["Name", fullName],
     ["Mobile", mobile],
     ["Email", userDetails?.email],
-    ["Fees per transaction", format$(feesPerTransaction, { code: "AUD" })]
+    ["Fees Per Transaction", format$(feesPerTransaction, { code: "AUD" })]
   ];
 
   const payrollColumns = [
     ["Employer", depositHints?.employerName],
     ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
     [
-      "DepositRef (Staff Number or Reference Number)",
+      "Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)",
       depositHints?.bankStatement
     ]
   ];
@@ -108,7 +108,7 @@ const Dashboard = () => {
       "Referral Link",
       `${process.env.REACT_APP_URL}/register?referralCode=${user.id}`
     ],
-    ["Referral bonus per transaction", `$ ${referralRate?.fixedAmount}`]
+    ["Referral Bonus Per Transaction", `$ ${referralRate?.fixedAmount}`]
   ];
   return (
     <Layout activeTab="profile">

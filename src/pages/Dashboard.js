@@ -14,8 +14,10 @@ import Card from "components/Card";
 import PayInformationActions from "components/pay-information/PayInformationActions";
 import "./Dashboard.scss";
 import ReferralCreditTable from "components/referral/ReferralCreditTable";
+import ReferralTransferTable from "components/referral/ReferralTransferTable";
 import { CSVLink } from "react-csv";
 import { Alert } from "react-bootstrap";
+import prefixID from "../utils/prefixID";
 
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
@@ -29,6 +31,11 @@ const Dashboard = () => {
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
     "/referralCredits"
   );
+
+  const {
+    data: referralTransfers,
+    error: fetchReferralTransfersError
+  } = useSWR("/referralTransfer");
 
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
@@ -65,6 +72,7 @@ const Dashboard = () => {
     isVerified && `/user/${user.id}/address`
   );
 
+  const { data: userTransactions } = useSWR("/transaction/user");
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
@@ -81,13 +89,23 @@ const Dashboard = () => {
     isVerified && !transactions && !fetchTransactionsError;
   const isFetchingReferralCredits =
     isVerified && !referralCredits && !fetchReferralCreditsError;
+  const isFetchingReferralTransfers =
+    isVerified && !referralTransfers && !fetchReferralTransfersError;
 
   const defaultArray = [];
   const headers = [
-    { label: "Created", key: "date" },
-    { label: "Type", key: "type" },
-    { label: "Description", key: "reference" },
-    { label: "Amount", key: "amount" }
+    { label: "Deposit ID", key: "depositID" },
+    { label: "Amount", key: "depositAmount" },
+    { label: "Reference", key: "reference" },
+    { label: "Bank ID", key: "bankID" },
+    { label: "Deposit Created", key: "depositCreated" },
+    { label: "Transfer ID", key: "transferID" },
+    { label: "Coin", key: "coin" },
+    { label: "Amount", key: "cryptoAmount" },
+    { label: "Address", key: "address" },
+    { label: "Transfer Created", key: "transferCreated" },
+    { label: "Rate", key: "rate" },
+    { label: "TX", key: "tx" }
   ];
 
   const currentYear = new Date().getFullYear();
@@ -95,14 +113,20 @@ const Dashboard = () => {
   const handleDownload = (event, done) => {
     setDownloadError({ show: false, message: "" });
     if (year) {
-      const filterTransactions = transactions.filter(
-        (ts) => new Date(ts.date).getFullYear().toString() === year.toString()
+      const filterTransactions = userTransactions.filter(
+        (ts) =>
+          new Date(ts.depositCreated).getFullYear().toString() ===
+          year.toString()
       );
       if (filterTransactions.length > 0) {
+        for (let fts of filterTransactions) {
+          fts.depositID = prefixID(fts.depositID, "D");
+          fts.transferID = prefixID(fts.transferID, "T");
+        }
         setTransactionsDowload(filterTransactions);
         done(true);
       } else {
-        setDownloadError({ show: true, message: "Transactions not found" });
+        setDownloadError({ show: true, message: "No transactions found" });
         done(false);
       }
     }
@@ -234,6 +258,12 @@ const Dashboard = () => {
                 <ErrorMessage error={fetchTransactionsError} />
                 <Loader loading={isFetchingTransactions} />
                 <TransactionTable transactions={transactions} />
+              </Card>
+              <Card>
+                <h4>Referral Transactions</h4>
+                <ErrorMessage error={fetchReferralTransfersError} />
+                <Loader loading={isFetchingReferralTransfers} />
+                <ReferralTransferTable referralTransfers={referralTransfers} />
               </Card>
             </section>
           </section>

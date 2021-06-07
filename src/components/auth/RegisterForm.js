@@ -86,7 +86,7 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, logo }
           <Input
             name="email"
             placeholder="Please register with your own email"
-            disabled={enterprise}
+            disabled={initialValues?.email}
           />
           <Input name="password" type="password" placeholder="Password" />
           <Input
@@ -97,12 +97,12 @@ const RegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, logo }
           <Input
             name="firstName"
             placeholder="First Name"
-            disabled={enterprise}
+            disabled={initialValues?.firstName}
           />
           <Input
             name="lastName"
             placeholder="Last Name"
-            disabled={enterprise}
+            disabled={initialValues?.lastName}
           />
           {!enterprise && (
             <Input

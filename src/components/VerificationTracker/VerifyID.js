@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
@@ -38,7 +38,9 @@ const VerifyID = () => {
     user && `/user/${user.id}`
   );
   const { data: userAddress } = useSWR(`/user/${user.id}/address`);
-
+  const [idVerificationStatus, setIdVerificationStatus] = useState();
+  const alert = statusAlerts[idVerificationStatus];
+  const showAlert = alert;
   const handleSkipKYC = () => {
     setSkipKYC(true);
     setVerified(true);
@@ -56,10 +58,11 @@ const VerifyID = () => {
         one-time process and your details are not stored. Please have your
         Drivers Licence or Passport ready.
       </Alert>
+      {showAlert && <Alert variant="primary" {...alert} />}
       {userAddress && userAddress[0].isCustodial && (
         <div className="mt-2 d-flex">
           <div className="mr-auto p-2">
-            <Verify />
+            <Verify setIdVerificationStatus={setIdVerificationStatus} statuses={statuses} />
           </div>
           <div className="p-2">
             <Button

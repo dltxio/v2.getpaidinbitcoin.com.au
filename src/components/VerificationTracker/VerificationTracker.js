@@ -32,7 +32,7 @@ const VerificationTracker = ({
       label: "Verify Email",
       icon: "mail-outline",
       isCompleted: userDetails?.emailVerified,
-      panel: <VerifyEmail />
+      panel: <VerifyEmail userDetails={userDetails} />
     },
     {
       label: "Verify Mobile",

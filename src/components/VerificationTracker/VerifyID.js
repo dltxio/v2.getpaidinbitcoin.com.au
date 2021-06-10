@@ -60,12 +60,12 @@ const VerifyID = () => {
         documents ready.
       </Alert>
       {showAlert && <Alert variant={alert.varian ? alert.varian : "primary"} {...alert} />}
-      {userAddress && userAddress[0].isCustodial && (
-        <div className="mt-2 d-flex">
-          <div className="mr-auto p-2">
-            <Verify setIdVerificationStatus={setIdVerificationStatus} statuses={statuses} user={user} />
-          </div>
-          <div className="p-2">
+      <div className={userAddress[0].isCustodial ? "d-flex mt-2" : "mt-2"}>
+        <div className="mr-auto">
+          <Verify setIdVerificationStatus={setIdVerificationStatus} statuses={statuses} user={user} />
+        </div>
+        <div >
+          {userAddress && userAddress[0].isCustodial && (
             <Button
               onClick={handleSkipKYC}
               style={{
@@ -76,9 +76,10 @@ const VerifyID = () => {
             >
               Skip KYC
             </Button>
-          </div>
+          )}
         </div>
-      )}
+      </div>
+
     </div>
   );
 };

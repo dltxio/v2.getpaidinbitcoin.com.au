@@ -42,14 +42,16 @@ const VerifyEmail = ({ userDetails }) => {
             icon={hasResent && !error && "checkmark-circle"}
           />
         </div>
-        <div>
-          <p className="ml-3">
-            <b>Use Idem App to Verfiy</b>
-          </p>
-          <div className="p-2">
-            <QRCode value={idemUrl ? idemUrl : null} size="200" />
+        {idemUrl && (
+          <div>
+            <p className="ml-3">
+              <b>Use Idem App to Verfiy</b>
+            </p>
+            <div className="p-2">
+              <QRCode value={idemUrl ? idemUrl : null} size="200" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

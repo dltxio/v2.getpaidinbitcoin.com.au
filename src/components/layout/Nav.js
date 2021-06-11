@@ -11,7 +11,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
   // Set default links
 
   const loginLink = user
-    ? { label: "Log out", onClick: logout }
+    ? { label: "Log Out", onClick: logout }
     : { label: "Log in", onClick: () => history.push("/login") };
 
   const verifiedOnlyLinks = !isVerified

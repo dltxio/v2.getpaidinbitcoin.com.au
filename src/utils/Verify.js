@@ -4,16 +4,13 @@ import gpib from "../apis/gpib";
 
 const Verify = ({ setIdVerificationStatus, statuses, user }) => {
   useEffect(() => {
-    const scriptExist = document.getElementById("digitalIdScript")
-    let script;
+    const scriptExist = document.getElementById("digitalIdScript");
     if (scriptExist) {
       scriptExist.remove();
     }
 
-    const divElement = document.getElementById("digitalid-verify");
-    console.log(divElement)
-    script = document.createElement("script")
-    document.body.appendChild(script)
+    const script = document.createElement("script");
+    document.body.appendChild(script);
 
     script.onload = () => {
       /* Verify with Digital iD */
@@ -22,7 +19,7 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
         uxMode: "popup",
         onComplete: async function (msg) {
           if (msg.error) {
-            if (msg.error === 'verification_cancelled') {
+            if (msg.error === "verification_cancelled") {
               // TODO cancelled logic
               setIdVerificationStatus(statuses.CANCELLED);
             }
@@ -35,7 +32,6 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
             });
             if (response.status === 200) {
               setIdVerificationStatus(statuses.VERIFIED);
-
             }
             if (response.status === 400) {
               setIdVerificationStatus(statuses.REJECTED);
@@ -46,14 +42,13 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
         }
       });
     };
-    script.src = `${process.env.REACT_APP_DIGITAL_SOURCE}`
+    script.src = `${process.env.REACT_APP_DIGITAL_SOURCE}`;
     script.id = "digitalIdScript";
 
     script.async = true;
-
   }, []);
   return (
     <div id="digitalid-verify" className="d-flex justify-content-center"></div>
-  )
+  );
 };
 export default Verify;

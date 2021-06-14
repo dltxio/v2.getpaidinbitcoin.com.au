@@ -4,12 +4,16 @@ import gpib from "../apis/gpib";
 
 const Verify = ({ setIdVerificationStatus, statuses, user }) => {
   useEffect(() => {
-    const script = document.createElement("script");
+    const scriptExist = document.getElementById("digitalIdScript")
+    let script;
+    if (scriptExist) {
+      scriptExist.remove();
+    }
 
-    script.src = `${process.env.REACT_APP_DIGITAL_SOURCE}`
-    script.async = true;
-
-    document.body.appendChild(script);
+    const divElement = document.getElementById("digitalid-verify");
+    console.log(divElement)
+    script = document.createElement("script")
+    document.body.appendChild(script)
 
     script.onload = () => {
       /* Verify with Digital iD */
@@ -42,9 +46,14 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
         }
       });
     };
-  }, [setIdVerificationStatus, statuses, user]);
+    script.src = `${process.env.REACT_APP_DIGITAL_SOURCE}`
+    script.id = "digitalIdScript";
+
+    script.async = true;
+
+  }, []);
   return (
     <div id="digitalid-verify" className="d-flex justify-content-center"></div>
-  );
+  )
 };
 export default Verify;

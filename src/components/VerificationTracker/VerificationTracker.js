@@ -15,7 +15,6 @@ const VerificationTracker = ({
   userAddress
 }) => {
   const { isVerified, hasVerified, setHasVerified } = useContext(AuthContext);
-  const { name: employerName } = userEnterprise || {};
 
   useEffect(() => {
     const hasVerified =
@@ -51,18 +50,14 @@ const VerificationTracker = ({
       icon: "logo-bitcoin",
       isCompleted: userAddress && userAddress.length > 0,
       panel: <AddAddress userEnterprise={userEnterprise} />
-    }
-  ];
-  if (!employerName) {
-    steps.push({
+    },
+    {
       label: "Verify ID",
       icon: "newspaper-outline",
       panel: <VerifyID />,
       isCompleted: userDetails?.idVerificationstatus === 3
-    });
-  } else {
-    steps.splice(2, 1);
-  }
+    }
+  ];
 
   const activeStepIndex = steps.map((v) => v.isCompleted).indexOf(false);
   const activeStep = steps[activeStepIndex];

@@ -17,6 +17,7 @@ import ContactSupportPage from "pages/ContactSupportPage";
 import RefreshLoginModal from "components/auth/RefreshLoginModal";
 import ReferralSendModal from "components/users/ReferralSendModal";
 import EnterpriseOnboard from "pages/EnterpriseOnboard";
+import AccountInfoModal from "components/users/AccountInfoModalEdit";
 
 const Router = () => (
   <BrowserRouter>
@@ -43,6 +44,7 @@ const Router = () => (
       />
       <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
       <AuthRoute path="*/referral/send" component={ReferralSendModal} />
+      <AuthRoute path="*/accountInfo/edit" component={AccountInfoModal} />
     </Switch>
   </BrowserRouter>
 );

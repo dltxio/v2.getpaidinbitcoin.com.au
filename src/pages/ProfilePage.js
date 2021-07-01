@@ -101,6 +101,18 @@ const Dashboard = () => {
           })
         }
       />
+    ],
+    [
+      "Allow Grouped Addresses",
+      <Toggle
+        className="float-right"
+        value={settings?.allowGroupedAddresses}
+        setValue={() =>
+          updateSettings({
+            allowGroupedAddresses: !settings?.allowGroupedAddresses
+          })
+        }
+      />
     ]
   ];
 

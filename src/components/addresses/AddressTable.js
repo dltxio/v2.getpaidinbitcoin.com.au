@@ -21,6 +21,10 @@ const columnConfig = {
       width: "15%",
       textAlign: "right"
     }
+  },
+  id: {
+    children: "ID",
+    hidden: true
   }
 };
 

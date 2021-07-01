@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -16,16 +16,23 @@ const AddressesPage = () => {
   const { user, skipKYC } = useContext(AuthContext);
   const history = useHistory();
   const getAddressesUrl = `/user/${user.id}/address`;
-  const [selected, setSelected, selectRowConfig] = useSelectedRow(null);
+  const [selected, , selectRowConfig] = useSelectedRow(null);
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
   const isFetchingAddresses = !addresses && !fetchAddressError;
   const hasMultipleAddresses = addresses?.length > 1;
+  const [trustWalletAddress, setTrustWalletAddress] = useState([]);
+  const [noTrustWalletAddress, setNoTrustWalletAddress] = useState([]);
 
   useEffect(() => {
-    if (!addresses) return;
-    const hasAddress = addresses.find((a) => a.id === selected);
-    if (!hasAddress) setSelected(null);
-  }, [addresses, selected, setSelected]);
+    const trustAddress = addresses?.filter(
+      (i) => i.groupID && i.groupID.toLowerCase() !== "null"
+    );
+    setTrustWalletAddress(trustAddress);
+    const noTrustAddress = addresses?.filter(
+      (i) => i.groupID?.toLowerCase() === "null" || !i.groupID
+    );
+    setNoTrustWalletAddress(noTrustAddress);
+  }, [addresses]);
 
   const alertText = hasMultipleAddresses
     ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`
@@ -59,6 +66,12 @@ const AddressesPage = () => {
       onClick: () => history.push(`/addresses/archive/${selected}`),
       disabled: !selected,
       hide: !hasMultipleAddresses
+    },
+    {
+      icon: "wallet-outline",
+      title: "Trust Wallet",
+      onClick: () => {},
+      disabled: !selected
     }
   ];
 
@@ -80,7 +93,17 @@ const AddressesPage = () => {
             {alertText}
           </Alert>
           <AddressTable
-            addresses={addresses}
+            addresses={noTrustWalletAddress}
+            pagination={false}
+            selectRow={selectRowConfig}
+          />
+        </Card>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h4>Trust Wallet BTC Addresses</h4>
+        </div>
+        <Card>
+          <AddressTable
+            addresses={trustWalletAddress}
             pagination={false}
             selectRow={selectRowConfig}
           />

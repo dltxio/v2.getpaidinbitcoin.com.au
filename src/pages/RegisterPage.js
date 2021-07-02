@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import Layout from "components/layout/Layout";
 import Card from "components/Card";
 import RegisterForm from "components/auth/RegisterForm";
-import gpib from "../apis/gpib"
+import gpib from "../apis/gpib";
 
 const urlCheck = (locationFirstIndex, locationSecondIndex) => {
   if (locationFirstIndex >= 0 && locationSecondIndex > 0) {
@@ -31,11 +31,17 @@ const Register = () => {
     location?.search &&
     qs.parse(location.search, { ignoreQueryPrefix: true })?.email;
 
-  const [logo, setLogo] = useState();
+  const [corporate, setCorporate] = useState();
 
   const locationFirstIndex = location.pathname.indexOf("/");
-  const locationSecondIndex = location.pathname.indexOf("/", (locationFirstIndex + 1))
-  const nameAbbreviation = location.pathname.substring(locationFirstIndex + 1, locationSecondIndex);
+  const locationSecondIndex = location.pathname.indexOf(
+    "/",
+    locationFirstIndex + 1
+  );
+  const nameAbbreviation = location.pathname.substring(
+    locationFirstIndex + 1,
+    locationSecondIndex
+  );
 
   const enterprise = urlCheck(locationFirstIndex, locationSecondIndex);
 
@@ -43,15 +49,17 @@ const Register = () => {
     const fetchEnterprise = async () => {
       if (nameAbbreviation && enterprise) {
         try {
-          const logo = await gpib.open.get(`/enterprise/getLogo/${nameAbbreviation}`);
-          if (logo) setLogo(logo.data)
+          const fetchcorporate = await gpib.open.get(
+            `/enterprise/${nameAbbreviation}`
+          );
+          if (fetchcorporate) setCorporate(fetchcorporate.data);
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
     };
     fetchEnterprise();
-  }, [nameAbbreviation, enterprise])
+  }, [nameAbbreviation, enterprise]);
 
   return (
     <Layout navLinks={[]}>
@@ -62,6 +70,15 @@ const Register = () => {
             in your weekly wages.
           </h3>
           <br></br>
+          {corporate && (
+            <>
+              <div>
+                Get Paid in Bitcoin is working with {corporate?.name} to provide
+                the option of receiving a portion of their wages in bitcoin.
+              </div>
+              <br></br>
+            </>
+          )}
           By completing this simple registration form, you’ll be joining the
           thousands of Australians that use GPIB to receive bitcoin in their
           wages. <br></br>You will also be eligible to participate in our
@@ -78,7 +95,7 @@ const Register = () => {
           >
             <RegisterForm
               enterprise={enterprise}
-              logo={logo}
+              logo={corporate?.logoURL}
               initialValues={{ firstName, lastName, email, referralCode }}
               lockReferralCode={referralCode}
             />

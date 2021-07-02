@@ -41,6 +41,12 @@ const Dashboard = () => {
   const isFetchingSettings =
     !settings && !fetchSettingsError && !fetchReferralRate;
 
+  const { data: accountInfo, error: fetchAccountInfoError } = useSWR(
+    `/accountInfoes/user/${user.id}`
+  );
+
+  const isFetchingAccountInfo = !accountInfo && !fetchAccountInfoError;
+
   const fullName = [
     userDetails?.firstName,
     userDetails?.middleName,
@@ -71,6 +77,11 @@ const Dashboard = () => {
       depositHints?.bankStatement
     ]
   ];
+
+  const accountInfoColumns = [
+    ["BTC Threshold", format$(accountInfo?.btcThreshold, { code: "AUD" })]
+  ];
+
   const updateSettings = async (updates) => {
     const url = `/settings/${user.id}`;
     mutate(url, (state) => ({ ...state, ...updates }), false);
@@ -101,6 +112,9 @@ const Dashboard = () => {
   };
   const onEditReferralClick = (e) =>
     history.push(`${location.pathname}/referral/send`);
+
+  const onEditAccountInfoClick = (e) =>
+    history.push(`${location.pathname}/accountInfo/edit`);
 
   const referralColumns = [
     ["Referral Code", `${user.id}`],
@@ -136,6 +150,18 @@ const Dashboard = () => {
           <ErrorMessage error={fetchDepositHintsError} />
           <Loader loading={isFetchingDepositHints} />
           <LabelledTable columns={payrollColumns} />
+        </Card>
+        <Card>
+          <div className="d-flex justify-content-between">
+            <h4>Account Setting</h4>
+            <Button className="mb-3" onClick={onEditAccountInfoClick}>
+              <span className="mr-2">Edit</span>
+              <ion-icon name="create-outline" />
+            </Button>
+          </div>
+          <ErrorMessage error={fetchAccountInfoError} />
+          <Loader loading={isFetchingAccountInfo} />
+          <LabelledTable columns={accountInfoColumns} />
         </Card>
         <Card>
           <div className="d-flex justify-content-between">

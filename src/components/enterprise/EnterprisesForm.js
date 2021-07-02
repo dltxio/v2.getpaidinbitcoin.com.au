@@ -9,6 +9,7 @@ import { Alert } from "react-bootstrap";
 
 const EnterprisesForm = ({ style = {} }) => {
   const [message, setMessage] = useState();
+  const [disableButton, setDisableButton] = useState(false);
   const initialValues = {
     name: "",
     abn: "",
@@ -20,6 +21,7 @@ const EnterprisesForm = ({ style = {} }) => {
   };
 
   const onSubmit = async (values, actions) => {
+    setDisableButton(false);
     try {
       actions.setSubmitting(true);
       await gpib.open.post("/Enterprise", parseSubmitValues(values));
@@ -27,10 +29,12 @@ const EnterprisesForm = ({ style = {} }) => {
         "We have received your application for enterprise registration with Get Paid In Bitcoin. Thank you for your interest and we will get back to you soon."
       );
       actions.setSubmitting(false);
+      setDisableButton(true);
     } catch (error) {
       console.error(error);
       actions.setErrors({ hidden: error });
       actions.setSubmitting(false);
+      setDisableButton(false);
     }
   };
   const parseSubmitValues = (v) => ({
@@ -84,8 +88,9 @@ const EnterprisesForm = ({ style = {} }) => {
           <Input label="Number of Employees" name="numberOfEmployees" />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton
-            submitText="Submit"
+            submitText={disableButton ? "Application Sent" : "Submit"}
             isSubmitting={isSubmitting}
+            disabled={disableButton}
           />
         </Form>
       )}

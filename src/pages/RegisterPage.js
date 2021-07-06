@@ -70,20 +70,26 @@ const Register = () => {
             in your weekly wages.
           </h3>
           <br></br>
-          {corporate && (
+          {corporate ? (
             <>
               <div>
                 Get Paid in Bitcoin is working with {corporate?.name} to provide
                 the option of receiving a portion of their wages in bitcoin.
+                <br></br>
+                By completing this simple registration form using your employer
+                provided email address, you’ll be joining the thousands of
+                Australians that use GPIB to receive bitcoin in their wages.
               </div>
-              <br></br>
+            </>
+          ) : (
+            <>
+              By completing this simple registration form, you’ll be joining the
+              thousands of Australians that use GPIB to receive bitcoin in their
+              wages. <br></br>You will also be eligible to participate in our
+              referral program when you refer your friends and work mates and
+              receive additional bitcoin payments. <br></br>
             </>
           )}
-          By completing this simple registration form, you’ll be joining the
-          thousands of Australians that use GPIB to receive bitcoin in their
-          wages. <br></br>You will also be eligible to participate in our
-          referral program when you refer your friends and work mates and
-          receive additional bitcoin payments. <br></br>
           <p></p>We look forward to processing your first bitcoin pay soon.
           <br></br>
           <p></p>From the GPIB Team

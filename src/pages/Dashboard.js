@@ -22,7 +22,7 @@ import prefixID from "../utils/prefixID";
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [transactionsDownload, setTransactionsDowload] = useState();
+  const [transactionsDownload, setTransactionsDownload] = useState();
   const [downloadError, setDownloadError] = useState({
     show: false,
     message: ""
@@ -123,7 +123,7 @@ const Dashboard = () => {
           fts.depositID = prefixID(fts.depositID, "D");
           fts.transferID = prefixID(fts.transferID, "T");
         }
-        setTransactionsDowload(filterTransactions);
+        setTransactionsDownload(filterTransactions);
         done(true);
       } else {
         setDownloadError({ show: true, message: "No transactions found" });

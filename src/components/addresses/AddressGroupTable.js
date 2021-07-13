@@ -11,25 +11,13 @@ const columnConfig = {
   address1: {
     children: "Address"
   },
-  percent: {
-    children: "%",
-    thStyle: {
-      width: "15%",
-      textAlign: "right"
-    },
-    tdStyle: {
-      width: "15%",
-      textAlign: "right"
-    }
-  },
   id: {
     children: "ID",
     hidden: true
   }
 };
 
-const AddressTable = ({ addresses, ...props }) => (
-  
+const AddressGroupTable = ({ addresses, ...props }) => (
   <Table
     data={addresses}
     columnConfig={columnConfig}
@@ -39,4 +27,4 @@ const AddressTable = ({ addresses, ...props }) => (
   />
 );
 
-export default AddressTable;
+export default AddressGroupTable;

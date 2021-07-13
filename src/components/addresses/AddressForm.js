@@ -50,7 +50,7 @@ const AddressForm = ({
       onSubmit={onSubmit}
       enableReinitialize
     >
-      {({ isSubmitting, errors, setFieldValue }) => (
+      {({ isSubmitting, errors }) => (
         <Form>
           {alert && (
             <Alert variant="primary" className="mb-4">

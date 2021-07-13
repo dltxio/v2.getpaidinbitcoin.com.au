@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -22,17 +22,11 @@ const AddressesPage = () => {
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
   const isFetchingAddresses = !addresses && !fetchAddressError;
   const hasMultipleAddresses = addresses?.length > 1;
-  const [unGroupAddress, setUnGroupAddress] = useState([]);
-  const [groupAddress, setGroupAddress] = useState([]);
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
   );
-  useEffect(() => {
-    const groupAddress = addresses?.filter((i) => i.groupID);
-    setGroupAddress(groupAddress);
-    const unGroupAddress = addresses?.filter((i) => !i.groupID);
-    setUnGroupAddress(unGroupAddress);
-  }, [addresses]);
+  const groupAddress = addresses?.filter((i) => i.groupID);
+  const unGroupAddress = addresses?.filter((i) => !i.groupID);
 
   const alertText = hasMultipleAddresses
     ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`

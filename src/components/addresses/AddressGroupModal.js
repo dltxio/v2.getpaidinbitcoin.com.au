@@ -24,12 +24,11 @@ const AddressGroupModal = () => {
       await gpib.secure.put(`/address/group/${id}`, values);
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
-      formActions.setSubmitting(false);
     } catch (error) {
       console.log(error);
       formActions.setErrors({ hidden: error });
-      formActions.setSubmitting(false);
     }
+    formActions.setSubmitting(false);
   };
   return (
     <Modal isOpen onDismiss={onDismiss} heading={heading}>

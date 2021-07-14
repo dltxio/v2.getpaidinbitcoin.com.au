@@ -95,17 +95,22 @@ const Dashboard = () => {
 
   const handleDownload = async () => {
     setDownloadError({ show: false, message: "" });
-    if (year) {
-      const filterTransactions = await gpib.secure.get(
-        `/transaction/download/${year}`
-      );
-      if (filterTransactions.data.length > 0) {
-        setTransactionsDowload(filterTransactions.data);
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        csvRef.current.link.click();
-      } else {
-        setDownloadError({ show: true, message: "No transactions found" });
+    try {
+      if (year) {
+        const filterTransactions = await gpib.secure.get(
+          `/transaction/download/${year}`
+        );
+        if (filterTransactions.data.length > 0) {
+          setTransactionsDowload(filterTransactions.data);
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          csvRef.current.link.click();
+        } else {
+          setDownloadError({ show: true, message: "No transactions found" });
+        }
       }
+    } catch (error) {
+      console.error(error);
+      setDownloadError({ show: true, message: error.message });
     }
   };
   return (

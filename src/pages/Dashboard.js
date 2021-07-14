@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import useSWR from "swr";
 import Layout from "components/layout/Layout";
 import VerificationTracker from "components/VerificationTracker";
@@ -15,16 +15,20 @@ import PayInformationActions from "components/pay-information/PayInformationActi
 import "./Dashboard.scss";
 import ReferralCreditTable from "components/referral/ReferralCreditTable";
 import ReferralTransferTable from "components/referral/ReferralTransferTable";
+import { CSVLink } from "react-csv";
 import { Alert, Button } from "react-bootstrap";
+import gpib from "../apis/gpib";
 
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
   const [year, setYear] = useState(new Date().getFullYear());
+  const [transactionsDownload, setTransactionsDowload] = useState([]);
   const [downloadError, setDownloadError] = useState({
     show: false,
     message: ""
   });
 
+  const csvRef = useRef();
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
     "/referralCredits"
   );
@@ -68,7 +72,6 @@ const Dashboard = () => {
   const { data: activeAddresses, error: fetchActiveAddressError } = useSWR(
     isVerified && `/user/${user.id}/address`
   );
-
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
@@ -90,9 +93,19 @@ const Dashboard = () => {
 
   const currentYear = new Date().getFullYear();
 
-  const handleDownload = (event, done) => {
+  const handleDownload = async () => {
     setDownloadError({ show: false, message: "" });
     if (year) {
+      const filterTransactions = await gpib.secure.get(
+        `/transaction/download/${year}`
+      );
+      if (filterTransactions.data.length > 0) {
+        setTransactionsDowload(filterTransactions.data);
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        csvRef.current.link.click();
+      } else {
+        setDownloadError({ show: true, message: "No transactions found" });
+      }
     }
   };
   return (
@@ -204,6 +217,13 @@ const Dashboard = () => {
                   </div>
                   <div className="p-2">
                     <Button onClick={handleDownload}>Download CSV</Button>
+                    <CSVLink
+                      data={transactionsDownload}
+                      filename={"User-transactions.csv"}
+                      className="hidden"
+                      target="_blank"
+                      ref={csvRef}
+                    />
                   </div>
                 </div>
                 {downloadError.show && (

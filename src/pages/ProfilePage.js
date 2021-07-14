@@ -79,7 +79,10 @@ const Dashboard = () => {
   ];
 
   const accountInfoColumns = [
-    ["BTC Threshold", format$(accountInfo?.btcThreshold, { code: "AUD" })]
+    [
+      "BTC Threshold (Keep Bitcoin Pay on GPIB Portal until they reach this value.)",
+      format$(accountInfo?.btcThreshold, { code: "AUD" })
+    ]
   ];
 
   const updateSettings = async (updates) => {
@@ -98,6 +101,18 @@ const Dashboard = () => {
         setValue={() =>
           updateSettings({
             sendEmailOnTransfer: !settings?.sendEmailOnTransfer
+          })
+        }
+      />
+    ],
+    [
+      "Allow Grouped Addresses",
+      <Toggle
+        className="float-right"
+        value={settings?.allowGroupedAddresses}
+        setValue={() =>
+          updateSettings({
+            allowGroupedAddresses: !settings?.allowGroupedAddresses
           })
         }
       />
@@ -153,7 +168,7 @@ const Dashboard = () => {
         </Card>
         <Card>
           <div className="d-flex justify-content-between">
-            <h4>Account Setting</h4>
+            <h4>Remittance Setting</h4>
             <Button className="mb-3" onClick={onEditAccountInfoClick}>
               <span className="mr-2">Edit</span>
               <ion-icon name="create-outline" />

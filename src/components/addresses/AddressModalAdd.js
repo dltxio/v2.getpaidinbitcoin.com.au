@@ -30,7 +30,11 @@ const AddressModalAdd = () => {
   };
 
   const parseSubmitValues = (v) => {
-    const values = { ...v, userID: user?.id, percent: Number(v.percent) };
+    const values = {
+      ...v,
+      userID: user?.id,
+      percent: Number(v.percent)
+    };
     return values;
   };
 

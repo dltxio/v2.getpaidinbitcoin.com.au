@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -8,24 +8,25 @@ import Loader from "components/Loader";
 import { AuthContext } from "components/auth/Auth";
 import Card from "components/Card";
 import AddressTable from "components/addresses/AddressTable";
+import AddressGroupTable from "components/addresses/AddressGroupTable";
 import IconButton from "components/IconButton";
 import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
 
 const AddressesPage = () => {
-  const { user, skipKYC } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const history = useHistory();
   const getAddressesUrl = `/user/${user.id}/address`;
-  const [selected, setSelected, selectRowConfig] = useSelectedRow(null);
+  const [selected, , selectRowConfig] = useSelectedRow(null);
+  const [selectedGroup, , selectGroupRowConfig] = useSelectedRow(null);
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
   const isFetchingAddresses = !addresses && !fetchAddressError;
   const hasMultipleAddresses = addresses?.length > 1;
-
-  useEffect(() => {
-    if (!addresses) return;
-    const hasAddress = addresses.find((a) => a.id === selected);
-    if (!hasAddress) setSelected(null);
-  }, [addresses, selected, setSelected]);
+  const { data: settings, error: fetchSettingsError } = useSWR(
+    `/settings/${user.id}`
+  );
+  const groupAddress = addresses?.filter((i) => i.groupID);
+  const unGroupAddress = addresses?.filter((i) => !i.groupID);
 
   const alertText = hasMultipleAddresses
     ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`
@@ -39,7 +40,7 @@ const AddressesPage = () => {
       title: "Add",
       onClick: () => history.push("/addresses/add"),
       hide: hasMultipleAddresses,
-      disabled: skipKYC
+      disabled: user?.idVerificationStatus !== 3
     },
     {
       icon: "create-outline",
@@ -51,7 +52,8 @@ const AddressesPage = () => {
       icon: "swap-horizontal-outline",
       title: "Swap",
       onClick: () => history.push(`/addresses/swap/${selected}`),
-      disabled: !selected
+      disabled: !selected,
+      hide: user?.idVerificationStatus !== 3
     },
     {
       icon: "archive-outline",
@@ -59,6 +61,28 @@ const AddressesPage = () => {
       onClick: () => history.push(`/addresses/archive/${selected}`),
       disabled: !selected,
       hide: !hasMultipleAddresses
+    },
+    {
+      icon: "wallet-outline",
+      title: "Group Address",
+      onClick: () => history.push(`/addresses/group/${selected}`),
+      disabled: !selected || groupAddress.length > 0,
+      hide: user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
+    }
+  ];
+
+  const groupActions = [
+    {
+      icon: "add",
+      title: "Add",
+      onClick: () => history.push(`/addresses/groupAdd`),
+      disabled: groupAddress?.length === 0
+    },
+    {
+      icon: "create-outline",
+      title: "Edit",
+      onClick: () => history.push(`/addresses/groupEdit/${selectedGroup}`),
+      disabled: !selectedGroup
     }
   ];
 
@@ -74,17 +98,45 @@ const AddressesPage = () => {
               )}
             </ButtonGroup>
           </div>
-          <ErrorMessage error={fetchAddressError} />
+          <ErrorMessage error={fetchAddressError || fetchSettingsError} />
           <Loader loading={isFetchingAddresses} />
           <Alert variant="secondary" className="mt-3">
             {alertText}
           </Alert>
           <AddressTable
-            addresses={addresses}
+            addresses={unGroupAddress}
             pagination={false}
             selectRow={selectRowConfig}
           />
         </Card>
+        {settings?.allowGroupedAddresses && (
+          <>
+            <Card>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h4>Group Addresses</h4>
+                <div>
+                  Percentage:{" "}
+                  {groupAddress?.length > 0 && groupAddress[0].percent
+                    ? groupAddress[0].percent
+                    : "0"}{" "}
+                  %
+                </div>
+                <div className="d-flex justify-content-start">
+                  <ButtonGroup>
+                    {groupActions.map(({ hide, ...props }, i) =>
+                      hide ? null : <IconButton key={i} {...props} />
+                    )}
+                  </ButtonGroup>
+                </div>
+              </div>
+              <AddressGroupTable
+                addresses={groupAddress}
+                pagination={false}
+                selectRow={selectGroupRowConfig}
+              />
+            </Card>
+          </>
+        )}
       </div>
     </Layout>
   );

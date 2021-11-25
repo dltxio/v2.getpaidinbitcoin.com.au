@@ -32,7 +32,9 @@ const AddressGroupForm = ({ initialValues = {}, onSubmit }) => {
     >
       {({ isSubmitting, errors }) => (
         <Form>
-          <Input name="groupID" label="Group Name" disabled={iv.groupID} />
+          {!iv.groupID && (
+            <Input name="groupID" label="Group Name" disabled={iv.groupID} />
+          )}
           <Input name="label" label="Label" />
           <Input
             name="address1"

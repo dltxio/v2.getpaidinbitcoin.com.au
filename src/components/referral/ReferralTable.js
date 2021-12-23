@@ -13,10 +13,6 @@ const columnConfig = {
     children: "First Name",
     width: "15%"
   },
-  lastName: {
-    children: "Last Name",
-    width: "15%"
-  },
   created: {
     children: "Created",
     width: "15%",

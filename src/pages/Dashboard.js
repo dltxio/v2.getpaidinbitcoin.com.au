@@ -78,8 +78,6 @@ const Dashboard = () => {
     user.id && `/user/${user.id}/referral`
   );
 
-  console.log(referrals);
-
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;

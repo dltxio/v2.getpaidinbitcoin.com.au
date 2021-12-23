@@ -18,6 +18,7 @@ import ReferralTransferTable from "components/referral/ReferralTransferTable";
 import { CSVLink } from "react-csv";
 import { Alert, Button } from "react-bootstrap";
 import gpib from "../apis/gpib";
+import ReferralTable from "components/referral/ReferralTable";
 
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
@@ -72,6 +73,13 @@ const Dashboard = () => {
   const { data: activeAddresses, error: fetchActiveAddressError } = useSWR(
     isVerified && `/user/${user.id}/address`
   );
+
+  const { data: referrals, error: referralsError } = useSWR(
+    user.id && `/user/${user.id}/referral`
+  );
+
+  console.log(referrals);
+
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
@@ -90,6 +98,8 @@ const Dashboard = () => {
     isVerified && !referralCredits && !fetchReferralCreditsError;
   const isFetchingReferralTransfers =
     isVerified && !referralTransfers && !fetchReferralTransfersError;
+
+  const isFetchingReferral = isVerified && !referrals && !referralsError;
 
   const currentYear = new Date().getFullYear();
 
@@ -165,6 +175,12 @@ const Dashboard = () => {
                 <ErrorMessage error={fetchReferralCreditsError} />
                 <Loader loading={isFetchingReferralCredits} />
                 <ReferralCreditTable referralCredits={referralCredits} />
+              </Card>
+              <Card>
+                <h4>Referrals</h4>
+                <ErrorMessage error={referralsError} />
+                <Loader loading={isFetchingReferral} />
+                <ReferralTable referrals={referrals} />
               </Card>
             </section>
           </aside>

@@ -128,7 +128,8 @@ const Dashboard = () => {
           })
         }
       />
-    ]
+    ],
+    ["PGP Public Key", settings?.pgpPublicKey || `https://api.protonmail.ch/pks/lookup?op=get&search=${userDetails?.email}`] // `http://keys.gnupg.net/pks/lookup?search=${userDetails?.email}&fingerprint=on&op=index`]
   ];
 
   const onEditPayrollClick = (e) =>

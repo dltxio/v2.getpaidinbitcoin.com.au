@@ -121,10 +121,10 @@ const Dashboard = () => {
       "Receive PGP Signed Emails",
       <Toggle
         className="float-right"
-        value={settings?.signEmails}
+        value={settings?.sendPGPEmails}
         setValue={() =>
           updateSettings({
-            signEmails: !settings?.signEmails
+            sendPGPEmails: !settings?.sendPGPEmails
           })
         }
       />

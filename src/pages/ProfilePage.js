@@ -121,15 +121,14 @@ const Dashboard = () => {
       "Receive PGP Signed Emails",
       <Toggle
         className="float-right"
-        value={settings?.signEmails}
+        value={settings?.sendPGPEmails}
         setValue={() =>
           updateSettings({
-            signEmails: !settings?.signEmails
+            sendPGPEmails: !settings?.sendPGPEmails
           })
         }
       />
-    ],
-    ["PGP Public Key", settings?.pgpPublicKey || `https://api.protonmail.ch/pks/lookup?op=get&search=${userDetails?.email}`] // `http://keys.gnupg.net/pks/lookup?search=${userDetails?.email}&fingerprint=on&op=index`]
+    ]
   ];
 
   const onEditPayrollClick = (e) =>

@@ -116,6 +116,18 @@ const Dashboard = () => {
           })
         }
       />
+    ],
+    [
+      "Receive PGP Signed Emails",
+      <Toggle
+        className="float-right"
+        value={settings?.sendPGPEmails}
+        setValue={() =>
+          updateSettings({
+            sendPGPEmails: !settings?.sendPGPEmails
+          })
+        }
+      />
     ]
   ];
 

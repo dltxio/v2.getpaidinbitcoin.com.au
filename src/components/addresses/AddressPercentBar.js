@@ -17,8 +17,7 @@ const AddressPercentBar = ({ addresses = [], className, ...props }) => {
         <AddressHover address={address} style={{ padding: "1rem" }} />
         {hasMultipleAddresses && (
           <div className="percentages">
-            <div className="left">{address.percent}%</div>
-            <div className="right">{address.percent}%</div>
+            <div>{address.percent}%</div>
           </div>
         )}
       </div>

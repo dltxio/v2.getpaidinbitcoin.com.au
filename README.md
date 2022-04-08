@@ -2,8 +2,6 @@
 
 v2 Website for Get Paid In Bitcoin (https://v2.getpaidinbitcoin.com.au)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Environment Variables
 
 Environment variables can be defined in a .env file in the root directory of the project. These need to be prefixed with REACT*APP* in order for the project to use them.

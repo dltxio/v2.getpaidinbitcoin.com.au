@@ -9,13 +9,11 @@ const defaultInitialValues = {
   label: "",
   address1: "",
   coin: "BTC",
-  userID: "",
-  groupID: "default"
+  userID: ""
 };
-const validate = ({ groupID, label, address1 }) => {
+const validate = ({ label, address1 }) => {
   const errors = {};
   const reqMsg = "This field is required";
-  if (!groupID) errors.groupID = reqMsg;
   if (!label) errors.label = reqMsg;
   if (!address1) errors.address1 = reqMsg;
   return errors;
@@ -32,7 +30,6 @@ const AddressGroupForm = ({ initialValues = {}, onSubmit }) => {
     >
       {({ isSubmitting, errors }) => (
         <Form>
-          <Input name="groupID" label="Group Name" disabled={iv.groupID} />
           <Input name="label" label="Label" />
           <Input
             name="address1"

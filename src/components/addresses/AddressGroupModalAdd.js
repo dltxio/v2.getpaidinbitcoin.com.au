@@ -5,6 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { mutate } from "swr";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
+import useSWR from "swr";
 
 const AddressGroupModalAdd = () => {
   const { user } = useContext(AuthContext);
@@ -16,10 +17,13 @@ const AddressGroupModalAdd = () => {
     history.push(base);
   };
 
+  const { data: groupAddresses } = useSWR(`/address/group`);
+
   const onSubmit = async (values, formActions, modalActions) => {
     formActions.setSubmitting(true);
     try {
       values.userID = user?.id;
+      values.percent = Number(values.percent);
       await gpib.secure.post(`/address/group`, values);
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
@@ -36,6 +40,7 @@ const AddressGroupModalAdd = () => {
         <AddressGroupForm
           onDismiss={onDismiss}
           onSubmit={wrapCallback(onSubmit)}
+          groupAddresses={groupAddresses}
         />
       )}
     </Modal>

@@ -14,7 +14,6 @@ const defaultInitialValues = {
 };
 const validate = ({ label, address1, percent }) => {
   const errors = {};
-  console.log(percent);
   const reqMsg = "This field is required";
   if (!label) errors.label = reqMsg;
   if (!address1) errors.address1 = reqMsg;
@@ -22,7 +21,6 @@ const validate = ({ label, address1, percent }) => {
     errors.percent = "percent must be a number";
   if (Number(percent) < 0 || Number(percent) > 100)
     errors.percent = "percent must be between 0 and 100";
-  console.log(errors);
   return errors;
 };
 

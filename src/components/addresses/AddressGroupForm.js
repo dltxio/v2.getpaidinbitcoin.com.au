@@ -18,9 +18,9 @@ const validate = ({ label, address1, percent }) => {
   if (!label) errors.label = reqMsg;
   if (!address1) errors.address1 = reqMsg;
   if (!isNumeric(percent.toString()))
-    errors.percent = "percent must be a number";
+    errors.percent = "Percent must be a number";
   if (Number(percent) < 0 || Number(percent) > 100)
-    errors.percent = "percent must be between 0 and 100";
+    errors.percent = "Percent must be between 0 and 100";
   return errors;
 };
 

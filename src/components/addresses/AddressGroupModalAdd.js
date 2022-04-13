@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import Modal from "components/Modal";
 import AddressGroupForm from "./AddressGroupForm";
 import { useLocation, useHistory } from "react-router-dom";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
-import useSWR from "swr";
 
 const AddressGroupModalAdd = () => {
   const { user } = useContext(AuthContext);

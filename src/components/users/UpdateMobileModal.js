@@ -42,13 +42,13 @@ const UpdateMobileModal = (props) => {
   };
 
   const onDismiss = () => {
-    const path = location.pathname.replace(/\/mobile\/send/g, ""); 
+    const path = location.pathname.replace(/\/mobile\/send/g, "");
     history.push(path);
   };
 
   return (
     <Modal isOpen onDismiss={onDismiss} heading="Update your mobile">
-      {({ onDismiss, wrapCallback }) => (
+      {({ wrapCallback }) => (
         <>
           <Loader loading={isValidating} diameter="2rem" />
           <ErrorMessage error={error} />

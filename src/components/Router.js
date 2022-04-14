@@ -20,7 +20,7 @@ import EnterpriseOnboard from "pages/EnterpriseOnboard";
 import AccountInfoModal from "components/users/AccountInfoModalEdit";
 import AddressGroupModal from "components/addresses/AddressGroupModal";
 import AddressGroupModalAdd from "components/addresses/AddressGroupModalAdd";
-import UpdateMobileModal from "components/users/UpdateMobileModal"; /// JASMIN CODE also some down low
+import UpdateMobileModal from "components/users/UpdateMobileModal";
 
 const Router = () => (
   <BrowserRouter>

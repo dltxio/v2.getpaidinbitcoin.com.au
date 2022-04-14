@@ -28,7 +28,7 @@ const VerifyEmail = () => {
         code: parseInt(values.code)
       });
       actions.setSubmitting(false);
-      setMessage("Your mobile has been verified"); ///INTERESTINGGGG
+      setMessage("Your mobile has been verified");
       await new Promise((resolve) => setTimeout(resolve, 5000));
       await mutate(`/user/${user.id}`);
     } catch (e) {

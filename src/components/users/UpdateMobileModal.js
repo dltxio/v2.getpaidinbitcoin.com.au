@@ -42,7 +42,7 @@ const UpdateMobileModal = (props) => {
   };
 
   const onDismiss = () => {
-    const path = location.pathname.replace(/\/mobile\/send/g, ""); //change url
+    const path = location.pathname.replace(/\/mobile\/send/g, ""); 
     history.push(path);
   };
 

@@ -37,7 +37,7 @@ const VerificationTracker = ({
       label: "Verify Mobile",
       icon: "phone-portrait-outline",
       isCompleted: userDetails?.mobileVerified,
-      panel: <VerifyMobile /> ///interestinggggg
+      panel: <VerifyMobile />
     },
     {
       label: "Add Payroll Information",

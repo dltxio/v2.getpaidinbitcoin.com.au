@@ -28,7 +28,7 @@ const VerifyEmail = () => {
         code: parseInt(values.code)
       });
       actions.setSubmitting(false);
-      setMessage("Your mobile has been verified");
+      setMessage("Your mobile has been verified"); ///INTERESTINGGGG
       await new Promise((resolve) => setTimeout(resolve, 5000));
       await mutate(`/user/${user.id}`);
     } catch (e) {
@@ -101,3 +101,6 @@ const VerifyEmail = () => {
 };
 
 export default VerifyEmail;
+
+
+

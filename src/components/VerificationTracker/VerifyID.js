@@ -11,7 +11,7 @@ const statuses = {
   VERIFIED: 3,
   REJECTED: 4,
   CANCELLED: 5
-};
+}; ///INTERESTINGGG
 
 const statusAlerts = {
   [statuses.STARTED]: {

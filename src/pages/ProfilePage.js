@@ -140,6 +140,9 @@ const Dashboard = () => {
   const onEditReferralClick = (e) =>
     history.push(`${location.pathname}/referral/send`);
 
+  const onEditMobileClick = (e) =>
+    history.push(`${location.pathname}/mobile/send`);
+
   const onEditAccountInfoClick = (e) =>
     history.push(`${location.pathname}/accountInfo/edit`);
 
@@ -155,7 +158,13 @@ const Dashboard = () => {
     <Layout activeTab="profile">
       <div className="container py-5">
         <Card>
-          <h4>Profile Information</h4>
+          <div className="d-flex justify-content-between">
+            <h4>Profile Information</h4>
+            <Button className="mb-3" onClick={onEditMobileClick}>
+              <span className="mr-2">Update Mobile</span>
+              <ion-icon name="create-outline" />
+            </Button>
+          </div>
           <ErrorMessage error={fetchDetailsError} />
           <Loader loading={isFetchingDetails} />
           <LabelledTable columns={profileColumns} />

@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isMobilePhone from "validator/lib/isMobilePhone";
-import { Formik, Form, Field } from "formik";
+import { Formik } from "formik";
 import SingleInputForm from "components/forms/SingleInputForm";
 import gpib from "apis/gpib";
 import ErrorMessage from "components/ErrorMessage";
@@ -49,7 +49,7 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
       <>
         <SubmitSpinnerButton
           submitText="Verify Code"
-          isSubmitting={conf.isSubmitting}
+          _isSubmitting={conf._isSubmitting}
           block={false}
         />
         <Button
@@ -70,7 +70,7 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
       enableReinitialize
       heading={"Update your mobile"}
     >
-      {({ isSubmitting, errors }) => (
+      {({ _isSubmitting, errors }) => (
         <>
           <SingleInputForm
             placeholder="Please enter your mobile number"

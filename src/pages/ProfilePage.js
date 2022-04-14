@@ -131,19 +131,19 @@ const Dashboard = () => {
     ]
   ];
 
-  const onEditPayrollClick = (e) =>
+  const onEditPayrollClick = (_e) =>
     history.push(`${location.pathname}/payroll/edit`);
 
-  const onUpdatePasswordClick = (e) => {
+  const onUpdatePasswordClick = (_e) => {
     history.push("/auth/resetpassword");
   };
-  const onEditReferralClick = (e) =>
+  const onEditReferralClick = (_e) =>
     history.push(`${location.pathname}/referral/send`);
 
-  const onEditMobileClick = (e) =>
+  const onEditMobileClick = (_e) =>
     history.push(`${location.pathname}/mobile/send`);
 
-  const onEditAccountInfoClick = (e) =>
+  const onEditAccountInfoClick = (_e) =>
     history.push(`${location.pathname}/accountInfo/edit`);
 
   const referralColumns = [

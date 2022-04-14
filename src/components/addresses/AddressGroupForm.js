@@ -6,7 +6,7 @@ import ErrorMessage from "components/ErrorMessage";
 import isNumeric from "validator/lib/isNumeric";
 
 const defaultInitialValues = {
-  percent: "100",
+  percent: 100,
   label: "",
   address1: "",
   coin: "BTC",

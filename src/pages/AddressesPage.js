@@ -76,7 +76,7 @@ const AddressesPage = () => {
       icon: "add",
       title: "Add",
       onClick: () => history.push(`/addresses/groupAdd`),
-      disabled: groupAddress?.length === 0
+      disabled: unGroupAddress?.length > 1
     },
     {
       icon: "create-outline",

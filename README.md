@@ -16,7 +16,7 @@ The following environment variables are required:
 | REACT_APP_API_URL | e.g. http://localhost:3000 |
 | REACT_APP_BLOCKCYPHER_URL | e.g. https://api.blockcypher.com/v1/btc/test3 |
 
-See [example.env](./example.env) for more examples.
+See [.env.development](.env.development) for more examples.
 
 If using a different port for the local development server, the proxy url needs to be updated in the package.json file.
 

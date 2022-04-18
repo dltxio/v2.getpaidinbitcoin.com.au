@@ -5,8 +5,8 @@ import SingleInputForm from "components/forms/SingleInputForm";
 import gpib from "apis/gpib";
 import ErrorMessage from "components/ErrorMessage";
 import { Button } from "react-bootstrap";
-import validatePhoneCode from "components/forms/form-inputs/validate-mobile.js/validateCodeMobile";
-import validatePhoneNumber from "components/forms/form-inputs/validate-mobile.js/validateMobile";
+import validatePhoneCode from "components/forms/form-inputs/validate-mobile.js/validatePhoneNumber";
+import validatePhoneNumber from "components/forms/form-inputs/validate-mobile.js/validatePhoneNumber";
 
 const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
   const [hasSent, setSent] = useState(false);

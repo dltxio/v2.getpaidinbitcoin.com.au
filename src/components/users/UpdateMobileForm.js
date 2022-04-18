@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
-import isMobilePhone from "validator/lib/isMobilePhone";
 import { Formik } from "formik";
 import SingleInputForm from "components/forms/SingleInputForm";
 import gpib from "apis/gpib";
 import ErrorMessage from "components/ErrorMessage";
 import { Button } from "react-bootstrap";
+import validatePhoneCode from "components/forms/form-inputs/validate-mobile.js/validateCodeMobile";
+import validatePhoneNumber from "components/forms/form-inputs/validate-mobile.js/validateMobile";
 
 const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
   const [hasSent, setSent] = useState(false);
@@ -24,19 +25,6 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
     Mobile: "",
     Email: "",
     FeesPerTransaction: ""
-  };
-
-  const validate = ({ mobile }) => {
-    const errors = {};
-    if (!isMobilePhone(mobile, "en-AU"))
-      errors.mobile = "Please enter a valid mobile number";
-    return errors;
-  };
-
-  const validateCode = ({ code }) => {
-    const errors = {};
-    if (String(code).length !== 6) errors.code = "Must be 6 characters";
-    return errors;
   };
 
   const renderCodeActions = (conf) => {
@@ -66,18 +54,17 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validate={validate}
       enableReinitialize
       heading={"Update your mobile"}
     >
-      {({ _isSubmitting, errors }) => (
+      {({ errors, value }) => (
         <>
           <SingleInputForm
             placeholder="Please enter your mobile number"
             onSubmit={sendSMS}
             submitText="Send Verification code"
             name="mobile"
-            validate={validate}
+            validate={validatePhoneNumber(value)}
             style={{ display: hasSent ? "none" : undefined }}
           />
           <SingleInputForm
@@ -85,7 +72,7 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
             onSubmit={onSubmit}
             name="code"
             submitText="Verify code"
-            validate={validateCode}
+            validate={validatePhoneCode(value)}
             style={{ display: hasSent ? undefined : "none" }}
             renderActions={renderCodeActions}
           />

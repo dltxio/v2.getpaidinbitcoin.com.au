@@ -37,7 +37,7 @@ const AddressGroupForm = ({ initialValues = {}, onSubmit, groupAddresses }) => {
         <Form>
           <Input name="label" label="Label" />
           {groupAddresses?.length === 0 && (
-            <Input name="percent" label="percent" type="text" />
+            <Input name="percent" label="Percent" type="text" />
           )}
           <Input
             name="address1"

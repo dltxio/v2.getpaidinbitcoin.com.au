@@ -12,7 +12,6 @@ const statuses = {
   REJECTED: 4,
   CANCELLED: 5
 };
-
 const statusAlerts = {
   [statuses.STARTED]: {
     children:
@@ -59,12 +58,18 @@ const VerifyID = () => {
         one-time process and your details are not stored. Please have your
         documents ready.
       </Alert>
-      {showAlert && <Alert variant={alert.varian ? alert.varian : "primary"} {...alert} />}
+      {showAlert && (
+        <Alert variant={alert.varian ? alert.varian : "primary"} {...alert} />
+      )}
       <div className={userAddress[0].isCustodial ? "d-flex mt-2" : "mt-2"}>
         <div className="mr-auto">
-          <Verify setIdVerificationStatus={setIdVerificationStatus} statuses={statuses} user={user} />
+          <Verify
+            setIdVerificationStatus={setIdVerificationStatus}
+            statuses={statuses}
+            user={user}
+          />
         </div>
-        <div >
+        <div>
           {userAddress && userAddress[0].isCustodial && (
             <Button
               onClick={handleSkipKYC}
@@ -79,7 +84,6 @@ const VerifyID = () => {
           )}
         </div>
       </div>
-
     </div>
   );
 };

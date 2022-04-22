@@ -59,14 +59,14 @@ const AddressesPage = () => {
       icon: "archive-outline",
       title: "Archive",
       onClick: () => history.push(`/addresses/archive/${selected}`),
-      disabled: !selected,
+      disabled: !selected || unGroupAddress?.length === 1,
       hide: !hasMultipleAddresses
     },
     {
       icon: "wallet-outline",
       title: "Group Address",
       onClick: () => history.push(`/addresses/group/${selected}`),
-      disabled: !selected || groupAddress.length > 0,
+      disabled: !selected || groupAddress.length === 2,
       hide: user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
     }
   ];
@@ -76,7 +76,7 @@ const AddressesPage = () => {
       icon: "add",
       title: "Add",
       onClick: () => history.push(`/addresses/groupAdd`),
-      disabled: groupAddress?.length === 0
+      disabled: unGroupAddress?.length > 1
     },
     {
       icon: "create-outline",

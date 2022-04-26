@@ -175,7 +175,7 @@ const Dashboard = () => {
                 <ReferralCreditTable referralCredits={referralCredits} />
               </Card>
               <Card>
-                <h4>Referrals</h4>
+                <h4>Referred Users</h4>
                 <ErrorMessage error={referralsError} />
                 <Loader loading={isFetchingReferral} />
                 <ReferralTable referrals={referrals} />

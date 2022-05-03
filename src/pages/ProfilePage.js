@@ -29,6 +29,7 @@ const Dashboard = () => {
   const { data: userDetails, error: fetchDetailsError } = useSWR(
     `/user/${user.id}`
   );
+
   const isFetchingDetails = !userDetails && !fetchDetailsError;
 
   const { data: settings, error: fetchSettingsError } = useSWR(
@@ -106,18 +107,6 @@ const Dashboard = () => {
       />
     ],
     [
-      "Allow Grouped Addresses",
-      <Toggle
-        className="float-right"
-        value={settings?.allowGroupedAddresses}
-        setValue={() =>
-          updateSettings({
-            allowGroupedAddresses: !settings?.allowGroupedAddresses
-          })
-        }
-      />
-    ],
-    [
       "Receive PGP Signed Emails",
       <Toggle
         className="float-right"
@@ -130,6 +119,21 @@ const Dashboard = () => {
       />
     ]
   ];
+
+  if (user.idVerificationStatus === 3) {
+    settingsColumns.push([
+      "Allow Grouped Addresses",
+      <Toggle
+        className="float-right"
+        value={settings?.allowGroupedAddresses}
+        setValue={() =>
+          updateSettings({
+            allowGroupedAddresses: !settings?.allowGroupedAddresses
+          })
+        }
+      />
+    ]);
+  }
 
   const onEditPayrollClick = (_e) =>
     history.push(`${location.pathname}/payroll/edit`);

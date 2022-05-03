@@ -55,12 +55,18 @@ const DepositHintsModalForm = (props) => {
       }
       if (values.sendInstructions.length > 0) {
         for (let instruction of values.sendInstructions) {
-          if (instruction === "sendEmail") await gpib.secure.get(`/email/payinstructions/${user.id}?email=${user.email}`);
-          if (instruction === "sendSMS") await gpib.secure.get(`/sms/payinstructions/${user.id}`);
+          if (instruction === "sendEmail")
+            await gpib.secure.get(
+              `/email/payinstructions/${user.id}?email=${user.email}`
+            );
+          if (instruction === "sendSMS")
+            await gpib.secure.get(`/sms/payinstructions/${user.id}`);
         }
       }
       if (values.emailToAnotherAddress) {
-        await gpib.secure.get(`/email/payinstructions/${user.id}?email=${values.emailToAnotherAddress}`);
+        await gpib.secure.get(
+          `/email/payinstructions/${user.id}?email=${values.emailToAnotherAddress}`
+        );
       }
       mutate(url, (ac) => ({ ...ac, ...parsedValues }));
       modalActions.onDismiss();

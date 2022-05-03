@@ -18,6 +18,9 @@ import RefreshLoginModal from "components/auth/RefreshLoginModal";
 import ReferralSendModal from "components/users/ReferralSendModal";
 import EnterpriseOnboard from "pages/EnterpriseOnboard";
 import AccountInfoModal from "components/users/AccountInfoModalEdit";
+import AddressGroupModal from "components/addresses/AddressGroupModal";
+import AddressGroupModalAdd from "components/addresses/AddressGroupModalAdd";
+import UpdateMobileModal from "components/users/UpdateMobileModal";
 
 const Router = () => (
   <BrowserRouter>
@@ -38,6 +41,12 @@ const Router = () => (
       <AuthRoute path="*/addresses/add" component={AddressModalAdd} />
       <AuthRoute path="*/addresses/edit/:id" component={AddressModalEdit} />
       <AuthRoute path="*/addresses/swap/:id" component={AddressModalSwap} />
+      <AuthRoute path="*/addresses/group/:id" component={AddressGroupModal} />
+      <AuthRoute
+        path="*/addresses/groupEdit/:id"
+        component={AddressGroupModal}
+      />
+      <AuthRoute path="*/addresses/groupAdd" component={AddressGroupModalAdd} />
       <AuthRoute
         path="*/addresses/archive/:id"
         component={AddressModalArchive}
@@ -45,6 +54,7 @@ const Router = () => (
       <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
       <AuthRoute path="*/referral/send" component={ReferralSendModal} />
       <AuthRoute path="*/accountInfo/edit" component={AccountInfoModal} />
+      <AuthRoute path="*/mobile/send" component={UpdateMobileModal} />
     </Switch>
   </BrowserRouter>
 );

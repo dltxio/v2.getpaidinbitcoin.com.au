@@ -29,6 +29,7 @@ const Dashboard = () => {
   const { data: userDetails, error: fetchDetailsError } = useSWR(
     `/user/${user.id}`
   );
+
   const isFetchingDetails = !userDetails && !fetchDetailsError;
 
   const { data: settings, error: fetchSettingsError } = useSWR(
@@ -79,7 +80,10 @@ const Dashboard = () => {
   ];
 
   const accountInfoColumns = [
-    ["BTC Threshold", format$(accountInfo?.btcThreshold, { code: "AUD" })]
+    [
+      "BTC Threshold (Keep Bitcoin Pay on GPIB Portal until they reach this value.)",
+      format$(accountInfo?.btcThreshold, { code: "AUD" })
+    ]
   ];
 
   const updateSettings = async (updates) => {
@@ -101,19 +105,49 @@ const Dashboard = () => {
           })
         }
       />
+    ],
+    [
+      "Receive PGP Signed Emails",
+      <Toggle
+        className="float-right"
+        value={settings?.sendPGPEmails}
+        setValue={() =>
+          updateSettings({
+            sendPGPEmails: !settings?.sendPGPEmails
+          })
+        }
+      />
     ]
   ];
 
-  const onEditPayrollClick = (e) =>
+  if (user.idVerificationStatus === 3) {
+    settingsColumns.push([
+      "Allow Grouped Addresses",
+      <Toggle
+        className="float-right"
+        value={settings?.allowGroupedAddresses}
+        setValue={() =>
+          updateSettings({
+            allowGroupedAddresses: !settings?.allowGroupedAddresses
+          })
+        }
+      />
+    ]);
+  }
+
+  const onEditPayrollClick = (_e) =>
     history.push(`${location.pathname}/payroll/edit`);
 
-  const onUpdatePasswordClick = (e) => {
+  const onUpdatePasswordClick = (_e) => {
     history.push("/auth/resetpassword");
   };
-  const onEditReferralClick = (e) =>
+  const onEditReferralClick = (_e) =>
     history.push(`${location.pathname}/referral/send`);
 
-  const onEditAccountInfoClick = (e) =>
+  const onEditMobileClick = (_e) =>
+    history.push(`${location.pathname}/mobile/send`);
+
+  const onEditAccountInfoClick = (_e) =>
     history.push(`${location.pathname}/accountInfo/edit`);
 
   const referralColumns = [
@@ -128,7 +162,13 @@ const Dashboard = () => {
     <Layout activeTab="profile">
       <div className="container py-5">
         <Card>
-          <h4>Profile Information</h4>
+          <div className="d-flex justify-content-between">
+            <h4>Profile Information</h4>
+            <Button className="mb-3" onClick={onEditMobileClick}>
+              <span className="mr-2">Update Mobile</span>
+              <ion-icon name="create-outline" />
+            </Button>
+          </div>
           <ErrorMessage error={fetchDetailsError} />
           <Loader loading={isFetchingDetails} />
           <LabelledTable columns={profileColumns} />
@@ -153,7 +193,7 @@ const Dashboard = () => {
         </Card>
         <Card>
           <div className="d-flex justify-content-between">
-            <h4>Account Setting</h4>
+            <h4>Remittance Setting</h4>
             <Button className="mb-3" onClick={onEditAccountInfoClick}>
               <span className="mr-2">Edit</span>
               <ion-icon name="create-outline" />

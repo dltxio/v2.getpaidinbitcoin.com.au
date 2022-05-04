@@ -66,7 +66,7 @@ const AddressesPage = () => {
       icon: "wallet-outline",
       title: "Group Address",
       onClick: () => history.push(`/addresses/group/${selected}`),
-      disabled: !selected || groupAddress.length === 1,
+      disabled: !selected || unGroupAddress.length === 1,
       hide: user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
     }
   ];

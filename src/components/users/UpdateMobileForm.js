@@ -57,7 +57,7 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
       enableReinitialize
       heading={"Update your mobile"}
     >
-      {({ errors, value }) => (
+      {({ errors }) => (
         <>
           <SingleInputForm
             placeholder="Please enter your mobile number"

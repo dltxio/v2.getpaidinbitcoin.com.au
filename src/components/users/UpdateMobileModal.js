@@ -9,28 +9,27 @@ import { AuthContext } from "components/auth/Auth";
 import Loader from "components/Loader";
 import ErrorMessage from "components/ErrorMessage";
 
-const parseInitialValues = (fetchedData) =>
-  ["Mobile"].reduce((map, item) => {
-    if (fetchedData[item]) map[item] = fetchedData[item];
-    return map;
-  }, {});
 
 const UpdateMobileModal = (props) => {
   const { user } = useContext(AuthContext);
-  const { data, error, isValidating } = useSWR(
+  const { error, isValidating } = useSWR(
     `/user/${user.id}/deposithints`,
     { revalidateOnFocus: false }
   );
   const [message, setMessage] = useState();
   const history = useHistory();
   const location = useLocation();
-  const initialValues = parseInitialValues(data);
+  const onDismiss = () => {
+    const path = location.pathname.replace(/\/mobile\/send/g, "");
+    history.push(path);
+  };
 
-  const onSubmit = async (values, formActions, modalActions) => {
+  const onSubmit = async (values, formActions, modalActions, actions) => {
     try {
       await gpib.secure.post("/user/verifymobile", {
         code: parseInt(values.code)
       });
+      actions.setSubmitting(false);
       setMessage("Your mobile has been verified");
       await new Promise((resolve) => setTimeout(resolve, 3000));
       modalActions.onDismiss();
@@ -39,11 +38,6 @@ const UpdateMobileModal = (props) => {
       formActions.setErrors({ hidden: e });
       formActions.setSubmitting(false);
     }
-  };
-
-  const onDismiss = () => {
-    const path = location.pathname.replace(/\/mobile\/send/g, "");
-    history.push(path);
   };
 
   return (
@@ -58,7 +52,6 @@ const UpdateMobileModal = (props) => {
               onDismiss={onDismiss}
               onSubmit={wrapCallback(onSubmit)}
               sourceFrom="EditModal"
-              initialValues={initialValues}
               {...props}
             />
           ) : (

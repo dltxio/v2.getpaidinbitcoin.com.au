@@ -7,7 +7,7 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
     const scriptExist = document.getElementById("digitalIdScript");
     if (scriptExist) {
       scriptExist.remove();
-    }
+    };
 
     const script = document.createElement("script");
     document.body.appendChild(script);
@@ -46,9 +46,10 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
     script.id = "digitalIdScript";
 
     script.async = true;
-  }, []);
+  }, [setIdVerificationStatus, statuses.CANCELLED, statuses.REJECTED, statuses.VERIFIED, user]);
   return (
     <div id="digitalid-verify" className="d-flex justify-content-center"></div>
   );
 };
 export default Verify;
+

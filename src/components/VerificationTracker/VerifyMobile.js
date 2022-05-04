@@ -37,7 +37,7 @@ const VerifyEmail = () => {
     }
   };
 
-  const validateMobile = ({ mobile }) => {
+  const validateMobile = ( mobile ) => {
     const errors = {};
     if (!isMobilePhone(mobile, "en-AU"))
       errors.mobile = "Please enter a valid mobile number";

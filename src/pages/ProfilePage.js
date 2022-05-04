@@ -60,6 +60,7 @@ const Dashboard = () => {
         "INTERNATIONAL"
       )
     : "";
+  console.log(mobile, "Jasmin");
 
   const feesPerTransaction = userDetails?.fees;
   const profileColumns = [

@@ -1,8 +1,9 @@
 import isMobilePhone from "validator/lib/isMobilePhone";
 
-const validatePhoneNumber = ({ mobile }) => {
+const validatePhoneNumber = (phone) => {
   const errors = {};
-  if (!isMobilePhone(mobile, "en-AU"))
+  if (!phone.mobile) errors.mobile = "Please enter a valid mobile numbers";
+  if (!isMobilePhone(phone.mobile, "en-AU"))
     errors.mobile = "Please enter a valid mobile number";
   return errors;
 };

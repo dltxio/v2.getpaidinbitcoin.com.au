@@ -62,7 +62,7 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
           <SingleInputForm
             placeholder="Please enter your mobile number"
             onSubmit={sendSMS}
-            submitText="Send Verification code"
+            submitText="Send verification code"
             name="mobile"
             validate={validatePhoneNumber}
             style={{ display: hasSent ? "none" : undefined }}

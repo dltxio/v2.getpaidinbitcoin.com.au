@@ -20,7 +20,10 @@ const VerifyEmail = ({ userDetails }) => {
       setError(e);
     }
   };
+
   const idemUrl = `${process.env.REACT_APP_IDEM_URL}?firstName=${userDetails.firstName}&lastName=${userDetails.lastname}&email=${userDetails.email}&userId=${userDetails.userID}`;
+  const useIdem = process.env.REACT_APP_IDEM_URL ? true : false;
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center">
@@ -42,7 +45,7 @@ const VerifyEmail = ({ userDetails }) => {
             icon={hasResent && !error && "checkmark-circle"}
           />
         </div>
-        {idemUrl && (
+        {useIdem && (
           <div>
             <p className="ml-3">
               <b>Use Idem App to Verfiy</b>

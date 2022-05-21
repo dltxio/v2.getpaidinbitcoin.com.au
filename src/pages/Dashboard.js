@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import Layout from "components/layout/Layout";
-import VerificationTracker from "components/VerificationTracker";
+import VerificationTracker from "components/verificationTracker";
 import TransactionTable from "components/transactions/TransactionTable";
 import AddressTotals from "components/addresses/AddressTotals";
 import AddressPercentBar from "components/addresses/AddressPercentBar";

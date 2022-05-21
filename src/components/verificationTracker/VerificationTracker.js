@@ -15,7 +15,6 @@ const VerificationTracker = ({
   userAddress
 }) => {
   const { isVerified, hasVerified, setHasVerified } = useContext(AuthContext);
-  const { name: employerName } = userEnterprise || {};
 
   useEffect(() => {
     const hasVerified =
@@ -59,9 +58,6 @@ const VerificationTracker = ({
       isCompleted: userDetails?.idVerificationstatus === 3
     }
   ];
-  if (employerName) {
-    steps.splice(2, 1);
-  }
 
   const activeStepIndex = steps.map((v) => v.isCompleted).indexOf(false);
   const activeStep = steps[activeStepIndex];

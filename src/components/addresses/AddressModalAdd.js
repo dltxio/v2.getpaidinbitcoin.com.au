@@ -20,15 +20,21 @@ const AddressModalAdd = () => {
   const { data: addresses, error, isValidating } = useSWR(getUrl, {
     revalidateOnFocus: false
   });
-  const isFirstAddress = addresses && addresses.length === 0;
 
+  const isFirstAddress = addresses && addresses.length === 0;
+  const isCustodialAddress =
+    addresses && addresses.length === 1 && addresses[0].isCustodial;
   const initialValues = {
     userID: user.id,
-    percent: isFirstAddress ? 100 : ""
+    percent: isFirstAddress || isCustodialAddress ? 100 : ""
   };
 
   const parseSubmitValues = (v) => {
-    const values = { ...v, userID: user?.id, percent: Number(v.percent) };
+    const values = {
+      ...v,
+      userID: user?.id,
+      percent: Number(v.percent)
+    };
     return values;
   };
 
@@ -71,6 +77,7 @@ const AddressModalAdd = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText={submitText}
+              disablePercent={isCustodialAddress}
             />
           )}
         </>

@@ -11,7 +11,8 @@ const defaultInitialValues = {
   label: "",
   address1: "",
   coin: "BTC",
-  userID: ""
+  userID: "",
+  groupID: ""
 };
 
 const validate = ({ percent, label, address1 }) => {
@@ -73,6 +74,7 @@ const AddressForm = ({
               disabled={disableAddress}
             />
           )}
+
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton
             submitText={submitText}

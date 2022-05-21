@@ -17,9 +17,9 @@ const VerificationTracker = ({
   const { isVerified, hasVerified, setHasVerified } = useContext(AuthContext);
 
   useEffect(() => {
-    const hasVerified =
+    const verified =
       userDetails && depositHints && userEnterprise && userAddress;
-    setHasVerified(hasVerified);
+    setHasVerified(verified);
   }, [depositHints, userDetails, userEnterprise, setHasVerified, userAddress]);
   const steps = [
     {

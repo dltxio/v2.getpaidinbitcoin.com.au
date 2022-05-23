@@ -7,7 +7,7 @@ import SingleInputForm from "components/forms/SingleInputForm";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
-const VerifyEmail = () => {
+const VerifyMobile = () => {
   const [hasSent, setSent] = useState(false);
   const { user } = useContext(AuthContext);
   const [message, setMessage] = useState();
@@ -100,4 +100,4 @@ const VerifyEmail = () => {
   );
 };
 
-export default VerifyEmail;
+export default VerifyMobile;

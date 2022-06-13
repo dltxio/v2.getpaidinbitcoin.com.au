@@ -5,8 +5,8 @@ import SingleInputForm from "components/forms/SingleInputForm";
 import gpib from "apis/gpib";
 import ErrorMessage from "components/ErrorMessage";
 import { Button } from "react-bootstrap";
-import validatePhoneCode from "components/forms/form-inputs/validate-mobile.js/validatePhoneNumber";
-import validatePhoneNumber from "components/forms/form-inputs/validate-mobile.js/validatePhoneNumber";
+import validatePhoneCode from "components/forms/form-inputs/validate-mobile/validatePhoneCode";
+import validatePhoneNumber from "components/forms/form-inputs/validate-mobile/validatePhoneNumber";
 
 const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
   const [hasSent, setSent] = useState(false);
@@ -57,14 +57,14 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
       enableReinitialize
       heading={"Update your mobile"}
     >
-      {({ errors, value }) => (
+      {({ errors }) => (
         <>
           <SingleInputForm
             placeholder="Please enter your mobile number"
             onSubmit={sendSMS}
-            submitText="Send Verification code"
+            submitText="Send verification code"
             name="mobile"
-            validate={validatePhoneNumber(value)}
+            validate={validatePhoneNumber}
             style={{ display: hasSent ? "none" : undefined }}
           />
           <SingleInputForm
@@ -72,7 +72,7 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
             onSubmit={onSubmit}
             name="code"
             submitText="Verify code"
-            validate={validatePhoneCode(value)}
+            validate={validatePhoneCode}
             style={{ display: hasSent ? undefined : "none" }}
             renderActions={renderCodeActions}
           />

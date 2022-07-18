@@ -45,7 +45,7 @@ const Register = () => {
   );
 
   const enterprise = urlCheck(locationFirstIndex, locationSecondIndex);
-  const useIdem = process.env.REACT_APP_IDEM_URL ? true : false;
+  // const useIdem = process.env.REACT_APP_IDEM_URL ? true : false;
 
   useEffect(() => {
     const fetchEnterprise = async () => {
@@ -117,6 +117,8 @@ const Register = () => {
             </Button>
           </Card>
           {/* { useIdem ? ( */}
+          {/* </div>
+        <div className="d-flex justify-content-center container align-items-center"> */}
           <Card
             className="d-flex flex-column justify-content-center align-items-center"
             style={{ flex: 1, maxWidth: "40rem" }}

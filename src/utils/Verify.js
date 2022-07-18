@@ -26,7 +26,7 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
             return;
           }
           if (msg && msg.code !== "" && msg.transaction_id !== "") {
-            var response = await gpib.secure.post("/user/digitalId", {
+            const response = await gpib.secure.post("/user/digitalId", {
               code: msg.code,
               transactionID: msg.transaction_id
             });

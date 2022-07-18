@@ -7,6 +7,7 @@ import gpib from "apis/gpib";
 import ErrorMessage from "components/ErrorMessage";
 import { AuthContext } from "components/auth/Auth";
 import { useHistory } from "react-router-dom";
+import QRCode from "qrcode.react";
 import "./RegisterForm.scss"
 
 const defaultValues = {
@@ -30,10 +31,13 @@ const validate = ({ email }) => {
   return errors;
 };
 
-const IDEMRegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, logo }) => {
+const IdemRegisterForm = ({ initialValues: _iv, logo }) => {
   const initialValues = { ...defaultValues, ..._iv };
   const { login } = useContext(AuthContext);
   const history = useHistory();
+
+  const idemUrl = `did://callback=${process.env.REACT_APP_API_URL}/register/idem?nonce=8b5c66c0-bceb-40b4-b099-d31b127bf7b3&claims=EmailCredential,NameCredential`;
+
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
@@ -58,20 +62,20 @@ const IDEMRegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, lo
       {({ isSubmitting, errors }) => (
         <Form style={{ flex: 1, width: "100%" }}>
           <div className="">
-            {logo && (<div className="mb-5 mt-2 d-flex justify-content-center"><img src={`${process.env.REACT_APP_API_URL}/Logos/${logo}`} alt="logo" className="logo-image" /></div>)}
+            <QRCode value={idemUrl} size="200" />
           </div>
           <Input
             name="email"
-            placeholder="Please register with your IDEM email"
+            placeholder="Please register with your Idem email"
             disabled={initialValues?.email}
           />
 
           <ErrorMessage error={errors.hidden} />
-          <SubmitSpinnerButton submitText="Join with IDEM" isSubmitting={isSubmitting} />
+          <SubmitSpinnerButton submitText="Join with Idem" isSubmitting={isSubmitting} />
         </Form>
       )}
     </Formik>
   );
 };
 
-export default IDEMRegisterForm;
+export default IdemRegisterForm;

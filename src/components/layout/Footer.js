@@ -81,7 +81,7 @@ const Footer = () => (
       ))}
     </div>
     <div className="copyright">
-      Copyright © 2020 Bitcoin Brisbane & Get Paid in Bitcoin.
+      Copyright © 2022 Bitcoin Brisbane, DLTx & Get Paid in Bitcoin.
     </div>
   </div>
 );

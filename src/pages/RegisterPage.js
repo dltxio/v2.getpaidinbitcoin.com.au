@@ -5,14 +5,15 @@ import { Button } from "react-bootstrap";
 import Layout from "components/layout/Layout";
 import Card from "components/Card";
 import RegisterForm from "components/auth/RegisterForm";
+import IdemRegisterForm from "components/auth/IdemRegisterForm";
 import gpib from "../apis/gpib";
 
 const urlCheck = (locationFirstIndex, locationSecondIndex) => {
   if (locationFirstIndex >= 0 && locationSecondIndex > 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 };
 
 const Register = () => {
@@ -44,6 +45,7 @@ const Register = () => {
   );
 
   const enterprise = urlCheck(locationFirstIndex, locationSecondIndex);
+  const useIdem = process.env.REACT_APP_IDEM_URL ? true : false;
 
   useEffect(() => {
     const fetchEnterprise = async () => {
@@ -87,12 +89,12 @@ const Register = () => {
               thousands of Australians that use GPIB to receive bitcoin in their
               wages. <br></br>You will also be eligible to participate in our
               referral program when you refer your friends and work mates and
-              receive additional bitcoin payments. <br></br>
+              receive additional bitcoin payments.<br></br>
             </>
           )}
           <p></p>We look forward to processing your first bitcoin pay soon.
           <br></br>
-          <p></p>From the GPIB Team
+          <p></p>From the GPIB Team.
         </div>
         <div className="d-flex justify-content-center container align-items-center">
           <Card
@@ -114,6 +116,17 @@ const Register = () => {
               Have an account? Log in
             </Button>
           </Card>
+          {/* { useIdem ? ( */}
+          <Card
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ flex: 1, maxWidth: "40rem" }}
+          >
+            <IdemRegisterForm
+              initialValues={{ email }}
+              lockReferralCode={referralCode}
+            />
+          </Card>
+          {/* )} */}
         </div>
       </div>
     </Layout>

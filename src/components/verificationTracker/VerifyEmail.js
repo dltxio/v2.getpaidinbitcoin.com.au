@@ -24,7 +24,7 @@ const VerifyEmail = ({ userDetails }) => {
   const idemUrl = `${process.env.REACT_APP_IDEM_URL}?firstName=${userDetails.firstName}&lastName=${userDetails.lastname}&email=${userDetails.email}&userId=${userDetails.userID}`;
   const useIdem = process.env.REACT_APP_IDEM_URL ? true : false;
 
-  return (
+  return (   
     <div>
       <div className="d-flex justify-content-between align-items-center">
         <div>

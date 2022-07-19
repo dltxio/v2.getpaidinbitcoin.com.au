@@ -103,14 +103,6 @@ const IdemRegister = () => {
               initialValues={{ email }}
               lockReferralCode={referralCode}
             />
-            <Button
-              block
-              variant="link"
-              className="mt-2"
-              onClick={() => history.push("/login")}
-            >
-              Have an account? Log in
-            </Button>
           </Card>
         </div>
       </div>

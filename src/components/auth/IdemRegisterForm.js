@@ -4,10 +4,11 @@ import { isEmail } from "validator";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import gpib from "apis/gpib";
+import Card from "components/Card";
 import ErrorMessage from "components/ErrorMessage";
 import { AuthContext } from "components/auth/Auth";
 import { useHistory } from "react-router-dom";
-import "./RegisterForm.scss"
+import "./RegisterForm.scss";
 
 const defaultValues = {
   email: ""
@@ -30,7 +31,12 @@ const validate = ({ email }) => {
   return errors;
 };
 
-const IDEMRegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, logo }) => {
+const IDEMRegisterForm = ({
+  initialValues: _iv,
+  lockReferralCode,
+  enterprise,
+  logo
+}) => {
   const initialValues = { ...defaultValues, ..._iv };
   const { login } = useContext(AuthContext);
   const history = useHistory();
@@ -39,7 +45,7 @@ const IDEMRegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, lo
       const parsedValues = parseSubmitValues(values);
       await gpib.open.post("https://proxy.idem.com.au/", parsedValues);
       login({
-        username: parsedValues.email,
+        username: parsedValues.email
       });
       history.push("/");
     } catch (e) {
@@ -50,27 +56,39 @@ const IDEMRegisterForm = ({ initialValues: _iv, lockReferralCode, enterprise, lo
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={validate}
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting, errors }) => (
-        <Form style={{ flex: 1, width: "100%" }}>
-          <div className="">
-            {logo && (<div className="mb-5 mt-2 d-flex justify-content-center"><img src={`${process.env.REACT_APP_API_URL}/Logos/${logo}`} alt="logo" className="logo-image" /></div>)}
-          </div>
-          <Input
-            name="email"
-            placeholder="Please register with your IDEM email"
-            disabled={initialValues?.email}
-          />
+    <Card style={{ width: 500 }}>
+      <Formik
+        initialValues={initialValues}
+        validate={validate}
+        onSubmit={onSubmit}
+      >
+        {({ isSubmitting, errors }) => (
+          <Form>
+            {logo && (
+              <div className="mb-5 mt-2 flex justify-content-center">
+                <img
+                  src={`${process.env.REACT_APP_API_URL}/Logos/${logo}`}
+                  alt="logo"
+                  className="logo-image"
+                />
+              </div>
+            )}
 
-          <ErrorMessage error={errors.hidden} />
-          <SubmitSpinnerButton submitText="Join with IDEM" isSubmitting={isSubmitting} />
-        </Form>
-      )}
-    </Formik>
+            <Input
+              name="email"
+              placeholder="Please register with your IDEM email"
+              disabled={initialValues?.email}
+            />
+
+            <ErrorMessage error={errors.hidden} />
+            <SubmitSpinnerButton
+              submitText="Join with IDEM"
+              isSubmitting={isSubmitting}
+            />
+          </Form>
+        )}
+      </Formik>
+    </Card>
   );
 };
 

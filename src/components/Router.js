@@ -7,7 +7,7 @@ import AuthRoute from "components/auth/AuthRoute";
 import Dashboard from "pages/Dashboard";
 import AddressModalAdd from "components/addresses/AddressModalAdd";
 import AddressModalEdit from "components/addresses/AddressModalEdit";
-import ResetPasswordPage from "pages/ResetPasswordPage";
+import ResetPasswordPage from "pages/ResetPasswordPage";   
 import VerifyEmailPage from "pages/VerifyEmailPage";
 import AddressesPage from "pages/AddressesPage";
 import ProfilePage from "pages/ProfilePage";

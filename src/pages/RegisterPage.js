@@ -95,7 +95,7 @@ const Register = () => {
           <br></br>
           <p></p>From the GPIB Team
         </div>
-        <div className="flex-Row flex-innline flex">
+        <div className="d-flex justify-content-center">
           <div>
             <RegisterForm
               enterprise={enterprise}

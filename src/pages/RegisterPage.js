@@ -95,8 +95,8 @@ const Register = () => {
           <br></br>
           <p></p>From the GPIB Team
         </div>
-        <div className="d-flex justify-content-center">
-          <div>
+        <div className="d-flex flex-wrap justify-content-center">
+          <div className="py-5 px-5">
             <RegisterForm
               enterprise={enterprise}
               logo={corporate?.logoURL}
@@ -104,7 +104,7 @@ const Register = () => {
               lockReferralCode={referralCode}
             />
           </div>
-          <div>
+          <div className="py-5 px-5">
             <IDEMRegisterForm />
           </div>
         </div>

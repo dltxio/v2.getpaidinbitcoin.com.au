@@ -178,7 +178,6 @@ const Dashboard = () => {
     } catch (error) {
       console.error(error);
       setErrorMessage(error);
-      setSyncingBankAccount(false);
     }
     setSyncingBankAccount(false);
   };

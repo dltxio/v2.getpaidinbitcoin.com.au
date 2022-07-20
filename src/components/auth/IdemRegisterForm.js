@@ -9,6 +9,7 @@ import ErrorMessage from "components/ErrorMessage";
 import { AuthContext } from "components/auth/Auth";
 import { useHistory } from "react-router-dom";
 import "./RegisterForm.scss";
+import IdemQRCode from "components/IdemQRCode";
 
 const defaultValues = {
   email: ""
@@ -56,7 +57,7 @@ const IDEMRegisterForm = ({
   };
 
   return (
-    <Card style={{ width: 500 }}>
+    <Card style={{ width: 500, height: 410 }}>
       <Formik
         initialValues={initialValues}
         validate={validate}
@@ -73,13 +74,13 @@ const IDEMRegisterForm = ({
                 />
               </div>
             )}
-
+            <IdemQRCode />
             <Input
+              className="mt-3 w-100"
               name="email"
               placeholder="Please register with your IDEM email"
               disabled={initialValues?.email}
             />
-
             <ErrorMessage error={errors.hidden} />
             <SubmitSpinnerButton
               submitText="Join with IDEM"

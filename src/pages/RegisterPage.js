@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import qs from "qs";
-import { Button, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Layout from "components/layout/Layout";
-import Card from "components/Card";
 import RegisterForm from "components/auth/RegisterForm";
 import gpib from "../apis/gpib";
 import IDEMRegisterForm from "components/auth/IdemRegisterForm";
@@ -108,18 +107,19 @@ const Register = () => {
             <IDEMRegisterForm />
           </div>
         </div>
+        <div className="mb-5">
+          <Button
+            block
+            variant="link"
+            className="mt-2"
+            onClick={() => history.push("/login")}
+          >
+            Have an account? Log in
+          </Button>
+        </div>
       </div>
     </Layout>
   );
 };
 
 export default Register;
-
-// <Button
-// block
-// variant="link"
-// className="mt-2"
-// onClick={() => history.push("/login")}
-// >
-// Have an account? Log in
-// </Button>

@@ -2,12 +2,11 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
-import IdemRegisterPage from "pages/IdemRegisterPage";
 import AuthRoute from "components/auth/AuthRoute";
 import Dashboard from "pages/Dashboard";
 import AddressModalAdd from "components/addresses/AddressModalAdd";
 import AddressModalEdit from "components/addresses/AddressModalEdit";
-import ResetPasswordPage from "pages/ResetPasswordPage";   
+import ResetPasswordPage from "pages/ResetPasswordPage";
 import VerifyEmailPage from "pages/VerifyEmailPage";
 import AddressesPage from "pages/AddressesPage";
 import ProfilePage from "pages/ProfilePage";
@@ -32,7 +31,6 @@ const Router = () => (
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
       <Route path="/verify/email/:token" component={VerifyEmailPage} />
       <Route path="/login" component={LoginPage} />
-      <Route path="*/register/idem" component={IdemRegisterPage} />
       <Route path="*/register" component={RegisterPage} />
       <AuthRoute path="/contactsupport" component={ContactSupportPage} />
       <AuthRoute path="/addresses" component={AddressesPage} />

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
-import { ButtonGroup, Alert, Button } from "react-bootstrap";
+import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";

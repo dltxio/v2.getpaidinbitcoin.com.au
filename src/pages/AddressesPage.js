@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -12,6 +12,7 @@ import AddressGroupTable from "components/addresses/AddressGroupTable";
 import IconButton from "components/IconButton";
 import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
+import gpib from "apis/gpib";
 
 const AddressesPage = () => {
   const { user } = useContext(AuthContext);
@@ -27,14 +28,40 @@ const AddressesPage = () => {
   );
   const groupAddress = addresses?.filter((i) => i.groupID);
   const unGroupAddress = addresses?.filter((i) => !i.groupID);
-
+  const hasCardAddress = unGroupAddress?.filter(
+    (i) => i.label === "Cryptospend"
+  );
+  const [message, setMessage] = useState({ type: "", value: "" });
+  const [applying, setApplying] = useState(false);
   const alertText = hasMultipleAddresses
     ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`
     : `Your payment can be sent up to two bitcoin addresses. For example,
         you may want to split your payment and send 50% to a cold storage
         wallet and 50% to a hot wallet.`;
 
+  const applyCard = async () => {
+    setApplying(true);
+    try {
+      await gpib.secure.get("/card/apply");
+      setMessage({
+        type: "success",
+        value: "Card applied successfully, please check your email."
+      });
+    } catch (error) {
+      console.log(error);
+      setMessage({ type: "danger", value: "Failed to apply card" });
+    }
+    setApplying(false);
+  };
+
   const actions = [
+    {
+      icon: "card",
+      title: "Apply Card",
+      onClick: () => applyCard(),
+      hide: hasCardAddress.length > 0,
+      disabled: hasCardAddress.length > 0
+    },
     {
       icon: "add",
       title: "Add",
@@ -99,7 +126,10 @@ const AddressesPage = () => {
             </ButtonGroup>
           </div>
           <ErrorMessage error={fetchAddressError || fetchSettingsError} />
-          <Loader loading={isFetchingAddresses} />
+          <Loader loading={isFetchingAddresses || applying} />
+          {message.value && (
+            <Alert variant={message.type}>{message.value}</Alert>
+          )}
           <Alert variant="secondary" className="mt-3">
             {alertText}
           </Alert>

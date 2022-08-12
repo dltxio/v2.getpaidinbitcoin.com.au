@@ -3,9 +3,9 @@ import { useLocation, useHistory } from "react-router-dom";
 import qs from "qs";
 import { Button } from "react-bootstrap";
 import Layout from "components/layout/Layout";
-import Card from "components/Card";
 import RegisterForm from "components/auth/RegisterForm";
 import gpib from "../apis/gpib";
+import IDEMRegisterForm from "components/auth/IdemRegisterForm";
 
 const urlCheck = (locationFirstIndex, locationSecondIndex) => {
   if (locationFirstIndex >= 0 && locationSecondIndex > 0) {
@@ -63,8 +63,8 @@ const Register = () => {
 
   return (
     <Layout navLinks={[]}>
-      <div className="d-flex flex-column justify-content-center container align-items-center">
-        <div className="p-3 mt-4">
+      <div className="text-center">
+        <div>
           <h3>
             Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin
             in your weekly wages.
@@ -94,26 +94,28 @@ const Register = () => {
           <br></br>
           <p></p>From the GPIB Team
         </div>
-        <div className="d-flex justify-content-center container align-items-center">
-          <Card
-            className="d-flex flex-column justify-content-center align-items-center"
-            style={{ flex: 1, maxWidth: "40rem" }}
-          >
+        <div className="d-flex flex-wrap justify-content-center">
+          <div className="py-5 px-5">
             <RegisterForm
               enterprise={enterprise}
               logo={corporate?.logoURL}
               initialValues={{ firstName, lastName, email, referralCode }}
               lockReferralCode={referralCode}
             />
-            <Button
-              block
-              variant="link"
-              className="mt-2"
-              onClick={() => history.push("/login")}
-            >
-              Have an account? Log in
-            </Button>
-          </Card>
+          </div>
+          <div className="py-5 px-5">
+            <IDEMRegisterForm />
+          </div>
+        </div>
+        <div className="mb-5">
+          <Button
+            block
+            variant="link"
+            className="mt-2"
+            onClick={() => history.push("/login")}
+          >
+            Have an account? Log in
+          </Button>
         </div>
       </div>
     </Layout>

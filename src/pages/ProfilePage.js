@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -19,7 +19,8 @@ const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const history = useHistory();
   const location = useLocation();
-
+  const [syncingBankAccount, setSyncingBankAccount] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
   );
@@ -36,9 +37,8 @@ const Dashboard = () => {
     `/settings/${user.id}`
   );
 
-  const { data: referralRate, error: fetchReferralRate } = useSWR(
-    "/referral/rate"
-  );
+  const { data: referralRate, error: fetchReferralRate } =
+    useSWR("/referral/rate");
   const isFetchingSettings =
     !settings && !fetchSettingsError && !fetchReferralRate;
 
@@ -158,6 +158,29 @@ const Dashboard = () => {
     ],
     ["Referral Bonus Per Transaction", `$ ${referralRate?.fixedAmount}`]
   ];
+
+  const onConnectXero = async () => {
+    try {
+      const url = await gpib.secure.get("/xero");
+      if (url) {
+        window.open(url.data, "_blank");
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error);
+    }
+  };
+
+  const syncBankAccount = async () => {
+    setSyncingBankAccount(true);
+    try {
+      await gpib.secure.post("/xero/syncBankAccount");
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error);
+    }
+    setSyncingBankAccount(false);
+  };
   return (
     <Layout activeTab="profile">
       <div className="container py-5">
@@ -182,13 +205,21 @@ const Dashboard = () => {
         <Card>
           <div className="d-flex justify-content-between">
             <h4>Payroll</h4>
-            <Button className="mb-3" onClick={onEditPayrollClick}>
-              <span className="mr-2">Edit</span>
-              <ion-icon name="create-outline" />
-            </Button>
+            <div>
+              <Button className="mb-3 mr-3" onClick={onEditPayrollClick}>
+                <span className="mr-2">Edit</span>
+                <ion-icon name="create-outline" />
+              </Button>
+              <Button className="mb-3 mr-3" onClick={onConnectXero}>
+                <span className="mr-2">Connect to Xero</span>
+              </Button>
+              <Button className="mb-3" onClick={syncBankAccount}>
+                <span className="mr-2">Sync Bank Account</span>
+              </Button>
+            </div>
           </div>
-          <ErrorMessage error={fetchDepositHintsError} />
-          <Loader loading={isFetchingDepositHints} />
+          <ErrorMessage error={fetchDepositHintsError | errorMessage} />
+          <Loader loading={isFetchingDepositHints | syncingBankAccount} />
           <LabelledTable columns={payrollColumns} />
         </Card>
         <Card>

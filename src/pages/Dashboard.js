@@ -232,6 +232,10 @@ const Dashboard = () => {
                       <option>{currentYear}</option>
                       <option>{currentYear - 1}</option>
                       <option>{currentYear - 2}</option>
+                      <option>{currentYear - 3}</option>
+                      <option>{currentYear - 4}</option>
+                      <option>{currentYear - 5}</option>
+                      <option>{currentYear - 6}</option>
                     </select>
                   </div>
                   <div className="p-2">

@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
-import Verify from "../../utils/Verify";
+import VerifyWithDigitalID from "../../utils/Verify";
+import VerifyForm from "../auth/VerifyForm";
 
 const statuses = {
   NOT_STARTED: 0,
@@ -62,12 +63,15 @@ const VerifyID = () => {
         <Alert variant={alert.varian ? alert.varian : "primary"} {...alert} />
       )}
       <div className={userAddress[0].isCustodial ? "d-flex mt-2" : "mt-2"}>
-        <div className="mr-auto">
-          <Verify
+        {/* <div className="mr-auto">
+          <VerifyWithDigitalID
             setIdVerificationStatus={setIdVerificationStatus}
             statuses={statuses}
             user={user}
           />
+        </div> */}
+        <div className="mr-auto">
+          <VerifyForm></VerifyForm>
         </div>
         <div>
           {userAddress && userAddress[0].isCustodial && (

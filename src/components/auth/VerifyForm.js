@@ -22,9 +22,8 @@ const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
   const errors = {};
 
   // Required fields
-  if (!email) errors.email = requiredMsg;
+  // if (!dob) errors.email = requiredMsg;
   if (!password) errors.password = requiredMsg;
-  if (!passwordMatch) errors.passwordMatch = requiredMsg;
   if (!firstName) errors.firstName = requiredMsg;
   if (!lastName) errors.lastName = requiredMsg;
 
@@ -45,7 +44,7 @@ const VerifyForm = ({
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
-      await gpib.open.post("/user/idemverifyproxy", parsedValues);
+      await gpib.open.post("/user/idemproxy/verify", parsedValues);
       // login({
       //   username: parsedValues.email,
       //   password: parsedValues.password
@@ -85,7 +84,15 @@ const VerifyForm = ({
             />
             <Input
               name="driversLicenseCardNumber"
-              placeholder="Card Number"
+              placeholder="Drivers License Card Number"
+            />
+            <Input
+              name="medicareNumber"
+              placeholder="Medicare Card Number"
+            />
+            <Input
+              name="medicareNameOnCard"
+              placeholder="Medicare Name on Card"
             />
             <ErrorMessage error={errors.hidden} />
             <SubmitSpinnerButton

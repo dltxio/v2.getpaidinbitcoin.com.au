@@ -1,36 +1,42 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
-import { isEmail } from "validator";
+// import { isEmail } from "validator";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import gpib from "apis/gpib";
 import Card from "components/Card";
 import ErrorMessage from "components/ErrorMessage";
 import { AuthContext } from "components/auth/Auth";
-import { minPasswordLength } from "constants/index";
 import { useHistory } from "react-router-dom";
 import "./RegisterForm.scss";
 
 const parseSubmitValues = (v) => ({
-  firstName: v.firstName,
-  lastName: v.lastName,
-  email: v.email
+  driversLicenseNumber: v.driversLicenseNumber,
+  driversLicenseCardNumber: v.driversLicenseCardNumber,
+  medicareCardColour: "GREEN",
+  medicarenumber: v.medicareNumber,
+  medicarenameOnCard: v.medicarenameOnCard,
+  medicareindividualReferenceNumber: v.medicareIndividualReferenceNumber,
+  medicareexpiry: v.medicareExpiry
 });
 
-const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
+const validate = ({ dob, driversLicenseNumber, driversLicenseCardNumber, medicareNumber, medicareNameOnCard }) => {
   const requiredMsg = "This field is required";
   const errors = {};
 
   // Required fields
-  // if (!dob) errors.email = requiredMsg;
-  if (!password) errors.password = requiredMsg;
-  if (!firstName) errors.firstName = requiredMsg;
-  if (!lastName) errors.lastName = requiredMsg;
+  if (!dob) errors.email = requiredMsg;
+  // if (!street) errors.password = requiredMsg;
+  // if (!suburb) errors.firstName = requiredMsg;
+  if (!driversLicenseNumber) errors.lastName = requiredMsg;
+  if (!driversLicenseCardNumber) errors.lastName = requiredMsg;
+  if (!medicareNumber) errors.lastName = requiredMsg;
+  if (!medicareNameOnCard) errors.lastName = requiredMsg;
 
-  // Formatting
-  if (!isEmail(email)) errors.email = "Please enter a valid email";
-  if (password.length < minPasswordLength)
-    errors.password = `Password must be at least ${minPasswordLength} characters`;
+  // TODO: REGEX INPUT VALUES
+  // // if (!isEmail(email)) errors.email = "Please enter a valid email";
+  // if (password.length < minPasswordLength)
+  //   errors.password = `Password must be at least ${minPasswordLength} characters`;
 
   return errors;
 };
@@ -44,7 +50,7 @@ const VerifyForm = ({
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
-      await gpib.open.post("/user/idemproxy/verify", parsedValues);
+      await gpib.secure.post("/user/idemproxy/verify-claims", parsedValues);
       // login({
       //   username: parsedValues.email,
       //   password: parsedValues.password
@@ -70,14 +76,14 @@ const VerifyForm = ({
               name="dob"
               placeholder="DOB dd/mm/yyyy"
             />
-            <Input
+            {/* <Input
               name="street"
               placeholder="House Number and Street"
             />
             <Input
               name="suburb"
               placeholder="Suburb"
-            />
+            /> */}
             <Input
               name="driversLicenseNumber"
               placeholder="Drivers License Number"
@@ -93,6 +99,14 @@ const VerifyForm = ({
             <Input
               name="medicareNameOnCard"
               placeholder="Medicare Name on Card"
+            />
+            <Input
+              name="medicareIndividualReferenceNumber"
+              placeholder="Medicare Individual Reference Number"
+            />
+            <Input
+              name="medicareExpiry"
+              placeholder="Medicare Expiry mm/yyyy"
             />
             <ErrorMessage error={errors.hidden} />
             <SubmitSpinnerButton

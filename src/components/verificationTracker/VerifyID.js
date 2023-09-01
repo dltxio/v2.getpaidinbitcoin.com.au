@@ -13,6 +13,7 @@ const statuses = {
   REJECTED: 4,
   CANCELLED: 5
 };
+
 const statusAlerts = {
   [statuses.STARTED]: {
     children:
@@ -31,7 +32,7 @@ const statusAlerts = {
     variant: "danger"
   },
   [statuses.CANCELLED]: {
-    children: "ID Verification has been cancelled",
+    children: "ID Verification has been cancelled.",
     varian: "danger"
   }
 };

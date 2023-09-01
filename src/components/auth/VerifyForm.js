@@ -26,17 +26,12 @@ const validate = ({ dob, driversLicenseNumber, driversLicenseCardNumber, medicar
 
   // Required fields
   if (!dob) errors.email = requiredMsg;
-  // if (!street) errors.password = requiredMsg;
-  // if (!suburb) errors.firstName = requiredMsg;
   if (!driversLicenseNumber) errors.lastName = requiredMsg;
   if (!driversLicenseCardNumber) errors.lastName = requiredMsg;
   if (!medicareNumber) errors.lastName = requiredMsg;
   if (!medicareNameOnCard) errors.lastName = requiredMsg;
 
   // TODO: REGEX INPUT VALUES
-  // // if (!isEmail(email)) errors.email = "Please enter a valid email";
-  // if (password.length < minPasswordLength)
-  //   errors.password = `Password must be at least ${minPasswordLength} characters`;
 
   return errors;
 };
@@ -76,14 +71,6 @@ const VerifyForm = ({
               name="dob"
               placeholder="DOB dd/mm/yyyy"
             />
-            {/* <Input
-              name="street"
-              placeholder="House Number and Street"
-            />
-            <Input
-              name="suburb"
-              placeholder="Suburb"
-            /> */}
             <Input
               name="driversLicenseNumber"
               placeholder="Drivers License Number"

@@ -11,6 +11,13 @@ import { useHistory } from "react-router-dom";
 import "./RegisterForm.scss";
 
 const parseSubmitValues = (v) => ({
+  dob: v.dob,
+  streetNumber: v.streetNumber,
+  street: v.streetName,
+  suburb: v.suburb,
+  state: v.state,
+  country: v.country,
+  postcode: v.postcode,
   driversLicenseNumber: v.driversLicenseNumber,
   driversLicenseCardNumber: v.driversLicenseCardNumber,
   medicareCardColour: "GREEN",
@@ -70,6 +77,30 @@ const VerifyForm = ({
             <Input
               name="dob"
               placeholder="DOB dd/mm/yyyy"
+            />
+            <Input
+              name="streetNumber"
+              placeholder="Street Number"
+            />
+            <Input
+              name="streetName"
+              placeholder="Street Name"
+            />
+            <Input
+              name="streetType"
+              placeholder="Street Type"
+            />
+            <Input
+              name="suburb"
+              placeholder="Suburb"
+            />
+            <Input
+              name="state"
+              placeholder="State"
+            />
+            <Input
+              name="postcode"
+              placeholder="Postcode"
             />
             <Input
               name="driversLicenseNumber"

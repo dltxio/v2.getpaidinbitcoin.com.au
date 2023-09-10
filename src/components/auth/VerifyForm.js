@@ -21,10 +21,10 @@ const parseSubmitValues = (v) => ({
   driversLicenseNumber: v.driversLicenseNumber,
   driversLicenseCardNumber: v.driversLicenseCardNumber,
   medicareCardColour: "GREEN",
-  medicarenumber: v.medicareNumber,
-  medicarenameOnCard: v.medicarenameOnCard,
-  medicareindividualReferenceNumber: v.medicareIndividualReferenceNumber,
-  medicareexpiry: v.medicareExpiry
+  medicareNumber: v.medicareNumber,
+  medicareNameOnCard: v.medicareNameOnCard,
+  medicareIndividualReferenceNumber: v.medicareIndividualReferenceNumber,
+  medicareExpiry: v.medicareExpiry
 });
 
 const validate = ({ dob, driversLicenseNumber, driversLicenseCardNumber, medicareNumber, medicareNameOnCard }) => {
@@ -84,11 +84,7 @@ const VerifyForm = ({
             />
             <Input
               name="streetName"
-              placeholder="Street Name"
-            />
-            <Input
-              name="streetType"
-              placeholder="Street Type"
+              placeholder="Street"
             />
             <Input
               name="suburb"

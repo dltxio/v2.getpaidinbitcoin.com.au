@@ -44,7 +44,9 @@ const validate = ({ dob, driversLicenseNumber, driversLicenseCardNumber, medicar
 };
 
 const VerifyForm = ({
-  initialValues: _iv
+  initialValues: _iv,
+  setIdVerificationStatus,
+  statuses
 }) => {
   const initialValues = { ..._iv };
   // const { login } = useContext(AuthContext);
@@ -52,16 +54,21 @@ const VerifyForm = ({
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
-      await gpib.secure.post("/user/idemproxy/verify-claims", parsedValues);
-      // login({
-      //   username: parsedValues.email,
-      //   password: parsedValues.password
-      // });
+      let response = await gpib.secure.post("/user/idemproxy/verify-claims", parsedValues);
+    
+      if (response.status === 200) {
+        setIdVerificationStatus(statuses.VERIFIED);
+      }
+      if (response.status === 400) {
+        setIdVerificationStatus(statuses.REJECTED);
+      }
+      setIdVerificationStatus(statuses.VERIFIED);
       history.push("/");
     } catch (e) {
       console.log(e);
       actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
+      setIdVerificationStatus(statuses.REJECTED);
     }
   };
 

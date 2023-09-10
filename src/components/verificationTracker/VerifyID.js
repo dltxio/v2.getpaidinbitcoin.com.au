@@ -24,7 +24,8 @@ const statusAlerts = {
       "Your verification information has been received and is currently being processed."
   },
   [statuses.VERIFIED]: {
-    children: "Congratulations, your ID Verification is now complete."
+    children: "Congratulations, your ID Verification is now complete.",
+    variant: "success"
   },
   [statuses.REJECTED]: {
     children:
@@ -33,7 +34,7 @@ const statusAlerts = {
   },
   [statuses.CANCELLED]: {
     children: "ID Verification has been cancelled.",
-    varian: "danger"
+    variant: "danger"
   }
 };
 
@@ -61,7 +62,7 @@ const VerifyID = () => {
         documents ready.
       </Alert>
       {showAlert && (
-        <Alert variant={alert.varian ? alert.varian : "primary"} {...alert} />
+        <Alert variant={alert.variant ? alert.variant : "primary"} {...alert} />
       )}
       <div className={userAddress[0].isCustodial ? "d-flex mt-2" : "mt-2"}>
         {/* <div className="mr-auto">
@@ -72,7 +73,10 @@ const VerifyID = () => {
           />
         </div> */}
         <div className="mr-auto">
-          <VerifyForm></VerifyForm>
+          <VerifyForm
+            setIdVerificationStatus={setIdVerificationStatus}
+            statuses={statuses}
+          ></VerifyForm>
         </div>
         <div>
           {userAddress && userAddress[0].isCustodial && (

@@ -27,18 +27,31 @@ const parseSubmitValues = (v) => ({
   medicareExpiry: v.medicareExpiry
 });
 
-const validate = ({ dob, driversLicenseNumber, driversLicenseCardNumber, medicareNumber, medicareNameOnCard }) => {
+const validate = ({ dob, postcode, driversLicenseNumber, driversLicenseCardNumber, medicareNumber, medicareExpiry, medicareNameOnCard }) => {
   const requiredMsg = "This field is required";
   const errors = {};
 
   // Required fields
   if (!dob) errors.email = requiredMsg;
+
+  const postcodeRegex = new RegExp("^[0-9]{4}$");
+  if (!postcodeRegex.test(postcode)) errors.postcode = "Invalid postcode.  Please enter a 4 digit postcode";
+  
   if (!driversLicenseNumber) errors.lastName = requiredMsg;
   if (!driversLicenseCardNumber) errors.lastName = requiredMsg;
-  if (!medicareNumber) errors.lastName = requiredMsg;
+  
+  
+  const medicareNumberRegex = new RegExp("^[0-9]{10}$");
+  if (!medicareNumberRegex.test(medicareNumber)) errors.medicareNumber = "Invalid medicare number.  Please enter a 10 digit medicare number";
+
   if (!medicareNameOnCard) errors.lastName = requiredMsg;
 
-  // TODO: REGEX INPUT VALUES
+  const dobRegex = new RegExp("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
+  if (dobRegex.test(dob)) errors.dob = "Invalid date of birth.  Please enter in format dd/mm/yyyy";
+
+  const medicareExpiryRegex = new RegExp("^[0-9]{2}/[0-9]{4}$");
+  if (medicareExpiryRegex.test(medicareExpiry)) errors.medicareExpiry = "Invalid medicare expiry.  Please enter in format mm/yyyy";
+
 
   return errors;
 };
@@ -133,6 +146,7 @@ const VerifyForm = ({
             <SubmitSpinnerButton
               submitText="Verify"
               isSubmitting={isSubmitting}
+              
             />
           </Form>
         )}

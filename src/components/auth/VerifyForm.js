@@ -42,7 +42,7 @@ const validate = ({ dob, postcode, driversLicenseNumber, driversLicenseCardNumbe
   
   
   const medicareNumberRegex = new RegExp("^[0-9]{10}$");
-  if (!medicareNumberRegex.test(medicareNumber)) errors.medicareNumber = "Invalid medicare number.  Please enter a 10 digit medicare number";
+  if (!medicareNumberRegex.test(medicareNumber)) errors.medicareNumber = "Invalid Medicare Card Number.  Please enter a 10 digit Medicare Card Number";
 
   if (!medicareNameOnCard) errors.lastName = requiredMsg;
 
@@ -50,7 +50,7 @@ const validate = ({ dob, postcode, driversLicenseNumber, driversLicenseCardNumbe
   if (dobRegex.test(dob)) errors.dob = "Invalid date of birth.  Please enter in format dd/mm/yyyy";
 
   const medicareExpiryRegex = new RegExp("^[0-9]{2}/[0-9]{4}$");
-  if (medicareExpiryRegex.test(medicareExpiry)) errors.medicareExpiry = "Invalid medicare expiry.  Please enter in format mm/yyyy";
+  if (medicareExpiryRegex.test(medicareExpiry)) errors.medicareExpiry = "Invalid Medicare expiry.  Please enter in format mm/yyyy";
 
 
   return errors;

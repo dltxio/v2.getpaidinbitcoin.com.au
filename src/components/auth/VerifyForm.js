@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
-import { isEmail } from "validator";
 import Input from "components/forms/Input";
 import SubmitSpinnerButtonWithDisable from "components/forms/SubmitSpinnerButtonWithDisable";
 import gpib from "apis/gpib";
@@ -27,36 +26,31 @@ const parseSubmitValues = (v) => ({
   medicareExpiry: v.medicareExpiry
 });
 
-const validate = ({ dob, postcode, driversLicenseNumber, driversLicenseCardNumber, medicareNumber, medicareExpiry, medicareNameOnCard }) => {
+const validate = ({ dob, postcode, driversLicenseNumber, driversLicenseCardNumber, medicareNumber, medicareIndividualReferenceNumber, medicareExpiry, medicareNameOnCard }) => {
   const requiredMsg = "This field is required";
   const errors = {};
-
-  // Required fields
-  if (!dob) errors.dob = requiredMsg;
 
   const postcodeRegex = new RegExp("^[0-9]{4}$");
   if (!postcodeRegex.test(postcode)) errors.postcode = "Invalid postcode.  Please enter a 4 digit postcode";
   
-  // if (!driversLicenseNumber) errors.lastName = requiredMsg;
-  // if (!driversLicenseCardNumber) errors.lastName = requiredMsg;  
+  if (!driversLicenseNumber) errors.driversLicenseNumber = requiredMsg;
+  if (!driversLicenseCardNumber) errors.driversLicenseCardNumber = requiredMsg;  
   
   const medicareNumberRegex = new RegExp("^[0-9]{10}$");
   if (!medicareNumberRegex.test(medicareNumber)) errors.medicareNumber = "Invalid Medicare Card Number.  Please enter a 10 digit Medicare Card Number";
 
-  // if (!medicareNameOnCard) errors.lastName = requiredMsg;
+  if (!medicareNameOnCard) errors.medicareNameOnCard = requiredMsg;
 
-  // const dobRegex = new RegExp("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
-  // if (dobRegex.test(dob)) errors.dob = "Invalid date of birth.  Please enter in format dd/mm/yyyy";
+  const dobRegex = new RegExp("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
+  if (!dobRegex.test(dob)) errors.dob = "Invalid date of birth.  Please enter in format dd/mm/yyyy";
 
-  // const medicareExpiryRegex = new RegExp("^[0-9]{2}/[0-9]{4}$");
-  // if (medicareExpiryRegex.test(medicareExpiry)) errors.medicareExpiry = "Invalid Medicare expiry.  Please enter in format mm/yyyy";
+  const medicareIndividualReferenceNumberRegex = new RegExp("^[0-9]{1,2}$");
+  if (!medicareIndividualReferenceNumberRegex.test(medicareIndividualReferenceNumber)) errors.medicareIndividualReferenceNumber = "Invalid Medicare Individual Reference Number.  Please enter a 1 or 2 digit Medicare Individual Reference Number";
 
+  const medicareExpiryRegex = new RegExp("^[0-9]{2}/[0-9]{4}$");
+  if (!medicareExpiryRegex.test(medicareExpiry)) errors.medicareExpiry = "Invalid Medicare expiry.  Please enter in format mm/yyyy";
 
   return errors;
-};
-
-const isFormComplete = () => {
-  return true;
 };
 
 

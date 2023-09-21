@@ -10,9 +10,8 @@ import IDEMRegisterForm from "components/auth/IdemRegisterForm";
 const urlCheck = (locationFirstIndex, locationSecondIndex) => {
   if (locationFirstIndex >= 0 && locationSecondIndex > 0) {
     return true;
-  } else {
-    return false;
-  }
+  } 
+  return false;
 };
 
 const Register = () => {

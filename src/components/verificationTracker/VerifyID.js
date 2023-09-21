@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
-import Verify from "../../utils/Verify";
+import VerifyWithDigitalID from "../../utils/Verify";
+import VerifyForm from "../auth/VerifyForm";
 
 const statuses = {
   NOT_STARTED: 0,
@@ -12,6 +13,7 @@ const statuses = {
   REJECTED: 4,
   CANCELLED: 5
 };
+
 const statusAlerts = {
   [statuses.STARTED]: {
     children:
@@ -22,7 +24,8 @@ const statusAlerts = {
       "Your verification information has been received and is currently being processed."
   },
   [statuses.VERIFIED]: {
-    children: "Congratulations, your ID Verification is now complete."
+    children: "Congratulations, your ID Verification is now complete.",
+    variant: "success"
   },
   [statuses.REJECTED]: {
     children:
@@ -30,9 +33,13 @@ const statusAlerts = {
     variant: "danger"
   },
   [statuses.CANCELLED]: {
-    children: "ID Verification has been cancelled",
-    varian: "danger"
+    children: "ID Verification has been cancelled.",
+    variant: "danger"
   }
+};
+
+const iv = {
+  state: "QLD",
 };
 
 const VerifyID = () => {
@@ -59,15 +66,22 @@ const VerifyID = () => {
         documents ready.
       </Alert>
       {showAlert && (
-        <Alert variant={alert.varian ? alert.varian : "primary"} {...alert} />
+        <Alert variant={alert.variant ? alert.variant : "primary"} {...alert} />
       )}
       <div className={userAddress[0].isCustodial ? "d-flex mt-2" : "mt-2"}>
-        <div className="mr-auto">
-          <Verify
+        {/* <div className="mr-auto">
+          <VerifyWithDigitalID
             setIdVerificationStatus={setIdVerificationStatus}
             statuses={statuses}
             user={user}
           />
+        </div> */}
+        <div className="mr-auto">
+          <VerifyForm
+            setIdVerificationStatus={setIdVerificationStatus}
+            statuses={statuses}
+            initialValues={iv}
+          ></VerifyForm>
         </div>
         <div>
           {userAddress && userAddress[0].isCustodial && (

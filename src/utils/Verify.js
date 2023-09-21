@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { mutate } from "swr";
 import gpib from "../apis/gpib";
 
-const Verify = ({ setIdVerificationStatus, statuses, user }) => {
+const VerifyWithDigitalID = ({ setIdVerificationStatus, statuses, user }) => {
   useEffect(() => {
     const scriptExist = document.getElementById("digitalIdScript");
     if (scriptExist) {
@@ -51,4 +51,4 @@ const Verify = ({ setIdVerificationStatus, statuses, user }) => {
     <div id="digitalid-verify" className="d-flex justify-content-center"></div>
   );
 };
-export default Verify;
+export default VerifyWithDigitalID;

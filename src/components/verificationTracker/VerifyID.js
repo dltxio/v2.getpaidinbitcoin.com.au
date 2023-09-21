@@ -38,6 +38,10 @@ const statusAlerts = {
   }
 };
 
+const iv = {
+  state: "QLD",
+};
+
 const VerifyID = () => {
   const { user, setVerified, setSkipKYC } = useContext(AuthContext);
   const { data: userAddress } = useSWR(`/user/${user.id}/address`);
@@ -76,6 +80,7 @@ const VerifyID = () => {
           <VerifyForm
             setIdVerificationStatus={setIdVerificationStatus}
             statuses={statuses}
+            initialValues={iv}
           ></VerifyForm>
         </div>
         <div>

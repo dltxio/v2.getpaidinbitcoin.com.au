@@ -47,7 +47,7 @@ const VerifyEmail = ({ userDetails }) => {
       {useIdem && (
         <div>
           <p className="ml-3">
-            <b>Use Idem App to Verfiy</b>
+            <b>Use Idem App to Verify</b>
           </p>
           <div className="p-2">
             <QRCode value={idemUrl ? idemUrl : null} size="200" />

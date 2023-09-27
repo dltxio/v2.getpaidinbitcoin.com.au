@@ -29,7 +29,6 @@ const columnConfig = {
 };
 
 const AddressTable = ({ addresses, ...props }) => (
-  
   <Table
     data={addresses}
     columnConfig={columnConfig}

@@ -64,7 +64,7 @@ const DepositHintsForm = ({
           <Input
             label="Dollar Amount of your Wages to Receive in BTC"
             name="depositAmount"
-            placeholder="0.00"
+            placeholder="100.00"
           />
           <Input
             label="Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)"

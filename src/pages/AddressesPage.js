@@ -28,7 +28,7 @@ const AddressesPage = () => {
     `/settings/${user.id}`
   );
   const { data: address_history } = useSWR(
-    `/addresshistory/user/${user.id}`
+    `/addresshistory`
   );
   const groupAddress = addresses?.filter((i) => i.groupID);
   const unGroupAddress = addresses?.filter((i) => !i.groupID);
@@ -174,8 +174,8 @@ const AddressesPage = () => {
         <Card>
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4>History</h4>
-            <AddressHistoryTable logs={address_history} />
           </div>
+          <AddressHistoryTable logs={address_history} />
         </Card>
       </div>
     </Layout>

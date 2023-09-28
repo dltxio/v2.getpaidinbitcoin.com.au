@@ -6,7 +6,7 @@ import "./AddressTable.scss";
 const columnConfig = {
   log: {
     children: "Log",
-    width: "70%"
+    width: "50%"
   },
   ipAddress: {
     children: "IP Address"

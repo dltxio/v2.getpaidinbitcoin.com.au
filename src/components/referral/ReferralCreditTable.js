@@ -13,7 +13,7 @@ const columnConfig = {
     width: "20%"
   },
   transferCreated: {
-    children: "Transfered",
+    children: "Transferred",
     width: "25%",
     dataFormat: (cell) => {
       return cell.toString().charAt().toUpperCase() + cell.toString().slice(1);

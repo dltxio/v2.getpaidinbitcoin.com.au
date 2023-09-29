@@ -4,22 +4,25 @@ import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
 import AuthRoute from "components/auth/AuthRoute";
 import Dashboard from "pages/Dashboard";
-import AddressModalAdd from "components/addresses/AddressModalAdd";
-import AddressModalEdit from "components/addresses/AddressModalEdit";
+
+import AddressesPage from "pages/AddressesPage";
+import BillsPage from "pages/BillsPage";
+import ContactSupportPage from "pages/ContactSupportPage";
+import ProfilePage from "pages/ProfilePage";
 import ResetPasswordPage from "pages/ResetPasswordPage";
 import VerifyEmailPage from "pages/VerifyEmailPage";
-import AddressesPage from "pages/AddressesPage";
-import ProfilePage from "pages/ProfilePage";
+
 import DepositHintsModalEdit from "components/deposit-hints/DepositHintsModalEdit";
 import AddressModalSwap from "components/addresses/AddressModalSwap";
 import AddressModalArchive from "components/addresses/AddressModalArchive";
-import ContactSupportPage from "pages/ContactSupportPage";
-import RefreshLoginModal from "components/auth/RefreshLoginModal";
-import ReferralSendModal from "components/users/ReferralSendModal";
-import EnterpriseOnboard from "pages/EnterpriseOnboard";
 import AccountInfoModal from "components/users/AccountInfoModalEdit";
 import AddressGroupModal from "components/addresses/AddressGroupModal";
 import AddressGroupModalAdd from "components/addresses/AddressGroupModalAdd";
+import AddressModalAdd from "components/addresses/AddressModalAdd";
+import AddressModalEdit from "components/addresses/AddressModalEdit";
+import EnterpriseOnboard from "pages/EnterpriseOnboard";
+import ReferralSendModal from "components/users/ReferralSendModal";
+import RefreshLoginModal from "components/auth/RefreshLoginModal";
 import UpdateMobileModal from "components/users/UpdateMobileModal";
 
 const Router = () => (
@@ -35,6 +38,7 @@ const Router = () => (
       <AuthRoute path="/contactsupport" component={ContactSupportPage} />
       <AuthRoute path="/addresses" component={AddressesPage} />
       <AuthRoute path="/profile" component={ProfilePage} />
+      <AuthRoute path="/bills" component={BillsPage} />
       <AuthRoute path="/" component={Dashboard} allowUnverified />
     </Switch>
     <Switch>

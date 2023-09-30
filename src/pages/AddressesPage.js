@@ -9,6 +9,7 @@ import { AuthContext } from "components/auth/Auth";
 import Card from "components/Card";
 import AddressTable from "components/addresses/AddressTable";
 import AddressGroupTable from "components/addresses/AddressGroupTable";
+import AddressHistoryTable from "components/addresses/AddressHistoryTable";
 import IconButton from "components/IconButton";
 import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
@@ -25,6 +26,9 @@ const AddressesPage = () => {
   const hasMultipleAddresses = addresses?.length > 1;
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
+  );
+  const { data: address_history } = useSWR(
+    `/addresshistory`
   );
   const groupAddress = addresses?.filter((i) => i.groupID);
   const unGroupAddress = addresses?.filter((i) => !i.groupID);
@@ -167,6 +171,12 @@ const AddressesPage = () => {
             </Card>
           </>
         )}
+        <Card>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h4>History</h4>
+          </div>
+          <AddressHistoryTable logs={address_history} />
+        </Card>
       </div>
     </Layout>
   );

@@ -26,32 +26,14 @@ const BillsPage = () => {
   const location = useLocation();
 
   const [errorMessage, setErrorMessage] = useState();
+  
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
-  );
-
-  const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
-
-  const { data: userDetails, error: fetchDetailsError } = useSWR(
-    `/user/${user.id}`
   );
 
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
   );
-
-  const { data: accountInfo, error: fetchAccountInfoError } = useSWR(
-    `/accountInfoes/user/${user.id}`
-  );
-
-  const payrollColumns = [
-    ["Employer", depositHints?.employerName],
-    ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
-    [
-      "Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)",
-      depositHints?.bankStatement
-    ]
-  ];
 
   const updateSettings = async (updates) => {
     const url = `/settings/${user.id}`;
@@ -110,6 +92,7 @@ const BillsPage = () => {
   };
 
   const uploadPDF = async (e) => {
+
   };
 
   return (
@@ -156,6 +139,13 @@ const BillsPage = () => {
             // onClick={onUpdatePasswordClick}
           >
             Add to reoccurring bills
+          </Button>
+          <Button
+            variant="primary"
+            className="mt-3"
+            // onClick={onUpdatePasswordClick}
+          >
+            Upload a PDF
           </Button>
         </Card>
         <Card>

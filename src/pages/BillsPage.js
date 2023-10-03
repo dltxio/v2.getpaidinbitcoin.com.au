@@ -26,32 +26,32 @@ const BillsPage = () => {
   const location = useLocation();
 
   const [errorMessage, setErrorMessage] = useState();
-  const { data: depositHints, error: fetchDepositHintsError } = useSWR(
-    `/user/${user.id}/deposithints`
-  );
+  // const { data: depositHints, error: fetchDepositHintsError } = useSWR(
+  //   `/user/${user.id}/deposithints`
+  // );
 
-  const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
+  // const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
 
-  const { data: userDetails, error: fetchDetailsError } = useSWR(
-    `/user/${user.id}`
-  );
+  // const { data: userDetails, error: fetchDetailsError } = useSWR(
+  //   `/user/${user.id}`
+  // );
 
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
   );
 
-  const { data: accountInfo, error: fetchAccountInfoError } = useSWR(
-    `/accountInfoes/user/${user.id}`
-  );
+  // const { data: accountInfo, error: fetchAccountInfoError } = useSWR(
+  //   `/accountInfoes/user/${user.id}`
+  // );
 
-  const payrollColumns = [
-    ["Employer", depositHints?.employerName],
-    ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
-    [
-      "Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)",
-      depositHints?.bankStatement
-    ]
-  ];
+  // const payrollColumns = [
+  //   ["Employer", depositHints?.employerName],
+  //   ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
+  //   [
+  //     "Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)",
+  //     depositHints?.bankStatement
+  //   ]
+  // ];
 
   const updateSettings = async (updates) => {
     const url = `/settings/${user.id}`;
@@ -60,56 +60,22 @@ const BillsPage = () => {
     mutate(url);
   };
 
-  const settingsColumns = [
-    [
-      "Email Remittance on Transfer",
-      <Toggle
-        className="float-right"
-        value={settings?.sendEmailOnTransfer}
-        setValue={() =>
-          updateSettings({
-            sendEmailOnTransfer: !settings?.sendEmailOnTransfer
-          })
-        }
-      />
-    ],
-    [
-      "Receive PGP Signed Emails",
-      <Toggle
-        className="float-right"
-        value={settings?.sendPGPEmails}
-        setValue={() =>
-          updateSettings({
-            sendPGPEmails: !settings?.sendPGPEmails
-          })
-        }
-      />
-    ]
-  ];
+  // const onEditPayrollClick = (_e) =>
+  //   history.push(`${location.pathname}/payroll/edit`);
 
-  if (user.idVerificationStatus === 3) {
-    settingsColumns.push([
-      "Allow Grouped Addresses",
-      <Toggle
-        className="float-right"
-        value={settings?.allowGroupedAddresses}
-        setValue={() =>
-          updateSettings({
-            allowGroupedAddresses: !settings?.allowGroupedAddresses
-          })
-        }
-      />
-    ]);
-  }
-
-  const onEditPayrollClick = (_e) =>
-    history.push(`${location.pathname}/payroll/edit`);
-
-  const onUpdatePasswordClick = (_e) => {
-    window.btcpay.showInvoice("BJtXmXXULAdosXWp8KFsoD");
+  const onPayNowClick = (_e) => {
+    // call api and get invoice id
+    window.btcpay.showInvoice("XHjKLLBJBx7aE4LadjYtZY");
   };
 
   const uploadPDF = async (e) => {
+  };
+
+  const initialValues = {
+    label: "",
+    biller: "",
+    ref: "",
+    amount: ""
   };
 
   return (
@@ -120,13 +86,13 @@ const BillsPage = () => {
             <h4>Pay a Bill Instantly</h4>
           </div>
           <Alert variant="secondary" className="mt-3">
-            You can now pay our bills instantly with Bitcoin. Simply enter the Biller code and Reference number from your bill and we will pay it instantly.
+            You can now pay our bills instantly with Bitcoin. Simply enter the BPay Biller code and Reference number from your bill and we will pay it instantly.
           </Alert>
           <Formik
-            // initialValues={iv}
+            initialValues={initialValues}
             // validate={validate}
             // onSubmit={onSubmit}
-            enableReinitialize
+            // enableReinitialize
           >
             <Form>
               <Input name="label" label="Label" placeholder="Rent, Power Bill, etc"/>
@@ -135,18 +101,18 @@ const BillsPage = () => {
               <Input name="amount" label="Amount" />
             </Form>
           </Formik>
-          <ErrorMessage error={fetchDetailsError} />
+          {/* <ErrorMessage error={fetchDetailsError} /> */}
           <Button
             variant="primary"
             className="mt-3"
-            onClick={onUpdatePasswordClick}
+            onClick={onPayNowClick}
           >
             Pay now with Bitcoin
           </Button>
           <Button
             variant="primary"
             className="mt-3"
-            onClick={onUpdatePasswordClick}
+            onClick={onPayNowClick}
           >
             Pay from your GPIB wallet
           </Button>
@@ -155,14 +121,14 @@ const BillsPage = () => {
             className="mt-3"
             // onClick={onUpdatePasswordClick}
           >
-            Add to reoccurring bills
+            Add to bill schedule
           </Button>
         </Card>
         <Card>
           <div className="d-flex justify-content-between">
-            <h4>Reoccurring Bills Schedule</h4>
+            <h4>Scheduled</h4>
           </div>
-          <ErrorMessage error={fetchDepositHintsError | errorMessage} />
+          {/* <ErrorMessage error={fetchDepositHintsError | errorMessage} /> */}
           <TransactionTable />
         </Card>
 

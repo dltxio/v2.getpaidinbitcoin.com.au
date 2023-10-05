@@ -4,12 +4,13 @@ import "./AddressTable.scss";
 
 // dataField (key) props (value)
 const columnConfig = {
-  log: {
+  message: {
     children: "Log",
-    width: "50%"
+    width: "60%"
   },
   ipAddress: {
-    children: "IP Address"
+    children: "IP Address",
+    width: "18%"
   },
   created: {
     children: "Date"

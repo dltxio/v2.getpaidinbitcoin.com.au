@@ -36,7 +36,7 @@ const AddressModalAdd = () => {
       userID: user?.id,
       percent: Number(v.percent),
       addressorxpubkey: v.address1,
-      type: "non-custodial"
+      type: v.type || "custodial",
     };
     return values;
   };

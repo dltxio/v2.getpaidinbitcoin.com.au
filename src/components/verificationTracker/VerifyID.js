@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
-import VerifyWithDigitalID from "../../utils/Verify";
 import VerifyForm from "../auth/VerifyForm";
 
 const statuses = {

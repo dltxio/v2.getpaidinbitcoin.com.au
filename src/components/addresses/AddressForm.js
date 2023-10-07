@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric, isDecimal } from "validator";
+import Selector from "components/forms/Selector";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
@@ -14,6 +15,13 @@ const defaultInitialValues = {
   userID: "",
   groupID: ""
 };
+
+const types = [
+  ["custodial", "Custodial (Personal)"],
+  ["non-custodial", "Non-Custodial Held by GPIB"],
+  ["multi-sig-1-of-2", "Multi-Sig 1 of 2"],
+  ["multi-sig-2-of-2", "Multi-Sig 2 of 2"]
+];
 
 const validate = ({ percent, label, address1 }) => {
   const errors = {};
@@ -43,6 +51,18 @@ const AddressForm = ({
     map[item] = true;
     return map;
   }, {});
+
+  const [addressType, setAddressType] = useState("custodial");
+
+  // const formatForm = (e) => {
+  //   console.log(e.target.value);
+  //   if (e.target.value === "custodial") {
+  //     setShowAddress(false);
+  //   } else {
+  //     setShowAddress(true);
+  //   }
+  // };
+
   return (
     <Formik
       initialValues={iv}
@@ -67,11 +87,19 @@ const AddressForm = ({
               placeholder="Give your address a personal label"
             />
           )}
+          <Selector
+            name="type"
+            options={types}
+            onChange={(e) => {
+              setAddressType(e.target.value);
+            }}
+          />
           {!omit.address1 && (
             <Input
               name="address1"
               label="BTC Address"
-              disabled={disableAddress}
+              // disabled={disableAddress}
+              disabled={addressType === "custodial"}
             />
           )}
 

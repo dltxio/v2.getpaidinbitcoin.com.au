@@ -31,13 +31,13 @@ const Dashboard = () => {
 
   const csvRef = useRef();
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
-    "/referralCredits"
+    "/referralcredits"
   );
 
   const {
     data: referralTransfers,
     error: fetchReferralTransfersError
-  } = useSWR("/referralTransfer");
+  } = useSWR("/referraltransfer");
 
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`

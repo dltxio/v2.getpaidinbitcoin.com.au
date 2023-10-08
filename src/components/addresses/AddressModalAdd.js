@@ -29,11 +29,14 @@ const AddressModalAdd = () => {
     percent: isFirstAddress || isCustodialAddress ? 100 : ""
   };
 
+  // TODO: REVIEW OLD ADDRESS PARAMS.  MAYBE BE ABLE TO REMOVE SOME, BUT WILL NOT CAUSE ISSUES
   const parseSubmitValues = (v) => {
     const values = {
       ...v,
       userID: user?.id,
-      percent: Number(v.percent)
+      percent: Number(v.percent),
+      addressorxpubkey: v.address1,
+      type: v.type || "custodial",
     };
     return values;
   };
@@ -77,7 +80,7 @@ const AddressModalAdd = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText={submitText}
-              disablePercent={isCustodialAddress}
+              // disablePercent={isCustodialAddress}
             />
           )}
         </>

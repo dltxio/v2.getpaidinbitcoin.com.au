@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { Field, Formik, Form } from "formik";
+import React from "react";
+import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import SubmitSpinnerButtonWithDisable from "components/forms/SubmitSpinnerButtonWithDisable";
 import gpib from "apis/gpib";
 import Card from "components/Card";
 import ErrorMessage from "components/ErrorMessage";
-import { AuthContext } from "components/auth/Auth";
+// import { AuthContext } from "components/auth/Auth";
 import { useHistory } from "react-router-dom";
 import "./RegisterForm.scss";
 import Selector from "components/forms/Selector";
@@ -27,7 +27,15 @@ const parseSubmitValues = (v) => ({
   medicareExpiry: v.medicareExpiry
 });
 
-const states = [["QLD", "Queensland"], ["NSW", "New South Wales"], ["NT", "Northern Territory"], ["SA", "South Australia"], ["TAS", "Tasmania"], ["VIC", "Victoria"], ["WA", "Western Australia"]];
+const states = [
+  ["QLD", "Queensland"],
+  ["NSW", "New South Wales"],
+  ["NT", "Northern Territory"],
+  ["SA", "South Australia"],
+  ["TAS", "Tasmania"],
+  ["VIC", "Victoria"],
+  ["WA", "Western Australia"]
+];
 
 const validate = ({
   dob,

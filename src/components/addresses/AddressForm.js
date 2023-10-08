@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric, isDecimal } from "validator";
 import Selector from "components/forms/Selector";
@@ -52,16 +52,15 @@ const AddressForm = ({
     return map;
   }, {});
 
-  const [addressType, setAddressType] = useState("custodial");
+  const [addressType, setAddressType] = useState("non-custodial");
 
-  // const formatForm = (e) => {
-  //   console.log(e.target.value);
-  //   if (e.target.value === "custodial") {
-  //     setShowAddress(false);
+  // useEffect(() => {
+  //   if (addressType === "custodial") {
+  //     disableAddress = true;
   //   } else {
-  //     setShowAddress(true);
+  //     disableAddress = false;
   //   }
-  // };
+  // }, [addressType]);
 
   return (
     <Formik
@@ -91,7 +90,8 @@ const AddressForm = ({
             name="type"
             options={types}
             onChange={(e) => {
-              setAddressType(e.target.value);
+              console.log(e);
+              setAddressType(e);
             }}
           />
           {!omit.address1 && (

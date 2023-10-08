@@ -18,9 +18,9 @@ const defaultInitialValues = {
 
 const types = [
   ["non-custodial", "Personal Address"],
-  ["custodial", "Custodial Held by GPIB"],
-  ["multi-sig-1-of-2", "Multi-Sig 1 of 2"],
-  ["multi-sig-2-of-2", "Multi-Sig 2 of 2"]
+  ["custodial", "Custodial Held by GPIB"]
+  // ["multi-sig-1-of-2", "Multi-Sig 1 of 2"],
+  // ["multi-sig-2-of-2", "Multi-Sig 2 of 2"]
 ];
 
 const validate = ({ percent, label, address1 }) => {

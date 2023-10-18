@@ -54,14 +54,6 @@ const AddressForm = ({
 
   const [addressType, setAddressType] = useState("non-custodial");
 
-  // useEffect(() => {
-  //   if (addressType === "custodial") {
-  //     disableAddress = true;
-  //   } else {
-  //     disableAddress = false;
-  //   }
-  // }, [addressType]);
-
   return (
     <Formik
       initialValues={iv}

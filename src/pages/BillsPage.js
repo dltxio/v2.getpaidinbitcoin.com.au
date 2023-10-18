@@ -9,6 +9,7 @@ import { format as format$ } from "currency-formatter";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
+import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import { AuthContext } from "components/auth/Auth";
 import Card from "components/Card";
 import Toggle from "components/forms/Toggle";
@@ -19,6 +20,7 @@ import "./Dashboard.scss";
 
 import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
+import Modal from "components/Modal";
 
 const BillsPage = () => {
   const { user } = useContext(AuthContext);
@@ -26,6 +28,10 @@ const BillsPage = () => {
   const location = useLocation();
 
   const [errorMessage, setErrorMessage] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [paymentAddress, setPaymentAddress] = useState();
+  const [billDetails, setBillDetails] = useState();
+
   // const { data: depositHints, error: fetchDepositHintsError } = useSWR(
   //   `/user/${user.id}/deposithints`
   // );
@@ -44,15 +50,6 @@ const BillsPage = () => {
   //   `/accountInfoes/user/${user.id}`
   // );
 
-  // const payrollColumns = [
-  //   ["Employer", depositHints?.employerName],
-  //   ["Deposit Amount", format$(depositHints?.depositAmount, { code: "AUD" })],
-  //   [
-  //     "Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)",
-  //     depositHints?.bankStatement
-  //   ]
-  // ];
-
   const updateSettings = async (updates) => {
     const url = `/settings/${user.id}`;
     mutate(url, (state) => ({ ...state, ...updates }), false);
@@ -60,17 +57,38 @@ const BillsPage = () => {
     mutate(url);
   };
 
-  // const onEditPayrollClick = (_e) =>
-  //   history.push(`${location.pathname}/payroll/edit`);
-
-  const onPayNowClick = (_e) => {
+  const onPayNowClick = (e) => {
     // call api and get invoice id
-    window.btcpay.showInvoice("XHjKLLBJBx7aE4LadjYtZY");
+    const url = `/bills/`;
+    // gpib.secure.post(url, {
+    // };
   };
 
-  const uploadPDF = async (e) => {
+  const onSubmit = async (values, actions) => {
+    try {
+      setShowModal(true);
+      // await login(values);
+      // if (onLogin) onLogin(values);
 
+      const url = `/bills/`;
+      const response = await gpib.secure.post(url, values);
+
+      setPaymentAddress(response.data.address);
+      setBillDetails(response.data);
+
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+      // actions.setErrors({
+      //   password: "Unable to login. Please check your email or password."
+      // });
+      actions.setSubmitting(false);
+    }
   };
+
+  // const uploadPDF = async (e) => {
+
+  // };
 
   const initialValues = {
     label: "",
@@ -87,30 +105,40 @@ const BillsPage = () => {
             <h4>Pay a Bill Instantly</h4>
           </div>
           <Alert variant="secondary" className="mt-3">
-            You can now pay our bills instantly with Bitcoin. Simply enter the BPay Biller code and Reference number from your bill and we will pay it instantly.
+            You can now pay our bills instantly with Bitcoin. Simply enter the
+            BPay Biller code and Reference number from your bill and we will pay
+            it instantly.
           </Alert>
           <Formik
             initialValues={initialValues}
             // validate={validate}
-            // onSubmit={onSubmit}
+            onSubmit={onSubmit}
             // enableReinitialize
           >
             <Form>
-              <Input name="label" label="Label" placeholder="Rent, Power Bill, etc"/>
-              <Input name="biller" label="Biller Code" />
-              <Input name="ref" label="Ref" />
-              <Input name="amount" label="Amount" />
+              <Input
+                name="label"
+                label="Label for your reference"
+                placeholder="Rent, Power Bill, etc"
+              />
+              <Input name="billercode" label="Biller Code" />
+              <Input name="reference" label="Ref" />
+              <Input name="fiat" label="Amount" />
+              <Button variant="primary" className="mt-3" type="submit">
+                Pay now with Bitcoin
+              </Button>
+
+              <SubmitButtonSpinner
+                variant="primary"
+                className="mt-3"
+                type="submit"
+                submitText="Pay now with Bitcoin"
+              />
             </Form>
           </Formik>
           {/* <ErrorMessage error={fetchDetailsError} /> */}
-          <Button
-            variant="primary"
-            className="mt-3"
-            onClick={onPayNowClick}
-          >
-            Pay now with Bitcoin
-          </Button>
-          <Button
+
+          {/* <Button
             variant="primary"
             className="mt-3"
             onClick={onPayNowClick}
@@ -130,7 +158,7 @@ const BillsPage = () => {
             // onClick={onUpdatePasswordClick}
           >
             Upload a PDF
-          </Button>
+          </Button> */}
         </Card>
         <Card>
           <div className="d-flex justify-content-between">
@@ -145,6 +173,12 @@ const BillsPage = () => {
           <ErrorMessage error={fetchSettingsError} />
           <TransactionTable />
         </Card>
+
+        <Modal isOpen={showModal}>
+          {({ onDismiss, wrapCallback }) => (
+            <>Send {billDetails?.btc} BTC here! {billDetails?.address}</>
+          )}
+        </Modal>
       </div>
     </Layout>
   );

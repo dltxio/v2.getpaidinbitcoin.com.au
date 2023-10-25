@@ -16,6 +16,8 @@ import Toggle from "components/forms/Toggle";
 import LabelledTable from "components/LabelledTable";
 import TransactionTable from "components/transactions/TransactionTable";
 import gpib from "apis/gpib";
+import QRCode from "qrcode.react";
+
 import "./Dashboard.scss";
 
 import { Formik, Form } from "formik";
@@ -29,39 +31,25 @@ const BillsPage = () => {
 
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [paymentAddress, setPaymentAddress] = useState();
-  const [billDetails, setBillDetails] = useState();
-
-  // const { data: depositHints, error: fetchDepositHintsError } = useSWR(
-  //   `/user/${user.id}/deposithints`
-  // );
-
-  // const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
+  const [isLoading, setLoading] = useState(false);
+  const [paymentAddress, setPaymentAddress] = useState("bitcoin://");
+  const [billCopy, setBillCopy] = useState(
+    "Fetching your unique payment address.."
+  );
 
   // const { data: userDetails, error: fetchDetailsError } = useSWR(
   //   `/user/${user.id}`
   // );
 
-  const { data: settings, error: fetchSettingsError } = useSWR(
-    `/settings/${user.id}`
-  );
+  // const onPayNowClick = (e) => {
+  //   // call api and get invoice id
+  //   const url = `/bills/`;
+  //   // gpib.secure.post(url, {
+  //   // };
+  // };
 
-  // const { data: accountInfo, error: fetchAccountInfoError } = useSWR(
-  //   `/accountInfoes/user/${user.id}`
-  // );
-
-  const updateSettings = async (updates) => {
-    const url = `/settings/${user.id}`;
-    mutate(url, (state) => ({ ...state, ...updates }), false);
-    await gpib.secure.patch(url, updates);
-    mutate(url);
-  };
-
-  const onPayNowClick = (e) => {
-    // call api and get invoice id
-    const url = `/bills/`;
-    // gpib.secure.post(url, {
-    // };
+  const onDismiss = () => {
+    // TODO DELETE OR CANCEL BILL
   };
 
   const onSubmit = async (values, actions) => {
@@ -73,8 +61,14 @@ const BillsPage = () => {
       const url = `/bills/`;
       const response = await gpib.secure.post(url, values);
 
-      setPaymentAddress(response.data.address);
-      setBillDetails(response.data);
+      const amount = Number.parseFloat(response.data.btc).toFixed(6);
+
+      setPaymentAddress(`bitcoin://${response.data.address}&amount=${amount}`);
+      setBillCopy(
+        `Send ${response.data?.btc} BTC here! ${response.data?.address}`
+      );
+
+      setLoading(false);
 
       console.log(response);
     } catch (e) {
@@ -123,12 +117,10 @@ const BillsPage = () => {
               />
               <Input name="billercode" label="Biller Code" />
               <Input name="reference" label="Ref" />
-              <Input name="fiat" label="Amount" />
-              <Button variant="primary" className="mt-3" type="submit">
-                Pay now with Bitcoin
-              </Button>
+              <Input name="fiat" label="AUD Amount" />
 
               <SubmitButtonSpinner
+                isSubmitting={isLoading}
                 variant="primary"
                 className="mt-3"
                 type="submit"
@@ -170,13 +162,21 @@ const BillsPage = () => {
 
         <Card>
           <h4 className="mb-3">Payment History</h4>
-          <ErrorMessage error={fetchSettingsError} />
+          {/* <ErrorMessage error={fetchSettingsError} /> */}
           <TransactionTable />
         </Card>
 
-        <Modal isOpen={showModal}>
+        <Modal
+          isOpen={showModal}
+          heading={"Your payment address"}
+          large={true}
+          onDismiss={onDismiss}
+        >
           {({ onDismiss, wrapCallback }) => (
-            <>Send {billDetails?.btc} BTC here! {billDetails?.address}</>
+            <>
+              <QRCode id="BillPaymentAddress" value={paymentAddress} />
+              <div>{billCopy}</div>
+            </>
           )}
         </Modal>
       </div>

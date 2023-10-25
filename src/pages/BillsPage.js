@@ -24,6 +24,15 @@ import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import Modal from "components/Modal";
 
+const validate = ({ billercode, ref, amount }) => {
+  const errors = {};
+  const reqMsg = "This field is required";
+  if (!billercode) errors.billercode = reqMsg;
+  if (!ref) errors.ref = reqMsg;
+  if (!amount(String(amount))) errors.amount = "Amount must be a number";
+  return errors;
+};
+
 const BillsPage = () => {
   const { user } = useContext(AuthContext);
   const history = useHistory();
@@ -33,6 +42,7 @@ const BillsPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("bitcoin://");
+
   const [billCopy, setBillCopy] = useState(
     "Fetching your unique payment address.."
   );
@@ -73,9 +83,6 @@ const BillsPage = () => {
       console.log(response);
     } catch (e) {
       console.log(e);
-      // actions.setErrors({
-      //   password: "Unable to login. Please check your email or password."
-      // });
       actions.setSubmitting(false);
     }
   };
@@ -88,7 +95,7 @@ const BillsPage = () => {
     label: "",
     biller: "",
     ref: "",
-    amount: ""
+    amount: 0
   };
 
   return (
@@ -105,9 +112,8 @@ const BillsPage = () => {
           </Alert>
           <Formik
             initialValues={initialValues}
-            // validate={validate}
+            validate={validate}
             onSubmit={onSubmit}
-            // enableReinitialize
           >
             <Form>
               <Input
@@ -166,13 +172,8 @@ const BillsPage = () => {
           <TransactionTable />
         </Card>
 
-        <Modal
-          isOpen={showModal}
-          heading={"Your payment address"}
-          large={true}
-          onDismiss={onDismiss}
-        >
-          {({ onDismiss, wrapCallback }) => (
+        <Modal isOpen={showModal} heading={"Your payment address"} large={true}>
+          {() => (
             <>
               <QRCode id="BillPaymentAddress" value={paymentAddress} />
               <div>{billCopy}</div>

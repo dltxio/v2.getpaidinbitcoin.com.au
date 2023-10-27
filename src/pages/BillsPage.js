@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 
 import { useHistory, useLocation } from "react-router-dom";
-import { format as format$ } from "currency-formatter";
+import { isNumeric, isDecimal } from "validator";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
@@ -23,13 +23,14 @@ import "./Dashboard.scss";
 import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import Modal from "components/Modal";
+import BillsHistoryTable from "components/bills/BillsHistoryTable";
 
-const validate = ({ billercode, ref, amount }) => {
+const validate = ({ billercode, reference, amount }) => {
   const errors = {};
   const reqMsg = "This field is required";
   if (!billercode) errors.billercode = reqMsg;
-  if (!ref) errors.ref = reqMsg;
-  if (!amount(String(amount))) errors.amount = "Amount must be a number";
+  if (!reference) errors.ref = reqMsg;
+  if (!isNumeric(String(amount))) errors.amount = "Amount must be a number";
   return errors;
 };
 
@@ -47,9 +48,7 @@ const BillsPage = () => {
     "Fetching your unique payment address.."
   );
 
-  // const { data: userDetails, error: fetchDetailsError } = useSWR(
-  //   `/user/${user.id}`
-  // );
+  const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
   // const onPayNowClick = (e) => {
   //   // call api and get invoice id
@@ -73,10 +72,8 @@ const BillsPage = () => {
 
       const amount = Number.parseFloat(response.data.btc).toFixed(6);
 
-      setPaymentAddress(`bitcoin://${response.data.address}&amount=${amount}`);
-      setBillCopy(
-        `Send ${response.data?.btc} BTC here! ${response.data?.address}`
-      );
+      setPaymentAddress(`${response.data.address}&amount=${amount}`);
+      setBillCopy(`Send ${amount} BTC here! ${response.data?.address}`);
 
       setLoading(false);
 
@@ -169,7 +166,7 @@ const BillsPage = () => {
         <Card>
           <h4 className="mb-3">Payment History</h4>
           {/* <ErrorMessage error={fetchSettingsError} /> */}
-          <TransactionTable />
+          <BillsHistoryTable data={bills} />
         </Card>
 
         <Modal isOpen={showModal} heading={"Your payment address"} large={true}>

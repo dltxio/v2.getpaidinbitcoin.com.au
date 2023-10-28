@@ -21,6 +21,8 @@ import gpib from "../apis/gpib";
 import ReferralTable from "components/referral/ReferralTable";
 
 const Dashboard = () => {
+  const lobsterTrap = process.env.REACT_APP_LOBSTER_TRAP || true;
+
   const { user, isVerified, hasVerified } = useContext(AuthContext);
   const [year, setYear] = useState(new Date().getFullYear());
   const [transactionsDownload, setTransactionsDowload] = useState([]);
@@ -30,14 +32,12 @@ const Dashboard = () => {
   });
 
   const csvRef = useRef();
-  const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
-    "/referralcredits"
-  );
 
-  const {
-    data: referralTransfers,
-    error: fetchReferralTransfersError
-  } = useSWR("/referraltransfer");
+  const { data: referralCredits, error: fetchReferralCreditsError } =
+    useSWR("/referralcredits");
+
+  const { data: referralTransfers, error: fetchReferralTransfersError } =
+    useSWR("/referraltransfer");
 
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
@@ -48,7 +48,7 @@ const Dashboard = () => {
   );
 
   const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
-  const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
+  // const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
 
   // Only if verified
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
@@ -71,7 +71,7 @@ const Dashboard = () => {
   );
 
   const { data: activeAddresses, error: fetchActiveAddressError } = useSWR(
-    isVerified && `/user/${user.id}/address`
+    `/user/${user.id}/address`
   );
 
   const { data: referrals, error: referralsError } = useSWR(
@@ -97,9 +97,11 @@ const Dashboard = () => {
   const isFetchingReferralTransfers =
     isVerified && !referralTransfers && !fetchReferralTransfersError;
 
-  const isFetchingReferral = isVerified && !referrals && !referralsError;
+  const isFetchingReferral = !referrals && !referralsError;
 
   const currentYear = new Date().getFullYear();
+  const showWelcomeCard = true;
+  const showBankDetailsCard = true;
 
   const handleDownload = async () => {
     setDownloadError({ show: false, message: "" });
@@ -124,15 +126,15 @@ const Dashboard = () => {
   return (
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
-        <Loader loading={!hasVerified} />
-        <VerificationTracker
+        <Loader loading={!hasVerified && !lobsterTrap} />
+        {/* <VerificationTracker
           userDetails={userDetails}
           depositHints={depositHints}
           userEnterprise={userEnterprise}
           userAddress={userAddress}
-        />
+        /> */}
         <section className="main row">
-          <div className={isVerified ? "overlay" : "overlay active"} />
+          {/* <div className={isVerified ? "overlay" : "overlay active"} /> */}
           <aside className="col-lg-5">
             <section>
               <Card>
@@ -170,6 +172,14 @@ const Dashboard = () => {
             <section>
               <Card>
                 <h4>Referral Credits</h4>
+                <p>
+                  You can earn some extra sats by referring your friends to Get
+                  Paid In Bitcoin. Once they register and verify their account,
+                  you will receive sats for every pay they receive.
+                </p>
+                <p>
+                  Your unique referral code is <b>{user.id}</b>.
+                </p>
                 <ErrorMessage error={fetchReferralCreditsError} />
                 <Loader loading={isFetchingReferralCredits} />
                 <ReferralCreditTable referralCredits={referralCredits} />
@@ -183,7 +193,7 @@ const Dashboard = () => {
             </section>
           </aside>
           <section className="content col-lg-7">
-            {isVerified && (
+            {showBankDetailsCard && (
               <section style={{ position: "relative" }}>
                 <Card>
                   <h4>Unique Bitcoin Pay Information</h4>
@@ -216,6 +226,16 @@ const Dashboard = () => {
               </section>
             )}
             <section style={{ position: "relative" }}>
+              {showWelcomeCard && 
+                <Card>
+                  <h4>Welcome to Get Paid In Bitcoin!</h4>
+                  <p>In order to add your own BTC address, you will need to KYC your account.  You can do that by clicking this link.</p>
+                  <ol>
+                    <li>Click the link above to KYC your account.</li>
+                  </ol>
+                </Card>
+              }
+
               <Card>
                 <div className="d-flex flex-row">
                   <div className="mr-auto p-2">

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from "react";
 import useSWR from "swr";
 import Layout from "components/layout/Layout";
-import VerificationTracker from "components/verificationTracker";
+// import VerificationTracker from "components/verificationTracker";
 import TransactionTable from "components/transactions/TransactionTable";
 import AddressTotals from "components/addresses/AddressTotals";
 import AddressPercentBar from "components/addresses/AddressPercentBar";
@@ -127,12 +127,14 @@ const Dashboard = () => {
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
         <Loader loading={!hasVerified && !lobsterTrap} />
+
         {/* <VerificationTracker
           userDetails={userDetails}
           depositHints={depositHints}
           userEnterprise={userEnterprise}
           userAddress={userAddress}
         /> */}
+
         <section className="main row">
           {/* <div className={isVerified ? "overlay" : "overlay active"} /> */}
           <aside className="col-lg-5">
@@ -192,7 +194,21 @@ const Dashboard = () => {
               </Card>
             </section>
           </aside>
+
           <section className="content col-lg-7">
+            {showWelcomeCard && (
+              <Card>
+                <h4>Welcome to Get Paid In Bitcoin!</h4>
+                <p>
+                  In order to add your own BTC address, you will need to KYC
+                  your account. You can do that by clicking this link.
+                </p>
+                <ol>
+                  <li>Send Bank account details to your employer.</li>
+                  <li>Click the link above to KYC your account.</li>
+                </ol>
+              </Card>
+            )}
             {showBankDetailsCard && (
               <section style={{ position: "relative" }}>
                 <Card>
@@ -225,66 +241,56 @@ const Dashboard = () => {
                 </Card>
               </section>
             )}
-            <section style={{ position: "relative" }}>
-              {showWelcomeCard && 
-                <Card>
-                  <h4>Welcome to Get Paid In Bitcoin!</h4>
-                  <p>In order to add your own BTC address, you will need to KYC your account.  You can do that by clicking this link.</p>
-                  <ol>
-                    <li>Click the link above to KYC your account.</li>
-                  </ol>
-                </Card>
-              }
 
-              <Card>
-                <div className="d-flex flex-row">
-                  <div className="mr-auto p-2">
-                    <h4>Transactions</h4>
-                  </div>
-                  <div className="p-2">
-                    <select
-                      className="form-control"
-                      id="downloadYear"
-                      onChange={(e) => {
-                        setYear(e.target.value);
-                      }}
-                    >
-                      <option>{currentYear}</option>
-                      <option>{currentYear - 1}</option>
-                      <option>{currentYear - 2}</option>
-                      <option>{currentYear - 3}</option>
-                      <option>{currentYear - 4}</option>
-                      <option>{currentYear - 5}</option>
-                      <option>{currentYear - 6}</option>
-                    </select>
-                  </div>
-                  <div className="p-2">
-                    <Button onClick={handleDownload}>Download CSV</Button>
-                    <CSVLink
-                      data={transactionsDownload}
-                      filename={"User-transactions.csv"}
-                      className="hidden"
-                      target="_blank"
-                      ref={csvRef}
-                    />
-                  </div>
+            <Card>
+              <div className="d-flex flex-row">
+                <div className="mr-auto p-2">
+                  <h4>Transactions</h4>
                 </div>
-                {downloadError.show && (
-                  <Alert variant="danger">{downloadError.message}</Alert>
-                )}
-                <ErrorMessage error={fetchTransactionsError} />
-                <Loader loading={isFetchingTransactions} />
-                <TransactionTable transactions={transactions} />
-              </Card>
-              <Card>
-                <h4>Referral Transactions</h4>
-                <ErrorMessage error={fetchReferralTransfersError} />
-                <Loader loading={isFetchingReferralTransfers} />
-                <ReferralTransferTable referralTransfers={referralTransfers} />
-              </Card>
-            </section>
+                <div className="p-2">
+                  <select
+                    className="form-control"
+                    id="downloadYear"
+                    onChange={(e) => {
+                      setYear(e.target.value);
+                    }}
+                  >
+                    <option>{currentYear}</option>
+                    <option>{currentYear - 1}</option>
+                    <option>{currentYear - 2}</option>
+                    <option>{currentYear - 3}</option>
+                    <option>{currentYear - 4}</option>
+                    <option>{currentYear - 5}</option>
+                    <option>{currentYear - 6}</option>
+                  </select>
+                </div>
+                <div className="p-2">
+                  <Button onClick={handleDownload}>Download CSV</Button>
+                  <CSVLink
+                    data={transactionsDownload}
+                    filename={"User-transactions.csv"}
+                    className="hidden"
+                    target="_blank"
+                    ref={csvRef}
+                  />
+                </div>
+              </div>
+              {downloadError.show && (
+                <Alert variant="danger">{downloadError.message}</Alert>
+              )}
+              <ErrorMessage error={fetchTransactionsError} />
+              <Loader loading={isFetchingTransactions} />
+              <TransactionTable transactions={transactions} />
+            </Card>
+            <Card>
+              <h4>Referral Transactions</h4>
+              <ErrorMessage error={fetchReferralTransfersError} />
+              <Loader loading={isFetchingReferralTransfers} />
+              <ReferralTransferTable referralTransfers={referralTransfers} />
+            </Card>
           </section>
         </section>
+        {/* </section> */}
       </div>
     </Layout>
   );

@@ -12,7 +12,8 @@ const defaultInitialValues = {
   address1: "",
   coin: "BTC",
   userID: "",
-  groupID: ""
+  groupID: "",
+  type: "non-custodial"
 };
 
 const validate = ({ percent, label, address1 }) => {

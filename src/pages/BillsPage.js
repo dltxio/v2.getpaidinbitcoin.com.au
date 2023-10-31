@@ -35,20 +35,43 @@ const validate = ({ billercode, reference, amount }) => {
 };
 
 const BillsPage = () => {
-  const { user } = useContext(AuthContext);
-  const history = useHistory();
-  const location = useLocation();
+  // const { user } = useContext(AuthContext);
+
+  // const history = useHistory();
+  // const location = useLocation();
 
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [isPaid, setPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("bitcoin://");
 
+  // const [bill, setBill] = useState();
+
   const [billCopy, setBillCopy] = useState(
-    "Fetching your unique payment address.."
+    "Fetching your unique payment address ..."
   );
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
+
+  // if (bill) {
+  //   // TODO: check if bill is paid
+  //   const { data: billx, error: fetchBillsErrorx } = useSWR(`/bills${bill.id}`);
+  // }
+
+  const pollBillStatus = (id) => {
+    const pollInterval = setInterval(async () => {
+      const response = await gpib.secure.get(`/bills/${id}`);
+
+      console.log(response.data);
+
+      if (response.data?.paid) {
+        // Close the modal and stop polling
+        setPaid(true);
+        clearInterval(pollInterval);
+      }
+    }, 5000); // Adjust the interval as needed (e.g., every 5 seconds)
+  };
 
   // const onPayNowClick = (e) => {
   //   // call api and get invoice id
@@ -59,6 +82,7 @@ const BillsPage = () => {
 
   const onDismiss = () => {
     // TODO DELETE OR CANCEL BILL
+    clearInterval(0);
   };
 
   const onSubmit = async (values, actions) => {
@@ -69,15 +93,17 @@ const BillsPage = () => {
 
       const url = `/bills/`;
       const response = await gpib.secure.post(url, values);
+      console.log(response);
 
-      const amount = Number.parseFloat(response.data.btc).toFixed(6);
+      const amount = Number.parseFloat(response.data.btc).toFixed(8);
 
-      setPaymentAddress(`${response.data.address}&amount=${amount}`);
-      setBillCopy(`Send ${amount} BTC here! ${response.data?.address}`);
+      setPaymentAddress(`${response.data.address}`);
+      setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
+      // setBill(response.data);
+
+      pollBillStatus(response.data.id);
 
       setLoading(false);
-
-      console.log(response);
     } catch (e) {
       console.log(e);
       actions.setSubmitting(false);
@@ -169,9 +195,10 @@ const BillsPage = () => {
           <BillsHistoryTable data={bills} />
         </Card>
 
-        <Modal isOpen={showModal} heading={"Your payment address"} large={true}>
-          {() => (
+        <Modal isOpen={showModal} onDismiss={onDismiss} heading={"Your payment address"} large={true}>
+          {(onDismiss) => (
             <>
+              <Loader loading={isLoading} diameter="2rem" />
               <QRCode id="BillPaymentAddress" value={paymentAddress} />
               <div>{billCopy}</div>
             </>

@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
-import VerifyWithDigitalID from "../../utils/Verify";
 import VerifyForm from "../auth/VerifyForm";
 
 const statuses = {
@@ -39,7 +38,7 @@ const statusAlerts = {
 };
 
 const iv = {
-  state: "QLD",
+  state: "QLD"
 };
 
 const VerifyID = () => {
@@ -82,19 +81,9 @@ const VerifyID = () => {
             statuses={statuses}
             initialValues={iv}
           ></VerifyForm>
-        </div>
-        <div>
+
           {userAddress && userAddress[0].isCustodial && (
-            <Button
-              onClick={handleSkipKYC}
-              style={{
-                width: "200px",
-                height: "50px",
-                backgroundColor: "rgb(0, 69, 216)"
-              }}
-            >
-              Skip KYC
-            </Button>
+            <Button onClick={handleSkipKYC}>Skip KYC</Button>
           )}
         </div>
       </div>

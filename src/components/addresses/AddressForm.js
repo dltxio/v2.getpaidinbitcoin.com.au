@@ -1,7 +1,8 @@
-import React from "react";
-import { Formik, Form } from "formik";
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric, isDecimal } from "validator";
+import Selector from "components/forms/Selector";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
@@ -16,12 +17,19 @@ const defaultInitialValues = {
   type: "non-custodial"
 };
 
+const types = [
+  ["non-custodial", "Personal Address"],
+  ["custodial", "Custodial Held by GPIB"]
+  // ["multi-sig-1-of-2", "Multi-Sig 1 of 2"],
+  // ["multi-sig-2-of-2", "Multi-Sig 2 of 2"]
+];
+
 const validate = ({ percent, label, address1 }) => {
   const errors = {};
   const reqMsg = "This field is required";
   if (!percent) errors.percent = reqMsg;
   if (!label) errors.label = reqMsg;
-  if (!address1) errors.address1 = reqMsg;
+  // if (!address1) errors.address1 = reqMsg;
   if (!isNumeric(String(percent))) errors.percent = "Percent must be a number";
   if (Number(percent) < 0 || Number(percent) > 100)
     errors.percent = "Percent must be between 0 and 100";
@@ -44,6 +52,17 @@ const AddressForm = ({
     map[item] = true;
     return map;
   }, {});
+
+  const [addressType, setAddressType] = useState("non-custodial");
+
+  // useEffect(() => {
+  //   if (addressType === "custodial") {
+  //     disableAddress = true;
+  //   } else {
+  //     disableAddress = false;
+  //   }
+  // }, [addressType]);
+
   return (
     <Formik
       initialValues={iv}
@@ -68,11 +87,20 @@ const AddressForm = ({
               placeholder="Give your address a personal label"
             />
           )}
+          <Selector
+            name="type"
+            options={types}
+            onChange={(e) => {
+              console.log(e);
+              setAddressType(e);
+            }}
+          />
           {!omit.address1 && (
             <Input
               name="address1"
               label="BTC Address"
-              disabled={disableAddress}
+              // disabled={disableAddress}
+              disabled={addressType === "custodial"}
             />
           )}
 

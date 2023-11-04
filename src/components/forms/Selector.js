@@ -7,7 +7,7 @@ const FormGroupWrap = ({ isWrapped, children }) =>
 
 const Selector = ({ label, onChange, skinny, options, ...props }) => {
   let [field, meta] = useField(props);
-
+  if (onChange) field.onChange = (e) => onChange(e.target.value);
   return (
     <FormGroupWrap isWrapped={!skinny}>
       {label && <label>{label}</label>}

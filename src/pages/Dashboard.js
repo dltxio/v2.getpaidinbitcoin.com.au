@@ -141,7 +141,7 @@ const Dashboard = () => {
             </section>
             <Card>
               <h4>Active Addresses</h4>
-              <p>Your current bitcoin address are listed here. To add and remove address, and to view their history, go to your <b>address page.</b></p>
+              <p>Your current bitcoin address are listed here. To add and remove an address, and to view their history, go to your <b>address page.</b></p>
               <ErrorMessage
                 error={
                   fetchActiveAddressError ||

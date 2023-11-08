@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useHistory, useLocation } from "react-router-dom";
@@ -20,10 +20,32 @@ const Dashboard = () => {
   const history = useHistory();
   const location = useLocation();
   const [syncingBankAccount, setSyncingBankAccount] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
+  
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
   );
+
+  // Get code from the query string
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get("code");
+  const state = urlParams.get("state");
+
+  useEffect(() => {
+    if (code && state) {
+      gpib.secure.get(`/xero/callback?code=${code}&state=${state}`)
+        .then(response => {
+          // Handle the response data here
+          console.log(response.data);
+        })
+        .catch(error => {
+          // Handle any errors here
+          console.error(error);
+        })
+    }
+  }, [code, state]);
+
 
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
 
@@ -259,6 +281,16 @@ const Dashboard = () => {
             Reset Password
           </Button>
         </Card>
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Connect to Xero</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              Your bank account in Xero has now been updated.
+            </p>
+          </Modal.Body>
+        </Modal>
       </div>
     </Layout>
   );

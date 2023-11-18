@@ -45,31 +45,52 @@ const AddAddress = ({ userEnterprise }) => {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div>
       <Card>
         <div className="mb-3 d-flex justify-content-between">
-          <p>
-            <b>Add a bitcoin address</b>
-          </p>
+          <b>Add your bitcoin address</b>
         </div>
         <div>
           <AddressForm
             onSubmit={addAddress}
-            submitText="Add Address"
+            submitText="Add on Personal Address"
             omit={["percent"]}
           />
           <ErrorMessage error={fetchHDAddressError} />
           <Loader loading={isFetchingHDAddress} />
         </div>
+        <div>Or</div>
+        <Alert variant="primary" className="mb-4">
+          I want GPIB to create a custodial address for me. I understand that I
+          won’t be able to access the BTC in this account until I add my own BTC
+          address.
+        </Alert>
+        <div>
+          <Button onClick={generateHDAddress} disabled={isSubmitting} block>
+            {isSubmitting ? (
+              <>
+                <Spinner
+                  animation="border"
+                  variant="light"
+                  size="sm"
+                  className="mr-3"
+                />
+                Submitting
+              </>
+            ) : userEnterprise?.name ? (
+              "Generate HD Address"
+            ) : (
+              "or Skip KYC and Create a GPIB Custodial Address"
+            )}
+          </Button>
+        </div>
       </Card>
       <p></p>
       <Card>
         <div className="mb-3 d-flex justify-content-between">
-          <p>
-            <b>Or generate HD address</b>
-          </p>
+          <b>Create an address for me</b>
         </div>
         <div>
           <Alert variant="primary" className="mb-4">

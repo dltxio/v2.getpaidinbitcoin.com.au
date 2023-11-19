@@ -87,14 +87,16 @@ const AddressForm = ({
               placeholder="Give your address a personal label"
             />
           )}
-          <Selector
-            name="type"
-            options={types}
-            onChange={(e) => {
-              console.log(e);
-              setAddressType(e);
-            }}
-          />
+          {!omit.type && (
+            <Selector
+              name="type"
+              options={types}
+              onChange={(e) => {
+                console.log(e);
+                setAddressType(e);
+              }}
+            />
+          )}
           {!omit.address1 && (
             <Input
               name="address1"

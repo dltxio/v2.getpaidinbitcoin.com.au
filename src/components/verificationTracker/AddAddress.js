@@ -50,23 +50,22 @@ const AddAddress = ({ userEnterprise }) => {
     <div>
       <Card>
         <div className="mb-3 d-flex justify-content-between">
-          <b>Add your bitcoin address</b>
+          <Alert variant="primary" className="mb-4">
+            I want GPIB to create a custodial address for me. I understand that
+            I won’t be able to access the BTC in this account until I add my own
+            BTC address.
+          </Alert>
         </div>
         <div>
           <AddressForm
             onSubmit={addAddress}
-            submitText="Add on Personal Address"
-            omit={["percent"]}
+            submitText="Add a Personal Address"
+            omit={["percent", "type"]}
           />
           <ErrorMessage error={fetchHDAddressError} />
           <Loader loading={isFetchingHDAddress} />
         </div>
-        <div>Or</div>
-        <Alert variant="primary" className="mb-4">
-          I want GPIB to create a custodial address for me. I understand that I
-          won’t be able to access the BTC in this account until I add my own BTC
-          address.
-        </Alert>
+        <p>Or</p>
         <div>
           <Button onClick={generateHDAddress} disabled={isSubmitting} block>
             {isSubmitting ? (
@@ -80,14 +79,14 @@ const AddAddress = ({ userEnterprise }) => {
                 Submitting
               </>
             ) : userEnterprise?.name ? (
-              "Generate HD Address"
+              "Generate an Address for me"
             ) : (
-              "or Skip KYC and Create a GPIB Custodial Address"
+              "Create a GPIB Custodial Address" // todo make a constant
             )}
           </Button>
         </div>
       </Card>
-      <p></p>
+      {/* <p></p>
       <Card>
         <div className="mb-3 d-flex justify-content-between">
           <b>Create an address for me</b>
@@ -115,8 +114,8 @@ const AddAddress = ({ userEnterprise }) => {
               "Generate HD Address and Skip KYC"
             )}
           </Button>
-        </div>
-      </Card>
+        </div> 
+      </Card>*/}
     </div>
   );
 };

@@ -31,7 +31,7 @@ const validate = (values) => {
 const DepositHintsForm = ({
   initialValues: _inititalValues,
   onSubmit,
-  submitText = "Submit",
+  submitText,
   enterprise,
   sourceFrom
 }) => {

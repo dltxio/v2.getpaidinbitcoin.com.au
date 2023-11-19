@@ -47,6 +47,7 @@ const VerifyID = () => {
   const [idVerificationStatus, setIdVerificationStatus] = useState();
   const alert = statusAlerts[idVerificationStatus];
   const showAlert = alert;
+  
   const handleSkipKYC = () => {
     setSkipKYC(true);
     setVerified(true);
@@ -83,7 +84,7 @@ const VerifyID = () => {
           ></VerifyForm>
 
           {userAddress && userAddress[0].isCustodial && (
-            <Button onClick={handleSkipKYC}>Skip KYC</Button>
+            <Button onClick={handleSkipKYC}>Skip KYC and Create a GPIB Custodial Address</Button>
           )}
         </div>
       </div>

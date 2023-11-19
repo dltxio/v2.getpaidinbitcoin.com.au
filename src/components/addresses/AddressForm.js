@@ -13,7 +13,8 @@ const defaultInitialValues = {
   address1: "",
   coin: "BTC",
   userID: "",
-  groupID: ""
+  groupID: "",
+  type: "non-custodial"
 };
 
 const types = [
@@ -86,14 +87,16 @@ const AddressForm = ({
               placeholder="Give your address a personal label"
             />
           )}
-          <Selector
-            name="type"
-            options={types}
-            onChange={(e) => {
-              console.log(e);
-              setAddressType(e);
-            }}
-          />
+          {!omit.type && (
+            <Selector
+              name="type"
+              options={types}
+              onChange={(e) => {
+                console.log(e);
+                setAddressType(e);
+              }}
+            />
+          )}
           {!omit.address1 && (
             <Input
               name="address1"

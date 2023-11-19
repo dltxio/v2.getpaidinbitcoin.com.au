@@ -32,10 +32,14 @@ const Dashboard = () => {
   });
 
   const csvRef = useRef();
+  const { data: referralCredits, error: fetchReferralCreditsError } =
+    useSWR("/referralcredits");
 
   const { data: referralCredits, error: fetchReferralCreditsError } =
     useSWR("/referralcredits");
 
+  const { data: referralTransfers, error: fetchReferralTransfersError } =
+    useSWR("/referraltransfer");
   const { data: referralTransfers, error: fetchReferralTransfersError } =
     useSWR("/referraltransfer");
 
@@ -148,6 +152,7 @@ const Dashboard = () => {
             </section>
             <Card>
               <h4>Active Addresses</h4>
+              <p>Your current bitcoin address are listed here. To add and remove an address, and to view their history, go to your <b>address page.</b></p>
               <ErrorMessage
                 error={
                   fetchActiveAddressError ||
@@ -176,11 +181,9 @@ const Dashboard = () => {
                 <h4>Referral Credits</h4>
                 <p>
                   You can earn some extra sats by referring your friends to Get
-                  Paid In Bitcoin. Once they register and verify their account,
-                  you will receive sats for every pay they receive.
-                </p>
-                <p>
-                  Your unique referral code is <b>{user.id}</b>.
+                  Paid In Bitcoin! Once they register and verify their account,
+                  you will receive sats for every pay they receive. You can find
+                  your unique invitation code in your <b>profile page.</b>
                 </p>
                 <ErrorMessage error={fetchReferralCreditsError} />
                 <Loader loading={isFetchingReferralCredits} />

@@ -33,12 +33,12 @@ const VerificationTracker = ({
       isCompleted: userDetails?.emailVerified,
       panel: <VerifyEmail userDetails={userDetails} />
     },
-    {
-      label: "Verify Mobile",
-      icon: "phone-portrait-outline",
-      isCompleted: userDetails?.mobileVerified,
-      panel: <VerifyMobile />
-    },
+    // {
+    //   label: "Verify Mobile",
+    //   icon: "phone-portrait-outline",
+    //   isCompleted: userDetails?.mobileVerified,
+    //   panel: <VerifyMobile />
+    // },
     {
       label: "Add Payroll Information",
       icon: "cash-outline",

@@ -63,6 +63,11 @@ const AddressForm = ({
   //   }
   // }, [addressType]);
 
+  function handleSelectChange(e) {
+    console.log(e);
+    setAddressType(e);
+  }
+
   return (
     <Formik
       initialValues={iv}
@@ -91,10 +96,7 @@ const AddressForm = ({
             <Selector
               name="type"
               options={types}
-              onChange={(e) => {
-                console.log(e);
-                setAddressType(e);
-              }}
+              onChange={handleSelectChange}
             />
           )}
           {!omit.address1 && (

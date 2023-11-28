@@ -62,12 +62,12 @@ const DepositHintsForm = ({
             disabled={enterprise}
           />
           <Input
-            label="Dollar Amount of your Wages to Receive in BTC"
+            label="Dollar amount of your wages you wish to receive in BTC"
             name="depositAmount"
             placeholder="100.00"
           />
           <Input
-            label="Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)"
+            label="Deposit Reference - Description or Reference that is on your regular wage bank statement."
             name="bankStatement"
             placeholder="Wage Transfer Description or Staff Number"
           />

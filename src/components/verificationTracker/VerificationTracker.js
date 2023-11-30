@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
-import VerifyMobile from "./VerifyMobile";
 import AddPayroll from "./AddPayroll";
 import VerifyID from "./VerifyID";
 import { AuthContext } from "components/auth/Auth";
@@ -33,12 +32,6 @@ const VerificationTracker = ({
       isCompleted: userDetails?.emailVerified,
       panel: <VerifyEmail userDetails={userDetails} />
     },
-    // {
-    //   label: "Verify Mobile",
-    //   icon: "phone-portrait-outline",
-    //   isCompleted: userDetails?.mobileVerified,
-    //   panel: <VerifyMobile />
-    // },
     {
       label: "Add Payroll Information",
       icon: "cash-outline",

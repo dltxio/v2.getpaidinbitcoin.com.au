@@ -60,11 +60,6 @@ const AddressForm = ({
     disableAddressInput.current = !disableAddressInput.current;
   };
 
-  useEffect(() => {
-    console.log("effect", addressType);
-    // Perform actions based on the updated state
-  }, [addressType]);
-
   return (
     <Formik
       initialValues={iv}

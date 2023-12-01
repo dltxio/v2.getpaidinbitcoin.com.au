@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import SubmitSpinnerButton from "../forms/SubmitSpinnerButton";
 import ErrorMessage from "../ErrorMessage";
 import gpib from "../../apis/gpib";
-import QRCode from "qrcode.react";
-import { Alert, Card } from "react-bootstrap";
-import { Button, Spinner } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
 const VerifyEmail = ({ userDetails }) => {
   const [hasResent, setResent] = useState(false);

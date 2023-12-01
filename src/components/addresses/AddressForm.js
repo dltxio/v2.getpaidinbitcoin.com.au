@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric, isDecimal } from "validator";
 import Selector from "components/forms/Selector";
@@ -17,13 +17,6 @@ const defaultInitialValues = {
   type: "non-custodial"
 };
 
-const types = [
-  ["non-custodial", "Personal Address"],
-  ["custodial", "Custodial Held by GPIB"]
-  // ["multi-sig-1-of-2", "Multi-Sig 1 of 2"],
-  // ["multi-sig-2-of-2", "Multi-Sig 2 of 2"]
-];
-
 const validate = ({ percent, label, address1 }) => {
   const errors = {};
   const reqMsg = "This field is required";
@@ -38,13 +31,18 @@ const validate = ({ percent, label, address1 }) => {
   return errors;
 };
 
+const types = [
+  // format: [value, label]
+  ["non-custodial", "Personal Address"],
+  ["custodial", "Custodial Held by GPIB"]
+];
+
 const AddressForm = ({
   initialValues = {},
   onSubmit,
   submitText = "Submit",
   omit: _omit = [],
   disablePercent,
-  disableAddress,
   alert
 }) => {
   const iv = { ...defaultInitialValues, ...initialValues };
@@ -53,15 +51,14 @@ const AddressForm = ({
     return map;
   }, {});
 
-  const [addressType, setAddressType] = useState("non-custodial");
+  const disableAddressInput = useRef(false);
+  const currentAddressType = types[0][0];
+  const [addressType, setAddressType] = useState(currentAddressType);
 
-  // useEffect(() => {
-  //   if (addressType === "custodial") {
-  //     disableAddress = true;
-  //   } else {
-  //     disableAddress = false;
-  //   }
-  // }, [addressType]);
+  const handleSelectionChange = (value) => {
+    setAddressType(value);
+    disableAddressInput.current = !disableAddressInput.current;
+  };
 
   function handleSelectChange(e) {
     console.log(e);
@@ -96,15 +93,15 @@ const AddressForm = ({
             <Selector
               name="type"
               options={types}
-              onChange={handleSelectChange}
+              onChange={handleSelectionChange}
+              currentSelection={addressType}
             />
           )}
           {!omit.address1 && (
             <Input
               name="address1"
               label="BTC Address"
-              // disabled={disableAddress}
-              disabled={addressType === "custodial"}
+              disabled={disableAddressInput.current}
             />
           )}
 

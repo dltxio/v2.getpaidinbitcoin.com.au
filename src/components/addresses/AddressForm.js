@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric, isDecimal } from "validator";
@@ -59,11 +59,6 @@ const AddressForm = ({
     setAddressType(value);
     disableAddressInput.current = !disableAddressInput.current;
   };
-
-  function handleSelectChange(e) {
-    console.log(e);
-    setAddressType(e);
-  }
 
   return (
     <Formik

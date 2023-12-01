@@ -60,6 +60,11 @@ const AddressForm = ({
     disableAddressInput.current = !disableAddressInput.current;
   };
 
+  function handleSelectChange(e) {
+    console.log(e);
+    setAddressType(e);
+  }
+
   return (
     <Formik
       initialValues={iv}

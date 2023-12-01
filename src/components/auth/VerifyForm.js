@@ -3,9 +3,7 @@ import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import SubmitSpinnerButtonWithDisable from "components/forms/SubmitSpinnerButtonWithDisable";
 import gpib from "apis/gpib";
-import Card from "components/Card";
 import ErrorMessage from "components/ErrorMessage";
-// import { AuthContext } from "components/auth/Auth";
 import { useHistory } from "react-router-dom";
 import "./RegisterForm.scss";
 import Selector from "components/forms/Selector";
@@ -88,7 +86,8 @@ const validate = ({
 const VerifyForm = ({
   initialValues: _iv,
   setIdVerificationStatus,
-  statuses
+  statuses,
+  submitText = "Submit"
 }) => {
   const initialValues = { ..._iv };
   // const { login } = useContext(AuthContext);
@@ -118,7 +117,7 @@ const VerifyForm = ({
   };
 
   return (
-    <Card style={{ width: 800 }}>
+    // <Card style={{ width: 800 }}>
       <Formik
         initialValues={initialValues}
         validate={validate}
@@ -155,14 +154,14 @@ const VerifyForm = ({
             />
             <ErrorMessage error={errors.hidden} />
             <SubmitSpinnerButtonWithDisable
-              submitText="Verify"
+              submitText={submitText}
               isSubmitting={isSubmitting}
               isDisabled={false}
             />
           </Form>
         )}
       </Formik>
-    </Card>
+    // </Card>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
+import Card from "components/Card";
 import { AuthContext } from "components/auth/Auth";
 import VerifyForm from "../auth/VerifyForm";
 
@@ -55,9 +56,7 @@ const VerifyID = () => {
 
   return (
     <div>
-      <p>
-        <b>ID Verification</b>
-      </p>
+      <Card>
       <Alert variant="primary">
         As an AUSTRAC registered exchange provider of Australian Dollars into
         Bitcoin, we are required to complete a short ID Verification process
@@ -77,10 +76,12 @@ const VerifyID = () => {
           />
         </div> */}
         <div className="mr-auto">
+          
           <VerifyForm
             setIdVerificationStatus={setIdVerificationStatus}
             statuses={statuses}
             initialValues={iv}
+            submitText="Verify my ID"
           ></VerifyForm>
 
           {userAddress && userAddress[0].isCustodial && (
@@ -88,6 +89,7 @@ const VerifyID = () => {
           )}
         </div>
       </div>
+      </Card>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Input from "components/forms/Input";
 import ErrorMessage from "components/ErrorMessage";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isEmail from "validator/lib/isEmail";
-import { ToggleButton } from "components/forms/ToggleButton";
+import ToggleButton from "components/forms/ToggleButton";
 
 const validate = (values) => {
   const re = /^[1-9]\d*(\.\d+)?$/;

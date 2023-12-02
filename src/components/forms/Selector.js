@@ -1,4 +1,3 @@
-// import React, { useEffect, useRef, useState } from "react";
 import React from "react";
 import { useField } from "formik";
 import ErrorMessage from "components/ErrorMessage";
@@ -21,17 +20,13 @@ const Selector = ({
   return (
     <FormGroupWrap isWrapped={!skinny}>
       {label && <label>{label}</label>}
-      <select
-        className="form-control"
-        {...props}
-        {...field}
-        onChange={(e) => onChange(e.target.value)}
-        value={currentSelection}
-      >
+
+      <select className="form-control" {...props} {...field}>
         {options.map(([value, label]) => {
           return <option value={value}>{label}</option>;
         })}
       </select>
+
       <ErrorMessage error={meta.error} isHidden={!meta.touched} />
     </FormGroupWrap>
   );

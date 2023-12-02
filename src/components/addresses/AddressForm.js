@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric, isDecimal } from "validator";
@@ -51,19 +51,10 @@ const AddressForm = ({
     return map;
   }, {});
 
-  const disableAddressInput = useRef(false);
-  const currentAddressType = types[0][0];
-  const [addressType, setAddressType] = useState(currentAddressType);
-
-  const handleSelectionChange = (value) => {
-    setAddressType(value);
-    disableAddressInput.current = !disableAddressInput.current;
+  const [disabledAddressInput, setDisabledAddressInput] = useState(false);
+  const handleSelectionChange = (event) => {
+    setDisabledAddressInput(event.target.value === "custodial");
   };
-
-  useEffect(() => {
-    console.log("effect", addressType);
-    // Perform actions based on the updated state
-  }, [addressType]);
 
   return (
     <Formik
@@ -93,15 +84,14 @@ const AddressForm = ({
             <Selector
               name="type"
               options={types}
-              onChange={handleSelectionChange}
-              currentSelection={addressType}
+              onClick={handleSelectionChange}
             />
           )}
           {!omit.address1 && (
             <Input
               name="address1"
               label="BTC Address"
-              disabled={disableAddressInput.current}
+              disabled={disabledAddressInput}
             />
           )}
 

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import ErrorMessage from "components/ErrorMessage";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isEmail from "validator/lib/isEmail";
+import { ToggleButton } from "components/forms/ToggleButton";
 
 const validate = (values) => {
   const re = /^[1-9]\d*(\.\d+)?$/;
@@ -35,7 +36,7 @@ const DepositHintsForm = ({
   enterprise,
   sourceFrom
 }) => {
-  const [showInput, setShowInput] = useState(false);
+  const [showAnotherAddressInput, setShowAnotherAddressInput] = useState(false);
   const initialValues = {
     employerName: "",
     depositAmount: "",
@@ -74,35 +75,26 @@ const DepositHintsForm = ({
           {sourceFrom && sourceFrom === "EditModal" && (
             <>
               <label>
-                <Field
-                  type="checkbox"
-                  name="sendInstructions"
-                  value="sendEmail"
-                  className="m-2"
-                />
+                <ToggleButton name="sendInstructions" value="sendEmail" />
                 Email Updated Pay Instructions to Me
-              </label><br></br>
+              </label>
               <label>
-                <Field
-                  type="checkbox"
-                  name="sendInstructions"
-                  value="sendSMS"
-                  className="m-2"
-                />
+                <ToggleButton name="sendInstructions" value="sendSMS" />
                 SMS Updated Pay Instructions to Me
               </label>
               <label>
-                <Field
-                  type="checkbox"
+                <ToggleButton
                   name="sendAnotherEmail"
-                  className="m-2"
-                  onClick={(e) =>
-                    e.target.checked ? setShowInput(true) : setShowInput(false)
-                  }
+                  onClick={(e) => setShowAnotherAddressInput(e.target.checked)}
                 />
                 Email Updated Pay Instructions to Another Address
               </label>
-              {showInput && <Input name="emailToAnotherAddress" placeholder="Email Address" />}
+              {showAnotherAddressInput && (
+                <Input
+                  name="emailToAnotherAddress"
+                  placeholder="Email Address"
+                />
+              )}
             </>
           )}
 

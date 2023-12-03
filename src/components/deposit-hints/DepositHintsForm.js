@@ -4,8 +4,8 @@ import Input from "components/forms/Input";
 import ErrorMessage from "components/ErrorMessage";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isEmail from "validator/lib/isEmail";
-import Toggle from "components/forms/Toggle";
 import "./DepositHintsForm.scss";
+import ToggleButton from "components/forms/ToggleButton";
 
 const validate = (values) => {
   const re = /^[1-9]\d*(\.\d+)?$/;
@@ -76,28 +76,34 @@ const DepositHintsForm = ({
           {sourceFrom && sourceFrom === "EditModal" && (
             <>
               <label>
-                <Toggle
+                <ToggleButton
                   className="float-left"
                   name="sendInstructions"
                   value="sendEmail"
                 />
-                Email Updated Pay Instructions to Me
+                <label className="label-for-toggle-button">
+                  Email Updated Pay Instructions to Me
+                </label>
               </label>
               <label>
-                <Toggle
+                <ToggleButton
                   className="float-left"
                   name="sendInstructions"
                   value="sendSMS"
                 />
-                SMS Updated Pay Instructions to Me
+                <label className="label-for-toggle-button">
+                  SMS Updated Pay Instructions to Me
+                </label>
               </label>
               <label>
-                <Toggle
+                <ToggleButton
                   className="float-left"
                   name="sendAnotherEmail"
                   onClick={(e) => setShowAnotherAddressInput(e.target.checked)}
                 />
-                Email Updated Pay Instructions to Another Address
+                <label className="label-for-toggle-button">
+                  Email Updated Pay Instructions to Another Address
+                </label>
               </label>
               {showAnotherAddressInput && (
                 <Input

@@ -1,0 +1,81 @@
+@import "../../constants/mixins";
+@import "../../constants/colors";
+
+$size: 1.8rem;
+
+.toggle-button {
+  &.switch {
+    position: relative;
+    // display: inline-block;
+    width: 2 * $size;
+    height: $size;
+    margin-left: 0.1 * $size;
+    margin-right: 0.1 * $size;
+    margin-top: 0;
+    margin-bottom: 0.25 * $size;
+    
+    // If add className=float-left
+    &.float-left {
+      float: left;
+      margin-right: 0.5 * $size;
+    }
+
+    // If add className=float-right
+    &.float-right {
+      float: right;
+      margin-left: 0.5 * $size;
+    }
+  }
+
+  input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $gray-500;
+    -webkit-transition: .3s;
+    transition: .3s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 0.75 * $size;
+    width: 0.75 * $size;
+    left: 0.2 * $size;
+    bottom: 0.12 * $size;
+    background-color: white;
+    -webkit-transition: .3s;
+    transition: .3s;
+  }
+  
+  input:checked + .slider {
+    background-color: $primary;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 0px $primary;
+  }
+  
+  input:checked + .slider:before {
+    // -webkit-transform: translateX(0.85 * $size);
+    // -ms-transform: translateX(0.85 * $size);
+    transform: translateX(0.85 * $size);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 22px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+}

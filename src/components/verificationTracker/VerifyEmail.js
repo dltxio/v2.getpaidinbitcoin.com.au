@@ -26,7 +26,7 @@ const VerifyEmail = ({ userDetails }) => {
 
   return (
     <div>
-      <Alert variant="primary">
+      <Alert variant="info">
         Please verify your email address to continue.
       </Alert>
       <ErrorMessage error={error} />

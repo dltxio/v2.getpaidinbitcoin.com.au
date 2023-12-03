@@ -23,7 +23,7 @@ const ReferralSendModal = (props) => {
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading="Send referral Link">
+    <Modal isOpen onDismiss={onDismiss} heading="Send Referral Link">
       {({ onDismiss, wrapCallback }) => (
         <>
           <ReferralSendForm

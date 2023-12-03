@@ -53,7 +53,8 @@ const AddressForm = ({
 
   const [disabledAddressInput, setDisabledAddressInput] = useState(false);
   const handleSelectionChange = (event) => {
-    setDisabledAddressInput(event.target.value === "custodial");
+    const isAddingCustodialAddress = event.target.value === "custodial";
+    setDisabledAddressInput(isAddingCustodialAddress);
   };
 
   return (

@@ -41,6 +41,7 @@ const DepositHintsModalForm = (props) => {
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
+      console.log(values);
       const parsedValues = parseSubmitValues(values);
       const url = `/user/${user.id}/deposithints`;
       await gpib.secure.put(url, parsedValues);

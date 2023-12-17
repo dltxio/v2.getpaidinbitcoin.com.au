@@ -75,8 +75,9 @@ const VerificationTracker = ({ userDetails, depositHints, userEnterprise, userAd
     );
   };
 
-  if (isVerified || !hasVerified || !activeStep) return null;
-  
+  // if (isVerified || !hasVerified || !activeStep) return null;
+  if (isVerified || !activeStep) return null;
+
   return (
     <div className="verification-tracker">
       <Card>

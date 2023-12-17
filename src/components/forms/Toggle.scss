@@ -27,6 +27,7 @@ $size: 1.8rem;
     input {
       display:none;
     }
+    
     &.checked {
       background: $primary;
       .slider {
@@ -42,5 +43,4 @@ $size: 1.8rem;
       transition: 200ms;
     }
   }
-
 }

@@ -35,11 +35,6 @@ const Dashboard = () => {
   const { data: referralCredits, error: fetchReferralCreditsError } =
     useSWR("/referralcredits");
 
-  const { data: referralCredits, error: fetchReferralCreditsError } =
-    useSWR("/referralcredits");
-
-  const { data: referralTransfers, error: fetchReferralTransfersError } =
-    useSWR("/referraltransfer");
   const { data: referralTransfers, error: fetchReferralTransfersError } =
     useSWR("/referraltransfer");
 
@@ -152,7 +147,12 @@ const Dashboard = () => {
             </section>
             <Card>
               <h4>Active Addresses</h4>
-              <p>Your current bitcoin address are listed here. To add and remove an address, and to view their history, go to your <b>address page.</b></p>
+              {hasVerified && (
+                <p>Your current bitcoin addresses are listed here. To add and remove an address, and to view their history, go to your <b>address page.</b></p>
+              )}
+              {!hasVerified && (
+                <p>Your GPIB custodial bitcoin address is listed here. Once KYC is completed, you will be able to change this address to your own personal wallet.</p>
+              )}
               <ErrorMessage
                 error={
                   fetchActiveAddressError ||

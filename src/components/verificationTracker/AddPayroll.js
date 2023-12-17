@@ -44,7 +44,7 @@ const AddPayroll = ({ userEnterprise }) => {
   return (
     <div>
       <Card>
-        <Alert variant="info">Add your payroll information</Alert>
+        <Alert variant="info">To make sure we can match your wages payments, please add the following payroll information.</Alert>
         {message && <Alert variant="success">{message}</Alert>}
         <div>
           <DepositHintsForm
@@ -53,8 +53,10 @@ const AddPayroll = ({ userEnterprise }) => {
             initialValues={initialValues}
             enterprise={enterprise}
           />
-          <br/>
-          <Button block hidden={!showSkip}>or Skip KYC and Create a GPIB Custodial Address</Button>
+          <br />
+          <Button block hidden={!showSkip}>
+            or Skip KYC and Create a GPIB Custodial Address
+          </Button>
         </div>
       </Card>
     </div>

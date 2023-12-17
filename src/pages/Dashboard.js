@@ -172,6 +172,9 @@ const Dashboard = () => {
                   <li>Refer a friend.</li>
                   <li>Start stacking sats!</li>
                 </ol>
+                <div className="p-2">
+                  <Button onClick={handleDownload}>Complete KYC</Button>
+                </div>
               </Card>
             )}
             {showBankDetailsCard && (
@@ -213,7 +216,7 @@ const Dashboard = () => {
                 </div>
                 <div className="p-2">
                   <Button onClick={handleDownload}>Download CSV</Button>
-                  <CSVLink data={transactionsDownload} filename={"User-transactions.csv"} className="hidden" target="_blank" ref={csvRef} />
+                  <CSVLink data={transactionsDownload} filename={currentYear + "-gpib-transactions.csv"} className="hidden" target="_blank" ref={csvRef} />
                 </div>
               </div>
               {downloadError.show && <Alert variant="danger">{downloadError.message}</Alert>}

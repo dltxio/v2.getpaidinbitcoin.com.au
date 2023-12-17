@@ -69,7 +69,6 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         loginError,
-        emailVerified,
         isVerified,
         setVerified,
         hasVerified,

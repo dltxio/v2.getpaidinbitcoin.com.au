@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import useSWR from "swr";
 import Layout from "components/layout/Layout";
 import VerificationTracker from "components/verificationTracker";
@@ -24,6 +24,7 @@ const Dashboard = () => {
   const lobsterTrap = process.env.REACT_APP_LOBSTER_TRAP || true;
 
   const { user, isVerified, hasVerified } = useContext(AuthContext);
+  const [emailVerified, setEmailVerified] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
   const [transactionsDownload, setTransactionsDowload] = useState([]);
   const [downloadError, setDownloadError] = useState({
@@ -33,16 +34,11 @@ const Dashboard = () => {
 
   const csvRef = useRef();
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR("/referralcredits");
-
   const { data: referralTransfers, error: fetchReferralTransfersError } = useSWR("/referraltransfer");
-
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(`/user/${user.id}/deposithints`);
-
   const { data: userDetails, error: fetchDetailsError } = useSWR(`/user/${user.id}`);
-
   const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
   // const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
-
   // Only if verified
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(isVerified && `/user/${user.id}/bankdetails`);
 
@@ -94,10 +90,17 @@ const Dashboard = () => {
       setDownloadError({ show: true, message: error.message });
     }
   };
+
+  useEffect(() => {
+    console.log("userDetails", userDetails.emailVerified);
+    setEmailVerified(userDetails?.emailVerified);
+  }, [userDetails]);
+
   return (
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
         <Loader loading={!hasVerified && !lobsterTrap} />
+        {/* <Loader loading={!user?.emailVerified} /> */}
 
         <VerificationTracker
           userDetails={userDetails}
@@ -107,7 +110,8 @@ const Dashboard = () => {
         />
 
         <section className="main row">
-          <div className={isVerified ? "overlay" : "overlay active"} />
+          <div className={emailVerified ? "overlay" : "overlay active"} />
+          {/* <div className={setEmailVerified ? "overlay active" : "overlay"} /> */}
           <aside className="col-lg-5">
             <section>
               <Card>

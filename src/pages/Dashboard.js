@@ -23,7 +23,7 @@ import ReferralTable from "components/referral/ReferralTable";
 const Dashboard = () => {
   const lobsterTrap = process.env.REACT_APP_LOBSTER_TRAP || true;
 
-  const { user, isVerified, hasVerified } = useContext(AuthContext);
+  const { user, isVerified } = useContext(AuthContext);
   const [emailVerified, setEmailVerified] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
   const [transactionsDownload, setTransactionsDownload] = useState([]);
@@ -41,7 +41,7 @@ const Dashboard = () => {
 
   const { data: userDetails, error: fetchDetailsError } = useSWR(`/user/${user.id}`);
 
-  const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
+  // const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
   // const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
   // Only if verified
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(isVerified && `/user/${user.id}/bankdetails`);
@@ -103,14 +103,10 @@ const Dashboard = () => {
   return (
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
-        <Loader loading={!hasVerified && !lobsterTrap} />
-        {/* <Loader loading={!user?.emailVerified} /> */}
+        <Loader loading={!isVerified && !lobsterTrap} />
 
         <VerificationTracker
           userDetails={userDetails}
-          // depositHints={depositHints}
-          // userEnterprise={userEnterprise}
-          // userAddress={userAddress}
         />
 
         <section className="main row">
@@ -127,12 +123,12 @@ const Dashboard = () => {
             </section>
             <Card>
               <h4>Active Addresses</h4>
-              {hasVerified && (
+              {isVerified && (
                 <p>
                   Your current bitcoin addresses are listed here. To add and remove an address, and to view their history, go to your <b>address page.</b>
                 </p>
               )}
-              {!hasVerified && (
+              {!isVerified && (
                 <p>
                   Your GPIB custodial bitcoin address is listed here. Once KYC is completed, you will be able to change this address to your own personal
                   wallet.
@@ -168,10 +164,13 @@ const Dashboard = () => {
             {showWelcomeCard && (
               <Card>
                 <h4>Welcome to Get Paid In Bitcoin!</h4>
-                <p>In order to add your own BTC address, you will need to KYC your account. You can do that by clicking this link.</p>
+                <p>Here are some next steps to get you on your stacking sats journey.</p>
                 <ol>
-                  <li>Send Bank account details to your employer.</li>
-                  <li>Click the link above to KYC your account.</li>
+                  <li>Send the GPIB Bank account details to your employer, so part of your wages can be paid into this account.</li>
+                  <li>Verify your profile (KYC) data for AUSTRAC obligations.</li>
+                  <li>Add up to two personal bitcoin wallet addresses.</li>
+                  <li>Refer a friend.</li>
+                  <li>Start stacking sats!</li>
                 </ol>
               </Card>
             )}

@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggingIn, setLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [isVerified, setVerified] = useState(false);
-  const [hasVerified, setHasVerified] = useState(false);
+  // const [hasVerified, setHasVerified] = useState(false);
   const [skipKYC, setSkipKYC] = useState(false);
 
   const { data: userDetails, error: fetchDetailsError } = useSWR(user && `/user/${user.id}`);
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
     window.localStorage.removeItem("user");
     cache.clear();
     setUser(null);
-    setHasVerified(false);
+    // setHasVerified(false);
   };
 
   return (
@@ -71,8 +71,8 @@ export const AuthProvider = ({ children }) => {
         loginError,
         isVerified,
         setVerified,
-        hasVerified,
-        setHasVerified,
+        // hasVerified,
+        // setHasVerified,
         skipKYC,
         setSkipKYC
       }}

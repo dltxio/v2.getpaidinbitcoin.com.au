@@ -23,7 +23,7 @@ import ReferralTable from "components/referral/ReferralTable";
 const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [transactionsDownload, setTransactionsDowload] = useState([]);
+  const [transactionsDownload, setTransactionsDownload] = useState([]);
   const [downloadError, setDownloadError] = useState({
     show: false,
     message: ""
@@ -77,7 +77,7 @@ const Dashboard = () => {
       if (year) {
         const filterTransactions = await gpib.secure.get(`/transaction/download/${year}`);
         if (filterTransactions.data.length > 0) {
-          setTransactionsDowload(filterTransactions.data);
+          setTransactionsDownload(filterTransactions.data);
           await new Promise((resolve) => setTimeout(resolve, 3000));
           csvRef.current.link.click();
         } else {

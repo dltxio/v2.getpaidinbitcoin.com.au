@@ -26,7 +26,7 @@ const Dashboard = () => {
   const { user, isVerified, hasVerified } = useContext(AuthContext);
   const [emailVerified, setEmailVerified] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [transactionsDownload, setTransactionsDowload] = useState([]);
+  const [transactionsDownload, setTransactionsDownload] = useState([]);
   const [downloadError, setDownloadError] = useState({
     show: false,
     message: ""
@@ -34,9 +34,13 @@ const Dashboard = () => {
 
   const csvRef = useRef();
   const { data: referralCredits, error: fetchReferralCreditsError } = useSWR("/referralcredits");
+
   const { data: referralTransfers, error: fetchReferralTransfersError } = useSWR("/referraltransfer");
+
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(`/user/${user.id}/deposithints`);
+
   const { data: userDetails, error: fetchDetailsError } = useSWR(`/user/${user.id}`);
+
   const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
   // const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
   // Only if verified
@@ -78,7 +82,7 @@ const Dashboard = () => {
       if (year) {
         const filterTransactions = await gpib.secure.get(`/transaction/download/${year}`);
         if (filterTransactions.data.length > 0) {
-          setTransactionsDowload(filterTransactions.data);
+          setTransactionsDownload(filterTransactions.data);
           await new Promise((resolve) => setTimeout(resolve, 3000));
           csvRef.current.link.click();
         } else {

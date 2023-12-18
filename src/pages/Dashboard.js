@@ -19,6 +19,8 @@ import { CSVLink } from "react-csv";
 import { Alert, Button } from "react-bootstrap";
 import gpib from "../apis/gpib";
 import ReferralTable from "components/referral/ReferralTable";
+import Modal from "components/Modal";
+import VerifyID from "components/verificationTracker/VerifyID";
 
 const Dashboard = () => {
   const lobsterTrap = process.env.REACT_APP_LOBSTER_TRAP || true;
@@ -95,6 +97,14 @@ const Dashboard = () => {
     }
   };
 
+  const showKYC = () => {
+    if (userDetails && userDetails.kycStatus === "PENDING") {
+      return true;
+    }
+
+    return false;
+  };
+
   useEffect(() => {
     console.log("userDetails", userDetails.emailVerified);
     setEmailVerified(userDetails?.emailVerified);
@@ -105,9 +115,7 @@ const Dashboard = () => {
       <div className="dashboard container-fluid py-4">
         <Loader loading={!isVerified && !lobsterTrap} />
 
-        <VerificationTracker
-          userDetails={userDetails}
-        />
+        <VerificationTracker userDetails={userDetails} />
 
         <section className="main row">
           <div className={emailVerified ? "overlay" : "overlay active"} />
@@ -173,7 +181,7 @@ const Dashboard = () => {
                   <li>Start stacking sats!</li>
                 </ol>
                 <div className="p-2">
-                  <Button onClick={handleDownload}>Complete KYC</Button>
+                  <Button onClick={showKYC}>Complete KYC</Button>
                 </div>
               </Card>
             )}
@@ -234,6 +242,9 @@ const Dashboard = () => {
         </section>
         {/* </section> */}
       </div>
+      <Modal isOpen heading="Complete KYC">
+        <VerifyID submitText="Verify my ID"></VerifyID>
+      </Modal>
     </Layout>
   );
 };

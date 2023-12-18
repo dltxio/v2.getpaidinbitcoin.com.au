@@ -87,10 +87,9 @@ const VerifyForm = ({
   initialValues: _iv,
   setIdVerificationStatus,
   statuses,
-  submitText = "Submit"
+  submitText = "Verify my ID"
 }) => {
   const initialValues = { ..._iv };
-  // const { login } = useContext(AuthContext);
   const history = useHistory();
   const onSubmit = async (values, actions) => {
     try {
@@ -117,7 +116,6 @@ const VerifyForm = ({
   };
 
   return (
-    // <Card style={{ width: 800 }}>
       <Formik
         initialValues={initialValues}
         validate={validate}
@@ -161,7 +159,6 @@ const VerifyForm = ({
           </Form>
         )}
       </Formik>
-    // </Card>
   );
 };
 

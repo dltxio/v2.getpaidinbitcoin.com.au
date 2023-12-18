@@ -16,20 +16,17 @@ const statuses = {
 
 const statusAlerts = {
   [statuses.STARTED]: {
-    children:
-      "An SMS has been sent to your mobile number with instructions to proceed with your verification process."
+    children: "An SMS has been sent to your mobile number with instructions to proceed with your verification process."
   },
   [statuses.SUBMITTED]: {
-    children:
-      "Your verification information has been received and is currently being processed."
+    children: "Your verification information has been received and is currently being processed."
   },
   [statuses.VERIFIED]: {
     children: "Congratulations, your ID Verification is now complete.",
     variant: "success"
   },
   [statuses.REJECTED]: {
-    children:
-      "Your ID Verification has failed. Please contact customer support.",
+    children: "Your ID Verification has failed. Please contact customer support.",
     variant: "danger"
   },
   [statuses.CANCELLED]: {
@@ -42,13 +39,13 @@ const iv = {
   state: "QLD"
 };
 
-const VerifyID = () => {
+const VerifyID = ({ submitText, showSkip }) => {
   const { user, setVerified, setSkipKYC } = useContext(AuthContext);
   const { data: userAddress } = useSWR(`/user/${user.id}/address`);
   const [idVerificationStatus, setIdVerificationStatus] = useState();
   const alert = statusAlerts[idVerificationStatus];
   const showAlert = alert;
-  
+
   const handleSkipKYC = () => {
     setSkipKYC(true);
     setVerified(true);
@@ -57,38 +54,16 @@ const VerifyID = () => {
   return (
     <div>
       <Card>
-      <Alert variant="primary">
-        As an AUSTRAC registered exchange provider of Australian Dollars into
-        Bitcoin, we are required to complete a short ID Verification process
-        before we can provide any exchange services. This verification is a
-        one-time process and your details are not stored. Please have your
-        documents ready.
-      </Alert>
-      {showAlert && (
-        <Alert variant={alert.variant ? alert.variant : "primary"} {...alert} />
-      )}
-      <div className={userAddress[0].isCustodial ? "d-flex mt-2" : "mt-2"}>
-        {/* <div className="mr-auto">
-          <VerifyWithDigitalID
-            setIdVerificationStatus={setIdVerificationStatus}
-            statuses={statuses}
-            user={user}
-          />
-        </div> */}
+        <Alert variant="primary">
+          As an AUSTRAC registered exchange provider of Australian Dollars into Bitcoin, we are required to complete a short ID Verification process before we
+          can provide any exchange services. This verification is a one-time process and your details are not stored. Please have your documents ready.
+        </Alert>
+        {showAlert && <Alert variant={alert.variant ? alert.variant : "primary"} {...alert} />}
         <div className="mr-auto">
-          
-          <VerifyForm
-            setIdVerificationStatus={setIdVerificationStatus}
-            statuses={statuses}
-            initialValues={iv}
-            submitText="Verify my ID"
-          ></VerifyForm>
+          <VerifyForm setIdVerificationStatus={setIdVerificationStatus} statuses={statuses} initialValues={iv} submitText={submitText}></VerifyForm>
 
-          {userAddress && userAddress[0].isCustodial && (
-            <Button onClick={handleSkipKYC}>Skip KYC and Create a GPIB Custodial Address</Button>
-          )}
+          {userAddress && userAddress[0].isCustodial && showSkip && <Button onClick={handleSkipKYC}>Skip KYC and Create a GPIB Custodial Address</Button>}
         </div>
-      </div>
       </Card>
     </div>
   );

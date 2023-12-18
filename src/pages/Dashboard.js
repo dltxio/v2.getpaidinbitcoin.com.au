@@ -27,6 +27,7 @@ const Dashboard = () => {
 
   const { user, isVerified } = useContext(AuthContext);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [isShowKYC, setShowKYC] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
   const [transactionsDownload, setTransactionsDownload] = useState([]);
   const [downloadError, setDownloadError] = useState({
@@ -98,11 +99,10 @@ const Dashboard = () => {
   };
 
   const showKYC = () => {
-    if (userDetails && userDetails.kycStatus === "PENDING") {
-      return true;
+    // only show if email has been verified first
+    if (userDetails && userDetails.emailVerified) {
+      setShowKYC(true);
     }
-
-    return false;
   };
 
   useEffect(() => {
@@ -119,11 +119,10 @@ const Dashboard = () => {
 
         <section className="main row">
           <div className={emailVerified ? "overlay" : "overlay active"} />
-          {/* <div className={setEmailVerified ? "overlay active" : "overlay"} /> */}
           <aside className="col-lg-5">
             <section>
               <Card>
-                <h4>Stats</h4>
+                <h4>Your Bitcoin Stats</h4>
                 <ErrorMessage error={fetchStatsError} />
                 <Loader loading={isFetchingStats} />
                 <UserStats stats={userStats} />
@@ -181,7 +180,7 @@ const Dashboard = () => {
                   <li>Start stacking sats!</li>
                 </ol>
                 <div className="p-2">
-                  <Button onClick={showKYC}>Complete KYC</Button>
+                  <Button disabled={isVerified} onClick={showKYC}>Complete KYC</Button>
                 </div>
               </Card>
             )}
@@ -242,7 +241,7 @@ const Dashboard = () => {
         </section>
         {/* </section> */}
       </div>
-      <Modal isOpen heading="Complete KYC">
+      <Modal isOpen={isShowKYC} heading="Complete KYC">
         <VerifyID submitText="Verify my ID"></VerifyID>
       </Modal>
     </Layout>

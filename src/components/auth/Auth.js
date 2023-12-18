@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoggingIn, setLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [isVerified, setVerified] = useState(false);
-  // const [hasVerified, setHasVerified] = useState(false);
   const [skipKYC, setSkipKYC] = useState(false);
 
   const { data: userDetails, error: fetchDetailsError } = useSWR(user && `/user/${user.id}`);
@@ -19,14 +18,14 @@ export const AuthProvider = ({ children }) => {
   const { data: depositHints } = useSWR(user && `/user/${user.id}/deposithints`);
   const { data: userEnterprise } = useSWR(user && `/user/${user.id}/enterprise`);
   const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
-  const { emailVerified, mobileVerified, idVerificationStatus } = userDetails || {};
+  const { emailVerified, idVerificationStatus } = userDetails || {};
   const { depositAmount } = depositHints || {};
   const { name: employerName } = userEnterprise || {};
 
   useEffect(() => {
-    const isVerified = userAddress && userAddress.length > 0 && emailVerified && mobileVerified && depositAmount !== undefined && idVerificationStatus === 3;
+    const isVerified = emailVerified && idVerificationStatus === 3;
     setVerified(isVerified);
-  }, [userAddress, emailVerified, mobileVerified, depositAmount, employerName, idVerificationStatus, setVerified]);
+  }, [userAddress, emailVerified, depositAmount, employerName, idVerificationStatus, setVerified]);
 
   useEffect(() => {
     cache.clear();
@@ -54,7 +53,6 @@ export const AuthProvider = ({ children }) => {
     window.localStorage.removeItem("user");
     cache.clear();
     setUser(null);
-    // setHasVerified(false);
   };
 
   return (
@@ -71,8 +69,6 @@ export const AuthProvider = ({ children }) => {
         loginError,
         isVerified,
         setVerified,
-        // hasVerified,
-        // setHasVerified,
         skipKYC,
         setSkipKYC
       }}

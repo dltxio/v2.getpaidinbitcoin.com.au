@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { AuthContext } from "components/auth/Auth";
 import LoadingPage from "pages/LoadingPage";
 
@@ -19,7 +19,7 @@ const AuthRoute = ({ component, allowUnverified, ...props }) => {
         ) : user ? (
           <Component />
         ) : (
-          <Redirect to={redirectPath} />
+          <Navigate to={redirectPath} />
         )
       }
     />

@@ -3,31 +3,40 @@ import { mutate } from "swr";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
+const useQuery = () => {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+};
+
 const VerifyEmailPage = () => {
-  const { token } = useParams();
+  // const { token } = useParams();
   const { user } = useContext(AuthContext);
   const history = useHistory();
   const [isVerifying, setVerifying] = useState(true);
   const [error, setError] = useState(null);
 
+  const query = useQuery();
+  const token = query.get("token");
+  const userId = query.get("userId");
+  const expiry = query.get("expiry");
+
   if (!token) history.push("/");
+
+  console.log(token);
 
   useEffect(() => {
     const verifytoken = async () => {
       try {
-        await gpib.open.post(
-          "/user/verifyemail",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
+        await gpib.open.post("/user/verifyemail", {
+          token,
+          userId,
+          expiry
+        });
         await mutate(`/user/${user?.id}`, (state) => ({
           ...state,
           emailVerified: true
@@ -40,7 +49,7 @@ const VerifyEmailPage = () => {
       }
     };
     verifytoken();
-  }, [history, token, user]);
+  }, [expiry, history, token, user.id, userId]);
 
   return (
     <Layout>

@@ -100,13 +100,13 @@ const Dashboard = () => {
 
   const showKYC = () => {
     // only show if email has been verified first
-    if (userDetails && userDetails.emailVerified) {
+    if (userDetails && userDetails?.emailVerified) {
       setShowKYC(true);
     }
   };
 
   useEffect(() => {
-    console.log("userDetails", userDetails.emailVerified);
+    console.log("userDetails", userDetails?.emailVerified);
     setEmailVerified(userDetails?.emailVerified);
   }, [userDetails]);
 

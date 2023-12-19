@@ -37,7 +37,7 @@ const panels = [
         icon: "lock-closed",
         jsx: (
           <a
-            href="http://keys.gnupg.net/pks/lookup?search=info%40getpaidinbitcoin.com.au&fingerprint=on&op=index"
+            href="https://keys.openpgp.org/search?q=3DB82649E1E57F659E6D713DBF6860C234728E25"
             children="PGP PubKey (3DB82649)"
             download
           >

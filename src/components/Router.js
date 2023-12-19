@@ -26,35 +26,35 @@ const Router = () => (
   <BrowserRouter>
     <RefreshLoginModal />
     <Switch>
-      <Route path="/enterprise" component={EnterpriseOnboard} />
-      <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
-      <Route path="/auth/resetpassword" component={ResetPasswordPage} />
-      <Route path="/verify/email/:token" component={VerifyEmailPage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="*/register" component={RegisterPage} />
-      <AuthRoute path="/contactsupport" component={ContactSupportPage} />
-      <AuthRoute path="/addresses" component={AddressesPage} />
-      <AuthRoute path="/profile" component={ProfilePage} />
-      <AuthRoute path="/" component={Dashboard} allowUnverified />
+      <Route path="/enterprise" element={<EnterpriseOnboard/>} />
+      <Route path="/auth/resetpassword/:token" element={<ResetPasswordPage/>} />
+      <Route path="/auth/resetpassword" element={<ResetPasswordPage/>} />
+      <Route path="/verify/email/:token" element={<VerifyEmailPage/>} />
+      <Route path="/login" element={<LoginPage/>} />
+      <Route path="*/register" element={<RegisterPage/>} />
+      <AuthRoute path="/contactsupport" element={<ContactSupportPage/>} />
+      <AuthRoute path="/addresses" element={<AddressesPage/>} />
+      <AuthRoute path="/profile" element={<ProfilePage/>} />
+      <AuthRoute path="/" element={<Dashboard/>} allowUnverified />
     </Switch>
     <Switch>
-      <AuthRoute path="*/addresses/add" component={AddressModalAdd} />
-      <AuthRoute path="*/addresses/edit/:id" component={AddressModalEdit} />
-      <AuthRoute path="*/addresses/swap/:id" component={AddressModalSwap} />
-      <AuthRoute path="*/addresses/group/:id" component={AddressGroupModal} />
+      <AuthRoute path="*/addresses/add" element={<AddressModalAdd/>} />
+      <AuthRoute path="*/addresses/edit/:id" element={<AddressModalEdit/>} />
+      <AuthRoute path="*/addresses/swap/:id" element={<AddressModalSwap/>} />
+      <AuthRoute path="*/addresses/group/:id" element={<AddressGroupModal/>} />
       <AuthRoute
         path="*/addresses/groupEdit/:id"
-        component={AddressGroupModal}
+        element={<AddressGroupModal/>}
       />
-      <AuthRoute path="*/addresses/groupadd" component={AddressGroupModalAdd} />
+      <AuthRoute path="*/addresses/groupadd" element={<AddressGroupModalAdd/>} />
       <AuthRoute
         path="*/addresses/archive/:id"
-        component={AddressModalArchive}
+        element={<AddressModalArchive/>}
       />
-      <AuthRoute path="*/payroll/edit" component={DepositHintsModalEdit} />
-      <AuthRoute path="*/referral/send" component={ReferralSendModal} />
-      <AuthRoute path="*/accountInfo/edit" component={AccountInfoModal} />
-      <AuthRoute path="*/mobile/send" component={UpdateMobileModal} />
+      <AuthRoute path="*/payroll/edit" element={<DepositHintsModalEdit/>} />
+      <AuthRoute path="*/referral/send" element={<ReferralSendModal/>} />
+      <AuthRoute path="*/accountInfo/edit" element={<AccountInfoModal/>} />
+      <AuthRoute path="*/mobile/send" element={<UpdateMobileModal/>} />
     </Switch>
   </BrowserRouter>
 );

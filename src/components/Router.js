@@ -29,7 +29,7 @@ const Router = () => (
       <Route path="/enterprise" component={EnterpriseOnboard} />
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
-      <Route path="/verify/email/:token" component={VerifyEmailPage} />
+      <Route path="/verify/email/" component={VerifyEmailPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="*/register" component={RegisterPage} />
       <AuthRoute path="/contactsupport" component={ContactSupportPage} />

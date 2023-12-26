@@ -14,7 +14,7 @@ import "./RegisterForm.scss";
 const defaultValues = {
   email: "",
   password: "",
-  passwordMatch: "",
+  // passwordMatch: "",
   firstName: "",
   lastName: "",
   referralCode: ""
@@ -26,18 +26,18 @@ const parseSubmitValues = (v) => ({
   email: v.email,
   password: v.password,
   referralCode: v.referralCode,
-  trackHDAddress: false,
-  createHDAddress: false
+  trackHDAddress: true,
+  createHDAddress: true, // process.env.REACT_APP_LOBSTER_TRAP || true
 });
 
-const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
+const validate = ({ email, password, firstName, lastName }) => {
   const requiredMsg = "This field is required";
   const errors = {};
 
   // Required fields
   if (!email) errors.email = requiredMsg;
   if (!password) errors.password = requiredMsg;
-  if (!passwordMatch) errors.passwordMatch = requiredMsg;
+  // if (!passwordMatch) errors.passwordMatch = requiredMsg;
   if (!firstName) errors.firstName = requiredMsg;
   if (!lastName) errors.lastName = requiredMsg;
 
@@ -46,9 +46,9 @@ const validate = ({ email, password, passwordMatch, firstName, lastName }) => {
   if (password.length < minPasswordLength)
     errors.password = `Password must be at least ${minPasswordLength} characters`;
 
-  // Password match
-  if (password !== passwordMatch)
-    errors.passwordMatch = "Passwords do not match";
+  // // Password match
+  // if (password !== passwordMatch)
+  //   errors.passwordMatch = "Passwords do not match";
 
   return errors;
 };
@@ -103,11 +103,11 @@ const RegisterForm = ({
               disabled={initialValues?.email}
             />
             <Input name="password" type="password" placeholder="Password" />
-            <Input
+            {/* <Input
               name="passwordMatch"
               type="password"
               placeholder="Confirm Password"
-            />
+            /> */}
             <Input
               name="firstName"
               placeholder="First Name"

@@ -4,23 +4,23 @@ import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
 import AuthRoute from "components/auth/AuthRoute";
 import Dashboard from "pages/Dashboard";
-import AddressModalAdd from "components/addresses/AddressModalAdd";
-import AddressModalEdit from "components/addresses/AddressModalEdit";
-import ResetPasswordPage from "pages/ResetPasswordPage";
-import VerifyEmailPage from "pages/VerifyEmailPage";
-import AddressesPage from "pages/AddressesPage";
-import ProfilePage from "pages/ProfilePage";
-import DepositHintsModalEdit from "components/deposit-hints/DepositHintsModalEdit";
-import AddressModalSwap from "components/addresses/AddressModalSwap";
-import AddressModalArchive from "components/addresses/AddressModalArchive";
-import ContactSupportPage from "pages/ContactSupportPage";
-import RefreshLoginModal from "components/auth/RefreshLoginModal";
-import ReferralSendModal from "components/users/ReferralSendModal";
-import EnterpriseOnboard from "pages/EnterpriseOnboard";
 import AccountInfoModal from "components/users/AccountInfoModalEdit";
+import AddressesPage from "pages/AddressesPage";
 import AddressGroupModal from "components/addresses/AddressGroupModal";
 import AddressGroupModalAdd from "components/addresses/AddressGroupModalAdd";
+import AddressModalAdd from "components/addresses/AddressModalAdd";
+import AddressModalArchive from "components/addresses/AddressModalArchive";
+import AddressModalEdit from "components/addresses/AddressModalEdit";
+import AddressModalSwap from "components/addresses/AddressModalSwap";
+import ContactSupportPage from "pages/ContactSupportPage";
+import DepositHintsModalEdit from "components/deposit-hints/DepositHintsModalEdit";
+import EnterpriseOnboard from "pages/EnterpriseOnboard";
+import ProfilePage from "pages/ProfilePage";
+import ReferralSendModal from "components/users/ReferralSendModal";
+import RefreshLoginModal from "components/auth/RefreshLoginModal";
+import ResetPasswordPage from "pages/ResetPasswordPage";
 import UpdateMobileModal from "components/users/UpdateMobileModal";
+import VerifyEmailPage from "pages/VerifyEmailPage";
 
 const Router = () => (
   <BrowserRouter>
@@ -29,7 +29,7 @@ const Router = () => (
       <Route path="/enterprise" component={EnterpriseOnboard} />
       <Route path="/auth/resetpassword/:token" component={ResetPasswordPage} />
       <Route path="/auth/resetpassword" component={ResetPasswordPage} />
-      <Route path="/verify/email/:token" component={VerifyEmailPage} />
+      <Route path="/verify/email/" component={VerifyEmailPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="*/register" component={RegisterPage} />
       <AuthRoute path="/contactsupport" component={ContactSupportPage} />
@@ -46,7 +46,7 @@ const Router = () => (
         path="*/addresses/groupEdit/:id"
         component={AddressGroupModal}
       />
-      <AuthRoute path="*/addresses/groupAdd" component={AddressGroupModalAdd} />
+      <AuthRoute path="*/addresses/groupadd" component={AddressGroupModalAdd} />
       <AuthRoute
         path="*/addresses/archive/:id"
         component={AddressModalArchive}

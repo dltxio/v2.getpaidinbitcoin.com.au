@@ -1,14 +1,18 @@
 import React from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import qs from "qs";
 import Layout from "components/layout/Layout";
 import ResetPasswordLinkForm from "components/auth/ResetPasswordLinkForm";
 import ResetPasswordForm from "components/auth/ResetPasswordForm";
 
 const ResetPasswordPage = () => {
-  const { token } = useParams();
   const location = useLocation();
+  const { token } = qs.parse(location.search, { ignoreQueryPrefix: true });
+  const { userid } = qs.parse(location.search, { ignoreQueryPrefix: true });
   const { email } = qs.parse(location.search, { ignoreQueryPrefix: true });
+  const { expiry } = qs.parse(location.search, { ignoreQueryPrefix: true });
+
+  console.log("token", token);
 
   return (
     <Layout>
@@ -17,7 +21,7 @@ const ResetPasswordPage = () => {
         style={{ maxWidth: "50rem" }}
       >
         {token ? (
-          <ResetPasswordForm token={token} email={email} />
+          <ResetPasswordForm token={token} userId={userid} expiry={expiry} />
         ) : (
           <ResetPasswordLinkForm email={email} />
         )}

@@ -63,7 +63,7 @@ const Register = () => {
   return (
     <Layout navLinks={[]}>
       <div className="text-center">
-        <div>
+        <div className="px-2">
           <h3>
             Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin
             in your weekly wages.

@@ -79,7 +79,7 @@ const RegisterForm = ({
   };
 
   return (
-    <Card style={{ width: 500 }}>
+    <Card style={{ width: 420 }}>
       <Formik
         initialValues={initialValues}
         validate={validate}

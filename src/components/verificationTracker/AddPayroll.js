@@ -44,7 +44,10 @@ const AddPayroll = ({ userEnterprise }) => {
   return (
     <div>
       <Card>
-        <Alert variant="info">To make sure we can match your wages payments, please add the following payroll information.</Alert>
+        <Alert variant="info">
+          To make sure we can match your wages payments, please add the
+          following payroll information.
+        </Alert>
         {message && <Alert variant="success">{message}</Alert>}
         <div>
           <DepositHintsForm

@@ -17,7 +17,7 @@ const AccountInfoModal = (props) => {
     error: fetchAccountInfoError,
     isValidating
   } = useSWR(`/accountInfoes/user/${user.id}`, { revalidateOnFocus: false });
-  
+
   const onSubmit = async (values, formActions, modalActions) => {
     try {
       formActions.setSubmitting(true);

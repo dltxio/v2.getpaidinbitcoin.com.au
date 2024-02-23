@@ -15,10 +15,15 @@ const AddAddress = ({ userEnterprise }) => {
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isFetchingHDAddress = !userHDAddress && !fetchHDAddressError;
-  
+
   const addAddress = async (v, actions) => {
     actions.setSubmitting(true);
-    const parsedValues = { ...v, userID: user?.id, percent: Number(v.percent), addressOrXPubKey: v.address1 };
+    const parsedValues = {
+      ...v,
+      userID: user?.id,
+      percent: Number(v.percent),
+      addressOrXPubKey: v.address1
+    };
     console.log(parsedValues);
 
     try {
@@ -57,7 +62,8 @@ const AddAddress = ({ userEnterprise }) => {
           <Alert variant="primary" className="mb-4">
             Each pay cycle we automatically transfer bitcoin to your personal
             wallet! However, to make life easier, GPIB can create a custodial
-            address on your behalf. You can add your own wallet later at any time and "sweep" the bitcoin.
+            address on your behalf. You can add your own wallet later at any
+            time and "sweep" the bitcoin.
           </Alert>
         </div>
         <div>

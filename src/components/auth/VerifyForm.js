@@ -116,49 +116,46 @@ const VerifyForm = ({
   };
 
   return (
-      <Formik
-        initialValues={initialValues}
-        validate={validate}
-        onSubmit={onSubmit}
-      >
-        {({ isSubmitting, errors }) => (
-          <Form>
-            <Input name="dob" placeholder="DOB dd/mm/yyyy" />
-            <Input name="streetNumber" placeholder="Street Number" />
-            <Input name="streetName" placeholder="Street" />
-            <Input name="suburb" placeholder="Suburb" />
-            <Selector name="state" options={states} />
-            <Input name="postcode" placeholder="Postcode" />
-            <Input
-              name="driversLicenseNumber"
-              placeholder="Drivers License Number"
-            />
-            <Input
-              name="driversLicenseCardNumber"
-              placeholder="Drivers License Card Number"
-            />
-            <Input name="medicareNumber" placeholder="Medicare Card Number" />
-            <Input
-              name="medicareNameOnCard"
-              placeholder="Medicare Name on Card"
-            />
-            <Input
-              name="medicareIndividualReferenceNumber"
-              placeholder="Medicare Individual Reference Number"
-            />
-            <Input
-              name="medicareExpiry"
-              placeholder="Medicare Expiry mm/yyyy"
-            />
-            <ErrorMessage error={errors.hidden} />
-            <SubmitSpinnerButtonWithDisable
-              submitText={submitText}
-              isSubmitting={isSubmitting}
-              isDisabled={false}
-            />
-          </Form>
-        )}
-      </Formik>
+    <Formik
+      initialValues={initialValues}
+      validate={validate}
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting, errors }) => (
+        <Form>
+          <Input name="dob" placeholder="DOB dd/mm/yyyy" />
+          <Input name="streetNumber" placeholder="Street Number" />
+          <Input name="streetName" placeholder="Street" />
+          <Input name="suburb" placeholder="Suburb" />
+          <Selector name="state" options={states} />
+          <Input name="postcode" placeholder="Postcode" />
+          <Input
+            name="driversLicenseNumber"
+            placeholder="Drivers License Number"
+          />
+          <Input
+            name="driversLicenseCardNumber"
+            placeholder="Drivers License Card Number"
+          />
+          <Input name="medicareNumber" placeholder="Medicare Card Number" />
+          <Input
+            name="medicareNameOnCard"
+            placeholder="Medicare Name on Card"
+          />
+          <Input
+            name="medicareIndividualReferenceNumber"
+            placeholder="Medicare Individual Reference Number"
+          />
+          <Input name="medicareExpiry" placeholder="Medicare Expiry mm/yyyy" />
+          <ErrorMessage error={errors.hidden} />
+          <SubmitSpinnerButtonWithDisable
+            submitText={submitText}
+            isSubmitting={isSubmitting}
+            isDisabled={false}
+          />
+        </Form>
+      )}
+    </Formik>
   );
 };
 

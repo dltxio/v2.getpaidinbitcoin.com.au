@@ -4,9 +4,11 @@ import { AuthContext } from "components/auth/Auth";
 import LoadingPage from "pages/LoadingPage";
 
 const AuthRoute = ({ component, allowUnverified, ...props }) => {
-  const { user, isLoggingIn, isLoading: isPageLoading } = useContext(
-    AuthContext
-  );
+  const {
+    user,
+    isLoggingIn,
+    isLoading: isPageLoading
+  } = useContext(AuthContext);
   const Component = component;
   const redirectPath = user ? "/" : "/login";
 

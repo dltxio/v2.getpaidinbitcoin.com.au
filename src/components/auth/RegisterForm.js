@@ -27,7 +27,7 @@ const parseSubmitValues = (v) => ({
   password: v.password,
   referralCode: v.referralCode,
   trackHDAddress: true,
-  createHDAddress: true, // process.env.REACT_APP_LOBSTER_TRAP || true
+  createHDAddress: true // process.env.REACT_APP_LOBSTER_TRAP || true
 });
 
 const validate = ({ email, password, firstName, lastName }) => {

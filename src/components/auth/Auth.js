@@ -12,11 +12,17 @@ export const AuthProvider = ({ children }) => {
   const [isVerified, setVerified] = useState(false);
   const [skipKYC, setSkipKYC] = useState(false);
 
-  const { data: userDetails, error: fetchDetailsError } = useSWR(user && `/user/${user.id}`);
+  const { data: userDetails, error: fetchDetailsError } = useSWR(
+    user && `/user/${user.id}`
+  );
   const isFetchingDetails = user && !userDetails && !fetchDetailsError;
 
-  const { data: depositHints } = useSWR(user && `/user/${user.id}/deposithints`);
-  const { data: userEnterprise } = useSWR(user && `/user/${user.id}/enterprise`);
+  const { data: depositHints } = useSWR(
+    user && `/user/${user.id}/deposithints`
+  );
+  const { data: userEnterprise } = useSWR(
+    user && `/user/${user.id}/enterprise`
+  );
   const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
   const { emailVerified, idVerificationStatus } = userDetails || {};
   const { depositAmount } = depositHints || {};
@@ -25,7 +31,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const isVerified = emailVerified && idVerificationStatus === 3;
     setVerified(isVerified);
-  }, [userAddress, emailVerified, depositAmount, employerName, idVerificationStatus, setVerified]);
+  }, [
+    userAddress,
+    emailVerified,
+    depositAmount,
+    employerName,
+    idVerificationStatus,
+    setVerified
+  ]);
 
   useEffect(() => {
     cache.clear();
@@ -38,7 +51,10 @@ export const AuthProvider = ({ children }) => {
     try {
       cache.clear();
       setLoggingIn(true);
-      const { data: user } = await gpib.open.post("/user/authenticate", credentials);
+      const { data: user } = await gpib.open.post(
+        "/user/authenticate",
+        credentials
+      );
       window.localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
       setLoggingIn(false);

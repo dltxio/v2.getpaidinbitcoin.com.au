@@ -7,11 +7,17 @@ import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
 // import AddAddress from "./AddAddress";
 
-const VerificationTracker = ({ userDetails, depositHints, userEnterprise, userAddress }) => {
+const VerificationTracker = ({
+  userDetails,
+  depositHints,
+  userEnterprise,
+  userAddress
+}) => {
   const { isVerified, setVerified } = useContext(AuthContext);
 
   useEffect(() => {
-    const verified = userDetails && depositHints && userEnterprise && userAddress;
+    const verified =
+      userDetails && depositHints && userEnterprise && userAddress;
     setVerified(verified);
   }, [depositHints, userDetails, userEnterprise, setVerified, userAddress]);
 

@@ -17,8 +17,10 @@ $labelSpaceAbove: 1.5rem;
   .label {
     padding: 2rem;
   }
+
   .blob {
     position: relative;
+
     .label {
       margin-top: $labelSpaceAbove;
       width: 100%;
@@ -28,6 +30,7 @@ $labelSpaceAbove: 1.5rem;
       padding: 0;
     }
   }
+
   .blobs {
     @include flex(space-between);
     margin: auto;
@@ -36,84 +39,85 @@ $labelSpaceAbove: 1.5rem;
 
 
   .stage {
-      @include flex();
-      // border: 2px solid $pendingColor;
-      color: $pendingColor;
-      color: white;
-      background-color: $pendingColor;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      transition: background-color 200ms ease-in, height 200ms ease-in, width 200ms ease-in;
-      
-      span {
-        display: none;
-      }
+    @include flex();
+    // border: 2px solid $pendingColor;
+    color: $pendingColor;
+    color: white;
+    background-color: $pendingColor;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    transition: background-color 200ms ease-in, height 200ms ease-in, width 200ms ease-in;
 
-      &.active {
-        cursor: pointer;
-        border-color: $activeColor;
-        background-color: $activeColor;
-        width: 4rem;
-        height: 4rem;
-        font-size: 180%;
-        @include boxShadow();
-      }
-
-      &.completed {
-        border-color: $completedColor;
-        background-color: $completedColor;
-      }
+    span {
+      display: none;
     }
 
-    .line {
-      flex: 1;
-      border: 1px solid $pendingColor;
-      transition: border-color 200ms ease-in;
-
-      &.completed {
-        border-color: $completedColor;
-      }
+    &.active {
+      cursor: pointer;
+      border-color: $activeColor;
+      background-color: $activeColor;
+      width: 4rem;
+      height: 4rem;
+      font-size: 180%;
+      @include boxShadow();
     }
 
-    @include media-breakpoint-up(lg) {
-
-      .label {
-        display: none;
-      }
-      .blobs {
-        padding-bottom: $labelSpaceAbove * 2;
-        max-width: 40rem;
-      }
-      .blob .label {
-        display: block;
-        position: absolute;
-      }
-      .stage {
-        width: 4.5rem;
-        height: 4.5rem;
-        padding: 1rem;
-
-        &.active {
-          width: 7rem;
-          height: 7rem;
-          font-size: 150%;
-
-        }
-
-        ion-icon {
-          font-size: 300%;
-        }
-      }
-      .stage span {
-        display: block;
-        font-size: 80%;
-        overflow: hidden;
-        text-align: center;
-  
-      }
+    &.completed {
+      border-color: $completedColor;
+      background-color: $completedColor;
     }
-    
   }
 
-  
+  .line {
+    flex: 1;
+    border: 1px solid $pendingColor;
+    transition: border-color 200ms ease-in;
+
+    &.completed {
+      border-color: $completedColor;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+
+    .label {
+      display: none;
+    }
+
+    .blobs {
+      padding-bottom: $labelSpaceAbove * 2;
+      max-width: 40rem;
+    }
+
+    .blob .label {
+      display: block;
+      position: absolute;
+    }
+
+    .stage {
+      width: 4.5rem;
+      height: 4.5rem;
+      padding: 1rem;
+
+      &.active {
+        width: 7rem;
+        height: 7rem;
+        font-size: 150%;
+
+      }
+
+      ion-icon {
+        font-size: 300%;
+      }
+    }
+
+    .stage span {
+      display: block;
+      font-size: 80%;
+      overflow: hidden;
+      text-align: center;
+
+    }
+  }
+}

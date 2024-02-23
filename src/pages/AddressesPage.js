@@ -27,9 +27,7 @@ const AddressesPage = () => {
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
   );
-  const { data: address_history } = useSWR(
-    `/addresshistory`
-  );
+  const { data: address_history } = useSWR(`/addresshistory`);
   const groupAddress = addresses?.filter((i) => i.groupID);
   const unGroupAddress = addresses?.filter((i) => !i.groupID);
   const hasCardAddress = unGroupAddress?.filter(

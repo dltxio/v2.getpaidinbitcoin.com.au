@@ -18,7 +18,11 @@ const AddressModalEdit = () => {
   const submitText = "Save";
   const getUrl = user && `/user/${user.id}/address`;
 
-  const { data: addresses, error, isValidating } = useSWR(getUrl, {
+  const {
+    data: addresses,
+    error,
+    isValidating
+  } = useSWR(getUrl, {
     revalidateOnFocus: false
   });
   const hasMultipleAddresses = addresses && addresses.length > 1;

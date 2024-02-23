@@ -4,7 +4,6 @@ import "./RegisterForm.scss";
 import IdemQRCode from "components/IdemQRCode";
 
 const IDEMRegisterForm = ({ initialValues: _iv, logo }) => {
-
   return (
     <Card style={{ width: 420, height: 410 }}>
       <div></div>
@@ -13,7 +12,10 @@ const IDEMRegisterForm = ({ initialValues: _iv, logo }) => {
       </div>
       <IdemQRCode />
       <div className="mt-5">
-        <p>IDEM is a decentralised identity app using PGP and Verifiable Credentials. Download from the App Store.</p>
+        <p>
+          IDEM is a decentralised identity app using PGP and Verifiable
+          Credentials. Download from the App Store.
+        </p>
       </div>
     </Card>
   );

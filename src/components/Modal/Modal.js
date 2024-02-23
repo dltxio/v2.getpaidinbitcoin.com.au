@@ -57,7 +57,10 @@ const Modal = ({
     props.onDismiss();
   };
 
-  const wrapCallback = (func) => (...args) => func(...args, { onDismiss });
+  const wrapCallback =
+    (func) =>
+    (...args) =>
+      func(...args, { onDismiss });
 
   const renderModal = () => (
     <div>

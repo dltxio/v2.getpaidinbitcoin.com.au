@@ -18,10 +18,12 @@ const validate = ({ password, passwordMatch }) => {
   if (!passwordMatch) errors.passwordMatch = requiredMsg;
 
   // Formatting
-  if (password.length < minPasswordLength) errors.password = `Password must be at least ${minPasswordLength} characters`;
+  if (password.length < minPasswordLength)
+    errors.password = `Password must be at least ${minPasswordLength} characters`;
 
   // Password match
-  if (password !== passwordMatch) errors.passwordMatch = "Passwords do not match";
+  if (password !== passwordMatch)
+    errors.passwordMatch = "Passwords do not match";
 
   return errors;
 };
@@ -51,15 +53,12 @@ const ResetPasswordForm = ({ onSuccess, onError, userId, expiry, token }) => {
 
   const onSubmit = async (values, actions) => {
     try {
-      await gpib.open.post(
-        "/user/resetpassword",
-        {
-          userId: userId,
-          password: values.password,
-          expiry,
-          signature: token,
-        },
-      );
+      await gpib.open.post("/user/resetpassword", {
+        userId: userId,
+        password: values.password,
+        expiry,
+        signature: token
+      });
       actions.setSubmitting(false);
       setPassword(values.password);
       if (onSuccess) onSuccess(values, actions);
@@ -77,16 +76,35 @@ const ResetPasswordForm = ({ onSuccess, onError, userId, expiry, token }) => {
         <>
           <Alert variant="primary">Your password has been reset</Alert>
           <ErrorMessage error={loginError} />
-          <SubmitSpinnerButton submitText={user ? "Go to Dashboard" : "Login"} isSubmitting={isLoggingIn} onClick={wrappedLogin} />
+          <SubmitSpinnerButton
+            submitText={user ? "Go to Dashboard" : "Login"}
+            isSubmitting={isLoggingIn}
+            onClick={wrappedLogin}
+          />
         </>
       ) : (
-        <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
+        <Formik
+          initialValues={initialValues}
+          validate={validate}
+          onSubmit={onSubmit}
+        >
           {({ isSubmitting, errors }) => (
             <Form>
-              <Input name="password" placeholder="Enter a new password" type="password" />
-              <Input name="passwordMatch" placeholder="Confirm your new password" type="password" />
+              <Input
+                name="password"
+                placeholder="Enter a new password"
+                type="password"
+              />
+              <Input
+                name="passwordMatch"
+                placeholder="Confirm your new password"
+                type="password"
+              />
               <ErrorMessage error={errors.hidden} />
-              <SubmitSpinnerButton submitText="Reset Password" isSubmitting={isSubmitting} />
+              <SubmitSpinnerButton
+                submitText="Reset Password"
+                isSubmitting={isSubmitting}
+              />
             </Form>
           )}
         </Formik>

@@ -19,7 +19,7 @@ const VerifyEmailPage = () => {
   const [error, setError] = useState(null);
 
   const query = useQuery();
-  
+
   const token = query.get("token");
   const userId = query.get("userid");
   const expiry = query.get("expiry");

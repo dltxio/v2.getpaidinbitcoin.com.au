@@ -38,7 +38,7 @@ const Dashboard = () => {
   // TODO: isVerified is undefined after switching back from other tabs,
   // so this is a temporary fix. Will get back after upgrade react-router-dom to v6
   if (isVerified === undefined)
-    isVerified = user.emailVerified && user.idVerificationStatus === 3;
+    isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
   
   const csvRef = useRef();
   const { data: referralCredits, error: fetchReferralCreditsError } =

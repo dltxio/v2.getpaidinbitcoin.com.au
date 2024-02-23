@@ -15,7 +15,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
     : { label: "Log in", onClick: () => history.push("/login") };
 
   if (isVerified === undefined)
-    isVerified = user.emailVerified && user.idVerificationStatus === 3;
+    isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
   
   const verifiedOnlyLinks = !isVerified
     ? []

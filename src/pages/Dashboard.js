@@ -84,8 +84,6 @@ const Dashboard = () => {
   const { data: referrals, error: referralsError } = useSWR(
     user.id && `/user/${user.id}/referral`
   );
-
-  // isVerified =
   
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;

@@ -84,7 +84,7 @@ const VerificationTracker = ({ userDetails, depositHints, userEnterprise, userAd
         <div className="py-5">
           <div className="blobs">{steps.map(renderBlob)}</div>
           {activeStep.panel && (
-            <div style={{ maxWidth: "50rem", margin: "auto" }} className="mt-4 py-5">
+            <div style={{ maxWidth: "50rem", margin: "auto" }} className="my-4">
               {activeStep.panel}
             </div>
           )}

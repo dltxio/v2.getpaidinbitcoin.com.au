@@ -30,7 +30,8 @@ $labelSpaceAbove: 1.5rem;
   }
   .blobs {
     @include flex(space-between);
-    
+    margin: auto;
+    max-width: 15rem;
   }
 
 
@@ -82,6 +83,7 @@ $labelSpaceAbove: 1.5rem;
       }
       .blobs {
         padding-bottom: $labelSpaceAbove * 2;
+        max-width: 40rem;
       }
       .blob .label {
         display: block;

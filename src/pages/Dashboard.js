@@ -99,7 +99,6 @@ const Dashboard = () => {
     isVerified && !addressTotals && !fetchAddressTotalsError;
   const isFetchingBankDetails =
     isVerified && !bankDetails && !fetchBankDetailsError;
-  // console.log("DB/userDetails", userDetails);
   const isFetchingDetails = isVerified && !userDetails && !fetchDetailsError;
   const isFetchingTransactions =
     isVerified && !transactions && !fetchTransactionsError;

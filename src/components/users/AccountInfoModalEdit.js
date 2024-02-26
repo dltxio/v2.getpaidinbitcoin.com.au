@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import useSWR, { mutate } from "swr";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import gpib from "apis/gpib";
 import Modal from "components/Modal";
 import AccountInfoForm from "./AccountInfoForm";
@@ -9,7 +9,7 @@ import Loader from "components/Loader";
 import ErrorMessage from "components/ErrorMessage";
 
 const AccountInfoModal = (props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { user } = useContext(AuthContext);
   const {
@@ -35,7 +35,7 @@ const AccountInfoModal = (props) => {
 
   const onDismiss = () => {
     const path = location.pathname.replace(/\/accountInfo\/edit/g, ""); //change url
-    history.push(path);
+    navigate(path);
   };
 
   return (

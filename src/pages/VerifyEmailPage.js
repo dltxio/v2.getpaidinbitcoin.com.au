@@ -3,18 +3,18 @@ import { mutate } from "swr";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
 const VerifyEmailPage = () => {
   const { token } = useParams();
   const { user } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isVerifying, setVerifying] = useState(true);
   const [error, setError] = useState(null);
 
-  if (!token) history.push("/");
+  if (!token) navigate("/");
 
   useEffect(() => {
     const verifytoken = async () => {
@@ -33,14 +33,14 @@ const VerifyEmailPage = () => {
           emailVerified: true
         }));
         setVerifying(false);
-        history.push("/");
+        navigate("/");
       } catch (e) {
         setError(e);
         setVerifying(false);
       }
     };
     verifytoken();
-  }, [history, token, user]);
+  }, [navigate, token, user]);
 
   return (
     <Layout>

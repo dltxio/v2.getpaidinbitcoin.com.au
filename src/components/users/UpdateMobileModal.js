@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Modal from "components/Modal";
 import useSWR from "swr";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import gpib from "apis/gpib";
 import UpdateMobileForm from "./UpdateMobileForm";
 import { Button, Alert } from "react-bootstrap";
@@ -22,7 +22,7 @@ const UpdateMobileModal = (props) => {
     { revalidateOnFocus: false }
   );
   const [message, setMessage] = useState();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const initialValues = parseInitialValues(data);
 
@@ -43,7 +43,7 @@ const UpdateMobileModal = (props) => {
 
   const onDismiss = () => {
     const path = location.pathname.replace(/\/mobile\/send/g, "");
-    history.push(path);
+    navigate(path);
   };
 
   return (

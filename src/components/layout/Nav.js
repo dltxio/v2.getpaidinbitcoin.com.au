@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
 import logo from "./gpib-logo.png";
@@ -7,32 +7,32 @@ import "./Nav.scss";
 
 const _Nav = ({ links, noBrand = false, activeTab }) => {
   const { logout, user, isVerified } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   // Set default links
 
   const loginLink = user
     ? { label: "Log Out", onClick: logout }
-    : { label: "Log in", onClick: () => history.push("/login") };
+    : { label: "Log in", onClick: () => navigate("/login") };
 
   const verifiedOnlyLinks = !isVerified
     ? []
     : [
         {
           label: "Dashboard",
-          onClick: () => history.push("/")
+          onClick: () => navigate("/")
         },
         {
           label: "Addresses",
-          onClick: () => history.push("/addresses")
+          onClick: () => navigate("/addresses")
         },
         {
           label: "Profile",
-          onClick: () => history.push("/profile"),
+          onClick: () => navigate("/profile"),
           name: "profile"
         },
         {
           label: "Contact Support",
-          onClick: () => history.push("/contactsupport")
+          onClick: () => navigate("/contactsupport")
         }
       ];
 
@@ -54,7 +54,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
   const renderBrand = () => (
     <Navbar.Brand
       style={{ cursor: "pointer" }}
-      onClick={() => history.push("/")}
+      onClick={() => navigate("/")}
     >
       <img className="GPIBLogo" src={logo} alt="Get Paid In Bitcoin" />
     </Navbar.Brand>

@@ -25,7 +25,7 @@ import VerifyID from "components/verificationTracker/VerifyID";
 const Dashboard = () => {
   const lobsterTrap = process.env.REACT_APP_LOBSTER_TRAP || true;
 
-  const { user, isVerified } = useContext(AuthContext);
+  let { user, isVerified } = useContext(AuthContext);
   const [emailVerified, setEmailVerified] = useState(false);
   const [isShowKYC, setShowKYC] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
@@ -35,6 +35,11 @@ const Dashboard = () => {
     message: ""
   });
 
+  // TODO: isVerified is undefined after switching back from other tabs,
+  // so this is a temporary fix. Will get back after upgrade react-router-dom to v6
+  if (isVerified === undefined)
+    isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
+  
   const csvRef = useRef();
   const { data: referralCredits, error: fetchReferralCreditsError } =
     useSWR("/referralcredits");
@@ -79,7 +84,7 @@ const Dashboard = () => {
   const { data: referrals, error: referralsError } = useSWR(
     user.id && `/user/${user.id}/referral`
   );
-
+  
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
@@ -135,7 +140,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    console.log("userDetails", userDetails?.emailVerified);
     setEmailVerified(userDetails?.emailVerified);
   }, [userDetails]);
 

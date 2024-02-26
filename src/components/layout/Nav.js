@@ -6,7 +6,7 @@ import logo from "./gpib-logo.png";
 import "./Nav.scss";
 
 const _Nav = ({ links, noBrand = false, activeTab }) => {
-  const { logout, user, isVerified } = useContext(AuthContext);
+  let { logout, user, isVerified } = useContext(AuthContext);
   const history = useHistory();
   // Set default links
 
@@ -14,6 +14,9 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
     ? { label: "Log Out", onClick: logout }
     : { label: "Log in", onClick: () => history.push("/login") };
 
+  if (isVerified === undefined)
+    isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
+  
   const verifiedOnlyLinks = !isVerified
     ? []
     : [

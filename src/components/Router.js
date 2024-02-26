@@ -1,8 +1,8 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useContext } from "react";
+import { AuthContext } from "components/auth/Auth";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
-import AuthRoute from "components/auth/AuthRoute";
 import Dashboard from "pages/Dashboard";
 import AccountInfoModal from "components/users/AccountInfoModalEdit";
 import AddressesPage from "pages/AddressesPage";
@@ -21,8 +21,12 @@ import RefreshLoginModal from "components/auth/RefreshLoginModal";
 import ResetPasswordPage from "pages/ResetPasswordPage";
 import UpdateMobileModal from "components/users/UpdateMobileModal";
 import VerifyEmailPage from "pages/VerifyEmailPage";
+import LoadingPage from "pages/LoadingPage";
 
 const Router = () => {
+  const { user, isLoggingIn, isLoading: isPageLoading } = useContext(AuthContext);
+  const authRedirectHandler = (targeElement) => (isLoggingIn || isPageLoading ? <LoadingPage /> : user ? targeElement : <Navigate to={"/login"} />);
+
   return (
     <BrowserRouter>
       <RefreshLoginModal />
@@ -33,23 +37,22 @@ const Router = () => {
         <Route path="/verify/email/:token" element={<VerifyEmailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*/register" element={<RegisterPage />} />
-        <AuthRoute path="/contactsupport" element={<ContactSupportPage />} />
-        <AuthRoute path="/addresses" element={<AddressesPage />} />
-        <AuthRoute path="/profile" element={<ProfilePage />} />
-        <AuthRoute path="/" element={<Dashboard />} allowUnverified />
-      </Routes>
-      <Routes>
-        <AuthRoute path="*/addresses/add" element={<AddressModalAdd />} />
-        <AuthRoute path="*/addresses/edit/:id" element={<AddressModalEdit />} />
-        <AuthRoute path="*/addresses/swap/:id" element={<AddressModalSwap />} />
-        <AuthRoute path="*/addresses/group/:id" element={<AddressGroupModal />} />
-        <AuthRoute path="*/addresses/groupEdit/:id" element={<AddressGroupModal />} />
-        <AuthRoute path="*/addresses/groupadd" element={<AddressGroupModalAdd />} />
-        <AuthRoute path="*/addresses/archive/:id" element={<AddressModalArchive />} />
-        <AuthRoute path="*/payroll/edit" element={<DepositHintsModalEdit />} />
-        <AuthRoute path="*/referral/send" element={<ReferralSendModal />} />
-        <AuthRoute path="*/accountInfo/edit" element={<AccountInfoModal />} />
-        <AuthRoute path="*/mobile/send" element={<UpdateMobileModal />} />
+        {/* Route/s below need Authentication check -- authRedirectHandler() */}
+        <Route path="/contactsupport" element={authRedirectHandler(<ContactSupportPage />)} />
+        <Route path="/addresses" element={authRedirectHandler(<AddressesPage />)} />
+        <Route path="/profile" element={authRedirectHandler(<ProfilePage />)} />
+        <Route path="/" element={authRedirectHandler(<Dashboard />)}/>
+        <Route path="/addresses/add" element={authRedirectHandler(<AddressModalAdd />)} />
+        <Route path="/addresses/edit/:id" element={authRedirectHandler(<AddressModalEdit />)} />
+        <Route path="/addresses/swap/:id" element={authRedirectHandler(<AddressModalSwap />)} />
+        <Route path="/addresses/group/:id" element={authRedirectHandler(<AddressGroupModal />)} />
+        <Route path="/addresses/groupEdit/:id" element={authRedirectHandler(<AddressGroupModal />)} />
+        <Route path="/addresses/groupadd" element={authRedirectHandler(<AddressGroupModalAdd />)} />
+        <Route path="/addresses/archive/:id" element={authRedirectHandler(<AddressModalArchive />)} />
+        <Route path="/profile/payroll/edit" element={authRedirectHandler(<DepositHintsModalEdit />)} />
+        <Route path="/profile/referral/send" element={authRedirectHandler(<ReferralSendModal />)} />
+        <Route path="/profile/accountInfo/edit" element={authRedirectHandler(<AccountInfoModal />)} />
+        <Route path="/profile/mobile/send" element={authRedirectHandler(<UpdateMobileModal />)} />
       </Routes>
     </BrowserRouter>
   );

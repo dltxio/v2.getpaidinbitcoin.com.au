@@ -1,15 +1,15 @@
 import React from "react";
 import Modal from "components/Modal";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ReferralSendForm from "./ReferralSendForm";
 import gpib from "apis/gpib";
 
 const ReferralSendModal = (props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const onDismiss = () => {
     const path = location.pathname.replace(/\/referral\/send/g, ""); //change url
-    history.push(path);
+    navigate(path);
   };
   const onSubmit = async (values, formActions, modalActions) => {
     try {

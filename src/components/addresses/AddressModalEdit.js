@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import useSWR, { mutate } from "swr";
 import { AuthContext } from "components/auth/Auth";
@@ -13,7 +13,7 @@ const AddressModalEdit = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const heading = "Edit BTC Address";
   const submitText = "Save";
   const getUrl = user && `/user/${user.id}/address`;
@@ -53,7 +53,7 @@ const AddressModalEdit = () => {
 
   const onDismiss = () => {
     const base = location.pathname.replace(/(\/addresses)\/.*/, "$1");
-    history.push(base);
+    navigate(base);
   };
 
   return (

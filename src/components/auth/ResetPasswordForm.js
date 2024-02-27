@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Formik, Form } from "formik";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import gpib from "apis/gpib";
 import Input from "components/forms/Input";
@@ -37,15 +37,15 @@ const ResetPasswordForm = ({ onSuccess, onError, userId, expiry, token }) => {
   const { login, isLoggingIn } = useContext(AuthContext);
   const [loginError, setLoginError] = useState(null);
   const [password, setPassword] = useState(null);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
   const wrappedLogin = async () => {
-    if (user) history.push("/");
+    if (user) navigate("/");
     try {
       setLoginError(null);
       if (userId && password) await login({ username: userId, password });
-      history.push("/");
+      navigate("/");
     } catch (e) {
       setLoginError(e);
     }

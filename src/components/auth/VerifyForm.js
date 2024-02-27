@@ -4,7 +4,7 @@ import Input from "components/forms/Input";
 import SubmitSpinnerButtonWithDisable from "components/forms/SubmitSpinnerButtonWithDisable";
 import gpib from "apis/gpib";
 import ErrorMessage from "components/ErrorMessage";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./RegisterForm.scss";
 import Selector from "components/forms/Selector";
 
@@ -90,7 +90,7 @@ const VerifyForm = ({
   submitText = "Verify my ID"
 }) => {
   const initialValues = { ..._iv };
-  const history = useHistory();
+  const navigate = useNavigate();
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
@@ -106,7 +106,7 @@ const VerifyForm = ({
         setIdVerificationStatus(statuses.REJECTED);
       }
       setIdVerificationStatus(statuses.VERIFIED);
-      history.push("/");
+      navigate("/");
     } catch (e) {
       console.log(e);
       actions.setErrors({ hidden: e });

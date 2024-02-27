@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
 import logo from "./gpib-logo.png";
@@ -7,13 +7,15 @@ import "./Nav.scss";
 
 const _Nav = ({ links, noBrand = false, activeTab }) => {
   let { logout, user, isVerified } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   // Set default links
 
   const loginLink = user
     ? { label: "Log Out", onClick: logout }
-    : { label: "Log in", onClick: () => history.push("/login") };
+    : { label: "Log in", onClick: () => navigate("/login") };
 
+  // TODO: isVerified is undefined after switching back from other tabs,
+  // so this is a temporary fix. Will get back after upgrade react-router-dom to v6
   if (isVerified === undefined)
     isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
   
@@ -22,20 +24,20 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
     : [
         {
           label: "Dashboard",
-          onClick: () => history.push("/")
+          onClick: () => navigate("/")
         },
         {
           label: "Addresses",
-          onClick: () => history.push("/addresses")
+          onClick: () => navigate("/addresses")
         },
         {
           label: "Profile",
-          onClick: () => history.push("/profile"),
+          onClick: () => navigate("/profile"),
           name: "profile"
         },
         {
           label: "Contact Support",
-          onClick: () => history.push("/contactsupport")
+          onClick: () => navigate("/contactsupport")
         }
       ];
 
@@ -57,7 +59,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
   const renderBrand = () => (
     <Navbar.Brand
       style={{ cursor: "pointer" }}
-      onClick={() => history.push("/")}
+      onClick={() => navigate("/")}
     >
       <img className="GPIBLogo" src={logo} alt="Get Paid In Bitcoin" />
     </Navbar.Brand>

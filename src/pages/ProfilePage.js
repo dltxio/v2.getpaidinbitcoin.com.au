@@ -3,7 +3,7 @@ import useSWR, { mutate } from "swr";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { format as format$ } from "currency-formatter";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
@@ -17,7 +17,7 @@ import "./Dashboard.scss";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [syncingBankAccount, setSyncingBankAccount] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -136,19 +136,19 @@ const Dashboard = () => {
   }
 
   const onEditPayrollClick = (_e) =>
-    history.push(`${location.pathname}/payroll/edit`);
+    navigate(`${location.pathname}/payroll/edit`);
 
   const onUpdatePasswordClick = (_e) => {
-    history.push("/auth/resetpassword");
+    navigate("/auth/resetpassword");
   };
   const onEditReferralClick = (_e) =>
-    history.push(`${location.pathname}/referral/send`);
+    navigate(`${location.pathname}/referral/send`);
 
   const onEditMobileClick = (_e) =>
-    history.push(`${location.pathname}/mobile/send`);
+    navigate(`${location.pathname}/mobile/send`);
 
   const onEditAccountInfoClick = (_e) =>
-    history.push(`${location.pathname}/accountInfo/edit`);
+    navigate(`${location.pathname}/accountInfo/edit`);
 
   const referralColumns = [
     ["Referral Code", `${user.id}`],

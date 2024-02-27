@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
 import { Button } from "react-bootstrap";
 import Layout from "components/layout/Layout";
@@ -15,7 +15,7 @@ const urlCheck = (locationFirstIndex, locationSecondIndex) => {
 };
 
 const Register = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const referralCode =
     location?.search &&
@@ -111,7 +111,7 @@ const Register = () => {
             block
             variant="link"
             className="mt-2"
-            onClick={() => history.push("/login")}
+            onClick={() => navigate("/login")}
           >
             Have an account? Log in
           </Button>

@@ -6,7 +6,7 @@ import logo from "./gpib-logo.png";
 import "./Nav.scss";
 
 const _Nav = ({ links, noBrand = false, activeTab }) => {
-  const { logout, user, isVerified } = useContext(AuthContext);
+  let { logout, user, isVerified } = useContext(AuthContext);
   const navigate = useNavigate();
   // Set default links
 
@@ -14,6 +14,8 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
     ? { label: "Log Out", onClick: logout }
     : { label: "Log in", onClick: () => navigate("/login") };
 
+  // TODO: isVerified is undefined after switching back from other tabs,
+  // so this is a temporary fix. Will get back after upgrade react-router-dom to v6
   if (isVerified === undefined)
     isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
   

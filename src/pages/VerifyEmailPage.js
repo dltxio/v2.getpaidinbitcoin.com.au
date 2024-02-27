@@ -7,6 +7,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
+const useQuery = () => {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+};
+
 const VerifyEmailPage = () => {
   const { token } = useParams();
   const { user } = useContext(AuthContext);
@@ -16,22 +22,19 @@ const VerifyEmailPage = () => {
 
   if (!token) navigate("/");
 
+  console.log(token);
+  console.log(userId);
+  console.log(expiry);
+
   useEffect(() => {
     const verifytoken = async () => {
       try {
-        await gpib.open.post(
-          "/user/verifyemail",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-        await mutate(`/user/${user?.id}`, (state) => ({
-          ...state,
-          emailVerified: true
-        }));
+        await gpib.open.post("/user/verifyemail", {
+          signature: token,
+          userId,
+          expiry
+        });
+
         setVerifying(false);
         navigate("/");
       } catch (e) {
@@ -45,6 +48,7 @@ const VerifyEmailPage = () => {
   return (
     <Layout>
       <div className="container py-5">
+        <h2>Verify your email</h2>
         <ErrorMessage error={error} />
         <Loader loading={isVerifying} />
       </div>

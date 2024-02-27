@@ -14,6 +14,9 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
     ? { label: "Log Out", onClick: logout }
     : { label: "Log in", onClick: () => navigate("/login") };
 
+  if (isVerified === undefined)
+    isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
+  
   const verifiedOnlyLinks = !isVerified
     ? []
     : [

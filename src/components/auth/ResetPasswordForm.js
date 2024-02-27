@@ -33,7 +33,7 @@ const initialValues = {
   passwordMatch: ""
 };
 
-const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
+const ResetPasswordForm = ({ onSuccess, onError, userId, expiry, token }) => {
   const { login, isLoggingIn } = useContext(AuthContext);
   const [loginError, setLoginError] = useState(null);
   const [password, setPassword] = useState(null);
@@ -53,17 +53,12 @@ const ResetPasswordForm = ({ onSuccess, onError, email, token }) => {
 
   const onSubmit = async (values, actions) => {
     try {
-      await gpib.open.post(
-        "/user/resetpassword",
-        {
-          password: values.password
-        },
-        {
-          headers: {
-            authorization: `Bearer ${token}`
-          }
-        }
-      );
+      await gpib.open.post("/user/resetpassword", {
+        userId: userId,
+        password: values.password,
+        expiry,
+        signature: token
+      });
       actions.setSubmitting(false);
       setPassword(values.password);
       if (onSuccess) onSuccess(values, actions);

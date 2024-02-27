@@ -7,11 +7,17 @@ import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
 // import AddAddress from "./AddAddress";
 
-const VerificationTracker = ({ userDetails, depositHints, userEnterprise, userAddress }) => {
+const VerificationTracker = ({
+  userDetails,
+  depositHints,
+  userEnterprise,
+  userAddress
+}) => {
   const { isVerified, setVerified } = useContext(AuthContext);
 
   useEffect(() => {
-    const verified = userDetails && depositHints && userEnterprise && userAddress;
+    const verified =
+      userDetails && depositHints && userEnterprise && userAddress;
     setVerified(verified);
   }, [depositHints, userDetails, userEnterprise, setVerified, userAddress]);
 
@@ -84,7 +90,7 @@ const VerificationTracker = ({ userDetails, depositHints, userEnterprise, userAd
         <div className="py-5">
           <div className="blobs">{steps.map(renderBlob)}</div>
           {activeStep.panel && (
-            <div style={{ maxWidth: "50rem", margin: "auto" }} className="mt-4 py-5">
+            <div style={{ maxWidth: "50rem", margin: "auto" }} className="my-4">
               {activeStep.panel}
             </div>
           )}

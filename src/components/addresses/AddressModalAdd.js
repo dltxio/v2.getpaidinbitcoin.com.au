@@ -17,7 +17,11 @@ const AddressModalAdd = () => {
   const submitText = "Add BTC Address";
   const getUrl = user && `/user/${user.id}/address`;
 
-  const { data: addresses, error, isValidating } = useSWR(getUrl, {
+  const {
+    data: addresses,
+    error,
+    isValidating
+  } = useSWR(getUrl, {
     revalidateOnFocus: false
   });
 
@@ -36,7 +40,7 @@ const AddressModalAdd = () => {
       userID: user?.id,
       percent: Number(v.percent),
       addressorxpubkey: v.address1,
-      type: v.type || "custodial",
+      type: v.type || "custodial"
     };
     return values;
   };

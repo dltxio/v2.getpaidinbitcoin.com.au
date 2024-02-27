@@ -10,7 +10,7 @@ import IDEMRegisterForm from "components/auth/IdemRegisterForm";
 const urlCheck = (locationFirstIndex, locationSecondIndex) => {
   if (locationFirstIndex >= 0 && locationSecondIndex > 0) {
     return true;
-  } 
+  }
   return false;
 };
 
@@ -63,7 +63,7 @@ const Register = () => {
   return (
     <Layout navLinks={[]}>
       <div className="text-center">
-        <div>
+        <div className="px-2">
           <h3>
             Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin
             in your weekly wages.

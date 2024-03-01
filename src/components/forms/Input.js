@@ -5,10 +5,11 @@ import ErrorMessage from "components/ErrorMessage";
 const FormGroupWrap = ({ isWrapped, children }) =>
   isWrapped ? <div className="form-group">{children}</div> : <>{children}</>;
 
-const Input = ({ label, onChange, skinny, ...props }) => {
+const Input = ({ label, onChange, skinny, className, ...props }) => {
   let [field, meta, helpers] = useField(props);
   if (onChange) field.onChange = (e) => onChange(e, helpers);
   if (props.value) field.value = props.value;
+
   return (
     <FormGroupWrap isWrapped={!skinny}>
       {label && <label>{label}</label>}

@@ -206,15 +206,15 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Payroll</h4>
             <div>
-              <Button className="mb-3 mr-3" onClick={onEditPayrollClick}>
+              <Button className="mb-3 me-3" onClick={onEditPayrollClick}>
                 <span className="mr-2">Edit</span>
                 <ion-icon name="create-outline" />
               </Button>
-              <Button className="mb-3 mr-3" onClick={onConnectXero}>
+              <Button className="mb-3 me-3" onClick={onConnectXero}>
                 <span className="mr-2">Connect to Xero</span>
               </Button>
               <Button className="mb-3" onClick={syncBankAccount}>
-                <span className="mr-2">Sync Bank Account</span>
+                <span className="me-2">Sync Bank Account</span>
               </Button>
             </div>
           </div>

@@ -45,6 +45,7 @@ const ContactSupportForm = ({
           <SubmitSpinnerButton
             submitText={submitText}
             isSubmitting={isSubmitting}
+            className="mt-1"
           />
         </Form>
       )}

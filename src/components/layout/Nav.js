@@ -59,6 +59,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
   const renderBrand = () => (
     <Navbar.Brand
       style={{ cursor: "pointer" }}
+      className="ms-3"
       onClick={() => navigate("/")}
     >
       <img className="GPIBLogo" src={logo} alt="Get Paid In Bitcoin" />

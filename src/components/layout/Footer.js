@@ -1,6 +1,7 @@
 import React from "react";
 import FooterPanel from "./FooterPanel";
 import "./Footer.scss";
+
 const panels = [
   {
     heading: "About",
@@ -50,7 +51,6 @@ const panels = [
   {
     heading: "Stay Updated",
     className: "col-sm-12 col-md-4",
-
     items: [
       {
         jsx: (
@@ -73,6 +73,8 @@ const panels = [
   }
 ];
 
+const currentYear = new Date().getFullYear();
+
 const Footer = () => (
   <div className="footer">
     <div className="row">
@@ -81,7 +83,7 @@ const Footer = () => (
       ))}
     </div>
     <div className="copyright">
-      Copyright © 2023 Bitcoin Brisbane & Get Paid in Bitcoin.
+      Copyright © {currentYear} Bitcoin Brisbane & Get Paid in Bitcoin.
     </div>
   </div>
 );

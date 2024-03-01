@@ -50,7 +50,6 @@ const panels = [
   {
     heading: "Stay Updated",
     className: "col-md footer-panel",
-    // className: "lg:col-start-12 lg:col-span-4 col-start-3 col-span-10",
 
     items: [
       {

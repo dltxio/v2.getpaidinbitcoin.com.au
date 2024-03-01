@@ -53,7 +53,6 @@ const LoginForm = ({
           <SubmitSpinnerButton
             submitText="Log in"
             isSubmitting={isSubmitting}
-            style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: "1rem"}}
           />
           {!noReset && (
             <Button

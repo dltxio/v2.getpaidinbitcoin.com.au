@@ -15,6 +15,7 @@ const SubmitButtonSpinner = ({
     block
     type="submit"
     disabled={isSubmitting}
+    className="mt-3 w-100 d-flex justify-content-center"
     {...props}
   >
     <div className="relative d-flex justify-content-center align-items-center">

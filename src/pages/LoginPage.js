@@ -22,7 +22,7 @@ const LoginPage = () => {
             block
             variant="link"
             className="mt-2"
-            onClick={() => navigate("/register")}  // Check again, is it navigating to the correct path?
+            onClick={() => navigate("/register")}
           >
             Don't have an account? Register
           </Button>

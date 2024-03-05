@@ -59,12 +59,7 @@ const LoginForm = ({
               variant="light"
               onClick={navToResetPassword}
               children="Reset Password"
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                margin: "0.25rem auto 0"
-              }}
+              className="mt-1 w-100 d-flex justify-content-center"
             />
           )}
         </Form>

@@ -13,7 +13,7 @@ const Input = ({ label, onChange, skinny, className, ...props }) => {
   return (
     <FormGroupWrap isWrapped={!skinny}>
       {label && <label>{label}</label>}
-      <input className="form-control" {...props} {...field} />
+      <input className="form-control mb-1" {...props} {...field} />
       <ErrorMessage error={meta.error} isHidden={!meta.touched} />
     </FormGroupWrap>
   );

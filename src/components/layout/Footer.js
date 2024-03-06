@@ -77,17 +77,17 @@ const currentYear = new Date().getFullYear();
 
 const Footer = () => (
   <>
-  <div className="container-fluid footer w-full">
-    <div className="row">
-      {panels.map((panel, i) => (
-        <FooterPanel key={i} panel={panel} />
+    <div className="container-fluid footer w-full">
+      <div className="row">
+        {panels.map((panel, i) => (
+          <FooterPanel key={i} panel={panel} />
         ))}
+      </div>
     </div>
-  </div>
     <div className="copyright">
       Copyright © {currentYear} Bitcoin Brisbane & Get Paid in Bitcoin.
     </div>
-        </>
+  </>
 );
 
 export default Footer;

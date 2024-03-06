@@ -12,7 +12,7 @@ const LoginPage = () => {
   if (user) return <Navigate to="/" />;
   return (
     <Layout navLinks={[]}>
-      <div className="d-flex justify-content-center container py-5 ~">
+      <div className="d-flex justify-content-center container py-5">
         <Card
           className="d-flex flex-column justify-content-center align-items-center"
           style={{ flex: 1, maxWidth: "40rem", minHeight: "30rem" }}

@@ -1,8 +1,12 @@
 @import "../../constants/mixins";
 @import "../../constants/colors";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins/breakpoints";
 
 .footer-panel {
-  padding: 0 3rem 3rem 3rem;
+  padding: 0 1rem 2rem 1rem;
+
   .heading {
     font-size: 120%;
     margin-bottom: 1rem;
@@ -10,5 +14,9 @@
     color: white;
     border-bottom: 1px solid rgba(white, 0.2);
     display: block;
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: 0 0 0.5rem 0;
   }
 }

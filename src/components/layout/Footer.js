@@ -5,7 +5,7 @@ import "./Footer.scss";
 const panels = [
   {
     heading: "About",
-    className: "col-sm-6 col-md-4",
+    className: "col-md footer-panel",
     items: [
       { icon: "home", text: "PO Box 7675 Launceston TAS. 7250" },
       {
@@ -16,7 +16,7 @@ const panels = [
   },
   {
     heading: "Connect With Us",
-    className: "col-sm-6 col-md-4",
+    className: "col-md footer-panel",
 
     items: [
       {
@@ -50,7 +50,7 @@ const panels = [
   },
   {
     heading: "Stay Updated",
-    className: "col-sm-12 col-md-4",
+    className: "col-md footer-panel",
     items: [
       {
         jsx: (
@@ -76,16 +76,18 @@ const panels = [
 const currentYear = new Date().getFullYear();
 
 const Footer = () => (
-  <div className="footer">
-    <div className="row">
-      {panels.map((panel, i) => (
-        <FooterPanel key={i} panel={panel} />
-      ))}
+  <>
+    <div className="container-fluid footer w-full">
+      <div className="row">
+        {panels.map((panel, i) => (
+          <FooterPanel key={i} panel={panel} />
+        ))}
+      </div>
     </div>
     <div className="copyright">
       Copyright © {currentYear} Bitcoin Brisbane & Get Paid in Bitcoin.
     </div>
-  </div>
+  </>
 );
 
 export default Footer;

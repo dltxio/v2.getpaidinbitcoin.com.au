@@ -57,22 +57,24 @@ const DepositHintsForm = ({
     >
       {({ isSubmitting, errors }) => (
         <Form className="deposit-form">
-          <Input
-            label="Employer Name"
-            name="employerName"
-            placeholder="Example Pty Ltd"
-            disabled={enterprise}
-          />
-          <Input
-            label="Dollar amount of your wages you wish to receive in BTC"
-            name="depositAmount"
-            placeholder="100.00"
-          />
-          <Input
-            label="Deposit Reference - Description or Reference that is on your regular wage bank statement."
-            name="bankStatement"
-            placeholder="Wage Transfer Description or Staff Number"
-          />
+          <div className="mb-3">
+            <Input
+              label="Employer Name"
+              name="employerName"
+              placeholder="Example Pty Ltd"
+              disabled={enterprise}
+            />
+            <Input
+              label="Dollar amount of your wages you wish to receive in BTC"
+              name="depositAmount"
+              placeholder="100.00"
+            />
+            <Input
+              label="Deposit Reference - Description or Reference that is on your regular wage bank statement."
+              name="bankStatement"
+              placeholder="Wage Transfer Description or Staff Number"
+            />
+          </div>
           {sourceFrom && sourceFrom === "EditModal" && (
             <>
               <label>

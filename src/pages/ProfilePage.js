@@ -188,7 +188,7 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Profile Information</h4>
             <Button className="mb-3" onClick={onEditMobileClick}>
-              <span className="mr-2">Update Mobile</span>
+              <span className="mr-2">Update Mobile </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>
@@ -206,15 +206,15 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Payroll</h4>
             <div>
-              <Button className="mb-3 mr-3" onClick={onEditPayrollClick}>
-                <span className="mr-2">Edit</span>
+              <Button className="mb-3 me-3" onClick={onEditPayrollClick}>
+                <span className="mr-2">Edit </span>
                 <ion-icon name="create-outline" />
               </Button>
-              <Button className="mb-3 mr-3" onClick={onConnectXero}>
+              <Button className="mb-3 me-3" onClick={onConnectXero}>
                 <span className="mr-2">Connect to Xero</span>
               </Button>
               <Button className="mb-3" onClick={syncBankAccount}>
-                <span className="mr-2">Sync Bank Account</span>
+                <span className="me-2">Sync Bank Account</span>
               </Button>
             </div>
           </div>
@@ -226,7 +226,7 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Remittance Setting</h4>
             <Button className="mb-3" onClick={onEditAccountInfoClick}>
-              <span className="mr-2">Edit</span>
+              <span className="mr-2">Edit </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>
@@ -238,7 +238,7 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Referral Program</h4>
             <Button className="mb-3" onClick={onEditReferralClick}>
-              <span className="mr-2">Send Email</span>
+              <span className="mr-2">Send Email </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>

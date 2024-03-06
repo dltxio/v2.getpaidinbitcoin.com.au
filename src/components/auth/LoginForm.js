@@ -36,6 +36,7 @@ const LoginForm = ({
   };
 
   const navToResetPassword = () => navigate("/auth/resetpassword");
+
   return (
     <Formik
       initialValues={initialValues}
@@ -56,9 +57,9 @@ const LoginForm = ({
           {!noReset && (
             <Button
               variant="light"
-              block
               onClick={navToResetPassword}
               children="Reset Password"
+              className="mt-1 w-100 d-flex justify-content-center"
             />
           )}
         </Form>

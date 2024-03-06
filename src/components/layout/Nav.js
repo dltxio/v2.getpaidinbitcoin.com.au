@@ -37,7 +37,7 @@ const _Nav = ({ links, noBrand = false, activeTab }) => {
         },
         {
           label: "Bills",
-          onClick: () => history.push("/bills"),
+          onClick: () => navigate("/bills"),
           name: "bills"
         },
         {

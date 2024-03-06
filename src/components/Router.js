@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
 import Dashboard from "pages/Dashboard";
+import BillsPage from "pages/BillsPage";
 import AccountInfoModal from "components/users/AccountInfoModalEdit";
 import AddressesPage from "pages/AddressesPage";
 import AddressGroupModal from "components/addresses/AddressGroupModal";

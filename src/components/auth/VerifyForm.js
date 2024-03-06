@@ -3,10 +3,8 @@ import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import SubmitSpinnerButtonWithDisable from "components/forms/SubmitSpinnerButtonWithDisable";
 import gpib from "apis/gpib";
-import Card from "components/Card";
 import ErrorMessage from "components/ErrorMessage";
-// import { AuthContext } from "components/auth/Auth";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./RegisterForm.scss";
 import Selector from "components/forms/Selector";
 
@@ -88,11 +86,11 @@ const validate = ({
 const VerifyForm = ({
   initialValues: _iv,
   setIdVerificationStatus,
-  statuses
+  statuses,
+  submitText = "Verify my ID"
 }) => {
   const initialValues = { ..._iv };
-  // const { login } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
@@ -108,7 +106,7 @@ const VerifyForm = ({
         setIdVerificationStatus(statuses.REJECTED);
       }
       setIdVerificationStatus(statuses.VERIFIED);
-      history.push("/");
+      navigate("/");
     } catch (e) {
       console.log(e);
       actions.setErrors({ hidden: e });
@@ -118,51 +116,46 @@ const VerifyForm = ({
   };
 
   return (
-    <Card style={{ width: 800 }}>
-      <Formik
-        initialValues={initialValues}
-        validate={validate}
-        onSubmit={onSubmit}
-      >
-        {({ isSubmitting, errors }) => (
-          <Form>
-            <Input name="dob" placeholder="DOB dd/mm/yyyy" />
-            <Input name="streetNumber" placeholder="Street Number" />
-            <Input name="streetName" placeholder="Street" />
-            <Input name="suburb" placeholder="Suburb" />
-            <Selector name="state" options={states} />
-            <Input name="postcode" placeholder="Postcode" />
-            <Input
-              name="driversLicenseNumber"
-              placeholder="Drivers License Number"
-            />
-            <Input
-              name="driversLicenseCardNumber"
-              placeholder="Drivers License Card Number"
-            />
-            <Input name="medicareNumber" placeholder="Medicare Card Number" />
-            <Input
-              name="medicareNameOnCard"
-              placeholder="Medicare Name on Card"
-            />
-            <Input
-              name="medicareIndividualReferenceNumber"
-              placeholder="Medicare Individual Reference Number"
-            />
-            <Input
-              name="medicareExpiry"
-              placeholder="Medicare Expiry mm/yyyy"
-            />
-            <ErrorMessage error={errors.hidden} />
-            <SubmitSpinnerButtonWithDisable
-              submitText="Verify"
-              isSubmitting={isSubmitting}
-              isDisabled={false}
-            />
-          </Form>
-        )}
-      </Formik>
-    </Card>
+    <Formik
+      initialValues={initialValues}
+      validate={validate}
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting, errors }) => (
+        <Form>
+          <Input name="dob" placeholder="DOB dd/mm/yyyy" />
+          <Input name="streetNumber" placeholder="Street Number" />
+          <Input name="streetName" placeholder="Street" />
+          <Input name="suburb" placeholder="Suburb" />
+          <Selector name="state" options={states} />
+          <Input name="postcode" placeholder="Postcode" />
+          <Input
+            name="driversLicenseNumber"
+            placeholder="Drivers License Number"
+          />
+          <Input
+            name="driversLicenseCardNumber"
+            placeholder="Drivers License Card Number"
+          />
+          <Input name="medicareNumber" placeholder="Medicare Card Number" />
+          <Input
+            name="medicareNameOnCard"
+            placeholder="Medicare Name on Card"
+          />
+          <Input
+            name="medicareIndividualReferenceNumber"
+            placeholder="Medicare Individual Reference Number"
+          />
+          <Input name="medicareExpiry" placeholder="Medicare Expiry mm/yyyy" />
+          <ErrorMessage error={errors.hidden} />
+          <SubmitSpinnerButtonWithDisable
+            submitText={submitText}
+            isSubmitting={isSubmitting}
+            isDisabled={false}
+          />
+        </Form>
+      )}
+    </Formik>
   );
 };
 

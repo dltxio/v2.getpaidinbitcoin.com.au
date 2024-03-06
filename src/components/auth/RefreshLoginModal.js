@@ -71,7 +71,7 @@ const RefreshLoginModal = () => {
           variant="light"
           block
           children="Cancel"
-          className="mt-3"
+          className="mt-1 w-100 d-flex justify-content-center"
           onClick={onCancel}
         />
       </div>

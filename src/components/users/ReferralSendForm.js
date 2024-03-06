@@ -10,7 +10,7 @@ const ReferralSendForm = ({ onSubmit, submitText = "Send Referral" }) => {
   const { user } = useContext(AuthContext);
   const initialValues = {
     email: "",
-    referralLink: `${process.env.REACT_APP_URL}/register?referralCode=${user.id}`
+    referralLink: `${process.env.REACT_APP_URL}/register?referralcode=${user.id}`
   };
   const validate = (values) => {
     const errors = {};

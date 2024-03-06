@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import { mutate } from "swr";
 import { AuthContext } from "components/auth/Auth";
@@ -10,7 +10,7 @@ import AddressFormSwap from "./AddressFormSwap";
 const AddressModalSwap = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const heading = "Swap BTC Address";
   const submitText = "Swap";
@@ -29,7 +29,7 @@ const AddressModalSwap = () => {
 
   const onDismiss = () => {
     const base = location.pathname.replace(/(\/addresses)\/.*/, "$1");
-    history.push(base);
+    navigate(base);
   };
 
   return (

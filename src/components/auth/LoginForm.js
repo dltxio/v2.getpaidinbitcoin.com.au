@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import { Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { isEmail, trim } from "validator";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
@@ -21,7 +21,7 @@ const LoginForm = ({
   style = {}
 }) => {
   const { login } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const onSubmit = async (values, actions) => {
     try {
       await login(values);
@@ -35,7 +35,8 @@ const LoginForm = ({
     }
   };
 
-  const navToResetPassword = () => history.push("/auth/resetpassword");
+  const navToResetPassword = () => navigate("/auth/resetpassword");
+
   return (
     <Formik
       initialValues={initialValues}
@@ -56,9 +57,9 @@ const LoginForm = ({
           {!noReset && (
             <Button
               variant="light"
-              block
               onClick={navToResetPassword}
               children="Reset Password"
+              className="mt-1 w-100 d-flex justify-content-center"
             />
           )}
         </Form>

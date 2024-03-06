@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import ErrorMessage from "components/ErrorMessage";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import isEmail from "validator/lib/isEmail";
+import "./DepositHintsForm.scss";
+import ToggleButton from "components/forms/ToggleButton";
 
 const validate = (values) => {
   const re = /^[1-9]\d*(\.\d+)?$/;
@@ -31,11 +33,11 @@ const validate = (values) => {
 const DepositHintsForm = ({
   initialValues: _inititalValues,
   onSubmit,
-  submitText = "Submit",
+  submitText,
   enterprise,
   sourceFrom
 }) => {
-  const [showInput, setShowInput] = useState(false);
+  const [showAnotherAddressInput, setShowAnotherAddressInput] = useState(false);
   const initialValues = {
     employerName: "",
     depositAmount: "",
@@ -55,54 +57,62 @@ const DepositHintsForm = ({
     >
       {({ isSubmitting, errors }) => (
         <Form className="deposit-form">
-          <Input
-            label="Employer Name"
-            name="employerName"
-            placeholder="Example Pty Ltd"
-            disabled={enterprise}
-          />
-          <Input
-            label="Dollar Amount of your Wages to Receive in BTC"
-            name="depositAmount"
-            placeholder="100.00"
-          />
-          <Input
-            label="Deposit Reference (Wage transfer description or staff number as it appears on your bank statement)"
-            name="bankStatement"
-            placeholder="Wage Transfer Description or Staff Number"
-          />
+          <div className="mb-3">
+            <Input
+              label="Employer Name"
+              name="employerName"
+              placeholder="Example Pty Ltd"
+              disabled={enterprise}
+            />
+            <Input
+              label="Dollar amount of your wages you wish to receive in BTC"
+              name="depositAmount"
+              placeholder="100.00"
+            />
+            <Input
+              label="Deposit Reference - Description or Reference that is on your regular wage bank statement."
+              name="bankStatement"
+              placeholder="Wage Transfer Description or Staff Number"
+            />
+          </div>
           {sourceFrom && sourceFrom === "EditModal" && (
             <>
               <label>
-                <Field
-                  type="checkbox"
+                <ToggleButton
+                  className="float-left"
                   name="sendInstructions"
                   value="sendEmail"
-                  className="m-2"
                 />
-                Email Updated Pay Instructions to Me
-              </label><br></br>
+                <label className="label-for-toggle-button">
+                  Email Updated Pay Instructions to Me
+                </label>
+              </label>
               <label>
-                <Field
-                  type="checkbox"
+                <ToggleButton
+                  className="float-left"
                   name="sendInstructions"
                   value="sendSMS"
-                  className="m-2"
                 />
-                SMS Updated Pay Instructions to Me
+                <label className="label-for-toggle-button">
+                  SMS Updated Pay Instructions to Me
+                </label>
               </label>
               <label>
-                <Field
-                  type="checkbox"
+                <ToggleButton
+                  className="float-left"
                   name="sendAnotherEmail"
-                  className="m-2"
-                  onClick={(e) =>
-                    e.target.checked ? setShowInput(true) : setShowInput(false)
-                  }
+                  onClick={(e) => setShowAnotherAddressInput(e.target.checked)}
                 />
-                Email Updated Pay Instructions to Another Address
+                <label className="label-for-toggle-button">
+                  Email Updated Pay Instructions to Another Address
+                </label>
               </label>
-              {showInput && <Input name="emailToAnotherAddress" placeholder="Email Address" />}
+              {showAnotherAddressInput && (
+                <Input
+                  name="emailToAnotherAddress"
+                  placeholder="Email Address"
+                />
+              )}
             </>
           )}
 

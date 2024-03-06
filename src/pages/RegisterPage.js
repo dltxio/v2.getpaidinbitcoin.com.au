@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
 import { Button } from "react-bootstrap";
 import Layout from "components/layout/Layout";
@@ -10,12 +10,12 @@ import IDEMRegisterForm from "components/auth/IdemRegisterForm";
 const urlCheck = (locationFirstIndex, locationSecondIndex) => {
   if (locationFirstIndex >= 0 && locationSecondIndex > 0) {
     return true;
-  } 
+  }
   return false;
 };
 
 const Register = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const referralCode =
     location?.search &&
@@ -63,7 +63,7 @@ const Register = () => {
   return (
     <Layout navLinks={[]}>
       <div className="text-center">
-        <div>
+        <div className="px-2">
           <h3>
             Welcome to Get Paid In Bitcoin, the easiest way to receive bitcoin
             in your weekly wages.
@@ -111,7 +111,7 @@ const Register = () => {
             block
             variant="link"
             className="mt-2"
-            onClick={() => history.push("/login")}
+            onClick={() => navigate("/login")}
           >
             Have an account? Log in
           </Button>

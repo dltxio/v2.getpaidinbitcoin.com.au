@@ -1,10 +1,11 @@
 import React from "react";
 import FooterPanel from "./FooterPanel";
 import "./Footer.scss";
+
 const panels = [
   {
     heading: "About",
-    className: "col-sm-6 col-md-4",
+    className: "col-md footer-panel",
     items: [
       { icon: "home", text: "PO Box 7675 Launceston TAS. 7250" },
       {
@@ -15,7 +16,7 @@ const panels = [
   },
   {
     heading: "Connect With Us",
-    className: "col-sm-6 col-md-4",
+    className: "col-md footer-panel",
 
     items: [
       {
@@ -37,7 +38,7 @@ const panels = [
         icon: "lock-closed",
         jsx: (
           <a
-            href="http://keys.gnupg.net/pks/lookup?search=info%40getpaidinbitcoin.com.au&fingerprint=on&op=index"
+            href="https://keys.openpgp.org/search?q=3DB82649E1E57F659E6D713DBF6860C234728E25"
             children="PGP PubKey (3DB82649)"
             download
           >
@@ -49,8 +50,7 @@ const panels = [
   },
   {
     heading: "Stay Updated",
-    className: "col-sm-12 col-md-4",
-
+    className: "col-md footer-panel",
     items: [
       {
         jsx: (
@@ -73,17 +73,21 @@ const panels = [
   }
 ];
 
+const currentYear = new Date().getFullYear();
+
 const Footer = () => (
-  <div className="footer">
-    <div className="row">
-      {panels.map((panel, i) => (
-        <FooterPanel key={i} panel={panel} />
-      ))}
+  <>
+    <div className="container-fluid footer w-full">
+      <div className="row">
+        {panels.map((panel, i) => (
+          <FooterPanel key={i} panel={panel} />
+        ))}
+      </div>
     </div>
     <div className="copyright">
-      Copyright © 2023 Bitcoin Brisbane & Get Paid in Bitcoin.
+      Copyright © {currentYear} Bitcoin Brisbane & Get Paid in Bitcoin.
     </div>
-  </div>
+  </>
 );
 
 export default Footer;

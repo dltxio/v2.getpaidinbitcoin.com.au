@@ -3,7 +3,7 @@ import useSWR, { mutate } from "swr";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { format as format$ } from "currency-formatter";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
@@ -17,7 +17,7 @@ import "./Dashboard.scss";
 
 const ProfilePage = () => {
   const { user } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [syncingBankAccount, setSyncingBankAccount] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -136,19 +136,19 @@ const ProfilePage = () => {
   }
 
   const onEditPayrollClick = (_e) =>
-    history.push(`${location.pathname}/payroll/edit`);
+    navigate(`${location.pathname}/payroll/edit`);
 
   const onUpdatePasswordClick = (_e) => {
-    history.push("/auth/resetpassword");
+    navigate("/auth/resetpassword");
   };
   const onEditReferralClick = (_e) =>
-    history.push(`${location.pathname}/referral/send`);
+    navigate(`${location.pathname}/referral/send`);
 
   const onEditMobileClick = (_e) =>
-    history.push(`${location.pathname}/mobile/send`);
+    navigate(`${location.pathname}/mobile/send`);
 
   const onEditAccountInfoClick = (_e) =>
-    history.push(`${location.pathname}/accountInfo/edit`);
+    navigate(`${location.pathname}/accountInfo/edit`);
 
   const referralColumns = [
     ["Referral Code", `${user.id}`],
@@ -188,7 +188,7 @@ const ProfilePage = () => {
           <div className="d-flex justify-content-between">
             <h4>Profile Information</h4>
             <Button className="mb-3" onClick={onEditMobileClick}>
-              <span className="mr-2">Update Mobile</span>
+              <span className="mr-2">Update Mobile </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>
@@ -206,15 +206,15 @@ const ProfilePage = () => {
           <div className="d-flex justify-content-between">
             <h4>Payroll</h4>
             <div>
-              <Button className="mb-3 mr-3" onClick={onEditPayrollClick}>
-                <span className="mr-2">Edit</span>
+              <Button className="mb-3 me-3" onClick={onEditPayrollClick}>
+                <span className="mr-2">Edit </span>
                 <ion-icon name="create-outline" />
               </Button>
-              <Button className="mb-3 mr-3" onClick={onConnectXero}>
+              <Button className="mb-3 me-3" onClick={onConnectXero}>
                 <span className="mr-2">Connect to Xero</span>
               </Button>
               <Button className="mb-3" onClick={syncBankAccount}>
-                <span className="mr-2">Sync Bank Account</span>
+                <span className="me-2">Sync Bank Account</span>
               </Button>
             </div>
           </div>
@@ -226,7 +226,7 @@ const ProfilePage = () => {
           <div className="d-flex justify-content-between">
             <h4>Remittance Setting</h4>
             <Button className="mb-3" onClick={onEditAccountInfoClick}>
-              <span className="mr-2">Edit</span>
+              <span className="mr-2">Edit </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>
@@ -238,7 +238,7 @@ const ProfilePage = () => {
           <div className="d-flex justify-content-between">
             <h4>Referral Program</h4>
             <Button className="mb-3" onClick={onEditReferralClick}>
-              <span className="mr-2">Send Email</span>
+              <span className="mr-2">Send Email </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>

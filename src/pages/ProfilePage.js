@@ -188,7 +188,7 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Profile Information</h4>
             <Button className="mb-3" onClick={onEditMobileClick}>
-              <span className="mr-2">Update Mobile</span>
+              <span className="mr-2">Update Mobile </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>
@@ -238,7 +238,7 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Referral Program</h4>
             <Button className="mb-3" onClick={onEditReferralClick}>
-              <span className="mr-2">Send Email</span>
+              <span className="mr-2">Send Email </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>

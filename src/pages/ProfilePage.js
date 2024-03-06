@@ -207,7 +207,7 @@ const Dashboard = () => {
             <h4>Payroll</h4>
             <div>
               <Button className="mb-3 me-3" onClick={onEditPayrollClick}>
-                <span className="mr-2">Edit</span>
+                <span className="mr-2">Edit </span>
                 <ion-icon name="create-outline" />
               </Button>
               <Button className="mb-3 me-3" onClick={onConnectXero}>
@@ -226,7 +226,7 @@ const Dashboard = () => {
           <div className="d-flex justify-content-between">
             <h4>Remittance Setting</h4>
             <Button className="mb-3" onClick={onEditAccountInfoClick}>
-              <span className="mr-2">Edit</span>
+              <span className="mr-2">Edit </span>
               <ion-icon name="create-outline" />
             </Button>
           </div>

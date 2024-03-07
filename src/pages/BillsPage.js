@@ -200,7 +200,7 @@ const BillsPage = () => {
           isOpen={showModal}
           onDismiss={onDismiss}
           heading={"Your payment address"}
-          large
+          small
         >
           {(onDismiss) => (
             <>

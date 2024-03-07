@@ -4,9 +4,9 @@
 .bill-payment-address-container {
   display: flex;
   height: 200px;
-  width: 200px;
+  min-width: 200px;
   align-items: center;
-  
+    
   #BillPaymentAddress {
     margin: auto
   }

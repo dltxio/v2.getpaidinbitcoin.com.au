@@ -197,7 +197,7 @@ const BillsPage = () => {
         </Card>
 
         <Modal
-          isOpen={true}
+          isOpen={showModal}
           onDismiss={onDismiss}
           heading={"Your payment address"}
           large
@@ -205,7 +205,7 @@ const BillsPage = () => {
           {(onDismiss) => (
             <>
               <Loader loading={isLoading} diameter="2rem" />
-              {!false ? (
+              {!isPaid ? (
                 <>
                   <div className="bill-payment-address-container"> {/* container to reserve a fixed space and avoid components shift due to children size change */}
                     <QRCode id="BillPaymentAddress" value={paymentAddress} />

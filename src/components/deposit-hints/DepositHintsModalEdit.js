@@ -69,7 +69,7 @@ const DepositHintsModalForm = (props) => {
               }
             );
           if (instruction === "sendSMS")
-            await gpib.secure.post("/sms/payinstructions", {userID: user.id});
+            await gpib.secure.post("/sms/payinstructions", {UserID: user.id});
         }
       }
       if (values.emailToAnotherAddress) {

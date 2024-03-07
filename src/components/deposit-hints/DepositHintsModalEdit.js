@@ -67,11 +67,6 @@ const DepositHintsModalForm = (props) => {
         }
       }
       if (values.emailToAnotherAddress) {
-        console.log({
-          UserID: user.id,
-          ToEmail: values.emailToAnotherAddress
-        });
-
         await gpib.secure.post("/email/payinstructions", {
           UserID: user.id,
           ToEmail: values.emailToAnotherAddress

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useSWR, { mutate } from "swr";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "components/auth/Auth";
@@ -12,12 +12,16 @@ import ErrorMessage from "components/ErrorMessage";
 const AddressModalAdd = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const heading = "Add BTC Address";
   const submitText = "Add BTC Address";
   const getUrl = user && `/user/${user.id}/address`;
 
-  const { data: addresses, error, isValidating } = useSWR(getUrl, {
+  const {
+    data: addresses,
+    error,
+    isValidating
+  } = useSWR(getUrl, {
     revalidateOnFocus: false
   });
 
@@ -29,11 +33,14 @@ const AddressModalAdd = () => {
     percent: isFirstAddress || isCustodialAddress ? 100 : ""
   };
 
+  // TODO: REVIEW OLD ADDRESS PARAMS.  MAYBE BE ABLE TO REMOVE SOME, BUT WILL NOT CAUSE ISSUES
   const parseSubmitValues = (v) => {
     const values = {
       ...v,
       userID: user?.id,
-      percent: Number(v.percent)
+      percent: Number(v.percent),
+      addressorxpubkey: v.address1,
+      type: v.type || "custodial"
     };
     return values;
   };
@@ -55,7 +62,7 @@ const AddressModalAdd = () => {
 
   const onDismiss = () => {
     const base = location.pathname.replace(/(\/addresses)\/.*/, "$1");
-    history.push(base);
+    navigate(base);
   };
 
   return (
@@ -77,7 +84,7 @@ const AddressModalAdd = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText={submitText}
-              disablePercent={isCustodialAddress}
+              // disablePercent={isCustodialAddress}
             />
           )}
         </>

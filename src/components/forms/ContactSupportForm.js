@@ -5,14 +5,14 @@ import TextArea from "components/forms/TextArea";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
 
-const defaultInitialValues = { subject: "", description: "" };
+const defaultInitialValues = { subject: "", body: "" };
 
-const validate = ({ subject, description }) => {
+const validate = ({ subject, body }) => {
   const errors = {};
   const requiredMsg = "This field is required";
 
   if (!subject) errors.subject = requiredMsg;
-  if (!description) errors.description = requiredMsg;
+  if (!body) errors.body = requiredMsg;
 
   return errors;
 };
@@ -37,7 +37,7 @@ const ContactSupportForm = ({
         <Form style={{ flex: 1, width: "100%", ...style }} {...props}>
           <Input name="subject" placeholder="Subject" />
           <TextArea
-            name="description"
+            name="body"
             placeholder="Description"
             rows={descriptionRows}
           />
@@ -45,6 +45,7 @@ const ContactSupportForm = ({
           <SubmitSpinnerButton
             submitText={submitText}
             isSubmitting={isSubmitting}
+            className="mt-1"
           />
         </Form>
       )}

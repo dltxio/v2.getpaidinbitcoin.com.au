@@ -19,7 +19,7 @@ const FooterItem = ({ item }) => {
   return (
     <div className="d-flex">
       {icon && (
-        <span className="mr-3">
+        <span className="me-2">
           <ion-icon name={icon} />
         </span>
       )}

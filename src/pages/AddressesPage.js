@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { ButtonGroup, Alert } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
@@ -9,6 +9,7 @@ import { AuthContext } from "components/auth/Auth";
 import Card from "components/Card";
 import AddressTable from "components/addresses/AddressTable";
 import AddressGroupTable from "components/addresses/AddressGroupTable";
+import AddressHistoryTable from "components/addresses/AddressHistoryTable";
 import IconButton from "components/IconButton";
 import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
@@ -16,7 +17,7 @@ import gpib from "apis/gpib";
 
 const AddressesPage = () => {
   const { user } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const getAddressesUrl = `/user/${user.id}/address`;
   const [selected, , selectRowConfig] = useSelectedRow(null);
   const [selectedGroup, , selectGroupRowConfig] = useSelectedRow(null);
@@ -26,6 +27,7 @@ const AddressesPage = () => {
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
   );
+  const { data: address_history } = useSWR(`/addresshistory`);
   const groupAddress = addresses?.filter((i) => i.groupID);
   const unGroupAddress = addresses?.filter((i) => !i.groupID);
   const hasCardAddress = unGroupAddress?.filter(
@@ -65,34 +67,34 @@ const AddressesPage = () => {
     {
       icon: "add",
       title: "Add",
-      onClick: () => history.push("/addresses/add"),
+      onClick: () => navigate("/addresses/add"),
       hide: hasMultipleAddresses,
       disabled: user?.idVerificationStatus !== 3
     },
     {
       icon: "create-outline",
       title: "Edit",
-      onClick: () => history.push(`/addresses/edit/${selected}`),
+      onClick: () => navigate(`/addresses/edit/${selected}`),
       disabled: !selected
     },
     {
       icon: "swap-horizontal-outline",
       title: "Swap",
-      onClick: () => history.push(`/addresses/swap/${selected}`),
+      onClick: () => navigate(`/addresses/swap/${selected}`),
       disabled: !selected,
       hide: user?.idVerificationStatus !== 3
     },
     {
       icon: "archive-outline",
       title: "Archive",
-      onClick: () => history.push(`/addresses/archive/${selected}`),
+      onClick: () => navigate(`/addresses/archive/${selected}`),
       disabled: !selected || unGroupAddress?.length === 1,
       hide: !hasMultipleAddresses
     },
     {
       icon: "wallet-outline",
       title: "Group Address",
-      onClick: () => history.push(`/addresses/group/${selected}`),
+      onClick: () => navigate(`/addresses/group/${selected}`),
       disabled: !selected || unGroupAddress.length === 1,
       hide: user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
     }
@@ -102,13 +104,13 @@ const AddressesPage = () => {
     {
       icon: "add",
       title: "Add",
-      onClick: () => history.push(`/addresses/groupAdd`),
+      onClick: () => navigate(`/addresses/groupAdd`),
       disabled: unGroupAddress?.length > 1
     },
     {
       icon: "create-outline",
       title: "Edit",
-      onClick: () => history.push(`/addresses/groupEdit/${selectedGroup}`),
+      onClick: () => navigate(`/addresses/groupEdit/${selectedGroup}`),
       disabled: !selectedGroup
     }
   ];
@@ -167,6 +169,12 @@ const AddressesPage = () => {
             </Card>
           </>
         )}
+        <Card>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h4>History</h4>
+          </div>
+          <AddressHistoryTable logs={address_history} />
+        </Card>
       </div>
     </Layout>
   );

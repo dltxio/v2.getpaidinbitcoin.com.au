@@ -1,12 +1,11 @@
 import React, { useEffect, useContext } from "react";
 import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
-import VerifyMobile from "./VerifyMobile";
-import AddPayroll from "./AddPayroll";
-import VerifyID from "./VerifyID";
+// import AddPayroll from "./AddPayroll";
+// import VerifyID from "./VerifyID";
 import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
-import AddAddress from "./AddAddress";
+// import AddAddress from "./AddAddress";
 
 const VerificationTracker = ({
   userDetails,
@@ -14,13 +13,14 @@ const VerificationTracker = ({
   userEnterprise,
   userAddress
 }) => {
-  const { isVerified, hasVerified, setHasVerified } = useContext(AuthContext);
+  const { isVerified, setVerified } = useContext(AuthContext);
 
   useEffect(() => {
     const verified =
       userDetails && depositHints && userEnterprise && userAddress;
-    setHasVerified(verified);
-  }, [depositHints, userDetails, userEnterprise, setHasVerified, userAddress]);
+    setVerified(verified);
+  }, [depositHints, userDetails, userEnterprise, setVerified, userAddress]);
+
   const steps = [
     {
       label: "Registered",
@@ -32,31 +32,25 @@ const VerificationTracker = ({
       icon: "mail-outline",
       isCompleted: userDetails?.emailVerified,
       panel: <VerifyEmail userDetails={userDetails} />
-    },
-    {
-      label: "Verify Mobile",
-      icon: "phone-portrait-outline",
-      isCompleted: userDetails?.mobileVerified,
-      panel: <VerifyMobile />
-    },
-    {
-      label: "Add Payroll Information",
-      icon: "cash-outline",
-      isCompleted: depositHints?.depositAmount !== undefined,
-      panel: <AddPayroll userEnterprise={userEnterprise} />
-    },
-    {
-      label: "Add BTC Address",
-      icon: "logo-bitcoin",
-      isCompleted: userAddress && userAddress.length > 0,
-      panel: <AddAddress userEnterprise={userEnterprise} />
-    },
-    {
-      label: "Verify ID",
-      icon: "newspaper-outline",
-      panel: <VerifyID />,
-      isCompleted: userDetails?.idVerificationstatus === 3
     }
+    // {
+    //   label: "Add Payroll Information",
+    //   icon: "cash-outline",
+    //   isCompleted: depositHints?.depositAmount !== undefined,
+    //   panel: <AddPayroll userEnterprise={userEnterprise} />
+    // },
+    // {
+    //   label: "Add BTC Address",
+    //   icon: "logo-bitcoin",
+    //   isCompleted: userAddress && userAddress.length > 0,
+    //   panel: <AddAddress userEnterprise={userEnterprise} />
+    // },
+    // {
+    //   label: "Verify ID",
+    //   icon: "newspaper-outline",
+    //   panel: <VerifyID />,
+    //   isCompleted: userDetails?.idVerificationstatus === 3
+    // }
   ];
 
   const activeStepIndex = steps.map((v) => v.isCompleted).indexOf(false);
@@ -87,17 +81,16 @@ const VerificationTracker = ({
     );
   };
 
-  if (isVerified || !hasVerified || !activeStep) return null;
+  // if (isVerified || !hasVerified || !activeStep) return null;
+  if (isVerified || !activeStep) return null;
+
   return (
     <div className="verification-tracker">
       <Card>
         <div className="py-5">
           <div className="blobs">{steps.map(renderBlob)}</div>
           {activeStep.panel && (
-            <div
-              style={{ maxWidth: "50rem", margin: "auto" }}
-              className="mt-4 py-5"
-            >
+            <div style={{ maxWidth: "50rem", margin: "auto" }} className="my-4">
               {activeStep.panel}
             </div>
           )}

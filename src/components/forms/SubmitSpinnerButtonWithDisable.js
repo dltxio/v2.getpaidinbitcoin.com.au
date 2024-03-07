@@ -2,8 +2,9 @@ import React from "react";
 import Loader from "components/Loader";
 import { Button } from "react-bootstrap";
 
-const SubmitButtonSpinner = ({
+const SubmitSpinnerButtonWithDisable = ({
   submitText,
+  isDisabled = true,
   isSubmitting = false,
   icon,
   iconStyle,
@@ -14,8 +15,7 @@ const SubmitButtonSpinner = ({
     variant="primary"
     block
     type="submit"
-    disabled={isSubmitting}
-    className="mt-3 w-100 d-flex justify-content-center"
+    disabled={isDisabled}
     {...props}
   >
     <div className="relative d-flex justify-content-center align-items-center">
@@ -40,4 +40,4 @@ const SubmitButtonSpinner = ({
   </Button>
 );
 
-export default SubmitButtonSpinner;
+export default SubmitSpinnerButtonWithDisable;

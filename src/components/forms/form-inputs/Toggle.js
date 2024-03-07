@@ -8,10 +8,7 @@ const ToggleField = ({ value, setValue, className, ...props }) => {
   if (className) classes += ` ${className}`;
   return (
     <div className={classes}>
-      <div
-        className={`switch ${value ? "checked" : ""}`}
-        onClick={toggleValue}
-      >
+      <div className={`switch ${value ? "checked" : ""}`} onClick={toggleValue}>
         <input type="checkbox" {...props} />
         <span className="slider" />
       </div>

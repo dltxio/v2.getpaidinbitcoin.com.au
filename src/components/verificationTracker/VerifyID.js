@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { Alert, Button } from "react-bootstrap";
+import Card from "components/Card";
 import { AuthContext } from "components/auth/Auth";
-import Verify from "../../utils/Verify";
+import VerifyForm from "../auth/VerifyForm";
 
 const statuses = {
   NOT_STARTED: 0,
@@ -12,6 +13,7 @@ const statuses = {
   REJECTED: 4,
   CANCELLED: 5
 };
+
 const statusAlerts = {
   [statuses.STARTED]: {
     children:
@@ -22,7 +24,8 @@ const statusAlerts = {
       "Your verification information has been received and is currently being processed."
   },
   [statuses.VERIFIED]: {
-    children: "Congratulations, your ID Verification is now complete."
+    children: "Congratulations, your ID Verification is now complete.",
+    variant: "success"
   },
   [statuses.REJECTED]: {
     children:
@@ -30,17 +33,22 @@ const statusAlerts = {
     variant: "danger"
   },
   [statuses.CANCELLED]: {
-    children: "ID Verification has been cancelled",
-    varian: "danger"
+    children: "ID Verification has been cancelled.",
+    variant: "danger"
   }
 };
 
-const VerifyID = () => {
+const iv = {
+  state: "QLD"
+};
+
+const VerifyID = ({ submitText, showSkip }) => {
   const { user, setVerified, setSkipKYC } = useContext(AuthContext);
   const { data: userAddress } = useSWR(`/user/${user.id}/address`);
   const [idVerificationStatus, setIdVerificationStatus] = useState();
   const alert = statusAlerts[idVerificationStatus];
   const showAlert = alert;
+
   const handleSkipKYC = () => {
     setSkipKYC(true);
     setVerified(true);
@@ -48,42 +56,35 @@ const VerifyID = () => {
 
   return (
     <div>
-      <p>
-        <b>ID Verification</b>
-      </p>
-      <Alert variant="primary">
-        As an AUSTRAC registered exchange provider of Australian Dollars into
-        Bitcoin, we are required to complete a short ID Verification process
-        before we can provide any exchange services. This verification is a
-        one-time process and your details are not stored. Please have your
-        documents ready.
-      </Alert>
-      {showAlert && (
-        <Alert variant={alert.varian ? alert.varian : "primary"} {...alert} />
-      )}
-      <div className={userAddress[0].isCustodial ? "d-flex mt-2" : "mt-2"}>
+      <Card>
+        <Alert variant="primary">
+          As an AUSTRAC registered exchange provider of Australian Dollars into
+          Bitcoin, we are required to complete a short ID Verification process
+          before we can provide any exchange services. This verification is a
+          one-time process and your details are not stored. Please have your
+          documents ready.
+        </Alert>
+        {showAlert && (
+          <Alert
+            variant={alert.variant ? alert.variant : "primary"}
+            {...alert}
+          />
+        )}
         <div className="mr-auto">
-          <Verify
+          <VerifyForm
             setIdVerificationStatus={setIdVerificationStatus}
             statuses={statuses}
-            user={user}
-          />
-        </div>
-        <div>
-          {userAddress && userAddress[0].isCustodial && (
-            <Button
-              onClick={handleSkipKYC}
-              style={{
-                width: "200px",
-                height: "50px",
-                backgroundColor: "rgb(0, 69, 216)"
-              }}
-            >
-              Skip KYC
+            initialValues={iv}
+            submitText={submitText}
+          ></VerifyForm>
+
+          {userAddress && userAddress[0].isCustodial && showSkip && (
+            <Button onClick={handleSkipKYC}>
+              Skip KYC and Create a GPIB Custodial Address
             </Button>
           )}
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

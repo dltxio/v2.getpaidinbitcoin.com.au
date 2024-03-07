@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import useSWR from "swr";
 import Layout from "components/layout/Layout";
 import VerificationTracker from "components/verificationTracker";
@@ -19,25 +19,33 @@ import { CSVLink } from "react-csv";
 import { Alert, Button } from "react-bootstrap";
 import gpib from "../apis/gpib";
 import ReferralTable from "components/referral/ReferralTable";
+import Modal from "components/Modal";
+import VerifyID from "components/verificationTracker/VerifyID";
 
 const Dashboard = () => {
-  const { user, isVerified, hasVerified } = useContext(AuthContext);
+  const lobsterTrap = process.env.REACT_APP_LOBSTER_TRAP || true;
+
+  let { user, isVerified } = useContext(AuthContext);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [isShowKYC, setShowKYC] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [transactionsDownload, setTransactionsDowload] = useState([]);
+  const [transactionsDownload, setTransactionsDownload] = useState([]);
   const [downloadError, setDownloadError] = useState({
     show: false,
     message: ""
   });
 
+  // TODO: isVerified is undefined after switching back from other tabs,
+  // so this is a temporary fix. Will get back after upgrade react-router-dom to v6
+  if (isVerified === undefined)
+    isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
+  
   const csvRef = useRef();
-  const { data: referralCredits, error: fetchReferralCreditsError } = useSWR(
-    "/referralCredits"
-  );
+  const { data: referralCredits, error: fetchReferralCreditsError } =
+    useSWR("/referralcredits");
 
-  const {
-    data: referralTransfers,
-    error: fetchReferralTransfersError
-  } = useSWR("/referralTransfer");
+  const { data: referralTransfers, error: fetchReferralTransfersError } =
+    useSWR("/referraltransfer");
 
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
@@ -47,9 +55,8 @@ const Dashboard = () => {
     `/user/${user.id}`
   );
 
-  const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
-  const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
-
+  // const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
+  // const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
   // Only if verified
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
     isVerified && `/user/${user.id}/bankdetails`
@@ -71,16 +78,17 @@ const Dashboard = () => {
   );
 
   const { data: activeAddresses, error: fetchActiveAddressError } = useSWR(
-    isVerified && `/user/${user.id}/address`
+    `/user/${user.id}/address`
   );
 
   const { data: referrals, error: referralsError } = useSWR(
     user.id && `/user/${user.id}/referral`
   );
-
+  
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
+
   const isFetchingActiveAddresses =
     isVerified && !activeAddresses && !fetchActiveAddressError;
   const isFetchingArchivedAddresses =
@@ -97,9 +105,11 @@ const Dashboard = () => {
   const isFetchingReferralTransfers =
     isVerified && !referralTransfers && !fetchReferralTransfersError;
 
-  const isFetchingReferral = isVerified && !referrals && !referralsError;
+  const isFetchingReferral = !referrals && !referralsError;
 
   const currentYear = new Date().getFullYear();
+  const showWelcomeCard = true;
+  const showBankDetailsCard = true;
 
   const handleDownload = async () => {
     setDownloadError({ show: false, message: "" });
@@ -109,7 +119,7 @@ const Dashboard = () => {
           `/transaction/download/${year}`
         );
         if (filterTransactions.data.length > 0) {
-          setTransactionsDowload(filterTransactions.data);
+          setTransactionsDownload(filterTransactions.data);
           await new Promise((resolve) => setTimeout(resolve, 3000));
           csvRef.current.link.click();
         } else {
@@ -121,22 +131,31 @@ const Dashboard = () => {
       setDownloadError({ show: true, message: error.message });
     }
   };
+
+  const showKYC = () => {
+    // only show if email has been verified first
+    if (userDetails && userDetails?.emailVerified) {
+      setShowKYC(true);
+    }
+  };
+
+  useEffect(() => {
+    setEmailVerified(userDetails?.emailVerified);
+  }, [userDetails]);
+
   return (
     <Layout activeTab="Dashboard">
       <div className="dashboard container-fluid py-4">
-        <Loader loading={!hasVerified} />
-        <VerificationTracker
-          userDetails={userDetails}
-          depositHints={depositHints}
-          userEnterprise={userEnterprise}
-          userAddress={userAddress}
-        />
+        <Loader loading={!isVerified && !lobsterTrap} />
+
+        <VerificationTracker userDetails={userDetails} />
+
         <section className="main row">
-          <div className={isVerified ? "overlay" : "overlay active"} />
+          <div className={emailVerified ? "overlay" : "overlay active"} />
           <aside className="col-lg-5">
             <section>
               <Card>
-                <h4>Stats</h4>
+                <h4>Your Bitcoin Stats</h4>
                 <ErrorMessage error={fetchStatsError} />
                 <Loader loading={isFetchingStats} />
                 <UserStats stats={userStats} />
@@ -144,6 +163,20 @@ const Dashboard = () => {
             </section>
             <Card>
               <h4>Active Addresses</h4>
+              {isVerified && (
+                <p>
+                  Your current bitcoin addresses are listed here. To add and
+                  remove an address, and to view their history, go to your{" "}
+                  <b>address page.</b>
+                </p>
+              )}
+              {!isVerified && (
+                <p>
+                  Your GPIB custodial bitcoin address is listed here. Once KYC
+                  is completed, you will be able to change this address to your
+                  own personal wallet.
+                </p>
+              )}
               <ErrorMessage
                 error={
                   fetchActiveAddressError ||
@@ -170,6 +203,12 @@ const Dashboard = () => {
             <section>
               <Card>
                 <h4>Referral Credits</h4>
+                <p>
+                  You can earn some extra sats by referring your friends to Get
+                  Paid In Bitcoin! Once they register and verify their account,
+                  you will receive sats for every pay they receive. You can find
+                  your unique invitation code in your <b>profile page.</b>
+                </p>
                 <ErrorMessage error={fetchReferralCreditsError} />
                 <Loader loading={isFetchingReferralCredits} />
                 <ReferralCreditTable referralCredits={referralCredits} />
@@ -182,8 +221,35 @@ const Dashboard = () => {
               </Card>
             </section>
           </aside>
+
           <section className="content col-lg-7">
-            {isVerified && (
+            {showWelcomeCard && (
+              <Card>
+                <h4>Welcome to Get Paid In Bitcoin!</h4>
+                <p>
+                  Here are some next steps to get you on your stacking sats
+                  journey.
+                </p>
+                <ol>
+                  <li>
+                    Send the GPIB Bank account details to your employer, so part
+                    of your wages can be paid into this account.
+                  </li>
+                  <li>
+                    Verify your profile (KYC) data for AUSTRAC obligations.
+                  </li>
+                  <li>Add up to two personal bitcoin wallet addresses.</li>
+                  <li>Refer a friend.</li>
+                  <li>Start stacking sats!</li>
+                </ol>
+                <div className="p-2">
+                  <Button disabled={isVerified} onClick={showKYC}>
+                    Complete KYC
+                  </Button>
+                </div>
+              </Card>
+            )}
+            {showBankDetailsCard && (
               <section style={{ position: "relative" }}>
                 <Card>
                   <h4>Unique Bitcoin Pay Information</h4>
@@ -215,53 +281,60 @@ const Dashboard = () => {
                 </Card>
               </section>
             )}
-            <section style={{ position: "relative" }}>
-              <Card>
-                <div className="d-flex flex-row">
-                  <div className="mr-auto p-2">
-                    <h4>Transactions</h4>
-                  </div>
-                  <div className="p-2">
-                    <select
-                      className="form-control"
-                      id="downloadYear"
-                      onChange={(e) => {
-                        setYear(e.target.value);
-                      }}
-                    >
-                      <option>{currentYear}</option>
-                      <option>{currentYear - 1}</option>
-                      <option>{currentYear - 2}</option>
-                    </select>
-                  </div>
-                  <div className="p-2">
-                    <Button onClick={handleDownload}>Download CSV</Button>
-                    <CSVLink
-                      data={transactionsDownload}
-                      filename={"User-transactions.csv"}
-                      className="hidden"
-                      target="_blank"
-                      ref={csvRef}
-                    />
-                  </div>
+
+            <Card>
+              <div className="d-flex flex-row">
+                <div className="mr-auto p-2">
+                  <h4>Transactions</h4>
                 </div>
-                {downloadError.show && (
-                  <Alert variant="danger">{downloadError.message}</Alert>
-                )}
-                <ErrorMessage error={fetchTransactionsError} />
-                <Loader loading={isFetchingTransactions} />
-                <TransactionTable transactions={transactions} />
-              </Card>
-              <Card>
-                <h4>Referral Transactions</h4>
-                <ErrorMessage error={fetchReferralTransfersError} />
-                <Loader loading={isFetchingReferralTransfers} />
-                <ReferralTransferTable referralTransfers={referralTransfers} />
-              </Card>
-            </section>
+                <div className="p-2">
+                  <select
+                    className="form-control"
+                    id="downloadYear"
+                    onChange={(e) => {
+                      setYear(e.target.value);
+                    }}
+                  >
+                    <option>{currentYear}</option>
+                    <option>{currentYear - 1}</option>
+                    <option>{currentYear - 2}</option>
+                    <option>{currentYear - 3}</option>
+                    <option>{currentYear - 4}</option>
+                    <option>{currentYear - 5}</option>
+                    <option>{currentYear - 6}</option>
+                  </select>
+                </div>
+                <div className="p-2">
+                  <Button onClick={handleDownload}>Download CSV</Button>
+                  <CSVLink
+                    data={transactionsDownload}
+                    filename={currentYear + "-gpib-transactions.csv"}
+                    className="hidden"
+                    target="_blank"
+                    ref={csvRef}
+                  />
+                </div>
+              </div>
+              {downloadError.show && (
+                <Alert variant="danger">{downloadError.message}</Alert>
+              )}
+              <ErrorMessage error={fetchTransactionsError} />
+              <Loader loading={isFetchingTransactions} />
+              <TransactionTable transactions={transactions} />
+            </Card>
+            <Card>
+              <h4>Referral Transactions</h4>
+              <ErrorMessage error={fetchReferralTransfersError} />
+              <Loader loading={isFetchingReferralTransfers} />
+              <ReferralTransferTable referralTransfers={referralTransfers} />
+            </Card>
           </section>
         </section>
+        {/* </section> */}
       </div>
+      <Modal isOpen={isShowKYC} heading="Complete KYC">
+        <VerifyID submitText="Verify my ID"></VerifyID>
+      </Modal>
     </Layout>
   );
 };

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric, isDecimal } from "validator";
+import Selector from "components/forms/Selector";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
@@ -12,7 +13,8 @@ const defaultInitialValues = {
   address1: "",
   coin: "BTC",
   userID: "",
-  groupID: ""
+  groupID: "",
+  type: "non-custodial"
 };
 
 const validate = ({ percent, label, address1 }) => {
@@ -20,7 +22,7 @@ const validate = ({ percent, label, address1 }) => {
   const reqMsg = "This field is required";
   if (!percent) errors.percent = reqMsg;
   if (!label) errors.label = reqMsg;
-  if (!address1) errors.address1 = reqMsg;
+  // if (!address1) errors.address1 = reqMsg;
   if (!isNumeric(String(percent))) errors.percent = "Percent must be a number";
   if (Number(percent) < 0 || Number(percent) > 100)
     errors.percent = "Percent must be between 0 and 100";
@@ -29,13 +31,18 @@ const validate = ({ percent, label, address1 }) => {
   return errors;
 };
 
+const types = [
+  // format: [value, label]
+  ["non-custodial", "Personal Address"],
+  ["custodial", "Custodial Held by GPIB"]
+];
+
 const AddressForm = ({
   initialValues = {},
   onSubmit,
   submitText = "Submit",
   omit: _omit = [],
   disablePercent,
-  disableAddress,
   alert
 }) => {
   const iv = { ...defaultInitialValues, ...initialValues };
@@ -43,6 +50,13 @@ const AddressForm = ({
     map[item] = true;
     return map;
   }, {});
+
+  const [disabledAddressInput, setDisabledAddressInput] = useState(false);
+  const handleSelectionChange = (event) => {
+    const isAddingCustodialAddress = event.target.value === "custodial";
+    setDisabledAddressInput(isAddingCustodialAddress);
+  };
+
   return (
     <Formik
       initialValues={iv}
@@ -67,11 +81,18 @@ const AddressForm = ({
               placeholder="Give your address a personal label"
             />
           )}
+          {!omit.type && (
+            <Selector
+              name="type"
+              options={types}
+              onClick={handleSelectionChange}
+            />
+          )}
           {!omit.address1 && (
             <Input
               name="address1"
               label="BTC Address"
-              disabled={disableAddress}
+              disabled={disabledAddressInput}
             />
           )}
 

@@ -3,7 +3,8 @@ import { mutate } from "swr";
 import DepositHintsForm from "components/deposit-hints/DepositHintsForm";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
-import { Alert } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
+import Card from "components/Card";
 
 const AddPayroll = ({ userEnterprise }) => {
   const [message, setMessage] = useState();
@@ -13,6 +14,8 @@ const AddPayroll = ({ userEnterprise }) => {
   );
   const { user } = useContext(AuthContext);
   const enterprise = userEnterprise?.name;
+  const showSkip = false;
+
   const updatePayroll = async (v, actions) => {
     const parsedValues = {
       employerName: v.employerName,
@@ -40,17 +43,25 @@ const AddPayroll = ({ userEnterprise }) => {
   };
   return (
     <div>
-      <p>
-        <b>Add your payroll information</b>
-      </p>
-      {message && <Alert variant="success">{message}</Alert>}
-      <div>
-        <DepositHintsForm
-          onSubmit={updatePayroll}
-          initialValues={initialValues}
-          enterprise={enterprise}
-        />
-      </div>
+      <Card>
+        <Alert variant="info">
+          To make sure we can match your wages payments, please add the
+          following payroll information.
+        </Alert>
+        {message && <Alert variant="success">{message}</Alert>}
+        <div>
+          <DepositHintsForm
+            submitText="Continue"
+            onSubmit={updatePayroll}
+            initialValues={initialValues}
+            enterprise={enterprise}
+          />
+          <br />
+          <Button block hidden={!showSkip}>
+            or Skip KYC and Create a GPIB Custodial Address
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 };

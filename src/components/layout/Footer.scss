@@ -12,7 +12,7 @@ $link-color: rgba(white, 0.5);
   width: 100%;
   background-color: rgba($primary, 1);
   color: $text-color;
-  padding-top: 3rem;
+  padding-top: 2rem;
   
   a {
     color:$link-color;
@@ -21,16 +21,15 @@ $link-color: rgba(white, 0.5);
   .row {
     margin: 0;
   }
-
-
-  .copyright {
-    background-color: rgba($gray-800, 0.6);
-    padding: 1rem;
-    text-align: center;
-    color: $gray-500;
+  
+  @include media-breakpoint-down(md) {
+    font-size: 80%;
   }
+}
 
-  @include media-breakpoint-up(md) {
-    font-size: 90%;
-  }
+.copyright {
+  background-color: rgba($gray-500, 1);
+  padding: 0.5rem 0;
+  text-align: center;
+  color: black;
 }

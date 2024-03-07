@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 import gpib from "apis/gpib";
 import Modal from "components/Modal";
@@ -37,10 +37,11 @@ const DepositHintsModalForm = (props) => {
   const [message, setMessage] = useState();
   const initialValues = parseInitialValues(data);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
+      console.log(values);
       const parsedValues = parseSubmitValues(values);
       const url = `/user/${user.id}/deposithints`;
       await gpib.secure.put(url, parsedValues);
@@ -79,7 +80,7 @@ const DepositHintsModalForm = (props) => {
 
   const onDismiss = () => {
     const path = location.pathname.replace(/\/payroll\/edit/g, "");
-    history.push(path);
+    navigate(path);
   };
 
   return (

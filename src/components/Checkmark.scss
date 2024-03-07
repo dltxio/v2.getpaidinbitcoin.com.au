@@ -1,0 +1,28 @@
+@import "../constants/colors";
+@import "../constants/mixins";
+
+
+$checkmarkColor: white;
+$size: 100px;
+$checkmarkFat: $size/10;
+
+.checkmark {
+  .circle {
+    position: relative;
+    background: $green;
+    border-radius: 50%;
+    width: $size;
+    height: $size;
+    
+    .tick {
+      position: absolute;
+      transform: rotate(50deg) translate(-50%, -50%);
+      left: 24%;
+      top: 45%;
+      height: $size/1.75;
+      width: $size/3.5;
+      border-bottom: $checkmarkFat solid $checkmarkColor;
+      border-right: $checkmarkFat solid $checkmarkColor;
+    }
+  }
+}

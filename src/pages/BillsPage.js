@@ -17,6 +17,7 @@ import LabelledTable from "components/LabelledTable";
 import TransactionTable from "components/transactions/TransactionTable";
 import gpib from "apis/gpib";
 import QRCode from "qrcode.react";
+import "./BillsPage.scss";
 
 import "./Dashboard.scss";
 
@@ -24,6 +25,7 @@ import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import Modal from "components/Modal";
 import BillsHistoryTable from "components/bills/BillsHistoryTable";
+import Checkmark from "components/Checkmark";
 
 const validate = ({ billercode, reference, amount }) => {
   const errors = {};
@@ -66,9 +68,8 @@ const BillsPage = () => {
       console.log(response.data);
 
       if (response.data?.paid) {
-        // Close the modal and stop polling
         setPaid(true);
-        clearInterval(pollInterval);
+        clearInterval(pollInterval);    // Stop polling
       }
     }, 5000); // Adjust the interval as needed (e.g., every 5 seconds)
   };
@@ -195,12 +196,30 @@ const BillsPage = () => {
           <BillsHistoryTable data={bills} />
         </Card>
 
-        <Modal isOpen={showModal} onDismiss={onDismiss} heading={"Your payment address"} large={true}>
+        <Modal
+          isOpen={true}
+          onDismiss={onDismiss}
+          heading={"Your payment address"}
+          large
+        >
           {(onDismiss) => (
             <>
               <Loader loading={isLoading} diameter="2rem" />
-              <QRCode id="BillPaymentAddress" value={paymentAddress} />
-              <div>{billCopy}</div>
+              {!false ? (
+                <>
+                  <div className="bill-payment-address-container"> {/* container to reserve a fixed space and avoid components shift due to children size change */}
+                    <QRCode id="BillPaymentAddress" value={paymentAddress} />
+                  </div>
+                  <p>{billCopy}</p>
+                </>
+              ) : (
+                <>
+                  <div className="bill-payment-address-container">
+                    <Checkmark />
+                  </div>
+                  <p>Your bill has been paid</p>
+                </>
+              )}
             </>
           )}
         </Modal>

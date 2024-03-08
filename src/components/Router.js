@@ -36,7 +36,7 @@ const Router = () => {
         <Route path="/auth/resetpassword" element={<ResetPasswordPage />} />
         <Route path="/verify/email/:token" element={<VerifyEmailPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="*/register" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         {/* Route/s below need Authentication check -- authRedirectHandler() */}
         <Route path="/contactsupport" element={authRedirectHandler(<ContactSupportPage />)} />
         <Route path="/addresses" element={authRedirectHandler(<AddressesPage />)} />

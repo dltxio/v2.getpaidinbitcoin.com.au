@@ -26,6 +26,7 @@ import Input from "components/forms/Input";
 import Modal from "components/Modal";
 import BillsHistoryTable from "components/bills/BillsHistoryTable";
 import Checkmark from "components/Checkmark";
+import ToggleButton from "components/forms/ToggleButton";
 
 const validate = ({ billercode, reference, amount }) => {
   const errors = {};
@@ -45,8 +46,10 @@ const BillsPage = () => {
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [isPaid, setPaid] = useState(false);
-  const [paymentAddress, setPaymentAddress] = useState("bitcoin://");
+  const [isPaid, setIsPaid] = useState(false);
+  const [paymentAddress, setPaymentAddress] = useState(""); // make sure url start with "bitcoin://", can be misleading to put it first before having a full address from BE
+  const [payWithGpibCustodialWallet, setPayWithGpibCustodialWallet] =
+    useState(false);
 
   // const [bill, setBill] = useState();
 
@@ -68,8 +71,8 @@ const BillsPage = () => {
       console.log(response.data);
 
       if (response.data?.paid) {
-        setPaid(true);
-        clearInterval(pollInterval);    // Stop polling
+        setIsPaid(true);
+        clearInterval(pollInterval); // Stop polling
       }
     }, 5000); // Adjust the interval as needed (e.g., every 5 seconds)
   };
@@ -87,8 +90,9 @@ const BillsPage = () => {
   };
 
   const onSubmit = async (values, actions) => {
+    setShowModal(true);
+
     try {
-      setShowModal(true);
       // await login(values);
       // if (onLogin) onLogin(values);
 
@@ -104,6 +108,12 @@ const BillsPage = () => {
 
       pollBillStatus(response.data.id);
 
+      //wait here 2s
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // reset states
+      setShowModal(false);
+      setIsPaid(false);
       setLoading(false);
     } catch (e) {
       console.log(e);
@@ -148,7 +158,16 @@ const BillsPage = () => {
               <Input name="billercode" label="Biller Code" />
               <Input name="reference" label="Ref" />
               <Input name="fiat" label="AUD Amount" />
-
+              <div>
+                <ToggleButton
+                  name="payWithGpibCustodialWallet"
+                  label="Pay with GPIB custodial wallet (no active GPIB custodial wallet found)"
+                  // {/** TODO disabled if no custodial wallet, different color */}
+                  onClick={(e) => {
+                    setPayWithGpibCustodialWallet(e.target.checked);
+                  }}
+                />
+              </div>
               <SubmitButtonSpinner
                 isSubmitting={isLoading}
                 variant="primary"
@@ -196,18 +215,20 @@ const BillsPage = () => {
           <BillsHistoryTable data={bills} />
         </Card>
 
+        {/* Modal to pay from personal Wallet */}
         <Modal
-          isOpen={showModal}
+          isOpen={showModal && !payWithGpibCustodialWallet}
           onDismiss={onDismiss}
           heading={"Your payment address"}
-          small
         >
           {(onDismiss) => (
             <>
               <Loader loading={isLoading} diameter="2rem" />
               {!isPaid ? (
                 <>
-                  <div className="bill-payment-address-container"> {/* container to reserve a fixed space and avoid components shift due to children size change */}
+                  <div className="bill-payment-address-container">
+                    {" "}
+                    {/* container to reserve a fixed space and avoid components shift due to children size change */}
                     <QRCode id="BillPaymentAddress" value={paymentAddress} />
                   </div>
                   <p>{billCopy}</p>
@@ -215,6 +236,34 @@ const BillsPage = () => {
               ) : (
                 <>
                   <div className="bill-payment-address-container">
+                    <Checkmark />
+                  </div>
+                  <p>Your bill has been paid</p>
+                </>
+              )}
+            </>
+          )}
+        </Modal>
+
+        {/* Modal to pay from GPIB Custodial Wallet */}
+        <Modal
+          isOpen={showModal && payWithGpibCustodialWallet}
+          onDismiss={onDismiss}
+          heading={"Pay with your GPIB custodial Wallet"}
+        >
+          {(onDismiss) => (
+            <>
+              <Loader loading={isLoading} diameter="2rem" />
+              {!isPaid ? (
+                <>
+                  <div className="">
+                    <p>Your custodial wallet balance: XYZ BTC</p>
+                    <p>This bill: BTC</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="">
                     <Checkmark />
                   </div>
                   <p>Your bill has been paid</p>

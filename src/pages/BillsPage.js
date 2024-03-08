@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "components/auth/Auth";
 import useSWR from "swr";
 import { Alert } from "react-bootstrap";
 import { isNumeric } from "validator";
@@ -28,7 +29,19 @@ const validate = ({ billercode, reference, amount }) => {
 };
 
 const BillsPage = () => {
-  // const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
+  const userHasCustodialWallet = async () => {
+    const getAddressesUrl = `/user/${user.id}/address`;
+    const addresses = await gpib.secure.get(getAddressesUrl);
+    return addresses.data?.some((a) => a.isCustodial === true);
+  }
+
+  // execute and log the result of userhas
+  userHasCustodialWallet().then((result) => {
+    if (!result)
+      setCustodialAddressMessage("(no active GPIB custodial wallet found)")
+  })  
 
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -83,25 +96,25 @@ const BillsPage = () => {
       // await login(values);
       // if (onLogin) onLogin(values);
 
-      const url = `/bills/`;
-      const response = await gpib.secure.post(url, values);
-      console.log(response);
+      // const url = `/bills/`;
+      // const response = await gpib.secure.post(url, values);
+      // console.log(response);
+      // const amount = Number.parseFloat(response.data.btc).toFixed(8);
+      // setPaymentAddress(`${response.data.address}`);
+      // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
+      // // setBill(response.data);
+      // pollBillStatus(response.data.id);
 
-      const amount = Number.parseFloat(response.data.btc).toFixed(8);
-
-      setPaymentAddress(`${response.data.address}`);
-      setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
-      // setBill(response.data);
-
-      pollBillStatus(response.data.id);
-
-      // wait here 2s - For dev purpose only
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-
+      // This block is for dev purpose only
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setIsPaid(true);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      
       // reset states
       setShowModal(false);
-      setIsPaid(false);
       setLoading(false);
+      setIsPaid(false);
+      
     } catch (e) {
       console.log(e);
       actions.setSubmitting(false);
@@ -149,7 +162,7 @@ const BillsPage = () => {
                 <ToggleButton
                   name="payWithGpibCustodialWallet"
                   // TODO: check if user has custodial wallet, add an according message
-                  label="Pay with GPIB custodial wallet (no active GPIB custodial wallet found)"
+                  label={`Pay with GPIB custodial wallet ${custodialAddressMessage}`}
                   // {/** TODO disabled if no custodial wallet, different color */}
                   onClick={(e) => {
                     setPayWithGpibCustodialWallet(e.target.checked);

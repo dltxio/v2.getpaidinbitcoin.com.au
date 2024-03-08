@@ -1,26 +1,16 @@
-import React, { useContext, useState } from "react";
-import useSWR, { mutate } from "swr";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import useSWR from "swr";
 import { Alert } from "react-bootstrap";
-
-import { useHistory, useLocation } from "react-router-dom";
-import { isNumeric, isDecimal } from "validator";
+import { isNumeric } from "validator";
 import Layout from "components/layout/Layout";
-import ErrorMessage from "components/ErrorMessage";
 import Loader from "components/Loader";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
-import { AuthContext } from "components/auth/Auth";
 import Card from "components/Card";
-import Toggle from "components/forms/Toggle";
-import LabelledTable from "components/LabelledTable";
 import TransactionTable from "components/transactions/TransactionTable";
 import gpib from "apis/gpib";
 import QRCode from "qrcode.react";
 import "./BillsPage.scss";
-
 import "./Dashboard.scss";
-
 import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import Modal from "components/Modal";
@@ -39,9 +29,6 @@ const validate = ({ billercode, reference, amount }) => {
 
 const BillsPage = () => {
   // const { user } = useContext(AuthContext);
-
-  // const history = useHistory();
-  // const location = useLocation();
 
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -108,8 +95,8 @@ const BillsPage = () => {
 
       pollBillStatus(response.data.id);
 
-      //wait here 2s
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // wait here 2s - For dev purpose only
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // reset states
       setShowModal(false);
@@ -161,6 +148,7 @@ const BillsPage = () => {
               <div>
                 <ToggleButton
                   name="payWithGpibCustodialWallet"
+                  // TODO: check if user has custodial wallet, add an according message
                   label="Pay with GPIB custodial wallet (no active GPIB custodial wallet found)"
                   // {/** TODO disabled if no custodial wallet, different color */}
                   onClick={(e) => {

@@ -39,7 +39,7 @@ const Dashboard = () => {
   // so this is a temporary fix. Will get back after upgrade react-router-dom to v6
   if (isVerified === undefined)
     isVerified = user?.emailVerified && user?.idVerificationStatus === 3;
-  
+
   const csvRef = useRef();
   const { data: referralCredits, error: fetchReferralCreditsError } =
     useSWR("/referralcredits");
@@ -84,7 +84,7 @@ const Dashboard = () => {
   const { data: referrals, error: referralsError } = useSWR(
     user.id && `/user/${user.id}/referral`
   );
-  
+
   // Loading status
   const isFetchingDepositHints = !depositHints && !fetchDepositHintsError;
   const isFetchingStats = isVerified && !userStats && !fetchStatsError;
@@ -141,7 +141,7 @@ const Dashboard = () => {
 
   const onDismiss = () => {
     setShowKYC(false);
-  }
+  };
 
   useEffect(() => {
     setEmailVerified(userDetails?.emailVerified);

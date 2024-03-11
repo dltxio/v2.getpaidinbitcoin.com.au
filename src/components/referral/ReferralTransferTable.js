@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "components/Table";
+import TableWithHead from "components/Table";
 import prefixID from "../../utils/prefixID";
 import moment from "moment";
 
@@ -36,7 +36,7 @@ const tableOptions = {
 
 const ReferralTransferTable = ({ referralTransfers }) => {
   return (
-    <Table
+    <TableWithHead
       data={referralTransfers}
       columnConfig={columnConfig}
       options={tableOptions}

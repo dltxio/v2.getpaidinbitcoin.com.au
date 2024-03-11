@@ -24,7 +24,7 @@ const Modal = ({
   const [show, setShow] = useState("");
 
   useEffect(() => {
-    if (isOpen) {
+        if (isOpen) {
       body.classList.add("modal-open");
       transitionIn();
     } else {
@@ -51,10 +51,12 @@ const Modal = ({
     });
   };
 
-  // wait for transition effect before executing callback
   const onDismiss = async () => {
+    // wait for transition effect before executing callback
     await transitionOut();
-    props.onDismiss();
+    if (props.onDismiss) {
+      props.onDismiss();
+    }
   };
 
   const wrapCallback =

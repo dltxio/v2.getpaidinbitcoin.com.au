@@ -139,6 +139,10 @@ const Dashboard = () => {
     }
   };
 
+  const onDismiss = () => {
+    setShowKYC(false);
+  }
+
   useEffect(() => {
     setEmailVerified(userDetails?.emailVerified);
   }, [userDetails]);
@@ -332,7 +336,7 @@ const Dashboard = () => {
         </section>
         {/* </section> */}
       </div>
-      <Modal isOpen={isShowKYC} heading="Complete KYC">
+      <Modal isOpen={isShowKYC} heading="Complete KYC" onDismiss={onDismiss}>
         <VerifyID submitText="Verify my ID"></VerifyID>
       </Modal>
     </Layout>

@@ -195,7 +195,7 @@ const Dashboard = () => {
                   isFetchingArchivedAddresses
                 }
               />
-              <AddressPercentBar addresses={activeAddresses} className="my-5" />
+              <AddressPercentBar addresses={activeAddresses} className="my-4" />
               <h4>BTC Received</h4>
               <AddressTotals
                 active={activeAddresses}

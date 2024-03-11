@@ -74,27 +74,31 @@ const AddressesPage = () => {
     {
       icon: "create-outline",
       title: "Edit",
-      onClick: () => navigate(`/addresses/edit/${unGroupAddress[selectedRow].id}`),
+      onClick: () =>
+        navigate(`/addresses/edit/${unGroupAddress[selectedRow].id}`),
       disabled: selectedRow === null
     },
     {
       icon: "swap-horizontal-outline",
       title: "Swap",
-      onClick: () => navigate(`/addresses/swap/${unGroupAddress[selectedRow].id}`),
+      onClick: () =>
+        navigate(`/addresses/swap/${unGroupAddress[selectedRow].id}`),
       disabled: selectedRow === null,
       hide: user?.idVerificationStatus !== 3
     },
     {
       icon: "archive-outline",
       title: "Archive",
-      onClick: () => navigate(`/addresses/archive/${unGroupAddress[selectedRow].id}`),
+      onClick: () =>
+        navigate(`/addresses/archive/${unGroupAddress[selectedRow].id}`),
       disabled: selectedRow === null || unGroupAddress?.length === 1,
       hide: !hasMultipleAddresses
     },
     {
       icon: "wallet-outline",
       title: "Group Address",
-      onClick: () => navigate(`/addresses/group/${unGroupAddress[selectedRow].id}`),
+      onClick: () =>
+        navigate(`/addresses/group/${unGroupAddress[selectedRow].id}`),
       disabled: selectedRow === null || unGroupAddress.length === 1,
       hide: user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
     }
@@ -110,7 +114,8 @@ const AddressesPage = () => {
     {
       icon: "create-outline",
       title: "Edit",
-      onClick: () => navigate(`/addresses/groupEdit/${groupAddress[selectedGroup].groupID}`),
+      onClick: () =>
+        navigate(`/addresses/groupEdit/${groupAddress[selectedGroup].groupID}`),
       disabled: selectedGroup === null
     }
   ];
@@ -175,7 +180,7 @@ const AddressesPage = () => {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4>History</h4>
           </div>
-          <AddressHistoryTable logs={address_history} pagination/>
+          <AddressHistoryTable logs={address_history} pagination />
         </Card>
       </div>
     </Layout>

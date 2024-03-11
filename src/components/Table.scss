@@ -1,0 +1,21 @@
+
+
+.table-with-head {
+  .pagination {
+    display: flex;
+    align-items: center;
+  }
+  
+  select {
+    margin: 0 6px;
+    height: 38px;
+    border: 1px solid #ced4da; /* Bootstrap's border color */
+    border-radius: 0.25rem; /* Bootstrap's border radius */
+    color: #066edd;
+    background-color: #f8f9fa;
+  }
+
+  ul.pagination {
+    margin: auto 6px;
+  }
+}

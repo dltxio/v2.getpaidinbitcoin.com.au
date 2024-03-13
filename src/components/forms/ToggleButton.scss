@@ -54,7 +54,7 @@ $size: 1.8rem;
     content: "";
     height: 0.75 * $size;
     width: 0.75 * $size;
-    left: 0.2 * $size;
+    left: 0.15 * $size;
     bottom: 0.12 * $size;
     background-color: white;
     -webkit-transition: .15s;
@@ -72,7 +72,7 @@ $size: 1.8rem;
   input:checked + .slider:before {
     // -webkit-transform: translateX(0.85 * $size);
     // -ms-transform: translateX(0.85 * $size);
-    transform: translateX(0.85 * $size);
+    transform: translateX(0.95 * $size);
   }
   
   /* Rounded sliders */

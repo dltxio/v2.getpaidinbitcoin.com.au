@@ -46,9 +46,10 @@ const DepositHintsModalForm = (props) => {
       const url = `/user/${user.id}/deposithints`;
       await gpib.secure.put(url, parsedValues);
       if (userEnterprise?.name) {
-        await gpib.secure.get(
-          `/email/payinstructions/${user.id}?email=${userEnterprise.contactEmail}`
-        );
+        await gpib.secure.post("/email/payinstructions", {
+          UserID: user.id,
+          ToEmail: userEnterprise.contactEmail
+        });
         setMessage(
           "Your employer has been emailed your updated pay instructions. You will also be emailed a copy to keep as a personal record. "
         );
@@ -57,17 +58,19 @@ const DepositHintsModalForm = (props) => {
       if (values.sendInstructions.length > 0) {
         for (let instruction of values.sendInstructions) {
           if (instruction === "sendEmail")
-            await gpib.secure.get(
-              `/email/payinstructions/${user.id}?email=${user.email}`
-            );
+            await gpib.secure.post("/email/payinstructions", {
+              UserID: user.id,
+              ToEmail: user.email
+            });
           if (instruction === "sendSMS")
-            await gpib.secure.get(`/sms/payinstructions/${user.id}`);
+            await gpib.secure.post("/sms/payinstructions", { UserID: user.id });
         }
       }
       if (values.emailToAnotherAddress) {
-        await gpib.secure.get(
-          `/email/payinstructions/${user.id}?email=${values.emailToAnotherAddress}`
-        );
+        await gpib.secure.post("/email/payinstructions", {
+          UserID: user.id,
+          ToEmail: values.emailToAnotherAddress
+        });
       }
       mutate(url, (ac) => ({ ...ac, ...parsedValues }));
       modalActions.onDismiss();

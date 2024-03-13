@@ -142,7 +142,6 @@ const AddressesPage = () => {
           </Alert>
           <AddressTable
             addresses={unGroupAddress}
-            pagination={false}
             selectedRow={selectedRow}
             setSelectedRow={setSelectedRow}
           />
@@ -169,7 +168,6 @@ const AddressesPage = () => {
               </div>
               <AddressGroupTable
                 addresses={groupAddress}
-                pagination={false}
                 selectedRow={selectedGroup}
                 setSelectedRow={setSelectedGroup}
               />

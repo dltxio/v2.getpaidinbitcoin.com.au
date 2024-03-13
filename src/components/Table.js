@@ -26,8 +26,8 @@ const TableWithHead = ({
   columnConfig = {},
   hidden = [],
   pagination = false,
-  selectedRow,
-  setSelectedRow,
+  selectedRow = null,
+  setSelectedRow = null,
   ...props
 }) => {
   const handleRowClick = (index) => {
@@ -58,10 +58,7 @@ const TableWithHead = ({
           <tr
             key={item.id}
             onClick={() => handleRowClick(index)}
-            style={{
-              cursor: "pointer",
-              backgroundColor: index === selectedRow ? "lightblue" : "inherit"
-            }}
+            style={{ cursor: "pointer" }}
           >
             {setSelectedRow && (
               <td>

@@ -35,4 +35,5 @@ const ReferralTable = ({ referrals }) => {
     />
   );
 };
+
 export default ReferralTable;

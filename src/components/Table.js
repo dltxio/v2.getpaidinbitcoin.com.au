@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import "./Table.scss"
+import "./Table.scss";
 
 /**
  * Table with column headers
- * @param {data} array[object] data to display
- * @param {columnConfig} array[object] config for each column such as name, size, etc.
+ * @param {data} array data to display
+ * @param {columnConfig} object config for each column field such as children (display column name), hidden, dataFormat (a function to manipulate the data).
+ *   Example:
+ *   ```
+ *   columnConfig = {
+ *    "id": { children: "ID", hidden: true },
+ *    "name": { children: "Name" },
+ *    "date": { children: "Date", dataFormat: (cell) => moment(cell).format("DD-MM-YYYY") },
+ *   }
+ *   ```
  * @param {hidden} array specify columns to hide. Unused, todo: remove this or remove columnConfig
  * @param {pagination} boolean enable pagination
- * @param {selectedRow} useState_Value
+ * @param {selectedRow} useState_Value adding this will add a radio button column on the left.
  * @param {setSelectedRow} useState_SetFunction
  * @returns
  */
@@ -67,9 +75,13 @@ const TableWithHead = ({
             )}
             {Object.keys(columnConfig)
               .filter((dataField) => !columnConfig[dataField].hidden)
-              .map((dataField) => (
-                <td key={dataField}>{item[dataField]}</td>
-              ))}
+              .map((dataField) => {
+                // if there is a dataFormat function, use it to format the data
+                let cell = item[dataField];
+                if (columnConfig[dataField].dataFormat)
+                  cell = columnConfig[dataField].dataFormat(cell);
+                return <td key={dataField}>{cell}</td>;
+              })}
           </tr>
         ))}
 
@@ -88,17 +100,27 @@ const TableWithHead = ({
     );
   };
 
+  const columns = Object.keys(columnConfig)
+    .filter((dataField) => !columnConfig[dataField].hidden)
+    .map((dataField) => (
+      <th key={dataField}>{columnConfig[dataField].children}</th>
+    ));
+
+  const nextPage = () => {
+    if (currentPage < maxPage) setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div className="table-with-head">
       <Table className="table-hover" {...props}>
         <thead>
           <tr>
-            {setSelectedRow && <th></th>}
-            {Object.keys(columnConfig)
-              .filter((dataField) => !columnConfig[dataField].hidden)
-              .map((dataField) => (
-                <th key={dataField}>{columnConfig[dataField].children}</th>
-              ))}
+            {setSelectedRow && <th></th> /* Radio button column */}
+            {columns}
           </tr>
         </thead>
         <tbody>{renderTableRows()}</tbody>
@@ -117,15 +139,12 @@ const TableWithHead = ({
           <span> rows per page</span>
           <span>
             <Pagination>
-              <Pagination.Prev
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage <= 1}
-              >
+              <Pagination.Prev onClick={prevPage} disabled={currentPage <= 1}>
                 Previous
               </Pagination.Prev>
               <Pagination.Item>{currentPage}</Pagination.Item>
               <Pagination.Next
-                onClick={() => setCurrentPage(currentPage + 1)}
+                onClick={nextPage}
                 disabled={currentPage >= maxPage}
               >
                 &emsp;Next&emsp;

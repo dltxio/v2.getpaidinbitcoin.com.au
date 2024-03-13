@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "components/auth/Auth";
 import useSWR from "swr";
 import { Alert } from "react-bootstrap";
@@ -30,24 +30,45 @@ const validate = ({ billercode, reference, amount }) => {
 
 const BillsPage = () => {
   const { user } = useContext(AuthContext);
+  const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
   const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
-  const userHasCustodialWallet = async () => {
+
+  const getUserAddresses = async () => {
     const getAddressesUrl = `/user/${user.id}/address`;
     const addresses = await gpib.secure.get(getAddressesUrl);
-    return addresses.data?.some((a) => a.isCustodial === true);
-  }
+    return addresses.data || [];
+  };
+  const getUserAddressBalances = async () => {
+    const getBalancesUrl = `/user/${user.id}/address/totals`;
+    const balances = await gpib.secure.get(getBalancesUrl);
+    return balances.data;
+  };
 
-  // execute and log the result of userhas
-  userHasCustodialWallet().then((result) => {
-    if (!result)
-      setCustodialAddressMessage("(no active GPIB custodial wallet found)")
-  })  
+  const getCustodialAddress = async (userAddresses) => {
+    const result = userAddresses.filter((a) => a.isCustodial === true);
+    if (result.length > 0) return result[0].address1;
+    else return null;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const addresses = await getUserAddresses();
+      const custodialAddress = await getCustodialAddress(addresses);
+      console.log("custodialAddress", custodialAddress);
+      if (!custodialAddress) return;
+      const btcBalances = await getUserAddressBalances();
+      console.log("btcBalances", btcBalances);
+      if (!btcBalances) return;
+      setCustodialBtcBalance(btcBalances[custodialAddress]);
+    };
+    fetchData();
+  }, []);
 
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
-  const [paymentAddress, setPaymentAddress] = useState(""); // make sure url start with "bitcoin://", can be misleading to put it first before having a full address from BE
+  const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithGpibCustodialWallet, setPayWithGpibCustodialWallet] =
     useState(false);
 
@@ -93,9 +114,10 @@ const BillsPage = () => {
     setShowModal(true);
 
     try {
-      // await login(values);
-      // if (onLogin) onLogin(values);
+      ////// await login(values);
+      ////// if (onLogin) onLogin(values);
 
+      ////// uncomment this block to enable testing with test API&DB
       // const url = `/bills/`;
       // const response = await gpib.secure.post(url, values);
       // console.log(response);
@@ -109,12 +131,11 @@ const BillsPage = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setIsPaid(true);
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      
+
       // reset states
       setShowModal(false);
       setLoading(false);
       setIsPaid(false);
-      
     } catch (e) {
       console.log(e);
       actions.setSubmitting(false);

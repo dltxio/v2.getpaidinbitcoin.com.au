@@ -126,7 +126,11 @@ const TableWithHead = ({
       {pagination && (
         <div className="pagination">
           <span>Show </span>
-          <select value={itemsPerPage} onChange={handlePageSizeChange}>
+          <select
+            value={itemsPerPage}
+            onChange={handlePageSizeChange}
+            style={{ cursor: "pointer" }}
+          >
             {paginationSizeOptions.map((size) => (
               <option key={size} value={size}>
                 {size}

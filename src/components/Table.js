@@ -114,7 +114,7 @@ const TableWithHead = ({
               </option>
             ))}
           </select>
-          <span> per page</span>
+          <span> rows per page</span>
           <span>
             <Pagination>
               <Pagination.Prev

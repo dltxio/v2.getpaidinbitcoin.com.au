@@ -33,7 +33,7 @@ const VerifyEmailPage = () => {
         });
 
         setVerifying(false);
-        navigate("/");
+        navigate("/", { replace: true }); // "replace: true" forces Dashboard to get the new state of emailVerified
       } catch (e) {
         setError(e);
         setVerifying(false);

@@ -1,25 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "components/auth/Auth";
-import useSWR from "swr";
+import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric } from "validator";
+import QRCode from "qrcode.react";
+import useSWR from "swr";
+
 import Layout from "components/layout/Layout";
-import Loader from "components/Loader";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import Card from "components/Card";
 import TransactionTable from "components/transactions/TransactionTable";
 import gpib from "apis/gpib";
-import QRCode from "qrcode.react";
-import "./BillsPage.scss";
-import "./Dashboard.scss";
-import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import Modal from "components/Modal";
 import BillsHistoryTable from "components/bills/BillsHistoryTable";
-import Checkmark from "components/Checkmark";
 import ToggleButton from "components/forms/ToggleButton";
-
+import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
 import PayWithCustodialWalletModal from "components/bills/PayWithCustodialWalletModal";
+import "./BillsPage.scss";
+import "./Dashboard.scss";
 
 const validate = ({ billercode, reference, amount }) => {
   const errors = {};
@@ -148,8 +147,8 @@ const BillsPage = () => {
     setUserHasSentBtc(true);
 
     try {
-      ////// A button "I have sent the payment", click will activate the polling below
-      // pollBillStatus(response.data.id);
+      // if showModal && !payWithGpibCustodialWallet
+      //   pollBillStatus(response.data.id); 
 
       // handle bill status coming back
 
@@ -195,12 +194,6 @@ const BillsPage = () => {
     amount: 0
   };
 
-  const BillPaidCheckMark = () => (
-    <div className="content">
-      <Checkmark />
-      <p>Your bill has been paid.</p>
-    </div>
-  );
 
   return (
     <Layout activeTab="bills">

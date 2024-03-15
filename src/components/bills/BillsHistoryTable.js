@@ -9,7 +9,6 @@ const columnConfig = {
   },
   billerCode: {
     children: "Biller Code"
-    // width: "18%"
   },
   fiat: {
     children: "Amount (AUD)"

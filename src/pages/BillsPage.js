@@ -19,6 +19,8 @@ import BillsHistoryTable from "components/bills/BillsHistoryTable";
 import Checkmark from "components/Checkmark";
 import ToggleButton from "components/forms/ToggleButton";
 
+import PayWithCustodialWalletModal from "components/bills/PayWithCustodialWalletModal";
+
 const validate = ({ billercode, reference, amount }) => {
   const errors = {};
   const reqMsg = "This field is required";
@@ -64,7 +66,7 @@ const BillsPage = () => {
     else return null;
   };
 
-  const FAKE_BTC_BILL = 0.00088;
+  const FAKE_BTC_BILL = 0.0008888;
   useEffect(() => {
     const fetchData = async () => {
       const addresses = await getUserAddresses();
@@ -105,9 +107,10 @@ const BillsPage = () => {
   const handlePay = async () => {
     setIsProcessingPay(true);
 
+    // call api and process payment
     await new Promise((resolve) => setTimeout(resolve, 800));
-    setIsPaid(true);
 
+    setIsPaid(true);
     await handlePaymentComplete();
   };
 
@@ -287,7 +290,6 @@ const BillsPage = () => {
               {!isPaid ? (
                 <>
                   <div className="content">
-                    {" "}
                     {/* container to reserve a fixed space and avoid components shift due to children size change */}
                     <QRCode id="BillPaymentAddress" value={paymentAddress} />
                   </div>
@@ -306,34 +308,14 @@ const BillsPage = () => {
         </Modal>
 
         {/* Modal to pay from GPIB Custodial Wallet */}
-        <Modal
+        <PayWithCustodialWalletModal
           isOpen={showModal && payWithGpibCustodialWallet}
-          onDismiss={onDismiss}
-          heading="Pay with your GPIB custodial Wallet"
-          className="bills"
-        >
-          {({ onDismiss }) => (
-            <>
-              {!isPaid ? (
-                <>
-                  <div className="content">
-                    <p>
-                      Your custodial wallet balance: {custodialBtcBalance} BTC
-                    </p>
-                    <p>This bill: {FAKE_BTC_BILL} BTC</p>
-                  </div>
-                  <SubmitButtonSpinner
-                    submitText="Pay now"
-                    onClick={handlePay}
-                    isSubmitting={isProcessingPay}
-                  />
-                </>
-              ) : (
-                <BillPaidCheckMark />
-              )}
-            </>
-          )}
-        </Modal>
+          isPaid={isPaid}
+          custodialBtcBalance={custodialBtcBalance}
+          billBtcAmount={FAKE_BTC_BILL}
+          onSubmit={handlePay}
+          isSubmitting={isProcessingPay}
+        />
       </div>
     </Layout>
   );

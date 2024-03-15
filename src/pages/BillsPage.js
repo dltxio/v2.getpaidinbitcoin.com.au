@@ -34,20 +34,26 @@ const BillsPage = () => {
   const { user } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [useIsPaying, setUserIsPaying] = useState(false);
+  // form 
+  const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithGpibCustodialWallet, setPayWithGpibCustodialWallet] =
     useState(false);
-  const [isProcessingPay, setIsProcessingPay] = useState(false);
-  // const [bill, setBill] = useState();
-  const [billCopy, setBillCopy] = useState(
-    "Fetching your unique payment address... (NOT IMPLEMENTED)"
-  );
-  const [userHasSentBtc, setUserHasSentBtc] = useState(false);
+    // const [bill, setBill] = useState();
+    const [billCopy, setBillCopy] = useState(
+      "Fetching your unique payment address... (NOT IMPLEMENTED)"
+      );
+      const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
+      // personal wallet
+      const [buttonText, setButtonText] = useState("I have sent Bitcoin");
+      const [userHasSentBtc, setUserHasSentBtc] = useState(false);
+      
+      // custodial wallet
+      const [isProcessingPay, setIsProcessingPay] = useState(false);
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
-  const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
-  const [buttonText, setButtonText] = useState("I have sent Bitcoin");
+
 
   const getUserAddresses = async () => {
     const getAddressesUrl = `/user/${user.id}/address`;
@@ -66,7 +72,6 @@ const BillsPage = () => {
     else return null;
   };
 
-  const FAKE_BTC_BILL = 0.0008888;
   useEffect(() => {
     const fetchData = async () => {
       const addresses = await getUserAddresses();
@@ -94,7 +99,7 @@ const BillsPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setShowModal(false);
     await new Promise((resolve) => setTimeout(resolve, 200)); // wait for modal to close
-    setIsLoading(false);
+    setUserIsPaying(false);
     setIsPaid(false);
 
     // personal wallet
@@ -143,18 +148,6 @@ const BillsPage = () => {
     setUserHasSentBtc(true);
 
     try {
-      //   ////// await login(values);
-      //   ////// if (onLogin) onLogin(values);
-
-      ////// uncomment this block to enable testing with test API&DB
-      // const url = `/bills/`;
-      // const response = await gpib.secure.post(url, values);
-      // console.log(response);
-      // const amount = Number.parseFloat(response.data.btc).toFixed(8);
-      // setPaymentAddress(`${response.data.address}`);
-      // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
-      // // setBill(response.data);
-
       ////// A button "I have sent the payment", click will activate the polling below
       // pollBillStatus(response.data.id);
 
@@ -172,11 +165,24 @@ const BillsPage = () => {
 
   const onSubmit = async (values, formActions) => {
     setShowModal(true);
-    setIsLoading(true);
-
-    // console.log(e);
-    // formActions.setErrors({ hidden: e });
-    // formActions.setSubmitting(false);
+    setUserIsPaying(true);
+    try {
+      //   ////// await login(values);
+      //   ////// if (onLogin) onLogin(values);
+      ////// uncomment this block to enable testing with test API&DB
+      // const url = `/bills/`;
+      // const response = await gpib.secure.post(url, values);
+      // console.log(response);
+      // const amount = Number.parseFloat(response.data.btc).toFixed(8);
+      // setBillBtcAmount(amount);
+      // setPaymentAddress(`${response.data.address}`);
+      // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
+      // // setBill(response.data);
+    } catch (e) {
+      console.log(e);
+      formActions.setErrors({ hidden: e });
+      formActions.setSubmitting(false);
+    }
   };
 
   // const uploadPDF = async (e) => {
@@ -234,7 +240,7 @@ const BillsPage = () => {
                 />
               </div>
               <SubmitButtonSpinner
-                isSubmitting={isLoading}
+                isSubmitting={useIsPaying}
                 className="mt-3"
                 submitText="Pay now with Bitcoin"
               />
@@ -312,7 +318,7 @@ const BillsPage = () => {
           isOpen={showModal && payWithGpibCustodialWallet}
           isPaid={isPaid}
           custodialBtcBalance={custodialBtcBalance}
-          billBtcAmount={FAKE_BTC_BILL}
+          billBtcAmount={billBtcAmount}
           onSubmit={handlePay}
           isSubmitting={isProcessingPay}
         />

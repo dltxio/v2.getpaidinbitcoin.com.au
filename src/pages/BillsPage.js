@@ -40,10 +40,12 @@ const BillsPage = () => {
   const [isProcessingPay, setIsProcessingPay] = useState(false);
   // const [bill, setBill] = useState();
   const [billCopy, setBillCopy] = useState(
-    "Fetching your unique payment address ..."
+    "Fetching your unique payment address... (NOT IMPLEMENTED)"
   );
+  const [userHasSentBtc, setUserHasSentBtc] = useState(false);
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
   const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
+  const [buttonText, setButtonText] = useState("I have sent Bitcoin");
 
   const getUserAddresses = async () => {
     const getAddressesUrl = `/user/${user.id}/address`;
@@ -85,13 +87,19 @@ const BillsPage = () => {
   //   const { data: billx, error: fetchBillsErrorx } = useSWR(`/bills${bill.id}`);
   // }
 
-  const transitionOut = async () => {
+  const handlePaymentComplete = async () => {
     // reset states
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setShowModal(false);
     await new Promise((resolve) => setTimeout(resolve, 200)); // wait for modal to close
     setIsLoading(false);
     setIsPaid(false);
+
+    // personal wallet
+    setButtonText("I have sent the payment");
+    setUserHasSentBtc(false);
+    // custodial wallet
+    setIsProcessingPay(false);
   };
 
   const handlePay = async () => {
@@ -100,7 +108,7 @@ const BillsPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 800));
     setIsPaid(true);
 
-    await transitionOut();
+    await handlePaymentComplete();
   };
 
   const pollBillStatus = (id) => {
@@ -124,45 +132,51 @@ const BillsPage = () => {
   // };
 
   const onDismiss = () => {
-    // TODO DELETE OR CANCEL BILL
+    // TODO DELETE OR CANCEL BILL from DB
     clearInterval(0);
   };
 
-  const onSubmit = async (values, actions) => {
-    setShowModal(true);
-    setIsLoading(true);
+  const handleUserSentBtc = async () => {
+    setUserHasSentBtc(true);
 
     try {
       //   ////// await login(values);
       //   ////// if (onLogin) onLogin(values);
 
-      //   ////// uncomment this block to enable testing with test API&DB
-      //   // const url = `/bills/`;
-      //   // const response = await gpib.secure.post(url, values);
-      //   // console.log(response);
-      //   // const amount = Number.parseFloat(response.data.btc).toFixed(8);
-      //   // setPaymentAddress(`${response.data.address}`);
-      //   // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
-      //   // // setBill(response.data);
+      ////// uncomment this block to enable testing with test API&DB
+      // const url = `/bills/`;
+      // const response = await gpib.secure.post(url, values);
+      // console.log(response);
+      // const amount = Number.parseFloat(response.data.btc).toFixed(8);
+      // setPaymentAddress(`${response.data.address}`);
+      // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
+      // // setBill(response.data);
 
-      //   ////// A button "I have sent the payment", click will activate the polling below
-      //   // pollBillStatus(response.data.id);
+      ////// A button "I have sent the payment", click will activate the polling below
+      // pollBillStatus(response.data.id);
 
-      //   // handle bill status coming back
+      // handle bill status coming back
 
-      // This block is for dev purpose only
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setButtonText("Checking BTC on-chain");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setIsPaid(true);
-      await transitionOut();
+      await handlePaymentComplete();
     } catch (e) {
       console.log(e);
-      actions.setSubmitting(false);
     }
   };
 
-  // const uploadPDF = async (e) => {
+  const onSubmit = async (values, formActions) => {
+    setShowModal(true);
+    setIsLoading(true);
 
+    // console.log(e);
+    // formActions.setErrors({ hidden: e });
+    // formActions.setSubmitting(false);
+  };
+
+  // const uploadPDF = async (e) => {
   // };
 
   const initialValues = {
@@ -275,11 +289,14 @@ const BillsPage = () => {
                   <div className="content">
                     {" "}
                     {/* container to reserve a fixed space and avoid components shift due to children size change */}
-                    <QRCode id="BillPaymentAddress" value={paymentAddress}>
-                      <Loader loading={isLoading} diameter="2rem" />
-                    </QRCode>
+                    <QRCode id="BillPaymentAddress" value={paymentAddress} />
                   </div>
                   <p>{billCopy}</p>
+                  <SubmitButtonSpinner
+                    submitText={buttonText}
+                    onClick={handleUserSentBtc}
+                    isSubmitting={userHasSentBtc && !isPaid}
+                  />
                 </>
               ) : (
                 <BillPaidCheckMark />

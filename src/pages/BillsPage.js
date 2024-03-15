@@ -34,25 +34,23 @@ const BillsPage = () => {
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [useIsPaying, setUserIsPaying] = useState(false);
-  // form 
+  // form
   const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithGpibCustodialWallet, setPayWithGpibCustodialWallet] =
     useState(false);
-    // const [bill, setBill] = useState();
-    const [billCopy, setBillCopy] = useState(
-      "Fetching your unique payment address... (NOT IMPLEMENTED)"
-      );
-      const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
-      // personal wallet
-      const [buttonText, setButtonText] = useState("I have sent Bitcoin");
-      const [userHasSentBtc, setUserHasSentBtc] = useState(false);
-      
-      // custodial wallet
-      const [isProcessingPay, setIsProcessingPay] = useState(false);
+  const [bill, setBill] = useState();
+  const [billCopy, setBillCopy] = useState(
+    "Fetching your unique payment address... (NOT IMPLEMENTED)"
+  );
+  const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
+  // personal wallet
+  const [buttonText, setButtonText] = useState("I have sent Bitcoin");
+  const [userHasSentBtc, setUserHasSentBtc] = useState(false);
+  // custodial wallet
+  const [isProcessingPay, setIsProcessingPay] = useState(false);
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
-
 
   const getUserAddresses = async () => {
     const getAddressesUrl = `/user/${user.id}/address`;
@@ -126,9 +124,9 @@ const BillsPage = () => {
 
       if (response.data?.paid) {
         setIsPaid(true);
-        clearInterval(pollInterval); // Stop polling
+        clearInterval(pollInterval);
       }
-    }, 5000); // Adjust the interval as needed (e.g., every 5 seconds)
+    }, 5000); // Adjust the interval as needed
   };
 
   // const onPayNowClick = (e) => {
@@ -139,7 +137,7 @@ const BillsPage = () => {
   // };
 
   const onDismiss = () => {
-    // TODO DELETE OR CANCEL BILL from DB
+    // TODO DELETE OR CANCEL BILL via API
     clearInterval(0);
   };
 
@@ -148,7 +146,7 @@ const BillsPage = () => {
 
     try {
       // if showModal && !payWithGpibCustodialWallet
-      //   pollBillStatus(response.data.id); 
+      //   pollBillStatus(response.data.id);
 
       // handle bill status coming back
 
@@ -193,7 +191,6 @@ const BillsPage = () => {
     ref: "",
     amount: 0
   };
-
 
   return (
     <Layout activeTab="bills">

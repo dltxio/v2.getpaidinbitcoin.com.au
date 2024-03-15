@@ -30,6 +30,18 @@ const validate = ({ billercode, reference, amount }) => {
 
 const BillsPage = () => {
   const { user } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPaid, setIsPaid] = useState(false);
+  const [paymentAddress, setPaymentAddress] = useState("");
+  const [payWithGpibCustodialWallet, setPayWithGpibCustodialWallet] =
+    useState(false);
+  const [isProcessingPay, setIsProcessingPay] = useState(false);
+  // const [bill, setBill] = useState();
+  const [billCopy, setBillCopy] = useState(
+    "Fetching your unique payment address ..."
+  );
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
   const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
 
@@ -50,33 +62,21 @@ const BillsPage = () => {
     else return null;
   };
 
+  const FAKE_BTC_BILL = 0.00088;
   useEffect(() => {
     const fetchData = async () => {
       const addresses = await getUserAddresses();
       const custodialAddress = await getCustodialAddress(addresses);
-      console.log("custodialAddress", custodialAddress);
-      if (!custodialAddress) return;
       const btcBalances = await getUserAddressBalances();
-      console.log("btcBalances", btcBalances);
-      if (!btcBalances) return;
+      if (!custodialAddress || !btcBalances) {
+        setCustodialAddressMessage("No active custodial wallet found.");
+        return;
+      }
+
       setCustodialBtcBalance(btcBalances[custodialAddress]);
     };
     fetchData();
   }, []);
-
-  const [errorMessage, setErrorMessage] = useState();
-  const [showModal, setShowModal] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [isPaid, setIsPaid] = useState(false);
-  const [paymentAddress, setPaymentAddress] = useState("");
-  const [payWithGpibCustodialWallet, setPayWithGpibCustodialWallet] =
-    useState(false);
-
-  // const [bill, setBill] = useState();
-
-  const [billCopy, setBillCopy] = useState(
-    "Fetching your unique payment address ..."
-  );
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
@@ -84,6 +84,24 @@ const BillsPage = () => {
   //   // TODO: check if bill is paid
   //   const { data: billx, error: fetchBillsErrorx } = useSWR(`/bills${bill.id}`);
   // }
+
+  const transitionOut = async () => {
+    // reset states
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setShowModal(false);
+    await new Promise((resolve) => setTimeout(resolve, 200)); // wait for modal to close
+    setIsLoading(false);
+    setIsPaid(false);
+  };
+
+  const handlePay = async () => {
+    setIsProcessingPay(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    setIsPaid(true);
+
+    await transitionOut();
+  };
 
   const pollBillStatus = (id) => {
     const pollInterval = setInterval(async () => {
@@ -112,30 +130,31 @@ const BillsPage = () => {
 
   const onSubmit = async (values, actions) => {
     setShowModal(true);
+    setIsLoading(true);
 
     try {
-      ////// await login(values);
-      ////// if (onLogin) onLogin(values);
+      //   ////// await login(values);
+      //   ////// if (onLogin) onLogin(values);
 
-      ////// uncomment this block to enable testing with test API&DB
-      // const url = `/bills/`;
-      // const response = await gpib.secure.post(url, values);
-      // console.log(response);
-      // const amount = Number.parseFloat(response.data.btc).toFixed(8);
-      // setPaymentAddress(`${response.data.address}`);
-      // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
-      // // setBill(response.data);
-      // pollBillStatus(response.data.id);
+      //   ////// uncomment this block to enable testing with test API&DB
+      //   // const url = `/bills/`;
+      //   // const response = await gpib.secure.post(url, values);
+      //   // console.log(response);
+      //   // const amount = Number.parseFloat(response.data.btc).toFixed(8);
+      //   // setPaymentAddress(`${response.data.address}`);
+      //   // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
+      //   // // setBill(response.data);
+
+      //   ////// A button "I have sent the payment", click will activate the polling below
+      //   // pollBillStatus(response.data.id);
+
+      //   // handle bill status coming back
 
       // This block is for dev purpose only
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      setIsPaid(true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // reset states
-      setShowModal(false);
-      setLoading(false);
-      setIsPaid(false);
+      setIsPaid(true);
+      await transitionOut();
     } catch (e) {
       console.log(e);
       actions.setSubmitting(false);
@@ -153,9 +172,16 @@ const BillsPage = () => {
     amount: 0
   };
 
+  const BillPaidCheckMark = () => (
+    <div className="content">
+      <Checkmark />
+      <p>Your bill has been paid.</p>
+    </div>
+  );
+
   return (
     <Layout activeTab="bills">
-      <div className="container py-5">
+      <div className="bills container py-5">
         <Card>
           <div className="d-flex justify-content-between">
             <h4>Pay a Bill Instantly</h4>
@@ -192,9 +218,7 @@ const BillsPage = () => {
               </div>
               <SubmitButtonSpinner
                 isSubmitting={isLoading}
-                variant="primary"
                 className="mt-3"
-                type="submit"
                 submitText="Pay now with Bitcoin"
               />
             </Form>
@@ -241,27 +265,24 @@ const BillsPage = () => {
         <Modal
           isOpen={showModal && !payWithGpibCustodialWallet}
           onDismiss={onDismiss}
-          heading={"Your payment address"}
+          heading="Your payment address"
+          className="bills"
         >
           {(onDismiss) => (
             <>
-              <Loader loading={isLoading} diameter="2rem" />
               {!isPaid ? (
                 <>
-                  <div className="bill-payment-address-container">
+                  <div className="content">
                     {" "}
                     {/* container to reserve a fixed space and avoid components shift due to children size change */}
-                    <QRCode id="BillPaymentAddress" value={paymentAddress} />
+                    <QRCode id="BillPaymentAddress" value={paymentAddress}>
+                      <Loader loading={isLoading} diameter="2rem" />
+                    </QRCode>
                   </div>
                   <p>{billCopy}</p>
                 </>
               ) : (
-                <>
-                  <div className="bill-payment-address-container">
-                    <Checkmark />
-                  </div>
-                  <p>Your bill has been paid</p>
-                </>
+                <BillPaidCheckMark />
               )}
             </>
           )}
@@ -271,25 +292,27 @@ const BillsPage = () => {
         <Modal
           isOpen={showModal && payWithGpibCustodialWallet}
           onDismiss={onDismiss}
-          heading={"Pay with your GPIB custodial Wallet"}
+          heading="Pay with your GPIB custodial Wallet"
+          className="bills"
         >
-          {(onDismiss) => (
+          {({ onDismiss }) => (
             <>
-              <Loader loading={isLoading} diameter="2rem" />
               {!isPaid ? (
                 <>
-                  <div className="">
-                    <p>Your custodial wallet balance: XYZ BTC</p>
-                    <p>This bill: BTC</p>
+                  <div className="content">
+                    <p>
+                      Your custodial wallet balance: {custodialBtcBalance} BTC
+                    </p>
+                    <p>This bill: {FAKE_BTC_BILL} BTC</p>
                   </div>
+                  <SubmitButtonSpinner
+                    submitText="Pay now"
+                    onClick={handlePay}
+                    isSubmitting={isProcessingPay}
+                  />
                 </>
               ) : (
-                <>
-                  <div className="">
-                    <Checkmark />
-                  </div>
-                  <p>Your bill has been paid</p>
-                </>
+                <BillPaidCheckMark />
               )}
             </>
           )}

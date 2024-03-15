@@ -1,17 +1,23 @@
 @import "../constants/colors";
 @import "../constants/mixins";
 
-.bill-payment-address-container {
-  display: flex;
-  height: 200px;
-  min-width: 200px;
-  align-items: center;
+.bills.modal {
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 300px;
     
-  #BillPaymentAddress {
-    margin: auto
-  }
+    &.custodial-wallet {
+      margin: auto;
+    }
 
-  .checkmark {
-    margin: auto
+    .content {
+      margin: auto;
+
+      p {
+        margin: 1rem auto;
+      }
+    }
   }
 }

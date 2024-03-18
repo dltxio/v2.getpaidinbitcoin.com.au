@@ -18,12 +18,12 @@ import PayWithPersonalWalletModal from "components/bills/PayWithPersonalWalletMo
 import "./BillsPage.scss";
 import "./Dashboard.scss";
 
-const validate = ({ billercode, reference, amount }) => {
+const validate = ({ billercode, reference, fiat }) => {
   const errors = {};
   const reqMsg = "This field is required";
   if (!billercode) errors.billercode = reqMsg;
   if (!reference) errors.ref = reqMsg;
-  if (!isNumeric(String(amount))) errors.amount = "Amount must be a number";
+  if (!isNumeric(String(fiat))) errors.fiat = "Amount must be a number";
   return errors;
 };
 
@@ -31,23 +31,21 @@ const BillsPage = () => {
   const { user } = useContext(AuthContext);
   // form
   const [showModal, setShowModal] = useState(false);
-  const [useIsPaying, setUserIsPaying] = useState(false);
   const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithGpibCustodialWallet, setPayWithGpibCustodialWallet] =
     useState(false);
-  const [bill, setBill] = useState();
-  const [billCopy, setBillCopy] = useState(
+  const [billInstructions, setBillInstructions] = useState(
     "Fetching your unique payment address... (NOT IMPLEMENTED)"
   );
   const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
   const [errorMessage, setErrorMessage] = useState();
   // personal wallet
   const [buttonText, setButtonText] = useState("I have sent Bitcoin");
-  const [userHasSentBtc, setUserHasSentBtc] = useState(false);
+  const [userClickedSentBtc, setUserClickedSentBtc] = useState(false);
   // custodial wallet
-  const [isProcessingPay, setIsProcessingPay] = useState(false);
+  const [isProcessingCustodialPay, setIsProcessingCustodialPay] = useState(false);
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
 
   const getUserAddresses = async () => {
@@ -60,7 +58,6 @@ const BillsPage = () => {
     const balances = await gpib.secure.get(getBalancesUrl);
     return balances.data;
   };
-
   const getCustodialAddress = async (userAddresses) => {
     const result = userAddresses.filter((a) => a.isCustodial === true);
     if (result.length > 0) return result[0].address1;
@@ -80,7 +77,7 @@ const BillsPage = () => {
       setCustodialBtcBalance(btcBalances[custodialAddress]);
     };
     fetchData();
-  }, []);
+  });
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
@@ -89,42 +86,44 @@ const BillsPage = () => {
   //   const { data: billx, error: fetchBillsErrorx } = useSWR(`/bills${bill.id}`);
   // }
 
-  const handlePaymentComplete = async () => {
+  const handlePaymentComplete = async (isPaid=true) => {
+    if (isPaid) {
+      setIsPaid(true);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    }
+
     // reset states
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     setShowModal(false);
     await new Promise((resolve) => setTimeout(resolve, 200)); // wait for modal to close
-    setUserIsPaying(false);
     setIsPaid(false);
 
     // personal wallet
     setButtonText("I have sent the payment");
-    setUserHasSentBtc(false);
+    setUserClickedSentBtc(false);
     // custodial wallet
-    setIsProcessingPay(false);
+    setIsProcessingCustodialPay(false);
   };
 
-  const handlePay = async () => {
-    setIsProcessingPay(true);
+  const handleCustodialPay = async () => {
+    setIsProcessingCustodialPay(true);
 
     // call api and process payment
     await new Promise((resolve) => setTimeout(resolve, 800));
-
-    setIsPaid(true);
+    
     await handlePaymentComplete();
   };
 
   const pollBillStatus = (id) => {
     const pollInterval = setInterval(async () => {
-      const response = await gpib.secure.get(`/bills/${id}`);
+      // const response = await gpib.secure.get(`/bills/${id}`);
+      // console.log(response.data);
 
-      console.log(response.data);
-
-      if (response.data?.paid) {
-        setIsPaid(true);
+      // if (response.data?.paid) {
+      if (true) {
         clearInterval(pollInterval);
+        await handlePaymentComplete();
       }
-    }, 5000); // Adjust the interval as needed
+    }, 2000); // Adjust the interval as needed
   };
 
   // const onPayNowClick = (e) => {
@@ -134,49 +133,44 @@ const BillsPage = () => {
   //   // };
   // };
 
-  const onDismiss = () => {
+  const onDismiss = async () => {
+    await handlePaymentComplete(false);
+
     // TODO DELETE OR CANCEL BILL via API
-    clearInterval(0);
+    // clearInterval(0);
   };
 
-  const handleUserSentBtc = async () => {
-    setUserHasSentBtc(true);
-
-    try {
-      // if showModal && !payWithGpibCustodialWallet
-      //   pollBillStatus(response.data.id);
-
-      // handle bill status coming back
-
-      setButtonText("Checking BTC on-chain");
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setIsPaid(true);
-      await handlePaymentComplete();
-    } catch (e) {
-      console.log(e);
-    }
+  const handleUserSentBtc = () => {
+    setUserClickedSentBtc(true);
   };
 
-  const onSubmit = async (values, formActions) => {
+  const onSubmit = async (values, actions) => {
     setShowModal(true);
-    setUserIsPaying(true);
     try {
+      
       //   ////// await login(values);
       //   ////// if (onLogin) onLogin(values);
-      ////// uncomment this block to enable testing with test API&DB
-      // const url = `/bills/`;
+
+      ////// uncomment this block to enable testing with API
+      // const url = `/bills`;
       // const response = await gpib.secure.post(url, values);
       // console.log(response);
+
       // const amount = Number.parseFloat(response.data.btc).toFixed(8);
       // setBillBtcAmount(amount);
-      // setPaymentAddress(`${response.data.address}`);
-      // setBillCopy(`Please send ${amount} BTC to ${response.data?.address}`);
-      // // setBill(response.data);
+      // if (showModal && !payWithGpibCustodialWallet) {
+      //   setPaymentAddress(`${response.data.address}`);
+      //   setBillInstructions(`Please send ${amount} BTC to ${response.data?.address}`);
+      //   pollBillStatus(response.data.id);
+      // }
+
+      ////// Mock pollBillStatus
+      pollBillStatus(9999);
     } catch (e) {
       console.log(e);
-      formActions.setErrors({ hidden: e });
-      formActions.setSubmitting(false);
+      await handlePaymentComplete(false);
+      actions.setErrors({ hidden: e });
+      actions.setSubmitting(false);
     }
   };
 
@@ -185,9 +179,9 @@ const BillsPage = () => {
 
   const initialValues = {
     label: "",
-    biller: "",
-    ref: "",
-    amount: 0
+    billercode: "",
+    reference: "",
+    fiat: 0
   };
 
   return (
@@ -228,7 +222,7 @@ const BillsPage = () => {
                 />
               </div>
               <SubmitButtonSpinner
-                isSubmitting={useIsPaying}
+                isSubmitting={showModal}
                 className="mt-3"
                 submitText="Pay now with Bitcoin"
               />
@@ -277,10 +271,10 @@ const BillsPage = () => {
           isPaid={isPaid}
           onDismiss={onDismiss}
           paymentAddress={paymentAddress}
-          billCopy={billCopy}
+          billInstructions={billInstructions}
           buttonText={buttonText}
-          handleUserSentBtc={handleUserSentBtc}
-          userHasSentBtc={userHasSentBtc}
+          onSubmit={handleUserSentBtc}
+          isSubmitting={userClickedSentBtc && !isPaid}
         />
 
         <PayWithCustodialWalletModal
@@ -289,8 +283,8 @@ const BillsPage = () => {
           onDismiss={onDismiss}
           custodialBtcBalance={custodialBtcBalance}
           billBtcAmount={billBtcAmount}
-          onSubmit={handlePay}
-          isSubmitting={isProcessingPay}
+          onSubmit={handleCustodialPay}
+          isSubmitting={isProcessingCustodialPay}
         />
       </div>
     </Layout>

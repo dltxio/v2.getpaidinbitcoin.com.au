@@ -37,6 +37,7 @@ $size: 1.8rem;
     width: 0;
     height: 0;
   }
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -60,18 +61,19 @@ $size: 1.8rem;
     -webkit-transition: .15s;
     transition: .15s;
   }
+
+  input:disabled + .slider {
+    background-color: $gray-300;
+    cursor: not-allowed;
+  }
   
   input:checked + .slider {
     background-color: $primary;
   }
   
-  input:focus + .slider {
-    box-shadow: 0 0 0px $primary;
-  }
-  
   input:checked + .slider:before {
-    // -webkit-transform: translateX(0.85 * $size);
-    // -ms-transform: translateX(0.85 * $size);
+    -webkit-transform: translateX(0.95 * $size);
+    -ms-transform: translateX(0.95 * $size);
     transform: translateX(0.95 * $size);
   }
   

@@ -70,14 +70,14 @@ const BillsPage = () => {
       const custodialAddress = await getCustodialAddress(addresses);
       const btcBalances = await getUserAddressBalances();
       if (!custodialAddress || !btcBalances) {
-        setCustodialAddressMessage("No active custodial wallet found.");
+        setCustodialAddressMessage("(No active custodial wallet found)");
         return;
       }
 
       setCustodialBtcBalance(btcBalances[custodialAddress]);
     };
     fetchData();
-  });
+  }, []);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
@@ -219,6 +219,7 @@ const BillsPage = () => {
                   onClick={(e) => {
                     setPayWithGpibCustodialWallet(e.target.checked);
                   }}
+                  disabled={custodialBtcBalance === null}
                 />
               </div>
               <SubmitButtonSpinner

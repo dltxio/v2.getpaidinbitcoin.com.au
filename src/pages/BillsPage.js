@@ -133,15 +133,8 @@ const BillsPage = () => {
   //   // };
   // };
 
-  const onDismiss = () => {
-    setShowModal(false);
-    setIsPaid(false);
-
-    // personal wallet
-    setButtonText("I have sent the payment");
-    setUserClickedSentBtc(false);
-    // custodial wallet
-    setIsProcessingCustodialPay(false);
+  const onDismiss = async () => {
+    await handlePaymentComplete(false);
 
     // TODO DELETE OR CANCEL BILL via API
     // clearInterval(0);
@@ -170,7 +163,7 @@ const BillsPage = () => {
       //   setBillInstructions(`Please send ${amount} BTC to ${response.data?.address}`);
       //   pollBillStatus(response.data.id);
       // }
-      
+
       ////// Mock pollBillStatus
       pollBillStatus(9999);
     } catch (e) {

@@ -3,7 +3,6 @@ import { AuthContext } from "components/auth/Auth";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
 import { isNumeric } from "validator";
-import QRCode from "qrcode.react";
 import useSWR from "swr";
 
 import Layout from "components/layout/Layout";
@@ -12,11 +11,10 @@ import Card from "components/Card";
 import TransactionTable from "components/transactions/TransactionTable";
 import gpib from "apis/gpib";
 import Input from "components/forms/Input";
-import Modal from "components/Modal";
 import BillsHistoryTable from "components/bills/BillsHistoryTable";
 import ToggleButton from "components/forms/ToggleButton";
-import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
 import PayWithCustodialWalletModal from "components/bills/PayWithCustodialWalletModal";
+import PayWithPersonalWalletModal from "components/bills/PayWithPersonalWalletModal";
 import "./BillsPage.scss";
 import "./Dashboard.scss";
 
@@ -31,10 +29,9 @@ const validate = ({ billercode, reference, amount }) => {
 
 const BillsPage = () => {
   const { user } = useContext(AuthContext);
-  const [errorMessage, setErrorMessage] = useState();
+  // form
   const [showModal, setShowModal] = useState(false);
   const [useIsPaying, setUserIsPaying] = useState(false);
-  // form
   const [custodialAddressMessage, setCustodialAddressMessage] = useState("");
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
@@ -45,6 +42,7 @@ const BillsPage = () => {
     "Fetching your unique payment address... (NOT IMPLEMENTED)"
   );
   const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
+  const [errorMessage, setErrorMessage] = useState();
   // personal wallet
   const [buttonText, setButtonText] = useState("I have sent Bitcoin");
   const [userHasSentBtc, setUserHasSentBtc] = useState(false);
@@ -274,39 +272,21 @@ const BillsPage = () => {
           <BillsHistoryTable data={bills} />
         </Card>
 
-        {/* Modal to pay from personal Wallet */}
-        <Modal
+        <PayWithPersonalWalletModal
           isOpen={showModal && !payWithGpibCustodialWallet}
+          isPaid={isPaid}
           onDismiss={onDismiss}
-          heading="Your payment address"
-          className="bills"
-        >
-          {(onDismiss) => (
-            <>
-              {!isPaid ? (
-                <>
-                  <div className="content">
-                    {/* container to reserve a fixed space and avoid components shift due to children size change */}
-                    <QRCode id="BillPaymentAddress" value={paymentAddress} />
-                  </div>
-                  <p>{billCopy}</p>
-                  <SubmitButtonSpinner
-                    submitText={buttonText}
-                    onClick={handleUserSentBtc}
-                    isSubmitting={userHasSentBtc && !isPaid}
-                  />
-                </>
-              ) : (
-                <BillPaidCheckMark />
-              )}
-            </>
-          )}
-        </Modal>
+          paymentAddress={paymentAddress}
+          billCopy={billCopy}
+          buttonText={buttonText}
+          handleUserSentBtc={handleUserSentBtc}
+          userHasSentBtc={userHasSentBtc}
+        />
 
-        {/* Modal to pay from GPIB Custodial Wallet */}
         <PayWithCustodialWalletModal
           isOpen={showModal && payWithGpibCustodialWallet}
           isPaid={isPaid}
+          onDismiss={onDismiss}
           custodialBtcBalance={custodialBtcBalance}
           billBtcAmount={billBtcAmount}
           onSubmit={handlePay}

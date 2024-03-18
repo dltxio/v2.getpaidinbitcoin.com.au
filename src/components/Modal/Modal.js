@@ -25,7 +25,7 @@ const Modal = ({
   const [show, setShow] = useState("");
 
   useEffect(() => {
-        if (isOpen) {
+    if (isOpen) {
       body.classList.add("modal-open");
       transitionIn();
     } else {

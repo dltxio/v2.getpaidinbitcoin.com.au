@@ -2,33 +2,35 @@ import React from "react";
 import Modal from "components/Modal";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
+import QRCode from "qrcode.react";
 
-const PayWithCustodialWalletModal = ({
+const PayWithPersonalWalletModal = ({
   isOpen,
   isPaid,
   onDismiss,
-  custodialBtcBalance,
-  billBtcAmount,
-  onSubmit,
-  isSubmitting
+  paymentAddress,
+  billCopy,
+  buttonText,
+  handleUserSentBtc,
+  userHasSentBtc
 }) => {
   return (
     <Modal
       isOpen={isOpen}
-      heading="Pay with your GPIB custodial Wallet"
+      onDismiss={onDismiss}
+      heading="Your payment address"
       className="bills"
-      ondismiss={onDismiss}
     >
       {!isPaid ? (
         <>
           <div className="content">
-            <p>Your custodial wallet balance: {custodialBtcBalance} BTC</p>
-            <p>This bill: {billBtcAmount} BTC</p>
+            <QRCode id="BillPaymentAddress" value={paymentAddress} />
           </div>
+          <p>{billCopy}</p>
           <SubmitButtonSpinner
-            submitText="Pay now"
-            onClick={onSubmit}
-            isSubmitting={isSubmitting}
+            submitText={buttonText}
+            onClick={handleUserSentBtc}
+            isSubmitting={userHasSentBtc && !isPaid}
           />
         </>
       ) : (
@@ -38,4 +40,4 @@ const PayWithCustodialWalletModal = ({
   );
 };
 
-export default PayWithCustodialWalletModal;
+export default PayWithPersonalWalletModal;

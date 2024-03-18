@@ -14,7 +14,7 @@ const PayWithCustodialWalletModal = ({
   isSubmitting
 }) => {
 
-  const enoughBalance = custodialBtcBalance >= billBtcAmount;
+  const enoughBalance = custodialBtcBalance > billBtcAmount;
 
   return (
     <Modal

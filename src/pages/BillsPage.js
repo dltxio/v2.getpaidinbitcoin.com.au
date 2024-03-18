@@ -45,8 +45,11 @@ const BillsPage = () => {
   const [buttonText, setButtonText] = useState("I have sent Bitcoin");
   const [userClickedSentBtc, setUserClickedSentBtc] = useState(false);
   // custodial wallet
-  const [isProcessingCustodialPay, setIsProcessingCustodialPay] = useState(false);
+  const [isProcessingCustodialPay, setIsProcessingCustodialPay] =
+    useState(false);
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
+
+  const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
   const getUserAddresses = async () => {
     const getAddressesUrl = `/user/${user.id}/address`;
@@ -79,14 +82,7 @@ const BillsPage = () => {
     fetchData();
   }, []);
 
-  const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
-
-  // if (bill) {
-  //   // TODO: check if bill is paid
-  //   const { data: billx, error: fetchBillsErrorx } = useSWR(`/bills${bill.id}`);
-  // }
-
-  const handlePaymentComplete = async (isPaid=true) => {
+  const handlePaymentComplete = async (isPaid = true) => {
     if (isPaid) {
       setIsPaid(true);
       await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -109,12 +105,13 @@ const BillsPage = () => {
 
     // call api and process payment
     await new Promise((resolve) => setTimeout(resolve, 800));
-    
+
     await handlePaymentComplete();
   };
 
   const pollBillStatus = (id) => {
     const pollInterval = setInterval(async () => {
+      // mock Polling at the moment as the API is having an error
       // const response = await gpib.secure.get(`/bills/${id}`);
       // console.log(response.data);
 
@@ -126,18 +123,9 @@ const BillsPage = () => {
     }, 2000); // Adjust the interval as needed
   };
 
-  // const onPayNowClick = (e) => {
-  //   // call api and get invoice id
-  //   const url = `/bills/`;
-  //   // gpib.secure.post(url, {
-  //   // };
-  // };
-
   const onDismiss = async () => {
     await handlePaymentComplete(false);
-
     // TODO DELETE OR CANCEL BILL via API
-    // clearInterval(0);
   };
 
   const handleUserSentBtc = () => {
@@ -147,10 +135,6 @@ const BillsPage = () => {
   const onSubmit = async (values, actions) => {
     setShowModal(true);
     try {
-      
-      //   ////// await login(values);
-      //   ////// if (onLogin) onLogin(values);
-
       ////// uncomment this block to enable testing with API
       // const url = `/bills`;
       // const response = await gpib.secure.post(url, values);
@@ -163,8 +147,8 @@ const BillsPage = () => {
       //   setBillInstructions(`Please send ${amount} BTC to ${response.data?.address}`);
       //   pollBillStatus(response.data.id);
       // }
-
-      ////// Mock pollBillStatus
+      
+      // Mock pollBillStatus
       pollBillStatus(9999);
     } catch (e) {
       console.log(e);
@@ -173,9 +157,6 @@ const BillsPage = () => {
       actions.setSubmitting(false);
     }
   };
-
-  // const uploadPDF = async (e) => {
-  // };
 
   const initialValues = {
     label: "",
@@ -229,41 +210,10 @@ const BillsPage = () => {
               />
             </Form>
           </Formik>
-          {/* <ErrorMessage error={fetchDetailsError} /> */}
-
-          {/* <Button
-            variant="primary"
-            className="mt-3"
-            onClick={onPayNowClick}
-          >
-            Pay from your GPIB wallet
-          </Button>
-          <Button
-            variant="primary"
-            className="mt-3"
-            // onClick={onUpdatePasswordClick}
-          >
-            Add to bill schedule
-          </Button>
-          <Button
-            variant="primary"
-            className="mt-3"
-            // onClick={onUpdatePasswordClick}
-          >
-            Upload a PDF
-          </Button> */}
-        </Card>
-        <Card>
-          <div className="d-flex justify-content-between">
-            <h4>Scheduled</h4>
-          </div>
-          {/* <ErrorMessage error={fetchDepositHintsError | errorMessage} /> */}
-          <TransactionTable />
         </Card>
 
         <Card>
           <h4 className="mb-3">Payment History</h4>
-          {/* <ErrorMessage error={fetchSettingsError} /> */}
           <BillsHistoryTable data={bills} />
         </Card>
 

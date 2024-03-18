@@ -9,10 +9,10 @@ const PayWithPersonalWalletModal = ({
   isPaid,
   onDismiss,
   paymentAddress,
-  billCopy,
+  billInstructions,
   buttonText,
-  handleUserSentBtc,
-  userHasSentBtc
+  onSubmit,
+  isSubmitting
 }) => {
   return (
     <Modal
@@ -26,11 +26,11 @@ const PayWithPersonalWalletModal = ({
           <div className="content">
             <QRCode id="BillPaymentAddress" value={paymentAddress} />
           </div>
-          <p>{billCopy}</p>
+          <p>{billInstructions}</p>
           <SubmitButtonSpinner
             submitText={buttonText}
-            onClick={handleUserSentBtc}
-            isSubmitting={userHasSentBtc && !isPaid}
+            onClick={onSubmit}
+            isSubmitting={isSubmitting}
           />
         </>
       ) : (

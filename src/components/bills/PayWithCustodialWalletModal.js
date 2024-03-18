@@ -15,9 +15,9 @@ const PayWithCustodialWalletModal = ({
   return (
     <Modal
       isOpen={isOpen}
+      onDismiss={onDismiss}
       heading="Pay with your GPIB custodial Wallet"
       className="bills"
-      ondismiss={onDismiss}
     >
       {!isPaid ? (
         <>

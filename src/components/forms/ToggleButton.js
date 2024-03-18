@@ -15,7 +15,6 @@ const ToggleButton = ({ label, ...props }) => {
 
   const additionalClassName = " " + props.className;
 
-  {/*<div className="toggle-button">*/}
   return (
     <>
       {label && <div className="toggle-button"><label>{label}</label></div>} 
@@ -26,6 +25,5 @@ const ToggleButton = ({ label, ...props }) => {
     </>
   );
 };
-{/* // </div> */}
 
 export default ToggleButton;

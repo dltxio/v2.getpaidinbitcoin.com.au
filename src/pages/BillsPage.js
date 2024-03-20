@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "components/auth/Auth";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
@@ -15,6 +15,7 @@ import BillsHistoryTable from "components/bills/BillsHistoryTable";
 import ToggleButton from "components/forms/ToggleButton";
 import PayWithCustodialWalletModal from "components/bills/PayWithCustodialWalletModal";
 import PayWithPersonalWalletModal from "components/bills/PayWithPersonalWalletModal";
+import ErrorMessage from "components/ErrorMessage";
 import "./BillsPage.scss";
 import "./Dashboard.scss";
 
@@ -42,6 +43,8 @@ const BillsPage = () => {
   const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
   const [errorMessage, setErrorMessage] = useState();
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
+
+  const [pollingBillId, setPollingBillId] = useState(null);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
@@ -76,44 +79,56 @@ const BillsPage = () => {
     fetchData();
   }, []);
 
-  const handlePaymentComplete = async (isPaid = true) => {
-    if (isPaid) {
-      setIsPaid(true);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    }
-
-    // reset states
-    setShowModal(false);
-    await new Promise((resolve) => setTimeout(resolve, 200)); // wait for modal to close
-    setIsPaid(false);
-  };
+  useEffect(() => {
+    console.log("showModal", showModal);
+    console.log("isPaid", isPaid);
+  }, [isPaid]);
 
   const handleCustodialPay = async () => {
-    // call api and process payment
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
-    await handlePaymentComplete();
+    try {
+      // call api and process payment
+      // throw new Error("Test error");
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      setIsPaid(true);
+    } catch (e) {
+      console.log(e);
+      setErrorMessage(e.message);
+      onDismiss();
+    }
   };
 
-  const pollBillStatus = (id) => {
-    const pollInterval = setInterval(async () => {
-      // mock Polling at the moment as the API is having an error
-      // const response = await gpib.secure.get(`/bills/${id}`);
-      // console.log(response.data);
+  const pollingBillIdRef = useRef(pollingBillId);
 
-      // if (response.data?.paid) {
-      if (true) {
-        clearInterval(pollInterval);
-        await handlePaymentComplete();
+  useEffect(() => {
+    const pollBillStatus = async () => {
+      pollingBillIdRef.current = pollingBillId;
+
+      while (pollingBillIdRef.current) {
+        console.log("pollingBillId...", pollingBillIdRef.current);
+        // mock Polling at the moment as the API is having an error
+        // const response = await gpib.secure.get(`/bills/${id}`);
+        // console.log(response.data);
+
+        // console.log('polling...')
+        // if (response.data?.paid) {
+        pollingBillIdRef.current = pollingBillIdRef.current + 1;
+        if (pollingBillIdRef.current === 10002) {
+          setIsPaid(true);
+          setPollingBillId(null);
+          pollingBillIdRef.current = null;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       }
-    }, 2000); // Adjust the interval as needed
-  };
+    };
+
+    pollBillStatus();
+  }, [pollingBillId]);
 
   const onDismiss = async () => {
-    await handlePaymentComplete(false);
-    // TODO DELETE OR CANCEL BILL via API
+    setPollingBillId(null);
+    setShowModal(false);
+    setIsPaid(false);
   };
-
 
   const onSubmit = async (values, actions) => {
     setShowModal(true);
@@ -132,10 +147,10 @@ const BillsPage = () => {
       // }
 
       // Mock pollBillStatus
-      pollBillStatus(9999);
+      setPollingBillId(9999);
     } catch (e) {
       console.log(e);
-      await handlePaymentComplete(false);
+      onDismiss();
       actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
     }
@@ -177,9 +192,7 @@ const BillsPage = () => {
               <div>
                 <ToggleButton
                   name="payWithGpibCustodialWallet"
-                  // TODO: check if user has custodial wallet, add an according message
                   label={`Pay with GPIB custodial wallet ${custodialAddressMessage}`}
-                  // {/** TODO disabled if no custodial wallet, different color */}
                   onClick={(e) => {
                     setPayWithGpibCustodialWallet(e.target.checked);
                   }}
@@ -191,6 +204,7 @@ const BillsPage = () => {
                 className="mt-3"
                 submitText="Pay now with Bitcoin"
               />
+              {/* <ErrorMessage error={errorMessage} isHidden={!errorMessage} /> */}
             </Form>
           </Formik>
         </Card>

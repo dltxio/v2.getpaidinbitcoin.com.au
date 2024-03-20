@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "components/Modal";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
@@ -10,16 +10,25 @@ const PayWithCustodialWalletModal = ({
   onDismiss,
   custodialBtcBalance,
   billBtcAmount,
-  onSubmit,
-  isSubmitting
+  onSubmit
 }) => {
-
+  const [isProcessing, setIsProcessing] = useState(false);
   const enoughBalance = custodialBtcBalance > billBtcAmount;
+
+  const onSubmitWrapper = async () => {
+    setIsProcessing(true);
+    if (onSubmit) await onSubmit();
+  }
+
+  const onDismissWrapper = async () => {
+    if (onDismiss) await onDismiss();
+    setIsProcessing(false);
+  }
 
   return (
     <Modal
       isOpen={isOpen}
-      onDismiss={onDismiss}
+      onDismiss={onDismissWrapper}
       heading="Pay with your GPIB custodial Wallet"
       className="bills"
     >
@@ -32,8 +41,8 @@ const PayWithCustodialWalletModal = ({
           </div>
           <SubmitButtonSpinner
             submitText="Pay now"
-            onClick={onSubmit}
-            isSubmitting={isSubmitting}
+            onClick={onSubmitWrapper}
+            isSubmitting={isProcessing}
             disabled={!enoughBalance}
           />
         </>

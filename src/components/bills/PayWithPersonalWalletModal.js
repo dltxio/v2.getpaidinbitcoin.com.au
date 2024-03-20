@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "components/Modal";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
@@ -10,14 +10,27 @@ const PayWithPersonalWalletModal = ({
   onDismiss,
   paymentAddress,
   billInstructions,
-  buttonText,
-  onSubmit,
-  isSubmitting
+  onSubmit
 }) => {
+  const [submitText, setSubmitText] = useState("I have sent Bitcoin");
+  const [userClickedSentBtc, setUserClickedSentBtc] = useState(false);
+
+  const onDismissWrapper = async () => {
+    if (onDismiss) await onDismiss();
+    setSubmitText("I have sent Bitcoin");
+    setUserClickedSentBtc(false);
+  }
+
+  const onSubmitWrapper = async () => {
+    setSubmitText("Confirming your transaction...");
+    setUserClickedSentBtc(true);
+    if (onSubmit) await onSubmit();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      onDismiss={onDismiss}
+      onDismiss={onDismissWrapper}
       heading="Your payment address"
       className="bills"
     >
@@ -28,9 +41,9 @@ const PayWithPersonalWalletModal = ({
           </div>
           <p>{billInstructions}</p>
           <SubmitButtonSpinner
-            submitText={buttonText}
-            onClick={onSubmit}
-            isSubmitting={isSubmitting}
+            submitText={submitText}
+            onClick={onSubmitWrapper}
+            isSubmitting={userClickedSentBtc && !isPaid}
           />
         </>
       ) : (

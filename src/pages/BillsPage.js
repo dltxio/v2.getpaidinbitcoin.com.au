@@ -41,12 +41,6 @@ const BillsPage = () => {
   );
   const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
   const [errorMessage, setErrorMessage] = useState();
-  // personal wallet
-  const [buttonText, setButtonText] = useState("I have sent Bitcoin");
-  const [userClickedSentBtc, setUserClickedSentBtc] = useState(false);
-  // custodial wallet
-  const [isProcessingCustodialPay, setIsProcessingCustodialPay] =
-    useState(false);
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
@@ -92,17 +86,9 @@ const BillsPage = () => {
     setShowModal(false);
     await new Promise((resolve) => setTimeout(resolve, 200)); // wait for modal to close
     setIsPaid(false);
-
-    // personal wallet
-    setButtonText("I have sent the payment");
-    setUserClickedSentBtc(false);
-    // custodial wallet
-    setIsProcessingCustodialPay(false);
   };
 
   const handleCustodialPay = async () => {
-    setIsProcessingCustodialPay(true);
-
     // call api and process payment
     await new Promise((resolve) => setTimeout(resolve, 800));
 
@@ -128,9 +114,6 @@ const BillsPage = () => {
     // TODO DELETE OR CANCEL BILL via API
   };
 
-  const handleUserSentBtc = () => {
-    setUserClickedSentBtc(true);
-  };
 
   const onSubmit = async (values, actions) => {
     setShowModal(true);
@@ -147,7 +130,7 @@ const BillsPage = () => {
       //   setBillInstructions(`Please send ${amount} BTC to ${response.data?.address}`);
       //   pollBillStatus(response.data.id);
       // }
-      
+
       // Mock pollBillStatus
       pollBillStatus(9999);
     } catch (e) {
@@ -220,12 +203,9 @@ const BillsPage = () => {
         <PayWithPersonalWalletModal
           isOpen={showModal && !payWithGpibCustodialWallet}
           isPaid={isPaid}
-          onDismiss={onDismiss}
           paymentAddress={paymentAddress}
           billInstructions={billInstructions}
-          buttonText={buttonText}
-          onSubmit={handleUserSentBtc}
-          isSubmitting={userClickedSentBtc && !isPaid}
+          onDismiss={onDismiss}
         />
 
         <PayWithCustodialWalletModal
@@ -235,7 +215,6 @@ const BillsPage = () => {
           custodialBtcBalance={custodialBtcBalance}
           billBtcAmount={billBtcAmount}
           onSubmit={handleCustodialPay}
-          isSubmitting={isProcessingCustodialPay}
         />
       </div>
     </Layout>

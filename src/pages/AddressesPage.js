@@ -18,7 +18,6 @@ const AddressesPage = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const getAddressesUrl = `/user/${user.id}/address`;
-  // const [selectedRow, , selectRowConfig] = useSelectedRow(null);
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);

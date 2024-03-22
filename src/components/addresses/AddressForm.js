@@ -32,7 +32,7 @@ const validate = ({ percent, label, address1 }) => {
 };
 
 const types = [
-  // format: [value, label]
+  // define in this format: [value, label]
   ["non-custodial", "Personal Address"],
   ["custodial", "Custodial Held by GPIB"]
 ];

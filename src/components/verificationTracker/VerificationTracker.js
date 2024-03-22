@@ -1,11 +1,8 @@
 import React, { useEffect, useContext } from "react";
 import Card from "../Card";
 import VerifyEmail from "./VerifyEmail";
-// import AddPayroll from "./AddPayroll";
-// import VerifyID from "./VerifyID";
 import { AuthContext } from "components/auth/Auth";
 import "./VerificationTracker.scss";
-// import AddAddress from "./AddAddress";
 
 const VerificationTracker = ({
   userDetails,
@@ -33,24 +30,6 @@ const VerificationTracker = ({
       isCompleted: userDetails?.emailVerified,
       panel: <VerifyEmail userDetails={userDetails} />
     }
-    // {
-    //   label: "Add Payroll Information",
-    //   icon: "cash-outline",
-    //   isCompleted: depositHints?.depositAmount !== undefined,
-    //   panel: <AddPayroll userEnterprise={userEnterprise} />
-    // },
-    // {
-    //   label: "Add BTC Address",
-    //   icon: "logo-bitcoin",
-    //   isCompleted: userAddress && userAddress.length > 0,
-    //   panel: <AddAddress userEnterprise={userEnterprise} />
-    // },
-    // {
-    //   label: "Verify ID",
-    //   icon: "newspaper-outline",
-    //   panel: <VerifyID />,
-    //   isCompleted: userDetails?.idVerificationstatus === 3
-    // }
   ];
 
   const activeStepIndex = steps.map((v) => v.isCompleted).indexOf(false);
@@ -81,7 +60,6 @@ const VerificationTracker = ({
     );
   };
 
-  // if (isVerified || !hasVerified || !activeStep) return null;
   if (isVerified || !activeStep) return null;
 
   return (

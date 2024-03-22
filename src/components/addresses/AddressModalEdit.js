@@ -25,8 +25,8 @@ const AddressModalEdit = () => {
   } = useSWR(getUrl, {
     revalidateOnFocus: false
   });
+  
   const hasMultipleAddresses = addresses && addresses.length > 1;
-
   const initialValues = addresses && addresses.find((a) => String(a.id) === id);
 
   const parseSubmitValues = (values) => {

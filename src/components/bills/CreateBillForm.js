@@ -51,7 +51,7 @@ const CreateBillForm = ({
         <Input name="fiat" label="AUD Amount" />
         <div>
           <ToggleButton
-            name="payWithGpibCustodialWallet"
+            name="payWithCustodialWallet"
             label={`Pay with GPIB custodial wallet ${custodialAddressNotFoundMessage}`}
             onClick={(e) => setPayWithCustodialWallet(e.target.checked)}
             disabled={!hasCustodialAddress}

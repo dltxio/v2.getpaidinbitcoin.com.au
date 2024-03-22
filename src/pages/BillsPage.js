@@ -20,8 +20,7 @@ const BillsPage = () => {
   const [hasCustodialAddress, setHasCustodialAddress] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
-  const [payWithCustodialWallet, setPayWithCustodialWallet] =
-    useState(false);
+  const [payWithCustodialWallet, setPayWithCustodialWallet] = useState(false);
   const [billInstructions, setBillInstructions] = useState(
     "Fetching your unique payment address... (NOT IMPLEMENTED)"
   );
@@ -56,7 +55,7 @@ const BillsPage = () => {
       if (!custodialAddress || !btcBalances) {
         return;
       }
-      
+
       setHasCustodialAddress(true);
       setCustodialBtcBalance(btcBalances[custodialAddress]);
     };

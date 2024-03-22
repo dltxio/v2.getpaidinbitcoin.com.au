@@ -29,13 +29,12 @@ const AddressModalEdit = () => {
 
   const initialValues = addresses && addresses.find((a) => String(a.id) === id);
 
-  const parseSubmitValues = (v) => {
-    const values = {
+  const parseSubmitValues = (values) => {
+    return {
       userID: user?.id,
-      percent: Number(v.percent),
-      label: v.label
+      percent: Number(values.percent),
+      label: values.label
     };
-    return values;
   };
 
   const onSubmit = async (values, formActions, modalActions) => {
@@ -75,8 +74,8 @@ const AddressModalEdit = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText={submitText}
-              disablePercent={!hasMultipleAddresses}
-              omit={["address1"]}
+              disableList={{percent: !hasMultipleAddresses, isCustodial: true}}
+              omitList={["address1"]}
             />
           )}
         </>

@@ -34,15 +34,14 @@ const AddressModalAdd = () => {
   };
 
   // TODO: REVIEW OLD ADDRESS PARAMS.  MAYBE BE ABLE TO REMOVE SOME, BUT WILL NOT CAUSE ISSUES
-  const parseSubmitValues = (v) => {
-    const values = {
-      ...v,
+  const parseSubmitValues = (values) => {
+    return {
       userID: user?.id,
-      percent: Number(v.percent),
-      addressorxpubkey: v.address1,
-      type: v.type || "custodial"
+      percent: Number(values.percent),
+      label: values.label,
+      addressorxpubkey: values.address1,
+      type: values.isCustodial
     };
-    return values;
   };
 
   const onSubmit = async (values, formActions, modalActions) => {
@@ -84,7 +83,6 @@ const AddressModalAdd = () => {
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText={submitText}
-              // disablePercent={isCustodialAddress}
             />
           )}
         </>

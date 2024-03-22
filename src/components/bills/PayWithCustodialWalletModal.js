@@ -18,7 +18,8 @@ const PayWithCustodialWalletModal = ({
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const enoughBalance = custodialBtcBalance > billBtcAmount;
-  if (isOpen && !enoughBalance) setErrorMessage("Not enough Bitcoin in custodial wallet");
+  if (isOpen && !enoughBalance)
+    setErrorMessage("Not enough Bitcoin in your custodial wallet");
 
   const onSubmitWrapper = async () => {
     setIsProcessing(true);
@@ -45,11 +46,8 @@ const PayWithCustodialWalletModal = ({
       {!isPaid ? (
         <>
           <div className="content">
-            {errorMessage ? (
-              <ErrorMessage error={errorMessage} />
-            ) : (
-              <LabelledTable columns={tableData} />
-            )}
+            <LabelledTable columns={tableData} />
+            <ErrorMessage error={errorMessage} isHidden={!errorMessage} />
           </div>
           <SubmitButtonSpinner
             submitText="Pay now"

@@ -81,7 +81,7 @@ const BillsPage = () => {
   const handleCustodialPay = async () => {
     try {
       // call api to process payment
-      await new Promise((resolve) => setTimeout(resolve, 800)); // for mocking
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // for mocking
       setIsPaid(true);
     } catch (e) {
       setErrorMessage(e.message);
@@ -192,7 +192,7 @@ const BillsPage = () => {
                 className="mt-3"
                 submitText="Pay now with Bitcoin"
               />
-              <ErrorMessage error={errorMessage} isHidden={!errorMessage} />
+              <ErrorMessage error={errorMessage} isHidden={!errorMessage || showModal} />
             </Form>
           </Formik>
         </Card>

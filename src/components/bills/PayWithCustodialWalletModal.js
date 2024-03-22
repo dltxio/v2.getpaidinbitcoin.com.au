@@ -3,6 +3,8 @@ import Modal from "components/Modal";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
 import ErrorMessage from "components/ErrorMessage";
+import "./PayWithPersonalWalletModal.scss";
+import LabelledTable from "components/LabelledTable";
 
 const PayWithCustodialWalletModal = ({
   isOpen,
@@ -10,20 +12,28 @@ const PayWithCustodialWalletModal = ({
   onDismiss,
   custodialBtcBalance,
   billBtcAmount,
-  onSubmit
+  onSubmit,
+  errorMessage,
+  setErrorMessage
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const enoughBalance = custodialBtcBalance > billBtcAmount;
+  if (isOpen && !enoughBalance) setErrorMessage("Not enough Bitcoin in custodial wallet");
 
   const onSubmitWrapper = async () => {
     setIsProcessing(true);
     if (onSubmit) await onSubmit();
-  }
+  };
 
   const onDismissWrapper = async () => {
     if (onDismiss) await onDismiss();
     setIsProcessing(false);
-  }
+  };
+
+  const tableData = [
+    ["Custodial Wallet Balance (BTC)", custodialBtcBalance],
+    ["Bill Amount (BTC)", billBtcAmount]
+  ];
 
   return (
     <Modal
@@ -35,15 +45,17 @@ const PayWithCustodialWalletModal = ({
       {!isPaid ? (
         <>
           <div className="content">
-            <p>Your custodial wallet balance: {custodialBtcBalance} BTC</p>
-            <p>This bill: {billBtcAmount} BTC</p>
-            <ErrorMessage error={"Not enough Bitcoin in custodial wallet"} isHidden={enoughBalance}/>
+            {errorMessage ? (
+              <ErrorMessage error={errorMessage} />
+            ) : (
+              <LabelledTable columns={tableData} />
+            )}
           </div>
           <SubmitButtonSpinner
             submitText="Pay now"
             onClick={onSubmitWrapper}
             isSubmitting={isProcessing}
-            disabled={!enoughBalance}
+            disabled={errorMessage}
           />
         </>
       ) : (

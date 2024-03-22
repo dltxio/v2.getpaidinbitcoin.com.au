@@ -1,12 +1,12 @@
-@import "../constants/colors";
-@import "../constants/mixins";
+@import "../../constants/colors";
+@import "../../constants/mixins";
 
 .bills.modal {
   .modal-body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 300px;
+    min-height: 300px;
     
     &.custodial-wallet {
       margin: auto;
@@ -14,9 +14,12 @@
 
     .content {
       margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       p {
-        margin: 1rem auto;
+        margin: 1rem auto 0.25rem;
       }
     }
   }

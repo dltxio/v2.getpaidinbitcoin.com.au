@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Modal from "components/Modal";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
+import ErrorMessage from "components/ErrorMessage";
 import QRCode from "qrcode.react";
+import "./PayWithPersonalWalletModal.scss";
 
 const PayWithPersonalWalletModal = ({
   isOpen,
@@ -10,7 +12,8 @@ const PayWithPersonalWalletModal = ({
   onDismiss,
   paymentAddress,
   billInstructions,
-  onSubmit
+  onSubmit,
+  errorMessage
 }) => {
   const [submitText, setSubmitText] = useState("I have sent Bitcoin");
   const [userClickedSentBtc, setUserClickedSentBtc] = useState(false);
@@ -19,7 +22,7 @@ const PayWithPersonalWalletModal = ({
     if (onDismiss) await onDismiss();
     setSubmitText("I have sent Bitcoin");
     setUserClickedSentBtc(false);
-  }
+  };
 
   const onSubmitWrapper = async () => {
     setSubmitText("Confirming your transaction...");
@@ -37,13 +40,20 @@ const PayWithPersonalWalletModal = ({
       {!isPaid ? (
         <>
           <div className="content">
-            <QRCode id="BillPaymentAddress" value={paymentAddress} />
+            {errorMessage ? (
+              <ErrorMessage error={errorMessage} />
+            ) : (
+              <>
+                <QRCode id="bitcoin-address-qrcode" value={paymentAddress} />
+                <p>{billInstructions}</p>
+              </>
+            )}
           </div>
-          <p>{billInstructions}</p>
           <SubmitButtonSpinner
             submitText={submitText}
             onClick={onSubmitWrapper}
             isSubmitting={userClickedSentBtc && !isPaid}
+            disabled={errorMessage}
           />
         </>
       ) : (

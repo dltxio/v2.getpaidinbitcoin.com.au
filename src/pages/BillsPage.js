@@ -16,7 +16,6 @@ import ToggleButton from "components/forms/ToggleButton";
 import PayWithCustodialWalletModal from "components/bills/PayWithCustodialWalletModal";
 import PayWithPersonalWalletModal from "components/bills/PayWithPersonalWalletModal";
 import ErrorMessage from "components/ErrorMessage";
-import "./BillsPage.scss";
 import "./Dashboard.scss";
 
 const validate = ({ billercode, reference, fiat }) => {
@@ -41,10 +40,10 @@ const BillsPage = () => {
     "Fetching your unique payment address... (NOT IMPLEMENTED)"
   );
   const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState(null);
   const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
 
-  const [pollingBillId, setPollingBillId] = useState(null);
+  const [billId, setBillId] = useState(null);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
@@ -79,55 +78,49 @@ const BillsPage = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("showModal", showModal);
-    console.log("isPaid", isPaid);
-  }, [isPaid]);
-
   const handleCustodialPay = async () => {
     try {
-      // call api and process payment
-      // throw new Error("Test error");
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      // call api to process payment
+      await new Promise((resolve) => setTimeout(resolve, 800)); // for mocking
       setIsPaid(true);
     } catch (e) {
-      console.log(e);
       setErrorMessage(e.message);
-      onDismiss();
     }
   };
 
-  const pollingBillIdRef = useRef(pollingBillId);
+  const pollingBillIdRef = useRef(billId);
 
   useEffect(() => {
     const pollBillStatus = async () => {
-      pollingBillIdRef.current = pollingBillId;
+      try {
+        pollingBillIdRef.current = billId;
 
-      while (pollingBillIdRef.current) {
-        console.log("pollingBillId...", pollingBillIdRef.current);
-        // mock Polling at the moment as the API is having an error
-        // const response = await gpib.secure.get(`/bills/${id}`);
-        // console.log(response.data);
+        while (pollingBillIdRef.current) {
+          // const response = await gpib.secure.get(`/bills/${billId}`);
 
-        // console.log('polling...')
-        // if (response.data?.paid) {
-        pollingBillIdRef.current = pollingBillIdRef.current + 1;
-        if (pollingBillIdRef.current === 10002) {
-          setIsPaid(true);
-          setPollingBillId(null);
-          pollingBillIdRef.current = null;
+          // if (response.data?.paid) {
+          pollingBillIdRef.current = pollingBillIdRef.current + 1; // for mocking
+          if (pollingBillIdRef.current === 10001) {
+            // for mocking
+            setIsPaid(true);
+            setBillId(null);
+            pollingBillIdRef.current = null;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 2000));
         }
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        setErrorMessage(e.message);
       }
     };
 
     pollBillStatus();
-  }, [pollingBillId]);
+  }, [billId]);
 
   const onDismiss = async () => {
-    setPollingBillId(null);
+    setBillId(null);
     setShowModal(false);
     setIsPaid(false);
+    setErrorMessage(null);
   };
 
   const onSubmit = async (values, actions) => {
@@ -136,23 +129,18 @@ const BillsPage = () => {
       ////// uncomment this block to enable testing with API
       // const url = `/bills`;
       // const response = await gpib.secure.post(url, values);
-      // console.log(response);
 
       // const amount = Number.parseFloat(response.data.btc).toFixed(8);
       // setBillBtcAmount(amount);
       // if (showModal && !payWithGpibCustodialWallet) {
-      //   setPaymentAddress(`${response.data.address}`);
+      //   setPaymentAddress(response.data.address);
       //   setBillInstructions(`Please send ${amount} BTC to ${response.data?.address}`);
-      //   pollBillStatus(response.data.id);
       // }
 
-      // Mock pollBillStatus
-      setPollingBillId(9999);
+      setBillId(9999); // for mocking
     } catch (e) {
-      console.log(e);
       onDismiss();
-      actions.setErrors({ hidden: e });
-      actions.setSubmitting(false);
+      setErrorMessage(e.message);
     }
   };
 
@@ -204,7 +192,7 @@ const BillsPage = () => {
                 className="mt-3"
                 submitText="Pay now with Bitcoin"
               />
-              {/* <ErrorMessage error={errorMessage} isHidden={!errorMessage} /> */}
+              <ErrorMessage error={errorMessage} isHidden={!errorMessage} />
             </Form>
           </Formik>
         </Card>
@@ -220,6 +208,7 @@ const BillsPage = () => {
           paymentAddress={paymentAddress}
           billInstructions={billInstructions}
           onDismiss={onDismiss}
+          errorMessage={errorMessage}
         />
 
         <PayWithCustodialWalletModal
@@ -229,6 +218,8 @@ const BillsPage = () => {
           custodialBtcBalance={custodialBtcBalance}
           billBtcAmount={billBtcAmount}
           onSubmit={handleCustodialPay}
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
         />
       </div>
     </Layout>

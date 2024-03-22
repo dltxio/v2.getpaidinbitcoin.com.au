@@ -3,8 +3,8 @@ import Modal from "components/Modal";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
 import ErrorMessage from "components/ErrorMessage";
-import "./PayWithPersonalWalletModal.scss";
 import LabelledTable from "components/LabelledTable";
+import "./PayModal.scss";
 
 const PayWithCustodialWalletModal = ({
   isOpen,

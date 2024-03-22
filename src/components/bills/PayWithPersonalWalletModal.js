@@ -4,7 +4,7 @@ import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
 import ErrorMessage from "components/ErrorMessage";
 import QRCode from "qrcode.react";
-import "./PayWithPersonalWalletModal.scss";
+import "./PayModal.scss";
 
 const PayWithPersonalWalletModal = ({
   isOpen,

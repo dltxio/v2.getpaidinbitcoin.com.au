@@ -15,7 +15,7 @@ import LabelledTable from "components/LabelledTable";
 import gpib from "apis/gpib";
 import "./Dashboard.scss";
 
-const Dashboard = () => {
+const ProfilePage = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -264,4 +264,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default ProfilePage;

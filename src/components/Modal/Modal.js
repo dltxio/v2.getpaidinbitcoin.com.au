@@ -6,7 +6,7 @@ import ModalFooter from "./ModalFooter";
 /* 
 	Modal component using bootstrap classes but without jquery.
 	Required props: isOpen (bool), onDismiss (function)
-	Optional props: children, heading, footer, large, small
+	Optional props: children, heading, footer, large, small, className, noExit
 */
 
 const Modal = ({
@@ -17,6 +17,7 @@ const Modal = ({
   small,
   children,
   noExit,
+  className,
   ...props
 }) => {
   const body = document.querySelector("body");
@@ -37,7 +38,7 @@ const Modal = ({
   const transitionIn = () => {
     setDisplay("block");
     setTimeout(() => {
-      setShow(" show");
+      setShow("show");
     }, 50);
   };
 
@@ -66,9 +67,9 @@ const Modal = ({
 
   const renderModal = () => (
     <div>
-      <div className={`modal-backdrop fade${show}`} style={{ display }} />
+      <div className={`modal-backdrop fade ${show}`} style={{ display }} />
       <div
-        className={`modal fade${show}`}
+        className={`modal fade ${show} ${className}`}
         onClick={noExit ? undefined : onDismiss}
         style={{ display }}
       >

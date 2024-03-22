@@ -1,0 +1,11 @@
+.bills-table {
+  tr {
+    td:first-child {
+      padding: 0;
+      vertical-align: middle;
+      input {
+        display: inline;
+      }
+    }
+  }
+}

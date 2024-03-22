@@ -24,30 +24,20 @@ $separator: 1px solid $gray-300;
       padding: $spacing;
       &:first-child {
         border-bottom: $separator;
-
       }
-  
     }
   }
 
-
-
   @include media-breakpoint-up(sm){
-
-
     .card-container {
       max-width: 65rem;
 
       .col-sm {
-        
         &:first-child {
           border-right: $separator;
           border-bottom: none;
-
+        }
       }
-
     }
-    
   }
-}
 }

@@ -10,7 +10,7 @@ const CreateBillForm = ({
   onSubmit,
   hasCustodialAddress,
   setPayWithCustodialWallet,
-  showModal,
+  isSubmitting,
   errorMessage,
   hideError
 }) => {
@@ -58,7 +58,7 @@ const CreateBillForm = ({
           />
         </div>
         <SubmitButtonSpinner
-          isSubmitting={showModal}
+          isSubmitting={isSubmitting}
           className="mt-3"
           submitText="Pay now with Bitcoin"
         />

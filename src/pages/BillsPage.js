@@ -145,7 +145,7 @@ const BillsPage = () => {
             onSubmit={onSubmit}
             hasCustodialAddress={hasCustodialAddress}
             setPayWithCustodialWallet={setPayWithCustodialWallet}
-            showModal={showModal}
+            isSubmitting={showModal}
             errorMessage={errorMessage}
             hideError={!errorMessage || showModal}
           />

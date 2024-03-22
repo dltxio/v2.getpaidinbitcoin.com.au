@@ -11,7 +11,6 @@ import AddressTable from "components/addresses/AddressTable";
 import AddressGroupTable from "components/addresses/AddressGroupTable";
 import AddressHistoryTable from "components/addresses/AddressHistoryTable";
 import IconButton from "components/IconButton";
-import useSelectedRow from "hooks/useSelectedRow";
 import "./Dashboard.scss";
 import gpib from "apis/gpib";
 
@@ -19,17 +18,17 @@ const AddressesPage = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const getAddressesUrl = `/user/${user.id}/address`;
-  const [selected, , selectRowConfig] = useSelectedRow(null);
-  const [selectedGroup, , selectGroupRowConfig] = useSelectedRow(null);
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedGroup, setSelectedGroup] = useState(null);
   const isFetchingAddresses = !addresses && !fetchAddressError;
   const hasMultipleAddresses = addresses?.length > 1;
   const { data: settings, error: fetchSettingsError } = useSWR(
     `/settings/${user.id}`
   );
   const { data: address_history } = useSWR(`/addresshistory`);
-  const groupAddress = addresses?.filter((i) => i.groupID);
-  const unGroupAddress = addresses?.filter((i) => !i.groupID);
+  const groupAddress = addresses?.filter((a) => a.groupID);
+  const unGroupAddress = addresses?.filter((a) => !a.groupID);
   const hasCardAddress = unGroupAddress?.filter(
     (i) => i.label === "Cryptospend"
   );
@@ -74,28 +73,32 @@ const AddressesPage = () => {
     {
       icon: "create-outline",
       title: "Edit",
-      onClick: () => navigate(`/addresses/edit/${selected}`),
-      disabled: !selected
+      onClick: () =>
+        navigate(`/addresses/edit/${unGroupAddress[selectedRow].id}`),
+      disabled: selectedRow === null
     },
     {
       icon: "swap-horizontal-outline",
       title: "Swap",
-      onClick: () => navigate(`/addresses/swap/${selected}`),
-      disabled: !selected,
+      onClick: () =>
+        navigate(`/addresses/swap/${unGroupAddress[selectedRow].id}`),
+      disabled: selectedRow === null,
       hide: user?.idVerificationStatus !== 3
     },
     {
       icon: "archive-outline",
       title: "Archive",
-      onClick: () => navigate(`/addresses/archive/${selected}`),
-      disabled: !selected || unGroupAddress?.length === 1,
+      onClick: () =>
+        navigate(`/addresses/archive/${unGroupAddress[selectedRow].id}`),
+      disabled: selectedRow === null || unGroupAddress?.length === 1,
       hide: !hasMultipleAddresses
     },
     {
       icon: "wallet-outline",
       title: "Group Address",
-      onClick: () => navigate(`/addresses/group/${selected}`),
-      disabled: !selected || unGroupAddress.length === 1,
+      onClick: () =>
+        navigate(`/addresses/group/${unGroupAddress[selectedRow].id}`),
+      disabled: selectedRow === null || unGroupAddress.length === 1,
       hide: user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
     }
   ];
@@ -110,8 +113,9 @@ const AddressesPage = () => {
     {
       icon: "create-outline",
       title: "Edit",
-      onClick: () => navigate(`/addresses/groupEdit/${selectedGroup}`),
-      disabled: !selectedGroup
+      onClick: () =>
+        navigate(`/addresses/groupEdit/${groupAddress[selectedGroup].groupID}`),
+      disabled: selectedGroup === null
     }
   ];
 
@@ -137,8 +141,8 @@ const AddressesPage = () => {
           </Alert>
           <AddressTable
             addresses={unGroupAddress}
-            pagination={false}
-            selectRow={selectRowConfig}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
           />
         </Card>
         {settings?.allowGroupedAddresses && (
@@ -163,8 +167,8 @@ const AddressesPage = () => {
               </div>
               <AddressGroupTable
                 addresses={groupAddress}
-                pagination={false}
-                selectRow={selectGroupRowConfig}
+                selectedRow={selectedGroup}
+                setSelectedRow={setSelectedGroup}
               />
             </Card>
           </>
@@ -173,7 +177,7 @@ const AddressesPage = () => {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4>History</h4>
           </div>
-          <AddressHistoryTable logs={address_history} />
+          <AddressHistoryTable logs={address_history} pagination />
         </Card>
       </div>
     </Layout>

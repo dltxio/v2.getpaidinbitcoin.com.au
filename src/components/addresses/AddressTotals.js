@@ -30,7 +30,6 @@ const AddressTotals = ({
       <AddressHighlightPercent
         address={address}
         max={max}
-        hoverProps={{ style: { padding: "0.8rem" } }}
       />
     );
     const config = {
@@ -46,8 +45,6 @@ const AddressTotals = ({
     <div className={classes} {...props}>
       <LabelledTable
         columns={columns}
-        hover={false}
-        style={{ tableLayout: "fixed" }}
       />
     </div>
   );

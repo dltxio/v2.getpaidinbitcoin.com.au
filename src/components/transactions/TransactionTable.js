@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import Table from "components/Table";
+import TableWithHead from "components/Table";
 import "./TransactionTable.scss";
 
 // dataField (key) props (value)
@@ -48,7 +48,7 @@ const TransactionTable = ({ transactions = [], ...props }) => {
   };
 
   return (
-    <Table
+    <TableWithHead
       data={data}
       columnConfig={columnConfig}
       options={tableOptions}

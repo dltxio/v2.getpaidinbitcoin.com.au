@@ -1,9 +1,12 @@
 @import "../../constants/colors";
 
 .address-totals {
-  font-size: 90%;
   tr {
     color: $primary;
+
+    td {
+      vertical-align: middle;
+    }
 
     &.archived {
       color: $gray-500;

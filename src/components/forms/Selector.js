@@ -22,7 +22,7 @@ const Selector = ({
     <FormGroupWrap isWrapped={!skinny}>
       {label && <label>{label}</label>}
 
-      <select className="form-control" {...props} {...field}>
+      <select className="form-control mb-1" {...props} {...field}>
         {options.map(([value, label]) => {
           return <option value={value}>{label}</option>;
         })}

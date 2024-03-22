@@ -6,7 +6,7 @@ import "./AddressTotals.scss";
 const getAddresses = (active, archived, totals) => {
   return [...active, ...archived]
     .map((a) => ({
-      total: totals[a.address1] || 0,
+      total: totals[a.addressorxpubkey] || 0,
       ...a
     }))
     .sort((a, b) => b.total - a.total);

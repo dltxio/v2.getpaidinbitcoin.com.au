@@ -75,7 +75,7 @@ const AddressModalEdit = () => {
               initialValues={initialValues}
               submitText={submitText}
               disableList={{percent: !hasMultipleAddresses, isCustodial: true}}
-              omitList={["address1"]}
+              omitList={["addressorxpubkey"]}
             />
           )}
         </>

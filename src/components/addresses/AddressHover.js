@@ -8,12 +8,12 @@ const AddressHover = ({ address, className, ...props }) => {
     if (!address.label)
       return (
         <div>
-          <span>{address.address1}</span>
+          <span>{address.addressorxpubkey}</span>
         </div>
       );
     return (
       <div>
-        <span className="address">{address.address1}</span>
+        <span className="address">{address.addressorxpubkey}</span>
         <span className="label">{address.label}</span>
       </div>
     );

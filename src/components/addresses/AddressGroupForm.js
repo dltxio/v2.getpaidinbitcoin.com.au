@@ -8,15 +8,13 @@ import isNumeric from "validator/lib/isNumeric";
 const defaultInitialValues = {
   percent: 100,
   label: "",
-  address1: "",
-  coin: "BTC",
-  userID: ""
+  addressorxpubkey: "",
 };
-const validate = ({ label, address1, percent }) => {
+const validate = ({ label, addressorxpubkey, percent }) => {
   const errors = {};
   const reqMsg = "This field is required";
   if (!label) errors.label = reqMsg;
-  if (!address1) errors.address1 = reqMsg;
+  if (!addressorxpubkey) errors.addressorxpubkey = reqMsg;
   if (!isNumeric(percent.toString()))
     errors.percent = "Percent must be a number";
   if (Number(percent) < 0 || Number(percent) > 100)
@@ -40,9 +38,9 @@ const AddressGroupForm = ({ initialValues = {}, onSubmit, groupAddresses }) => {
             <Input name="percent" label="Percent" type="text" />
           )}
           <Input
-            name="address1"
+            name="addressorxpubkey"
             label="Address"
-            disabled={iv.address1 ? true : false}
+            disabled={iv.addressorxpubkey ? true : false}
           />
           <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButton

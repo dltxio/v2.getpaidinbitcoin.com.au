@@ -10,19 +10,17 @@ import ErrorMessage from "components/ErrorMessage";
 const defaultValues = {
   percent: 100,
   label: "",
-  address1: "",
-  coin: "BTC",
-  userID: "",
+  addressorxpubkey: "",
   groupID: "",
   isCustodial: "non-custodial"
 };
 
-const validate = ({ percent, label, address1 }) => {
+const validate = ({ percent, label, addressorxpubkey }) => {
   const errors = {};
   const reqMsg = "This field is required";
   if (!percent) errors.percent = reqMsg;
   if (!label) errors.label = reqMsg;
-  // if (!address1) errors.address1 = reqMsg;
+  // if (!addressorxpubkey) errors.addressorxpubkey = reqMsg;
   if (!isNumeric(String(percent))) errors.percent = "Percent must be a number";
   if (Number(percent) < 0 || Number(percent) > 100)
     errors.percent = "Percent must be between 0 and 100";
@@ -95,9 +93,9 @@ const AddressForm = ({
               disabled={disableList.isCustodial }
             />
           )}
-          {!omitList.address1 && (
+          {!omitList.addressorxpubkey && (
             <Input
-              name="address1"
+              name="addressorxpubkey"
               label="BTC Address"
               disabled={disabledAddressInput}
             />

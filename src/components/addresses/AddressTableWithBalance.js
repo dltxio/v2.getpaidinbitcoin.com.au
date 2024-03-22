@@ -22,7 +22,7 @@ const AddressTableWithBalance = ({ addresses = defaultAddresses }) => {
       const balances = await Promise.all(
         addresses.map(async (a) => {
           try {
-            const url = `/addrs/${a.address1}/balance`;
+            const url = `/addrs/${a.addressorxpubkey}/balance`;
             const cached = cache.get(url);
             if (cached !== null) return cached;
             const { data: res } = await blockCypher.get(url);

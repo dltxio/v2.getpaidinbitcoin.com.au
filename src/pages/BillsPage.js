@@ -5,10 +5,8 @@ import useSWR from "swr";
 
 import Layout from "components/layout/Layout";
 import Card from "components/Card";
-import TransactionTable from "components/transactions/TransactionTable";
 import gpib from "apis/gpib";
 import BillsHistoryTable from "components/bills/BillsHistoryTable";
-import PayWithCustodialWalletModal from "components/bills/PayWithCustodialWalletModal";
 import PayWithPersonalWalletModal from "components/bills/PayWithPersonalWalletModal";
 import CreateBillForm from "components/bills/CreateBillForm";
 import "./Dashboard.scss";
@@ -17,7 +15,6 @@ const BillsPage = () => {
   const { user } = useContext(AuthContext);
   // form
   const [showModal, setShowModal] = useState(false);
-  const [hasCustodialAddress, setHasCustodialAddress] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithCustodialWallet, setPayWithCustodialWallet] = useState(false);
@@ -26,51 +23,9 @@ const BillsPage = () => {
   );
   const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [custodialBtcBalance, setCustodialBtcBalance] = useState(null);
   const [billId, setBillId] = useState(null);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
-
-  const getUserAddresses = async () => {
-    const getAddressesUrl = `/user/${user.id}/address`;
-    const addresses = await gpib.secure.get(getAddressesUrl);
-    return addresses.data || [];
-  };
-  const getUserAddressBalances = async () => {
-    const getBalancesUrl = `/user/${user.id}/address/totals`;
-    const balances = await gpib.secure.get(getBalancesUrl);
-    return balances.data;
-  };
-  const getCustodialAddress = async (userAddresses) => {
-    const result = userAddresses.filter((a) => a.isCustodial === true);
-    if (result.length > 0) return result[0].address1;
-    else return null;
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const addresses = await getUserAddresses();
-      const custodialAddress = await getCustodialAddress(addresses);
-      const btcBalances = await getUserAddressBalances();
-      if (!custodialAddress || !btcBalances) {
-        return;
-      }
-
-      setHasCustodialAddress(true);
-      setCustodialBtcBalance(btcBalances[custodialAddress]);
-    };
-    fetchData();
-  }, []);
-
-  const handleCustodialPay = async () => {
-    try {
-      // call api to process payment
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // for mocking
-      setIsPaid(true);
-    } catch (e) {
-      setErrorMessage(e.message);
-    }
-  };
 
   const pollingBillIdRef = useRef(billId);
 
@@ -142,7 +97,6 @@ const BillsPage = () => {
           </Alert>
           <CreateBillForm
             onSubmit={onSubmit}
-            hasCustodialAddress={hasCustodialAddress}
             setPayWithCustodialWallet={setPayWithCustodialWallet}
             isSubmitting={showModal}
             errorMessage={errorMessage}
@@ -162,17 +116,6 @@ const BillsPage = () => {
           billInstructions={billInstructions}
           onDismiss={onDismiss}
           errorMessage={errorMessage}
-        />
-
-        <PayWithCustodialWalletModal
-          isOpen={showModal && payWithCustodialWallet}
-          isPaid={isPaid}
-          onDismiss={onDismiss}
-          custodialBtcBalance={custodialBtcBalance}
-          billBtcAmount={billBtcAmount}
-          onSubmit={handleCustodialPay}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
         />
       </div>
     </Layout>

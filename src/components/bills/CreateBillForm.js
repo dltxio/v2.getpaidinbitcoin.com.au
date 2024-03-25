@@ -8,15 +8,10 @@ import Input from "components/forms/Input";
 
 const CreateBillForm = ({
   onSubmit,
-  hasCustodialAddress,
-  setPayWithCustodialWallet,
   isSubmitting,
   errorMessage,
   hideError
 }) => {
-  const custodialAddressNotFoundMessage = hasCustodialAddress
-    ? ""
-    : "(No active custodial wallet found)";
 
   const initialValues = {
     label: "",
@@ -49,14 +44,6 @@ const CreateBillForm = ({
         <Input name="billercode" label="Biller Code" />
         <Input name="reference" label="Ref" />
         <Input name="fiat" label="AUD Amount" />
-        <div>
-          <ToggleButton
-            name="payWithCustodialWallet"
-            label={`Pay with GPIB custodial wallet ${custodialAddressNotFoundMessage}`}
-            onClick={(e) => setPayWithCustodialWallet(e.target.checked)}
-            disabled={!hasCustodialAddress}
-          />
-        </div>
         <SubmitButtonSpinner
           isSubmitting={isSubmitting}
           className="mt-3"

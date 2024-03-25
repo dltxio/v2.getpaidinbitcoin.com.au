@@ -33,7 +33,6 @@ const AddressModalAdd = () => {
     percent: isFirstAddress || isCustodialAddress ? 100 : ""
   };
 
-  // TODO: REVIEW OLD ADDRESS PARAMS.  MAYBE BE ABLE TO REMOVE SOME, BUT WILL NOT CAUSE ISSUES
   const parseSubmitValues = (values) => {
     return {
       userID: user?.id,

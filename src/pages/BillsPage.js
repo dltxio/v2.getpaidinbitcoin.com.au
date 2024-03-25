@@ -13,70 +13,58 @@ import "./Dashboard.scss";
 
 const BillsPage = () => {
   const { user } = useContext(AuthContext);
-  // form
   const [showModal, setShowModal] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithCustodialWallet, setPayWithCustodialWallet] = useState(false);
   const [billInstructions, setBillInstructions] = useState(
-    "Fetching your unique payment address... (NOT IMPLEMENTED)"
+    "Fetching your unique payment address..."
   );
-  const [billBtcAmount, setBillBtcAmount] = useState(0.0008888);
+  const [billBtcAmount, setBillBtcAmount] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [billId, setBillId] = useState(null);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
-  const pollingBillIdRef = useRef(billId);
-
-  useEffect(() => {
-    const pollBillStatus = async () => {
-      try {
-        pollingBillIdRef.current = billId;
-
-        while (pollingBillIdRef.current) {
-          // const response = await gpib.secure.get(`/bills/${billId}`);
-
-          // if (response.data?.paid) {
-          pollingBillIdRef.current = pollingBillIdRef.current + 1; // for mocking
-          if (pollingBillIdRef.current === 10001) {
-            // for mocking
-            setIsPaid(true);
-            setBillId(null);
-            pollingBillIdRef.current = null;
-          }
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-        }
-      } catch (e) {
-        setErrorMessage(e.message);
-      }
-    };
-
-    pollBillStatus();
-  }, [billId]);
+  const pollingBillId = useRef(null);
 
   const onDismiss = async () => {
-    setBillId(null);
     setShowModal(false);
     setIsPaid(false);
+    pollingBillId.current = null;
+    setPaymentAddress("");
+    setBillInstructions("");
+    setBillBtcAmount(null);
+
     setErrorMessage(null);
   };
 
   const onSubmit = async (values, actions) => {
     setShowModal(true);
     try {
-      ////// uncomment this block to enable testing with API
-      // const url = `/bills`;
-      // const response = await gpib.secure.post(url, values);
+      const url = `/bills`;
+      const response = await gpib.secure.post(url, values);
 
-      // const amount = Number.parseFloat(response.data.btc).toFixed(8);
-      // setBillBtcAmount(amount);
-      // if (showModal && !payWithGpibCustodialWallet) {
-      //   setPaymentAddress(response.data.address);
-      //   setBillInstructions(`Please send ${amount} BTC to ${response.data?.address}`);
-      // }
+      const amount = Number.parseFloat(response.data?.btc).toFixed(8);
+      setBillBtcAmount(amount);
+      setPaymentAddress(response.data?.address);
+      setBillInstructions(
+        `Please send ${amount} BTC to ${response.data?.address}`
+      );
+      pollingBillId.current = response.data?.id;
 
-      setBillId(9999); // for mocking
+      console.log("response", response);
+
+      while (pollingBillId.current) {
+        // const response = await gpib.secure.get(`/bills/${pollingBillId.current}`);
+        // console.log("response", response, response.data.btcPaid);
+
+        // if (response.data?.btcPaid) {
+        //   setIsPaid(true);
+        //   pollingBillId.current = null;
+        // }
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
     } catch (e) {
       onDismiss();
       setErrorMessage(e.message);

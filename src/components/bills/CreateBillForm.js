@@ -2,7 +2,6 @@ import React from "react";
 import { Formik, Form } from "formik";
 import { isNumeric } from "validator";
 import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
-import ToggleButton from "components/forms/ToggleButton";
 import ErrorMessage from "components/ErrorMessage";
 import Input from "components/forms/Input";
 

@@ -25,7 +25,7 @@ const ContactSupportForm = ({
   descriptionRows = 10,
   ...props
 }) => {
-  const initialValues = { ...defaultValues, ...initialValues };
+  initialValues = { ...defaultValues, ...initialValues };
 
   return (
     <Formik

@@ -25,11 +25,11 @@ const ContactSupportForm = ({
   descriptionRows = 10,
   ...props
 }) => {
-  const updatedInitialValues = { ...defaultValues, ...initialValues };
+  const iv = { ...defaultValues, ...initialValues };
 
   return (
     <Formik
-      initialValues={updatedInitialValues}
+      initialValues={iv}
       validate={validate}
       onSubmit={onSubmit}
     >

@@ -11,14 +11,14 @@ import { useField } from "formik";
  *  - [Styling](https://www.w3schools.com/howto/howto_css_switch.asp)
  */
 const ToggleButton = ({ ...props }) => {
-  const [field, _] = useField({ ...props, type: "checkbox" });
+  const [input, , ] = useField({ ...props, type: "checkbox" });
 
   const additionalClassName = " " + props.className;
 
   return (
     <>
       <label className={"toggle-button switch" + additionalClassName}>
-        <input type="checkbox" {...field} {...props} />
+        <input type="checkbox" {...input} {...props} />
         <span className="slider round"></span>
       </label>
     </>

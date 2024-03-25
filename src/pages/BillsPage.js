@@ -57,7 +57,7 @@ const BillsPage = () => {
       }
 
       setHasCustodialAddress(true);
-      setCustodialBtcBalance(btcBalances[custodialAddress]);
+      setCustodialBtcBalance(btcBalances[custodialAddress].toFixed(8));
     };
     fetchData();
   }, []);

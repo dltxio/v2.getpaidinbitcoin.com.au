@@ -10,6 +10,7 @@ import BillsHistoryTable from "components/bills/BillsHistoryTable";
 import PayWithPersonalWalletModal from "components/bills/PayWithPersonalWalletModal";
 import CreateBillForm from "components/bills/CreateBillForm";
 import "./Dashboard.scss";
+import ErrorMessage from "components/ErrorMessage";
 
 const BillsPage = () => {
   const { user } = useContext(AuthContext);
@@ -17,24 +18,40 @@ const BillsPage = () => {
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithCustodialWallet, setPayWithCustodialWallet] = useState(false);
-  const [billInstructions, setBillInstructions] = useState(
-    "Fetching your unique payment address..."
+  const DEFAULT_BILL_INSTRUCTION = (
+    <p>Fetching your unique payment address...</p>
   );
-  const [billBtcAmount, setBillBtcAmount] = useState(null);
+  const [billInstruction, setBillInstruction] = useState(
+    DEFAULT_BILL_INSTRUCTION
+  );
   const [errorMessage, setErrorMessage] = useState(null);
-  const [billId, setBillId] = useState(null);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
 
   const pollingBillId = useRef(null);
+
+  const insertElipseInMiddleAddress = (str) => {
+    const length = str.length;
+    const FIRST_LINE_LIMIT = 42;
+    if (length <= FIRST_LINE_LIMIT) {
+      return <p>{str}</p>;
+    }
+    return (
+      <>
+        {str.substring(0, FIRST_LINE_LIMIT)}
+        <span style={{ userSelect: "none" }}>...</span>
+        <wbr />
+        {str.substring(length - FIRST_LINE_LIMIT)}
+      </>
+    );
+  };
 
   const onDismiss = async () => {
     setShowModal(false);
     setIsPaid(false);
     pollingBillId.current = null;
     setPaymentAddress("");
-    setBillInstructions("");
-    setBillBtcAmount(null);
+    setBillInstruction(DEFAULT_BILL_INSTRUCTION);
 
     setErrorMessage(null);
   };
@@ -46,10 +63,12 @@ const BillsPage = () => {
       const response = await gpib.secure.post(url, values);
 
       const amount = Number.parseFloat(response.data?.btc).toFixed(8);
-      setBillBtcAmount(amount);
       setPaymentAddress(response.data?.address);
-      setBillInstructions(
-        `Please send ${amount} BTC to ${response.data?.address}`
+      setBillInstruction(
+        <p className="bill-instruction">
+          Please send {amount} BTC to{" "}
+          {insertElipseInMiddleAddress(response.data?.address)}
+        </p>
       );
       pollingBillId.current = response.data?.id;
 
@@ -95,13 +114,14 @@ const BillsPage = () => {
         <Card>
           <h4 className="mb-3">Payment History</h4>
           <BillsHistoryTable data={bills} />
+          <ErrorMessage error={fetchBillsError} />
         </Card>
 
         <PayWithPersonalWalletModal
           isOpen={showModal && !payWithCustodialWallet}
           isPaid={isPaid}
           paymentAddress={paymentAddress}
-          billInstructions={billInstructions}
+          billInstruction={billInstruction}
           onDismiss={onDismiss}
           errorMessage={errorMessage}
         />

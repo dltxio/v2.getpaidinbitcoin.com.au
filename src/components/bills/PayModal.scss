@@ -13,13 +13,19 @@
     }
 
     .content {
-      margin: auto;
+      width: 100%;
+      padding: 0.25rem;
       display: flex;
       flex-direction: column;
       align-items: center;
 
       p {
-        margin: 1rem auto 0.25rem;
+        width: 100%;
+        margin: 1rem 0 0.25rem;
+      }
+
+      p.bill-instruction {
+        overflow-wrap: break-word;
       }
     }
   }

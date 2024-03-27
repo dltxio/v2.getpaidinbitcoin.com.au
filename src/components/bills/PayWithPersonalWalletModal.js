@@ -11,7 +11,7 @@ const PayWithPersonalWalletModal = ({
   isPaid,
   onDismiss,
   paymentAddress,
-  billInstructions,
+  billInstruction,
   onSubmit,
   errorMessage
 }) => {
@@ -45,7 +45,7 @@ const PayWithPersonalWalletModal = ({
             ) : (
               <>
                 <QRCode id="bitcoin-address-qrcode" value={paymentAddress} />
-                <p>{billInstructions}</p>
+                <p className="bill-instructions">{billInstruction}</p>
               </>
             )}
           </div>

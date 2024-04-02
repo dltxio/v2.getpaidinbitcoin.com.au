@@ -152,6 +152,26 @@ const TableWithHead = ({
               </Pagination.Next>
             </Pagination>
           </span>
+
+          <nav>
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">{"<"}</span>
+                </a>
+              </li>
+              <li>
+                <a class="page-link" href="#">
+                  {currentPage}
+                </a>
+              </li>
+              <li class="page-item" onClick={nextPage} disabled={currentPage >= maxPage}>
+                <a class="page-link" aria-label="Next">
+                  <span aria-hidden="true">{">"}</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       )}
     </div>

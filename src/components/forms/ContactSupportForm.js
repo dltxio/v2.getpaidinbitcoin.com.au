@@ -5,7 +5,7 @@ import TextArea from "components/forms/TextArea";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
 
-const defaultInitialValues = { subject: "", body: "" };
+const defaultValues = { subject: "", body: "" };
 
 const validate = ({ subject, body }) => {
   const errors = {};
@@ -18,18 +18,18 @@ const validate = ({ subject, body }) => {
 };
 
 const ContactSupportForm = ({
-  initialValues: iv,
+  initialValues,
   onSubmit,
   submitText = "Send",
   style,
   descriptionRows = 10,
   ...props
 }) => {
-  const initialValues = { ...defaultInitialValues, ...iv };
+  const iv = { ...defaultValues, ...initialValues };
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={iv}
       validate={validate}
       onSubmit={onSubmit}
     >

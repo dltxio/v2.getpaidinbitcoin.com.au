@@ -5,7 +5,7 @@ import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
 import isNumeric from "validator/lib/isNumeric";
 
-const defaultInitialValues = {
+const defaultValues = {
   percent: 100,
   label: "",
   address1: "",
@@ -25,7 +25,7 @@ const validate = ({ label, address1, percent }) => {
 };
 
 const AddressGroupForm = ({ initialValues = {}, onSubmit, groupAddresses }) => {
-  const iv = { ...defaultInitialValues, ...initialValues };
+  const iv = { ...defaultValues, ...initialValues };
   return (
     <Formik
       initialValues={iv}

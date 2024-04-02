@@ -7,14 +7,14 @@ import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
 
-const defaultInitialValues = {
+const defaultValues = {
   percent: 100,
   label: "",
   address1: "",
   coin: "BTC",
   userID: "",
   groupID: "",
-  type: "non-custodial"
+  isCustodial: "non-custodial"
 };
 
 const validate = ({ percent, label, address1 }) => {
@@ -41,20 +41,21 @@ const AddressForm = ({
   initialValues = {},
   onSubmit,
   submitText = "Submit",
-  omit: _omit = [],
-  disablePercent,
+  omitList = [],
+  disableList = [],
   alert
 }) => {
-  const iv = { ...defaultInitialValues, ...initialValues };
-  const omit = _omit.reduce((map, item) => {
+
+  const iv = { ...defaultValues, ...initialValues, isCustodial: initialValues.isCustodial === true ? "custodial" : "non-custodial" };
+  omitList = omitList.reduce((map, item) => {
     map[item] = true;
     return map;
   }, {});
 
   const [disabledAddressInput, setDisabledAddressInput] = useState(false);
   const handleSelectionChange = (event) => {
-    const isAddingCustodialAddress = event.target.value === "custodial";
-    setDisabledAddressInput(isAddingCustodialAddress);
+    const custodialSelected = event.target.value === "custodial";
+    setDisabledAddressInput(custodialSelected);
   };
 
   return (
@@ -71,24 +72,30 @@ const AddressForm = ({
               {alert}
             </Alert>
           )}
-          {!omit.percent && (
-            <Input name="percent" label="Percent" disabled={disablePercent} />
+          {!omitList.percent && (
+            <Input
+              name="percent"
+              label="Percent"
+              disabled={disableList.percent}
+            />
           )}
-          {!omit.label && (
+          {!omitList.label && (
             <Input
               name="label"
               label="Label"
               placeholder="Give your address a personal label"
             />
           )}
-          {!omit.type && (
+          {!omitList.type && (
             <Selector
-              name="type"
+              label={"Wallet type"}
+              name="isCustodial"
               options={types}
               onClick={handleSelectionChange}
+              disabled={disableList.isCustodial }
             />
           )}
-          {!omit.address1 && (
+          {!omitList.address1 && (
             <Input
               name="address1"
               label="BTC Address"

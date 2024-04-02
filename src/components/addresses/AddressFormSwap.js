@@ -4,7 +4,7 @@ import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
 
-const defaultInitialValues = {
+const defaultValues = {
   address: "",
   label: ""
 };
@@ -22,7 +22,7 @@ const AddressFormSwap = ({
   onSubmit,
   submitText = "Submit"
 }) => {
-  const iv = { ...defaultInitialValues, ...initialValues };
+  const iv = { ...defaultValues, ...initialValues };
 
   return (
     <Formik

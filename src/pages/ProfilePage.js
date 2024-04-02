@@ -205,16 +205,16 @@ const ProfilePage = () => {
         <Card>
           <div className="d-flex justify-content-between">
             <h4>Payroll</h4>
-            <div>
-              <Button className="mb-3 me-3" onClick={onEditPayrollClick}>
-                <span className="mr-2">Edit </span>
+            <div className="text-end">
+              <Button className="mb-1 ms-1" onClick={onEditPayrollClick}>
+                <span>Edit </span>
                 <ion-icon name="create-outline" />
               </Button>
-              <Button className="mb-3 me-3" onClick={onConnectXero}>
-                <span className="mr-2">Connect to Xero</span>
+              <Button className="mb-1 ms-1" onClick={onConnectXero}>
+                <span>Connect to Xero</span>
               </Button>
-              <Button className="mb-3" onClick={syncBankAccount}>
-                <span className="me-2">Sync Bank Account</span>
+              <Button className="mb-1 ms-1" onClick={syncBankAccount}>
+                <span>Sync Bank Account</span>
               </Button>
             </div>
           </div>

@@ -8,14 +8,14 @@
   
   select {
     margin: 0 6px;
-    height: 38px;
-    border: 1px solid #ced4da; /* Bootstrap's border color */
-    border-radius: 0.25rem; /* Bootstrap's border radius */
-    color: #066edd;
-    background-color: #f8f9fa;
+    width: fit-content;
   }
 
-  ul.pagination {
+  ul {
     margin: auto 2rem 0;
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
   }
 }

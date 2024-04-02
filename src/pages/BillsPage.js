@@ -27,6 +27,20 @@ const BillsPage = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
+  let billsProcessed;
+  if (bills) {
+    bills.reverse();
+    billsProcessed = bills.map((bill) => {
+      bill.btcPaid = bill.btcPaid ? bill.dueDate : "";
+      delete bill.dueDate;
+      delete bill.address;
+      delete bill.reference;
+      delete bill.btcReceived;
+      delete bill.isPaid;
+      delete bill.userID;
+      return bill;
+    });
+  }
 
   const pollingBillId = useRef(null);
 
@@ -34,14 +48,14 @@ const BillsPage = () => {
     const length = str.length;
     const FIRST_LINE_LIMIT = 42;
     if (length <= FIRST_LINE_LIMIT) {
-      return <p>{str}</p>;
+      return <>{str}</>;
     }
     return (
       <>
         {str.substring(0, FIRST_LINE_LIMIT)}
         <span style={{ userSelect: "none" }}>...</span>
         <wbr />
-        {str.substring(length - FIRST_LINE_LIMIT)}
+        {str.substring(FIRST_LINE_LIMIT)}
       </>
     );
   };
@@ -72,17 +86,14 @@ const BillsPage = () => {
       );
       pollingBillId.current = response.data?.id;
 
-      console.log("response", response);
-
       while (pollingBillId.current) {
-        // const response = await gpib.secure.get(`/bills/${pollingBillId.current}`);
-        // console.log("response", response, response.data.btcPaid);
+        const response = await gpib.secure.get(`/bills/${pollingBillId.current}`);
 
-        // if (response.data?.btcPaid) {
-        //   setIsPaid(true);
-        //   pollingBillId.current = null;
-        // }
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+        if (response.data?.btcPaid) {
+          setIsPaid(true);
+          pollingBillId.current = null;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 3000));
       }
     } catch (e) {
       onDismiss();
@@ -113,7 +124,7 @@ const BillsPage = () => {
 
         <Card>
           <h4 className="mb-3">Payment History</h4>
-          <BillsHistoryTable data={bills} />
+          <BillsHistoryTable data={billsProcessed} />
           <ErrorMessage error={fetchBillsError} />
         </Card>
 

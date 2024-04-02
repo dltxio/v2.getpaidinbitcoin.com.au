@@ -1,11 +1,16 @@
 import React from "react";
-import Table from "components/Table";
+import moment from "moment";
+import TableWithHead from "components/Table";
 import "./BillsTable.scss";
 
 // dataField (key) props (value)
 const columnConfig = {
   created: {
-    children: "Date"
+    children: "Date",
+    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY HH:mm:ss")
+  },
+  label: {
+    children: "Label"
   },
   billerCode: {
     children: "Biller Code"
@@ -14,7 +19,8 @@ const columnConfig = {
     children: "Amount (AUD)"
   },
   btc: {
-    children: "Amount (BTC)"
+    children: "Amount (BTC)",
+    dataFormat: (cell) => cell.toFixed(9)
   },
   btcPaid: {
     children: "Paid"
@@ -22,11 +28,12 @@ const columnConfig = {
 };
 
 const BillsHistoryTable = ({ bills, ...props }) => (
-  <Table
+  <TableWithHead
     data={bills}
     columnConfig={columnConfig}
     keyField="id"
     className="bills-table"
+    pagination
     {...props}
   />
 );

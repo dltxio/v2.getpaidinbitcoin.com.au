@@ -1,7 +1,7 @@
 import React from "react";
+import moment from "moment";
 import TableWithHead from "components/Table";
 import truncate from "../../utils/truncate";
-import moment from "moment";
 import { format as format$ } from "currency-formatter";
 
 const columnConfig = {

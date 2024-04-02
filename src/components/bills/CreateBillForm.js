@@ -11,12 +11,11 @@ const CreateBillForm = ({
   errorMessage,
   hideError
 }) => {
-
   const initialValues = {
     label: "",
     billercode: "",
     reference: "",
-    fiat: 0
+    fiat: null
   };
 
   const validate = ({ billercode, reference, fiat }) => {

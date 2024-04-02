@@ -28,9 +28,9 @@ const CreateBillForm = ({
     if (label.length > 30)
       errors.label = "Label must be shorter than 30 characters";
     if (fiat > 10000000)
-      errors.label = "AUD amount must be less than 10.000.000";
+      errors.fiat = "AUD amount must be less than 10.000.000";
     if (fiat <= 0)
-      errors.label = "AUD amount must be greater than 0";
+      errors.fiat = "AUD amount must be greater than 0";
 
     return errors;
   };

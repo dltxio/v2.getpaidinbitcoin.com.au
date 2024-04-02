@@ -62,8 +62,8 @@ const TableWithHead = ({
             {setSelectedRow && (
               <td>
                 <input
+                  class="form-check-input"
                   type="radio"
-                  name="selectRow"
                   checked={index === selectedRow}
                   onChange={() => handleRowClick(index)}
                 />
@@ -112,7 +112,7 @@ const TableWithHead = ({
 
   return (
     <div className="table-with-head">
-      <Table className="table-hover" {...props}>
+      <Table className="table-hover" striped {...props}>
         <thead>
           <tr>
             {setSelectedRow && <th></th> /* Radio button column */}

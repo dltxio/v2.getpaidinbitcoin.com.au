@@ -7,7 +7,7 @@ import "./BillsTable.scss";
 const columnConfig = {
   created: {
     children: "Date",
-    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY HH:mm:ss")
+    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY HH:mm")
   },
   label: {
     children: "Label"
@@ -20,10 +20,11 @@ const columnConfig = {
   },
   btc: {
     children: "Amount (BTC)",
-    dataFormat: (cell) => cell.toFixed(9)
+    dataFormat: (cell) => cell.toFixed(8)
   },
   btcPaid: {
-    children: "Paid"
+    children: "Paid",
+    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY HH:mm")
   }
 };
 

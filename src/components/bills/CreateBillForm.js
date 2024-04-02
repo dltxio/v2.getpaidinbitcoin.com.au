@@ -18,12 +18,20 @@ const CreateBillForm = ({
     fiat: null
   };
 
-  const validate = ({ billercode, reference, fiat }) => {
+  const validate = ({ label, billercode, reference, fiat }) => {
     const errors = {};
     const reqMsg = "This field is required";
     if (!billercode) errors.billercode = reqMsg;
     if (!reference) errors.ref = reqMsg;
     if (!isNumeric(String(fiat))) errors.fiat = "Amount must be a number";
+
+    if (label.length > 30)
+      errors.label = "Label must be shorter than 30 characters";
+    if (fiat > 10000000)
+      errors.label = "AUD amount must be less than 10.000.000";
+    if (fiat <= 0)
+      errors.label = "AUD amount must be greater than 0";
+
     return errors;
   };
 

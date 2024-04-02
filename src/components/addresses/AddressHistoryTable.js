@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import TableWithHead from "components/Table";
 import "./AddressTable.scss";
 
@@ -13,7 +14,8 @@ const columnConfig = {
     width: "18%"
   },
   created: {
-    children: "Date"
+    children: "Date",
+    dataFormat: (cell) => cell && moment(cell).format("DD-MM-YYYY HH:mm:ss"),
   }
 };
 

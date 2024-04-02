@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
-import Pagination from "react-bootstrap/Pagination";
 import "./Table.scss";
 
 /**
@@ -127,6 +126,7 @@ const TableWithHead = ({
         <div className="pagination">
           <span>Show </span>
           <select
+            className="form-select"
             value={itemsPerPage}
             onChange={handlePageSizeChange}
             style={{ cursor: "pointer" }}
@@ -138,20 +138,22 @@ const TableWithHead = ({
             ))}
           </select>
           <span> rows per page</span>
-          <span>
-            <Pagination>
-              <Pagination.Prev onClick={prevPage} disabled={currentPage <= 1}>
-                Previous
-              </Pagination.Prev>
-              <Pagination.Item>{currentPage}</Pagination.Item>
-              <Pagination.Next
-                onClick={nextPage}
-                disabled={currentPage >= maxPage}
-              >
-                &emsp;Next&emsp;
-              </Pagination.Next>
-            </Pagination>
-          </span>
+
+          <ul class="pagination">
+            <li className={`page-item ${currentPage <= 1 && "disabled"}`}>
+              <a class="page-link cursor-pointer" onClick={prevPage}>
+                <span>{"<"}</span>
+              </a>
+            </li>
+            <li>
+              <a class="page-link">{currentPage}</a>
+            </li>
+            <li className={`page-item ${currentPage >= maxPage && "disabled"}`}>
+              <a class="page-link cursor-pointer" onClick={nextPage}>
+                <span>{">"}</span>
+              </a>
+            </li>
+          </ul>
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
+// import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import "./Table.scss";
 
 /**
@@ -38,7 +39,7 @@ const TableWithHead = ({
   let currentItems = data;
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
-  const paginationSizeOptions = [10, 20, 50, 100];
+  const paginationSizeOptions = [10, 20, 50, 100, 1000];
   const maxPage = Math.ceil(data.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -138,36 +139,22 @@ const TableWithHead = ({
             ))}
           </select>
           <span> rows per page</span>
-          <span>
-            <Pagination>
-              <Pagination.Prev onClick={prevPage} disabled={currentPage <= 1}>
-                Previous
-              </Pagination.Prev>
-              <Pagination.Item>{currentPage}</Pagination.Item>
-              <Pagination.Next
-                onClick={nextPage}
-                disabled={currentPage >= maxPage}
-              >
-                &emsp;Next&emsp;
-              </Pagination.Next>
-            </Pagination>
-          </span>
 
           <nav>
             <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">{"<"}</span>
+              <li className={`page-item ${currentPage <= 1 && "disabled"}`}>
+                <a class="page-link cursor-pointer" onClick={prevPage}>
+                  <span>{"<"}</span>
                 </a>
               </li>
               <li>
-                <a class="page-link" href="#">
-                  {currentPage}
-                </a>
+                <a class="page-link">{currentPage}</a>
               </li>
-              <li class="page-item" onClick={nextPage} disabled={currentPage >= maxPage}>
-                <a class="page-link" aria-label="Next">
-                  <span aria-hidden="true">{">"}</span>
+              <li
+                className={`page-item ${currentPage >= maxPage && "disabled"}`}
+              >
+                <a class="page-link cursor-pointer" onClick={nextPage}>
+                  <span>{">"}</span>
                 </a>
               </li>
             </ul>

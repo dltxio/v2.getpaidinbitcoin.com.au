@@ -17,5 +17,9 @@
 
   ul.pagination {
     margin: auto 2rem 0;
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
   }
 }

@@ -4,8 +4,8 @@ import "./Table.scss";
 
 /**
  * Table with column headers
- * @param {data} array data to display
- * @param {columnConfig} object config for each column field such as children (display column name), hidden, dataFormat (a function to manipulate the data).
+ * @param {array} data data to display
+ * @param {object} columnConfig config for each column field such as children (display column name), hidden, dataFormat (a function to manipulate the data).
  *   Example:
  *   ```
  *   columnConfig = {
@@ -14,23 +14,24 @@ import "./Table.scss";
  *    "date": { children: "Date", dataFormat: (cell) => moment(cell).format("DD-MM-YYYY") },
  *   }
  *   ```
- * @param {hidden} array specify columns to hide. Unused, todo: remove this or remove columnConfig
- * @param {pagination} boolean enable pagination
- * @param {selectedRow} useState_Value adding this will add a radio button column on the left.
- * @param {setSelectedRow} useState_SetFunction
+ * @param {boolean} pagination enable pagination
+ * @param {string} selectOption "radio" or "checkbox". Default to null. Must also provide setSelectedRow function.
+ * @param {useState_SetFunction} setSelectedRow
  * @returns
  */
 const TableWithHead = ({
   data = [],
   columnConfig = {},
-  hidden = [],
   pagination = false,
-  selectedRow = null,
+  selectOption = null,
   setSelectedRow = null,
   ...props
 }) => {
+  const hasOptionColumn = (selectOption === "radio" || selectOption === "checkbox") && setSelectedRow;
+
   const handleRowClick = (index) => {
-    if (setSelectedRow) setSelectedRow(index);
+    if (!hasOptionColumn) return;
+    if (selectOption === "radio") setSelectedRow(index);
   };
 
   // Pagination
@@ -64,7 +65,7 @@ const TableWithHead = ({
                 <input
                   class="form-check-input"
                   type="radio"
-                  checked={index === selectedRow}
+                  name="rowOptions"
                   onChange={() => handleRowClick(index)}
                 />
               </td>
@@ -115,7 +116,7 @@ const TableWithHead = ({
       <Table className="table-hover" striped {...props}>
         <thead>
           <tr>
-            {setSelectedRow && <th></th> /* Radio button column */}
+            {hasOptionColumn && <th></th> /* select input column */}
             {columns}
           </tr>
         </thead>

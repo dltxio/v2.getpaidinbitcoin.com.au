@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
-import "./Table.scss";
+import "./BaseTable.scss";
+import ErrorMessage from "./ErrorMessage";
 
 /**
  * Table with column headers
@@ -19,15 +20,19 @@ import "./Table.scss";
  * @param {useState_SetFunction} setSelectedRow
  * @returns
  */
-const TableWithHead = ({
+const BaseTable = ({
   data = [],
   columnConfig = {},
   pagination = false,
   selectOption = null,
+  selectedRow = null,
   setSelectedRow = null,
+  errorMessage = "",
+  isLoading = false,
   ...props
 }) => {
-  const hasOptionColumn = (selectOption === "radio" || selectOption === "checkbox") && setSelectedRow;
+  const hasOptionColumn =
+    (selectOption === "radio" || selectOption === "checkbox") && setSelectedRow;
 
   const handleRowClick = (index) => {
     if (!hasOptionColumn) return;
@@ -36,9 +41,9 @@ const TableWithHead = ({
 
   // Pagination
   let currentItems = data;
+  const paginationSizeOptions = [25, 50, 100, 1000];
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
-  const paginationSizeOptions = [10, 20, 50, 100];
+  const [itemsPerPage, setItemsPerPage] = useState(paginationSizeOptions[0]);
   const maxPage = Math.ceil(data.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -60,13 +65,14 @@ const TableWithHead = ({
             onClick={() => handleRowClick(index)}
             style={{ cursor: "pointer" }}
           >
-            {setSelectedRow && (
+            {hasOptionColumn && (
               <td>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   name="rowOptions"
                   onChange={() => handleRowClick(index)}
+                  checked={index === selectedRow}
                 />
               </td>
             )}
@@ -83,13 +89,23 @@ const TableWithHead = ({
         ))}
 
         {/* No data text */}
-        {data.length === 0 && (
+        {!isLoading && currentItems.length === 0 && (
           <tr>
             <td
               className="text-center"
               colSpan={Object.keys(columnConfig).length}
             >
               No data available
+            </td>
+          </tr>
+        )}
+        {isLoading && currentItems.length === 0 && (
+          <tr>
+            <td
+              className="text-center"
+              colSpan={Object.keys(columnConfig).length}
+            >
+              Loading...
             </td>
           </tr>
         )}
@@ -112,53 +128,58 @@ const TableWithHead = ({
   };
 
   return (
-    <div className="table-with-head">
-      <Table className="table-hover" striped {...props}>
-        <thead>
-          <tr>
-            {hasOptionColumn && <th></th> /* select input column */}
-            {columns}
-          </tr>
-        </thead>
-        <tbody>{renderTableRows()}</tbody>
-      </Table>
+    <>
+      <ErrorMessage error={errorMessage} hidden={!errorMessage} />
+      <div className="table-with-head">
+        <Table responsive striped {...props}>
+          <thead>
+            <tr>
+              {hasOptionColumn && <th></th> /* select input column */}
+              {columns}
+            </tr>
+          </thead>
+          <tbody>{renderTableRows()}</tbody>
+        </Table>
 
-      {pagination && (
-        <div className="pagination">
-          <span>Show </span>
-          <select
-            className="form-select"
-            value={itemsPerPage}
-            onChange={handlePageSizeChange}
-            style={{ cursor: "pointer" }}
-          >
-            {paginationSizeOptions.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-          <span> rows per page</span>
+        {pagination && (
+          <div className="pagination">
+            <span>Show </span>
+            <select
+              className="form-select"
+              value={itemsPerPage}
+              onChange={handlePageSizeChange}
+              style={{ cursor: "pointer" }}
+            >
+              {paginationSizeOptions.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+            <span> rows per page</span>
 
-          <ul className="pagination">
-            <li className={`page-item ${currentPage <= 1 && "disabled"}`}>
-              <a className="page-link cursor-pointer" onClick={prevPage}>
-                <span>{"<"}</span>
-              </a>
-            </li>
-            <li>
-              <a className="page-link">{currentPage}</a>
-            </li>
-            <li className={`page-item ${currentPage >= maxPage && "disabled"}`}>
-              <a className="page-link cursor-pointer" onClick={nextPage}>
-                <span>{">"}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
-    </div>
+            <ul className="pagination">
+              <li className={`page-item ${currentPage <= 1 && "disabled"}`}>
+                <a className="page-link cursor-pointer" onClick={prevPage}>
+                  <span>{"<"}</span>
+                </a>
+              </li>
+              <li>
+                <a className="page-link">{currentPage}</a>
+              </li>
+              <li
+                className={`page-item ${currentPage >= maxPage && "disabled"}`}
+              >
+                <a className="page-link cursor-pointer" onClick={nextPage}>
+                  <span>{">"}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
-export default TableWithHead;
+export default BaseTable;

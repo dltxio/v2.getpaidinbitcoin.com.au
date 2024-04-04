@@ -2,10 +2,9 @@ import React from "react";
 import Checkmark from "components/Checkmark";
 
 const BillPaidCheckMark = () => (
-  <div className="content">
+  <div className="content m-auto">
     <Checkmark />
-    <p>Your bill has been paid.</p>
-    <p>You can close this dialog.</p>
+    <p className="text-center">Your bill has been paid.</p>
   </div>
 );
 

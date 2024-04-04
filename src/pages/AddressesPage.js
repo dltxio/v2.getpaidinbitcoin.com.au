@@ -142,6 +142,7 @@ const AddressesPage = () => {
           <AddressTable
             addresses={unGroupAddress}
             selectOption="radio"
+            selectedRow={selectedRow}
             setSelectedRow={setSelectedRow}
           />
         </Card>

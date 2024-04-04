@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import TableWithHead from "components/Table";
+import BaseTable from "components/BaseTable";
 import truncate from "../../utils/truncate";
 import { format as format$ } from "currency-formatter";
 
@@ -27,7 +27,7 @@ const tableOptions = {
 
 const ReferralTable = ({ referrals }) => {
   return (
-    <TableWithHead
+    <BaseTable
       data={referrals}
       columnConfig={columnConfig}
       options={tableOptions}

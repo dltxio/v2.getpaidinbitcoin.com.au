@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import TableWithHead from "components/Table";
+import BaseTable from "components/BaseTable";
 import "./BillsTable.scss";
 
 // dataField (key) props (value)
@@ -29,7 +29,7 @@ const columnConfig = {
 };
 
 const BillsHistoryTable = ({ bills, ...props }) => (
-  <TableWithHead
+  <BaseTable
     data={bills}
     columnConfig={columnConfig}
     keyField="id"

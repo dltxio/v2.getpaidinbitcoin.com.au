@@ -13,36 +13,46 @@ import "./Dashboard.scss";
 import ErrorMessage from "components/ErrorMessage";
 
 const BillsPage = () => {
+  const DEFAULT_BILL_INSTRUCTION = (
+    <p>Fetching your unique payment address...</p>
+  );
+
   const { user } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
   const [payWithCustodialWallet, setPayWithCustodialWallet] = useState(false);
-  const DEFAULT_BILL_INSTRUCTION = (
-    <p>Fetching your unique payment address...</p>
-  );
+  const pollingBillId = useRef(null);
   const [billInstruction, setBillInstruction] = useState(
     DEFAULT_BILL_INSTRUCTION
   );
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const { data: bills, error: fetchBillsError } = useSWR(`/bills`);
-  let billsProcessed;
-  if (bills) {
-    bills.reverse();
-    billsProcessed = bills.map((bill) => {
-      bill.btcPaid = bill.btcPaid ? bill.dueDate : "";
-      delete bill.dueDate;
-      delete bill.address;
-      delete bill.reference;
-      delete bill.btcReceived;
-      delete bill.isPaid;
-      delete bill.userID;
-      return bill;
-    });
-  }
+  const [billHistory, setBillHistory] = useState([]);
+  const [billHistoryError, setBillHistoryError] = useState(null);
+  const [isLoadingBillHistory, setIsLoadingBillHistory] = useState(true);
 
-  const pollingBillId = useRef(null);
+  useEffect(() => {
+    gpib.secure
+      .get("/bills")
+      .then((response) => {
+        const billsProcessed = response.data.map((bill) => {
+          bill.btcPaid = bill.btcPaid ? bill.dueDate : "";
+          delete bill.dueDate;
+          delete bill.address;
+          delete bill.reference;
+          delete bill.btcReceived;
+          delete bill.isPaid;
+          delete bill.userID;
+          return bill;
+        });
+        setBillHistory(billsProcessed);
+      })
+      .catch((e) => {
+        setBillHistoryError(e.message);
+      })
+      .finally(() => setIsLoadingBillHistory(false));
+  }, []);
 
   const insertElipseInMiddleAddress = (str) => {
     const length = str.length;
@@ -87,7 +97,9 @@ const BillsPage = () => {
       pollingBillId.current = response.data?.id;
 
       while (pollingBillId.current) {
-        const response = await gpib.secure.get(`/bills/${pollingBillId.current}`);
+        const response = await gpib.secure.get(
+          `/bills/${pollingBillId.current}`
+        );
 
         if (response.data?.btcPaid) {
           setIsPaid(true);
@@ -124,8 +136,7 @@ const BillsPage = () => {
 
         <Card>
           <h4 className="mb-3">Payment History</h4>
-          <BillsHistoryTable data={billsProcessed} />
-          <ErrorMessage error={fetchBillsError} />
+          <BillsHistoryTable data={billHistory} errorMessage={billHistoryError} isLoading={isLoadingBillHistory}/>
         </Card>
 
         <PayWithPersonalWalletModal

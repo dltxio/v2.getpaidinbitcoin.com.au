@@ -25,7 +25,6 @@ const AddressGroupModal = () => {
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (error) {
-      console.log(error);
       formActions.setErrors({ hidden: error });
     }
     formActions.setSubmitting(false);

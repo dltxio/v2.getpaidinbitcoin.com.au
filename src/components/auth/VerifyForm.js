@@ -108,7 +108,6 @@ const VerifyForm = ({
       setIdVerificationStatus(statuses.VERIFIED);
       navigate("/");
     } catch (e) {
-      console.log(e);
       actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
       setIdVerificationStatus(statuses.REJECTED);

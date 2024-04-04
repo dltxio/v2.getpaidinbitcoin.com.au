@@ -63,7 +63,6 @@ const ResetPasswordForm = ({ onSuccess, onError, userId, expiry, token }) => {
       setPassword(values.password);
       if (onSuccess) onSuccess(values, actions);
     } catch (e) {
-      console.log(e);
       actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
       if (onError) onError(e);

@@ -12,8 +12,6 @@ const ResetPasswordPage = () => {
   const { email } = qs.parse(location.search, { ignoreQueryPrefix: true });
   const { expiry } = qs.parse(location.search, { ignoreQueryPrefix: true });
 
-  console.log("token", token);
-
   return (
     <Layout>
       <div

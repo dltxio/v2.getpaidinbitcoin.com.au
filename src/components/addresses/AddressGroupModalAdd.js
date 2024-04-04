@@ -28,7 +28,6 @@ const AddressGroupModalAdd = () => {
       modalActions.onDismiss();
       formActions.setSubmitting(false);
     } catch (error) {
-      console.log(error);
       formActions.setErrors({ hidden: error });
       formActions.setSubmitting(false);
     }

@@ -50,7 +50,6 @@ const AddressModalForm = () => {
       mutate("/transfer", id ? replace : add);
       modalActions.onDismiss();
     } catch (e) {
-      console.log(e);
       formActions.setErrors({ hidden: e });
       formActions.setSubmitting(false);
     }

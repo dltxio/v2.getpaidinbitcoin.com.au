@@ -72,7 +72,6 @@ const RegisterForm = ({
       });
       navigate("/");
     } catch (e) {
-      console.log(e);
       actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
     }

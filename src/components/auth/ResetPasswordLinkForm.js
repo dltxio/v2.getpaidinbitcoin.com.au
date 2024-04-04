@@ -25,7 +25,6 @@ const ResetPasswordLinkForm = ({ initialValues = { email: "" } }) => {
       setTimer(60);
       actions.setSubmitting(false);
     } catch (e) {
-      console.log(e);
       actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
     }

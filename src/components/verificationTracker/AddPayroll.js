@@ -36,7 +36,6 @@ const AddPayroll = ({ userEnterprise }) => {
       await mutate(`/user/${user.id}/deposithints`);
       actions.setSubmitting(false);
     } catch (e) {
-      console.log(e);
       actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
     }

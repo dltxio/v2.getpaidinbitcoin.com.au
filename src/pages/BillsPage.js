@@ -102,6 +102,7 @@ const BillsPage = () => {
           setIsPaid(true);
           pollingBillId.current = null;
         }
+        // wait before polling again
         await new Promise((resolve) => setTimeout(resolve, 3000));
       }
     } catch (e) {

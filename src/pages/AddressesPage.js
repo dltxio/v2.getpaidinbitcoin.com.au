@@ -49,7 +49,6 @@ const AddressesPage = () => {
         value: "Card applied successfully, please check your email."
       });
     } catch (error) {
-      console.log(error);
       setMessage({ type: "danger", value: "Failed to apply card" });
     }
     setApplying(false);
@@ -178,7 +177,7 @@ const AddressesPage = () => {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4>History</h4>
           </div>
-          <AddressHistoryTable logs={address_history} pagination />
+          <AddressHistoryTable logs={address_history} />
         </Card>
       </div>
     </Layout>

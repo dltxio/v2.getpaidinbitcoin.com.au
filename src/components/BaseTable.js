@@ -15,20 +15,28 @@ import ErrorMessage from "./ErrorMessage";
  *    "date": { children: "Date", dataFormat: (cell) => moment(cell).format("DD-MM-YYYY") },
  *   }
  *   ```
- * @param {boolean} pagination enable pagination
  * @param {string} selectOption "radio" or "checkbox". Default to null. Must also provide setSelectedRow function.
+ * @param {string} errorMessage error message to display
+ * @param {boolean} isLoading loading state
+ * @param {object} options additional options such as order (des/asc), pagination.
+ *    Example:
+ *    ```
+ *    options = {
+ *      order: { dataField: "created", order: "des" },
+ *      pagination: true
+ *    }
  * @param {useState_SetFunction} setSelectedRow
  * @returns
  */
 const BaseTable = ({
   data = [],
   columnConfig = {},
-  pagination = false,
   selectOption = null,
   selectedRow = null,
   setSelectedRow = null,
   errorMessage = "",
   isLoading = false,
+  options,
   ...props
 }) => {
   const hasOptionColumn =
@@ -39,8 +47,22 @@ const BaseTable = ({
     if (selectOption === "radio") setSelectedRow(index);
   };
 
-  // Pagination
+  
   let currentItems = data;
+  
+  // Sort data
+  if (options?.order) {
+    const field = options.order.dataField;
+    const order = options.order.order;
+    const dataFormat = options.order.dataFormat? options.order.dataFormat : (cell) => cell;
+    if (order === "asc") {
+      currentItems = data.sort((a, b) => dataFormat(a[field]) - dataFormat(b[field]));
+    } else if (order === "des") {
+      currentItems = data.sort((a, b) => dataFormat(b[field]) - dataFormat(a[field]));
+    } 
+  }
+  
+  // Pagination
   const paginationSizeOptions = [25, 50, 100, 1000];
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(paginationSizeOptions[0]);
@@ -52,7 +74,7 @@ const BaseTable = ({
     setCurrentPage(1); // Reset to first page when pagination size changes
   };
 
-  if (pagination) {
+  if (options?.pagination) {
     currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
   }
 

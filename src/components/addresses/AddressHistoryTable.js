@@ -19,6 +19,10 @@ const columnConfig = {
   }
 };
 
+const options = {
+  pagination: true
+};
+
 const AddressHistoryTable = ({ logs, ...props }) => (
   <BaseTable
     data={logs}
@@ -26,6 +30,7 @@ const AddressHistoryTable = ({ logs, ...props }) => (
     keyField="id"
     className="address-table"
     {...props}
+    options={options}
   />
 );
 

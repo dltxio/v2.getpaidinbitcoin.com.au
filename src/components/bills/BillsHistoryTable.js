@@ -28,13 +28,18 @@ const columnConfig = {
   }
 };
 
+const options = {
+  order: { dataField: "created", order: "des", dataFormat: (cell) => moment(cell).valueOf() },
+  pagination: true
+};
+
 const BillsHistoryTable = ({ bills, ...props }) => (
   <BaseTable
     data={bills}
     columnConfig={columnConfig}
     keyField="id"
     className="bills-table"
-    pagination
+    options={options}
     {...props}
   />
 );

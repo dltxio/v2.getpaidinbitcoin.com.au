@@ -1,5 +1,5 @@
 import React from "react";
-import TableWithHead from "components/Table";
+import BaseTable from "components/BaseTable";
 
 const columnConfig = {
   cryptoAmount: {
@@ -27,7 +27,7 @@ const tableOptions = {
 
 const ReferralCreditTable = ({ referralCredits }) => {
   return (
-    <TableWithHead
+    <BaseTable
       data={referralCredits}
       columnConfig={columnConfig}
       options={tableOptions}

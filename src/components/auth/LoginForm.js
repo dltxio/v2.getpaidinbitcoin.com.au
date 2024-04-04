@@ -27,7 +27,6 @@ const LoginForm = ({
       await login(values);
       if (onLogin) onLogin(values);
     } catch (e) {
-      console.log(e);
       actions.setErrors({
         password: "Unable to login. Please check your email or password."
       });

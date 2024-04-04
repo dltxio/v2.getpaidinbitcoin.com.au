@@ -55,8 +55,6 @@ const Dashboard = () => {
     `/user/${user.id}`
   );
 
-  // const { data: userEnterprise } = useSWR(`/user/${user.id}/enterprise`);
-  // const { data: userAddress } = useSWR(user && `/user/${user.id}/address`);
   // Only if verified
   const { data: bankDetails, error: fetchBankDetailsError } = useSWR(
     isVerified && `/user/${user.id}/bankdetails`

@@ -3,14 +3,19 @@
 
 $size: 1.8rem;
 
+
+.toggle-button {
+  label {
+    margin-top: 0.1rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
 .toggle-button {
   &.switch {
     position: relative;
-    // display: inline-block;
     width: 2 * $size;
     height: $size;
-    margin-left: 0.1 * $size;
-    margin-right: 0.1 * $size;
     margin-top: 0;
     margin-bottom: 0.25 * $size;
     
@@ -32,6 +37,7 @@ $size: 1.8rem;
     width: 0;
     height: 0;
   }
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -40,8 +46,8 @@ $size: 1.8rem;
     right: 0;
     bottom: 0;
     background-color: $gray-500;
-    -webkit-transition: .3s;
-    transition: .3s;
+    -webkit-transition: .15s;
+    transition: .15s;
   }
   
   .slider:before {
@@ -49,25 +55,26 @@ $size: 1.8rem;
     content: "";
     height: 0.75 * $size;
     width: 0.75 * $size;
-    left: 0.2 * $size;
+    left: 0.15 * $size;
     bottom: 0.12 * $size;
     background-color: white;
-    -webkit-transition: .3s;
-    transition: .3s;
+    -webkit-transition: .15s;
+    transition: .15s;
+  }
+
+  input:disabled + .slider {
+    background-color: $gray-300;
+    cursor: not-allowed;
   }
   
   input:checked + .slider {
     background-color: $primary;
   }
   
-  input:focus + .slider {
-    box-shadow: 0 0 0px $primary;
-  }
-  
   input:checked + .slider:before {
-    // -webkit-transform: translateX(0.85 * $size);
-    // -ms-transform: translateX(0.85 * $size);
-    transform: translateX(0.85 * $size);
+    -webkit-transform: translateX(0.95 * $size);
+    -ms-transform: translateX(0.95 * $size);
+    transform: translateX(0.95 * $size);
   }
   
   /* Rounded sliders */

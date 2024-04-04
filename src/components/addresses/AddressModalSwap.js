@@ -21,7 +21,6 @@ const AddressModalSwap = () => {
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (e) {
-      console.log(e);
       formActions.setErrors({ hidden: e });
       formActions.setSubmitting(false);
     }

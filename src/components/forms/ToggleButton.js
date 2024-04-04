@@ -10,15 +10,14 @@ import { useField } from "formik";
  *  - [Codesandbox](https://codesandbox.io/p/sandbox/formik-v2-tutorial-final-ge1pt?file=%2Fsrc%2Findex.js%3A29%2C33)
  *  - [Styling](https://www.w3schools.com/howto/howto_css_switch.asp)
  */
-const ToggleButton = ({ ...props }) => {
-  const [input, , ] = useField({ ...props, type: "checkbox" });
-
-  const additionalClassName = " " + props.className;
+const ToggleButton = ({ label, disabled=false, ...props }) => {
+  const [field, ] = useField({ ...props, type: "checkbox" });
 
   return (
     <>
-      <label className={"toggle-button switch" + additionalClassName}>
-        <input type="checkbox" {...input} {...props} />
+      {label && <div className="toggle-button"><label>{label}</label></div>} 
+      <label className={"toggle-button switch " + props.className}>
+        <input type="checkbox" {...field} {...props} disabled={disabled}/>
         <span className="slider round"></span>
       </label>
     </>

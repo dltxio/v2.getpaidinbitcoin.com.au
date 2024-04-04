@@ -1,0 +1,32 @@
+@import "../../constants/colors";
+@import "../../constants/mixins";
+
+.bills.modal {
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 300px;
+    
+    &.custodial-wallet {
+      margin: auto;
+    }
+
+    .content {
+      width: 100%;
+      padding: 0.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      p {
+        width: 100%;
+        margin: 1rem 0 0.25rem;
+      }
+
+      p.bill-instruction {
+        overflow-wrap: break-word;
+      }
+    }
+  }
+}

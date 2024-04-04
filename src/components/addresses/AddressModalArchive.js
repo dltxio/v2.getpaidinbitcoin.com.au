@@ -37,7 +37,6 @@ const AddressModalAdd = () => {
       await mutate(getUrl);
       actions.onDismiss();
     } catch (e) {
-      console.log(e);
       setSubmitError(e);
       setSubmitting(false);
     }

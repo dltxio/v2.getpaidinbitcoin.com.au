@@ -44,7 +44,6 @@ const AddressModalEdit = () => {
       await mutate(getUrl);
       modalActions.onDismiss();
     } catch (e) {
-      console.log(e);
       formActions.setErrors({ hidden: e });
       formActions.setSubmitting(false);
     }

@@ -47,21 +47,26 @@ const BaseTable = ({
     if (selectOption === "radio") setSelectedRow(index);
   };
 
-  
   let currentItems = data;
-  
+
   // Sort data
   if (options?.order) {
     const field = options.order.dataField;
     const order = options.order.order;
-    const dataFormat = options.order.dataFormat? options.order.dataFormat : (cell) => cell;
+    const dataFormat = options.order.dataFormat
+      ? options.order.dataFormat
+      : (cell) => cell;
     if (order === "asc") {
-      currentItems = data.sort((a, b) => dataFormat(a[field]) - dataFormat(b[field]));
+      currentItems = data.sort(
+        (a, b) => dataFormat(a[field]) - dataFormat(b[field])
+      );
     } else if (order === "des") {
-      currentItems = data.sort((a, b) => dataFormat(b[field]) - dataFormat(a[field]));
-    } 
+      currentItems = data.sort(
+        (a, b) => dataFormat(b[field]) - dataFormat(a[field])
+      );
+    }
   }
-  
+
   // Pagination
   const paginationSizeOptions = [25, 50, 100, 1000];
   const [currentPage, setCurrentPage] = useState(1);
@@ -149,6 +154,45 @@ const BaseTable = ({
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  const PaginationControl = () => {
+    if (!options?.pagination) return null;
+    return (
+      <div className="pagination">
+        <span>Show </span>
+        <select
+          className="form-select"
+          value={itemsPerPage}
+          onChange={handlePageSizeChange}
+          style={{ cursor: "pointer" }}
+        >
+          {paginationSizeOptions.map((size) => (
+            <option key={size} value={size}>
+              {size}
+            </option>
+          ))}
+        </select>
+        <span> rows per page</span>
+
+        <ul className="pagination">
+          <li className={`page-item ${currentPage <= 1 && "disabled"}`}>
+            <a className="page-link cursor-pointer" onClick={prevPage}>
+              <span>{"<"}</span>
+            </a>
+          </li>
+          <li>
+            <a className="page-link">{currentPage}</a>
+          </li>
+          <li className={`page-item ${currentPage >= maxPage && "disabled"}`}>
+            <a className="page-link cursor-pointer" onClick={nextPage}>
+              <span>{">"}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+
   return (
     <>
       <ErrorMessage error={errorMessage} hidden={!errorMessage} />
@@ -163,42 +207,7 @@ const BaseTable = ({
           <tbody>{renderTableRows()}</tbody>
         </Table>
 
-        {pagination && (
-          <div className="pagination">
-            <span>Show </span>
-            <select
-              className="form-select"
-              value={itemsPerPage}
-              onChange={handlePageSizeChange}
-              style={{ cursor: "pointer" }}
-            >
-              {paginationSizeOptions.map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-            <span> rows per page</span>
-
-            <ul className="pagination">
-              <li className={`page-item ${currentPage <= 1 && "disabled"}`}>
-                <a className="page-link cursor-pointer" onClick={prevPage}>
-                  <span>{"<"}</span>
-                </a>
-              </li>
-              <li>
-                <a className="page-link">{currentPage}</a>
-              </li>
-              <li
-                className={`page-item ${currentPage >= maxPage && "disabled"}`}
-              >
-                <a className="page-link cursor-pointer" onClick={nextPage}>
-                  <span>{">"}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        )}
+        <PaginationControl />
       </div>
     </>
   );

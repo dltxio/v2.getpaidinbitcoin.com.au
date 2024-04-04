@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "components/auth/Auth";
 import { Alert } from "react-bootstrap";
-import useSWR from "swr";
-
 import Layout from "components/layout/Layout";
 import Card from "components/Card";
 import gpib from "apis/gpib";
@@ -10,7 +8,6 @@ import BillsHistoryTable from "components/bills/BillsHistoryTable";
 import PayWithPersonalWalletModal from "components/bills/PayWithPersonalWalletModal";
 import CreateBillForm from "components/bills/CreateBillForm";
 import "./Dashboard.scss";
-import ErrorMessage from "components/ErrorMessage";
 
 const BillsPage = () => {
   const DEFAULT_BILL_INSTRUCTION = (

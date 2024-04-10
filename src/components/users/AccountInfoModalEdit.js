@@ -39,7 +39,7 @@ const AccountInfoModal = (props) => {
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading="Account Setting">
+    <Modal isOpen onDismiss={onDismiss} heading="Remittance Setting">
       {({ onDismiss, wrapCallback }) => (
         <>
           <Loader loading={isValidating} diameter="2rem" />

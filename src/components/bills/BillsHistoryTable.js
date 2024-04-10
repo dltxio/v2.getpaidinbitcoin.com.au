@@ -16,7 +16,8 @@ const columnConfig = {
     children: "Biller Code"
   },
   fiat: {
-    children: "Amount (AUD)"
+    children: "Amount (AUD)",
+    dataFormat: (cell) => cell.toFixed(2)
   },
   btc: {
     children: "Amount (BTC)",

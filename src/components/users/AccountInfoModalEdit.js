@@ -34,7 +34,7 @@ const AccountInfoModal = (props) => {
   };
 
   const onDismiss = () => {
-    const path = location.pathname.replace(/\/accountInfo\/edit/g, ""); //change url
+    const path = location.pathname.replace(/\/accountInfo\/edit/g, "");
     navigate(path);
   };
 

@@ -34,12 +34,12 @@ const AccountInfoModal = (props) => {
   };
 
   const onDismiss = () => {
-    const path = location.pathname.replace(/\/accountInfo\/edit/g, ""); //change url
+    const path = location.pathname.replace(/\/accountInfo\/edit/g, "");
     navigate(path);
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading="Account Setting">
+    <Modal isOpen onDismiss={onDismiss} heading="Remittance Setting">
       {({ onDismiss, wrapCallback }) => (
         <>
           <Loader loading={isValidating} diameter="2rem" />

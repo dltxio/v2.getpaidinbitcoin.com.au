@@ -240,7 +240,7 @@ const Dashboard = () => {
                   <li>
                     Verify your profile (KYC) data for AUSTRAC obligations.
                   </li>
-                  <li>Add up to two personal bitcoin wallet addresses.</li>
+                  <li>Add up to two bitcoin wallet addresses.</li>
                   <li>Refer a friend.</li>
                   <li>Start stacking sats!</li>
                 </ol>
@@ -310,7 +310,7 @@ const Dashboard = () => {
                   <Button onClick={handleDownload}>Download CSV</Button>
                   <CSVLink
                     data={transactionsDownload}
-                    filename={currentYear + "-gpib-transactions.csv"}
+                    filename={year + "-gpib-transactions.csv"}
                     className="hidden"
                     target="_blank"
                     ref={csvRef}

@@ -37,20 +37,43 @@ const states = [
 
 const validate = ({
   dob,
+  streetNumber,
+  streetName,
+  suburb,
+  state,
   postcode,
   driversLicenseNumber,
   driversLicenseCardNumber,
   medicareNumber,
+  medicareNameOnCard,
   medicareIndividualReferenceNumber,
-  medicareExpiry,
-  medicareNameOnCard
+  medicareExpiry
 }) => {
   const requiredMsg = "This field is required";
   const errors = {};
 
+  const dobRegex = new RegExp("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
+  if (!dobRegex.test(dob))
+    errors.dob = "Invalid date of birth. Please enter in format dd/mm/yyyy";
+
+  const streetNumberRegex = new RegExp("^[0-9]{1,10}$");
+  if (!streetNumberRegex.test(streetNumber))
+    errors.streetNumber =
+      "Invalid street number. Please enter a valid street number";
+
   const postcodeRegex = new RegExp("^[0-9]{4}$");
   if (!postcodeRegex.test(postcode))
-    errors.postcode = "Invalid postcode.  Please enter a 4 digit postcode";
+    errors.postcode = "Invalid postcode. Please enter a 4 digit postcode";
+
+  const streetNameRegex = new RegExp("^\w+(\s+\w+)+$");
+  if (!streetNameRegex.test(streetName))
+    errors.streetName = "Invalid street name. Please enter both street name and type";
+
+  const wordAndSpaceRegex = new RegExp("[a-zA-Z][a-zA-Z ]*");
+  if (!wordAndSpaceRegex.test(suburb))
+    errors.suburb = "Invalid suburb. Please enter a valid suburb";
+  if (!wordAndSpaceRegex.test(state))
+    errors.state = "Invalid state. Please enter a valid state";
 
   if (!driversLicenseNumber) errors.driversLicenseNumber = requiredMsg;
   if (!driversLicenseCardNumber) errors.driversLicenseCardNumber = requiredMsg;
@@ -58,13 +81,9 @@ const validate = ({
   const medicareNumberRegex = new RegExp("^[0-9]{10}$");
   if (!medicareNumberRegex.test(medicareNumber))
     errors.medicareNumber =
-      "Invalid Medicare Card Number.  Please enter a 10 digit Medicare Card Number";
+      "Invalid Medicare Card Number. Please enter a 10 digit Medicare Card Number";
 
   if (!medicareNameOnCard) errors.medicareNameOnCard = requiredMsg;
-
-  const dobRegex = new RegExp("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
-  if (!dobRegex.test(dob))
-    errors.dob = "Invalid date of birth.  Please enter in format dd/mm/yyyy";
 
   const medicareIndividualReferenceNumberRegex = new RegExp("^[0-9]{1,2}$");
   if (
@@ -73,12 +92,12 @@ const validate = ({
     )
   )
     errors.medicareIndividualReferenceNumber =
-      "Invalid Medicare Individual Reference Number.  Please enter a 1 or 2 digit Medicare Individual Reference Number";
+      "Invalid Medicare Individual Reference Number. Please enter a 1 or 2 digit Medicare Individual Reference Number";
 
   const medicareExpiryRegex = new RegExp("^[0-9]{2}/[0-9]{4}$");
   if (!medicareExpiryRegex.test(medicareExpiry))
     errors.medicareExpiry =
-      "Invalid Medicare expiry.  Please enter in format mm/yyyy";
+      "Invalid Medicare expiry. Please enter in format mm/yyyy";
 
   return errors;
 };

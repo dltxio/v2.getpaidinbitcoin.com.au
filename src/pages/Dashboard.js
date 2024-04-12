@@ -303,7 +303,7 @@ const Dashboard = () => {
                   <Button onClick={handleDownload}>Download CSV</Button>
                   <CSVLink
                     data={transactionsDownload}
-                    filename={currentYear + "-gpib-transactions.csv"}
+                    filename={year + "-gpib-transactions.csv"}
                     className="hidden"
                     target="_blank"
                     ref={csvRef}

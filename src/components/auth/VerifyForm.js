@@ -114,7 +114,6 @@ const VerifyForm = ({
         "/user/idemproxy/verify-claims",
         parsedValues
       );
-      console.log(response)
 
       if (response.status === 200) {
         setIdVerificationStatus(statuses.VERIFIED);
@@ -125,7 +124,6 @@ const VerifyForm = ({
       setIdVerificationStatus(statuses.VERIFIED);
       navigate("/");
     } catch (e) {
-      actions.setErrors({ hidden: e });
       actions.setSubmitting(false);
       setIdVerificationStatus(statuses.REJECTED);
     }
@@ -163,7 +161,6 @@ const VerifyForm = ({
             placeholder="Medicare Individual Reference Number"
           />
           <Input name="medicareExpiry" placeholder="Medicare Expiry mm/yyyy" />
-          <ErrorMessage error={errors.hidden} />
           <SubmitSpinnerButtonWithDisable
             submitText={submitText}
             isSubmitting={isSubmitting}

@@ -6,30 +6,19 @@ import { AuthContext } from "components/auth/Auth";
 import VerifyForm from "../auth/VerifyForm";
 
 const statuses = {
-  NOT_STARTED: 0,
-  STARTED: 1,
-  SUBMITTED: 2,
-  VERIFIED: 3,
-  REJECTED: 4,
-  CANCELLED: 5
+  VERIFIED: 1,
+  REJECTED: 2,
+  CANCELLED: 3
 };
 
 const statusAlerts = {
-  [statuses.STARTED]: {
-    children:
-      "An SMS has been sent to your mobile number with instructions to proceed with your verification process."
-  },
-  [statuses.SUBMITTED]: {
-    children:
-      "Your verification information has been received and is currently being processed."
-  },
   [statuses.VERIFIED]: {
     children: "Congratulations, your ID Verification is now complete.",
     variant: "success"
   },
   [statuses.REJECTED]: {
     children:
-      "Your ID Verification has failed. Please contact customer support.",
+      "Your ID Verification has not been successful. Please try again or contact customer support.",
     variant: "danger"
   },
   [statuses.CANCELLED]: {
@@ -64,12 +53,14 @@ const VerifyID = ({ submitText, showSkip }) => {
           one-time process and your details are not stored. Please have your
           documents ready.
         </Alert>
+
         {showAlert && (
           <Alert
             variant={alert.variant ? alert.variant : "primary"}
             {...alert}
           />
         )}
+
         <div className="mr-auto">
           <VerifyForm
             setIdVerificationStatus={setIdVerificationStatus}

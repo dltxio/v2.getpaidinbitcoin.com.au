@@ -29,7 +29,7 @@ const statusAlerts = {
   },
   [statuses.REJECTED]: {
     children:
-      "Your ID Verification has failed. Please contact customer support.",
+      "Your ID Verification has not been successful. Please contact customer support.",
     variant: "danger"
   },
   [statuses.CANCELLED]: {

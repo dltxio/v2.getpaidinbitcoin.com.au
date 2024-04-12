@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { AuthContext } from "components/auth/Auth";
+import React, { useEffect, useState, useRef } from "react";
 import { Alert } from "react-bootstrap";
 import Layout from "components/layout/Layout";
 import Card from "components/Card";
@@ -14,7 +13,6 @@ const BillsPage = () => {
     <p>Fetching your unique payment address...</p>
   );
 
-  const { user } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [paymentAddress, setPaymentAddress] = useState("");
@@ -24,7 +22,6 @@ const BillsPage = () => {
     DEFAULT_BILL_INSTRUCTION
   );
   const [errorMessage, setErrorMessage] = useState(null);
-
   const [billHistory, setBillHistory] = useState([]);
   const [billHistoryError, setBillHistoryError] = useState(null);
   const [isLoadingBillHistory, setIsLoadingBillHistory] = useState(true);
@@ -116,12 +113,12 @@ const BillsPage = () => {
       <div className="bills container py-5">
         <Card>
           <div className="d-flex justify-content-between">
-            <h4>Pay a Bill Instantly</h4>
+            <h4>Pay a Bill with Bitcoin!</h4>
           </div>
           <Alert variant="secondary" className="mt-3">
-            You can now pay our bills instantly with Bitcoin. Simply enter the
+            You can now pay our bills with Bitcoin. Simply enter the
             BPay Biller code and Reference number from your bill and we will pay
-            it instantly.
+            it for you.
           </Alert>
           <CreateBillForm
             onSubmit={onSubmit}

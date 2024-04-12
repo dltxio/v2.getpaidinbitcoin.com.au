@@ -4,7 +4,7 @@ import Checkmark from "components/Checkmark";
 const BillPaidCheckMark = () => (
   <div className="content m-auto">
     <Checkmark />
-    <p className="text-center">Your bill has been paid.</p>
+    <p className="text-center">Your bitcoin has been received.</p>
   </div>
 );
 

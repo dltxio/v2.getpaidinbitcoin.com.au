@@ -30,11 +30,13 @@ const PayWithPersonalWalletModal = ({
     if (onSubmit) await onSubmit();
   };
 
+  const heading = isPaid ? "Payment received" : "Your payment address";
+
   return (
     <Modal
       isOpen={isOpen}
       onDismiss={onDismissWrapper}
-      heading="Your payment address"
+      heading={heading}
       className="bills"
     >
       {!isPaid ? (

@@ -175,17 +175,17 @@ const BaseTable = ({
 
         <ul className="pagination">
           <li className={`page-item ${currentPage <= 1 && "disabled"}`}>
-            <a className="page-link cursor-pointer" onClick={prevPage}>
+            <div className="page-link cursor-pointer" onClick={prevPage}>
               <span>{"<"}</span>
-            </a>
+            </div>
           </li>
           <li>
-            <a className="page-link">{currentPage}</a>
+            <div className="page-link">{currentPage}</div>
           </li>
           <li className={`page-item ${currentPage >= maxPage && "disabled"}`}>
-            <a className="page-link cursor-pointer" onClick={nextPage}>
+            <div className="page-link cursor-pointer" onClick={nextPage}>
               <span>{">"}</span>
-            </a>
+            </div>
           </li>
         </ul>
       </div>

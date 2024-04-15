@@ -106,7 +106,7 @@ const PayInformationActions = () => {
     const target = "sms";
     try {
       dispatch({ target, type: "BEGIN" });
-      await gpib.secure.post("/sms/payinstructions", { userID: user.id });
+      await gpib.secure.post("/sms/payinstructions", { UserID: user.id });
       dispatch({ target, type: "DONE" });
     } catch (error) {
       dispatch({ target, type: "ERROR", error });
@@ -148,7 +148,7 @@ const PayInformationActions = () => {
     try {
       dispatch({ target, type: "BEGIN" });
       await gpib.secure.post("/email/payinstructions", {
-        userID: user.id,
+        UserID: user.id,
         ToEmail: email
       });
       dispatch({ target, type: "DONE" });

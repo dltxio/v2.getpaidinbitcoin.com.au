@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "components/Modal";
 import ErrorMessage from "components/ErrorMessage";
-import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 
 const ConfirmModal = ({ onConfirm, onDismiss, confirmText, ...props }) => {
   const [isLoading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ const ConfirmModal = ({ onConfirm, onDismiss, confirmText, ...props }) => {
   return (
     <Modal onDismiss={onDismiss} {...props}>
       <ErrorMessage error={error} />
-      <SubmitButtonSpinner
+      <SubmitSpinnerButton
         isSubmitting={isLoading}
         onClick={wrapOnConfirm}
         submitText={confirmText}

@@ -3,7 +3,6 @@ import { Formik, Form } from "formik";
 import Input from "components/forms/Input";
 import SubmitSpinnerButtonWithDisable from "components/forms/SubmitSpinnerButtonWithDisable";
 import gpib from "apis/gpib";
-import ErrorMessage from "components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import "./RegisterForm.scss";
 import Selector from "components/forms/Selector";

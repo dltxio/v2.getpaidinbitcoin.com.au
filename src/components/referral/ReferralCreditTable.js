@@ -31,7 +31,6 @@ const ReferralCreditTable = ({ referralCredits }) => {
       data={referralCredits}
       columnConfig={columnConfig}
       options={tableOptions}
-      striped={false}
     />
   );
 };

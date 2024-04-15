@@ -197,7 +197,7 @@ const BaseTable = ({
     <>
       <ErrorMessage error={errorMessage} hidden={!errorMessage} />
       <div className="table-with-head">
-        <Table responsive striped {...props}>
+        <Table responsive {...props}>
           <thead>
             <tr>
               {hasOptionColumn && <th></th> /* select input column */}

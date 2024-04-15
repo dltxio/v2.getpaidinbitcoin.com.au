@@ -53,7 +53,6 @@ const TransactionTable = ({ transactions = [], ...props }) => {
       columnConfig={columnConfig}
       options={tableOptions}
       trClassName={formatRow}
-      striped={false}
       {...props}
     />
   );

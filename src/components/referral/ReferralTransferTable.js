@@ -40,7 +40,6 @@ const ReferralTransferTable = ({ referralTransfers }) => {
       data={referralTransfers}
       columnConfig={columnConfig}
       options={tableOptions}
-      striped={false}
     />
   );
 };

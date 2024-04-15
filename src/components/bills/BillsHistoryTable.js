@@ -41,6 +41,7 @@ const BillsHistoryTable = ({ bills, ...props }) => (
     keyField="id"
     className="bills-table"
     options={options}
+    striped
     {...props}
   />
 );

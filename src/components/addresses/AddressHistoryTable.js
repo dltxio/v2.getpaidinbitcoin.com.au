@@ -29,8 +29,8 @@ const AddressHistoryTable = ({ logs, ...props }) => (
     columnConfig={columnConfig}
     keyField="id"
     className="address-table"
-    {...props}
     options={options}
+    {...props}
   />
 );
 

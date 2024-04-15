@@ -88,8 +88,7 @@ const initialState = {
 const actionSharedProps = {
   variant: "link",
   className: "mb-2",
-  iconStyle: { fontSize: "120%" },
-  block: false
+  iconStyle: { fontSize: "120%" }
 };
 
 const PayInformationActions = () => {
@@ -125,6 +124,7 @@ const PayInformationActions = () => {
   ) => {
     try {
       await emailInstructions(values.email, "customEmail");
+      setSendInstructionsToAnotherMessage("Pay instructions sent successfully");
     } catch {
       formActions.setErrors({
         hidden: "Something went wrong. Try emailing instructions again?"
@@ -135,25 +135,22 @@ const PayInformationActions = () => {
 
   const onModalDismiss = () => {
     setIsModalOpen(false);
-    console.log("close");
     setSendInstructionsToAnotherError(null);
     setSendInstructionsToAnotherMessage(null);
   };
 
   const onClickEmailInstructionsToAnother = async () => {
+    setSendInstructionsToAnotherError(null);
     setIsModalOpen(true);
-    console.log("open");
   };
 
   const emailInstructions = async (email, target) => {
     try {
-      setSendInstructionsToAnotherError(null);
       dispatch({ target, type: "BEGIN" });
       await gpib.secure.post("/email/payinstructions", {
         userID: user.id,
         ToEmail: email
       });
-      setSendInstructionsToAnotherMessage("Pay instructions sent successfully");
       dispatch({ target, type: "DONE" });
     } catch (error) {
       dispatch({ target, type: "ERROR", error });

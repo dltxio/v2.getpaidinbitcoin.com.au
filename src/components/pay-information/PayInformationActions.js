@@ -1,9 +1,8 @@
-import React, { useReducer, useContext } from "react";
-import { isEmail } from "validator";
-import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
+import React, { useReducer, useContext, useState } from "react";
 import { AuthContext } from "components/auth/Auth";
+import EmailPayInstructionsToAnotherEmailModal from "./EmailPayInstructionsToAnotherEmailModal";
 import gpib from "apis/gpib";
-import ButtonInputSwitcher from "components/ButtonInputSwitcher";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 
 const icons = {
   email: "mail-outline",
@@ -89,19 +88,25 @@ const initialState = {
 const actionSharedProps = {
   variant: "link",
   className: "mb-2",
-  iconStyle: { fontSize: "120%" },
-  block: false
+  iconStyle: { fontSize: "120%" }
 };
 
 const PayInformationActions = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sendInstructionsToAnotherError, setSendInstructionsToAnotherError] =
+    useState(null);
+  const [
+    sendInstructionsToAnotherMessage,
+    setSendInstructionsToAnotherMessage
+  ] = useState(null);
   const { user } = useContext(AuthContext);
 
   const smsInstructionsToMe = async () => {
     const target = "sms";
     try {
       dispatch({ target, type: "BEGIN" });
-      await gpib.secure.get(`/sms/payinstructions/${user.id}`);
+      await gpib.secure.post("/sms/payinstructions", { UserID: user.id });
       dispatch({ target, type: "DONE" });
     } catch (error) {
       dispatch({ target, type: "ERROR", error });
@@ -112,25 +117,44 @@ const PayInformationActions = () => {
     await emailInstructions(user?.email, "email");
   };
 
-  const emailInstructionsToOther = async (customEmail, actions) => {
-    if (!isEmail(customEmail))
-      return dispatch({
-        target: "customEmail",
-        type: "ERROR",
-        error: "Invalid email"
+  const emailInstructionsToAnother = async (
+    values,
+    formActions,
+    modalActions
+  ) => {
+    try {
+      await emailInstructions(values.email, "customEmail");
+      setSendInstructionsToAnotherMessage("Pay instructions sent successfully");
+    } catch {
+      formActions.setErrors({
+        hidden: "Something went wrong. Try emailing instructions again?"
       });
-    actions.setInputShown(false);
+      formActions.setSubmitting(false);
+    }
+  };
 
-    await emailInstructions(customEmail, "customEmail");
+  const onModalDismiss = () => {
+    setIsModalOpen(false);
+    setSendInstructionsToAnotherError(null);
+    setSendInstructionsToAnotherMessage(null);
+  };
+
+  const onClickEmailInstructionsToAnother = async () => {
+    setSendInstructionsToAnotherError(null);
+    setIsModalOpen(true);
   };
 
   const emailInstructions = async (email, target) => {
     try {
       dispatch({ target, type: "BEGIN" });
-      await gpib.secure.get(`/email/payinstructions/${user.id}?email=${email}`);
+      await gpib.secure.post("/email/payinstructions", {
+        UserID: user.id,
+        ToEmail: email
+      });
       dispatch({ target, type: "DONE" });
     } catch (error) {
       dispatch({ target, type: "ERROR", error });
+      setSendInstructionsToAnotherError(error);
     }
   };
 
@@ -152,14 +176,20 @@ const PayInformationActions = () => {
         {...actionSharedProps}
       />
       <br />
-      <ButtonInputSwitcher
+      <SubmitSpinnerButton
         icon={state.customEmail.icon}
         submitText={state.customEmail.message}
         isSubmitting={state.customEmail.isSending}
-        onSubmit={emailInstructionsToOther}
-        confirmText="Send"
-        onCancel={() => dispatch({ type: "RESET", target: "customEmail" })}
+        onClick={onClickEmailInstructionsToAnother}
         {...actionSharedProps}
+      />
+
+      <EmailPayInstructionsToAnotherEmailModal
+        isOpen={isModalOpen}
+        error={sendInstructionsToAnotherError}
+        message={sendInstructionsToAnotherMessage}
+        onDismiss={onModalDismiss}
+        onSubmit={emailInstructionsToAnother}
       />
     </div>
   );

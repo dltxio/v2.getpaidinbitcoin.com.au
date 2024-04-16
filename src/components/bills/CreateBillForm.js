@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { isNumeric } from "validator";
-import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import ErrorMessage from "components/ErrorMessage";
 import Input from "components/forms/Input";
 
@@ -50,7 +50,7 @@ const CreateBillForm = ({
         <Input name="billercode" label="Biller Code" />
         <Input name="reference" label="Ref" />
         <Input name="fiat" label="AUD Amount" />
-        <SubmitButtonSpinner
+        <SubmitSpinnerButton
           isSubmitting={isSubmitting}
           className="mt-3"
           submitText="Pay now with Bitcoin"

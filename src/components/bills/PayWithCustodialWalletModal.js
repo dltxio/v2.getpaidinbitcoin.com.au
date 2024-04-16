@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "components/Modal";
-import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
 import ErrorMessage from "components/ErrorMessage";
 import LabelledTable from "components/LabelledTable";
@@ -49,7 +49,7 @@ const PayWithCustodialWalletModal = ({
             <LabelledTable columns={tableData} />
             <ErrorMessage error={errorMessage} isHidden={!errorMessage} />
           </div>
-          <SubmitButtonSpinner
+          <SubmitSpinnerButton
             submitText="Pay now"
             onClick={onSubmitWrapper}
             isSubmitting={isProcessing}

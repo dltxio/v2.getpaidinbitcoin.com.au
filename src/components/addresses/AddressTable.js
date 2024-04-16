@@ -34,7 +34,6 @@ const AddressTable = ({ addresses, ...props }) => (
     columnConfig={columnConfig}
     keyField="id"
     className="address-table"
-    striped={false}
     {...props}
   />
 );

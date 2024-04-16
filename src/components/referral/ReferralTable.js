@@ -31,7 +31,6 @@ const ReferralTable = ({ referrals }) => {
       data={referrals}
       columnConfig={columnConfig}
       options={tableOptions}
-      striped={false}
     />
   );
 };

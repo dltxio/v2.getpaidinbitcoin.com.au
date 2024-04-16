@@ -93,7 +93,7 @@ const BaseTable = ({
             style={{ cursor: "pointer" }}
           >
             {hasOptionColumn && (
-              <td>
+              <td className="text-center">
                 <input
                   className="form-check-input"
                   type="radio"

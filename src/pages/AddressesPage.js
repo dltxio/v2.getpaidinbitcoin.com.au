@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
-import { ButtonGroup, Alert } from "react-bootstrap";
+import { ButtonGroup, Alert, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
@@ -12,7 +12,6 @@ import AddressGroupTable from "components/addresses/AddressGroupTable";
 import AddressHistoryTable from "components/addresses/AddressHistoryTable";
 import IconButton from "components/IconButton";
 import "./Dashboard.scss";
-import gpib from "apis/gpib";
 
 const AddressesPage = () => {
   const { user } = useContext(AuthContext);
@@ -29,94 +28,89 @@ const AddressesPage = () => {
   const { data: address_history } = useSWR(`/addresshistory`);
   const groupAddress = addresses?.filter((a) => a.groupID);
   const unGroupAddress = addresses?.filter((a) => !a.groupID);
-  const hasCardAddress = unGroupAddress?.filter(
-    (i) => i.label === "Cryptospend"
-  );
-  const [message, setMessage] = useState({ type: "", value: "" });
-  const [applying, setApplying] = useState(false);
   const alertText = hasMultipleAddresses
     ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`
     : `Your payment can be sent up to two bitcoin addresses. For example,
         you may want to split your payment and send 50% to a cold storage
         wallet and 50% to a hot wallet.`;
 
-  const applyCard = async () => {
-    setApplying(true);
-    try {
-      await gpib.secure.get("/card/apply");
-      setMessage({
-        type: "success",
-        value: "Card applied successfully, please check your email."
-      });
-    } catch (error) {
-      setMessage({ type: "danger", value: "Failed to apply card" });
-    }
-    setApplying(false);
-  };
+  const actionButtons = (
+    <>
+      <Button
+        className="mb-1 ms-1"
+        onClick={() => navigate("/addresses/add")}
+        disabled={user?.idVerificationStatus !== 3}
+        hidden={hasMultipleAddresses}
+      >
+        <span>Add </span>
+      </Button>
+      <Button
+        className="mb-1 ms-1"
+        onClick={() =>
+          navigate(`/addresses/edit/${unGroupAddress[selectedRow].id}`)
+        }
+        disabled={selectedRow === null}
+      >
+        <span>Edit </span>
+      </Button>
+      <Button
+        className="mb-1 ms-1"
+        onClick={() =>
+          navigate(`/addresses/swap/${unGroupAddress[selectedRow].id}`)
+        }
+        disabled={selectedRow === null}
+        hidden={user?.idVerificationStatus !== 3}
+      >
+        <span>Swap </span>
+      </Button>
+      <Button
+        className="mb-1 ms-1"
+        onClick={() =>
+          navigate(`/addresses/archive/${unGroupAddress[selectedRow].id}`)
+        }
+        disabled={selectedRow === null || unGroupAddress?.length === 1}
+        hidden={!hasMultipleAddresses}
+      >
+        <span>Archive </span>
+      </Button>
+      <Button
+        className="mb-1 ms-1"
+        onClick={() =>
+          navigate(`/addresses/group/${unGroupAddress[selectedRow].id}`)
+        }
+        disabled={selectedRow === null || unGroupAddress.length === 1}
+        hidden={
+          user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
+        }
+      >
+        <span>Group Address </span>
+      </Button>
+    </>
+  );
 
-  const actions = [
-    {
-      icon: "card",
-      title: "Apply Card",
-      onClick: () => applyCard(),
-      hide: hasCardAddress.length > 0,
-      disabled: hasCardAddress.length > 0
-    },
-    {
-      icon: "add",
-      title: "Add",
-      onClick: () => navigate("/addresses/add"),
-      hide: hasMultipleAddresses,
-      disabled: user?.idVerificationStatus !== 3
-    },
-    {
-      icon: "create-outline",
-      title: "Edit",
-      onClick: () =>
-        navigate(`/addresses/edit/${unGroupAddress[selectedRow].id}`),
-      disabled: selectedRow === null
-    },
-    {
-      icon: "swap-horizontal-outline",
-      title: "Swap",
-      onClick: () =>
-        navigate(`/addresses/swap/${unGroupAddress[selectedRow].id}`),
-      disabled: selectedRow === null,
-      hide: user?.idVerificationStatus !== 3
-    },
-    {
-      icon: "archive-outline",
-      title: "Archive",
-      onClick: () =>
-        navigate(`/addresses/archive/${unGroupAddress[selectedRow].id}`),
-      disabled: selectedRow === null || unGroupAddress?.length === 1,
-      hide: !hasMultipleAddresses
-    },
-    {
-      icon: "wallet-outline",
-      title: "Group Address",
-      onClick: () =>
-        navigate(`/addresses/group/${unGroupAddress[selectedRow].id}`),
-      disabled: selectedRow === null || unGroupAddress.length === 1,
-      hide: user?.idVerificationStatus !== 3 || !settings?.allowGroupedAddresses
-    }
-  ];
-
-  const groupActions = [
-    {
-      icon: "add",
-      title: "Add",
-      onClick: () => navigate(`/addresses/groupAdd`),
-      disabled: unGroupAddress?.length > 1
-    },
-    {
-      icon: "create-outline",
-      title: "Edit",
-      onClick: () =>
-        navigate(`/addresses/groupEdit/${groupAddress[selectedGroup].groupID}`),
-      disabled: selectedGroup === null
-    }
-  ];
+  const groupActionButtons = (
+    <>
+      {" "}
+      <Button
+        className="mb-1 ms-1"
+        onClick={() => navigate(`/addresses/groupAdd`)}
+        disabled={unGroupAddress?.length > 1}
+      >
+        <span>Add </span>
+      </Button>
+      <Button
+        className="mb-1 ms-1"
+        onClick={() =>
+          navigate(
+            `/addresses/groupEdit/${groupAddress[selectedGroup].groupID}`
+          )
+        }
+        disabled={selectedGroup === null}
+      >
+        <span>Edit </span>
+      </Button>
+    </>
+  );
 
   return (
     <Layout activeTab="Addresses">
@@ -124,17 +118,9 @@ const AddressesPage = () => {
         <Card>
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4>BTC Addresses</h4>
-            <ButtonGroup>
-              {actions.map(({ hide, ...props }, i) =>
-                hide ? null : <IconButton key={i} {...props} />
-              )}
-            </ButtonGroup>
           </div>
           <ErrorMessage error={fetchAddressError || fetchSettingsError} />
-          <Loader loading={isFetchingAddresses || applying} />
-          {message.value && (
-            <Alert variant={message.type}>{message.value}</Alert>
-          )}
+          <Loader loading={isFetchingAddresses} />
           <Alert variant="secondary" className="mt-3">
             {alertText}
           </Alert>
@@ -144,6 +130,7 @@ const AddressesPage = () => {
             selectedRow={selectedRow}
             setSelectedRow={setSelectedRow}
           />
+          {actionButtons}
         </Card>
         {settings?.allowGroupedAddresses && (
           <>
@@ -158,11 +145,7 @@ const AddressesPage = () => {
                   %
                 </div>
                 <div className="d-flex justify-content-start">
-                  <ButtonGroup>
-                    {groupActions.map(({ hide, ...props }, i) =>
-                      hide ? null : <IconButton key={i} {...props} />
-                    )}
-                  </ButtonGroup>
+                  {groupActionButtons}
                 </div>
               </div>
               <AddressGroupTable

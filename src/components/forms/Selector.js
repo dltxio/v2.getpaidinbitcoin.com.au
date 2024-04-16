@@ -24,7 +24,7 @@ const Selector = ({
 
       <select className="form-control mb-1" {...props} {...field}>
         {options.map(([value, label]) => {
-          return <option value={value}>{label}</option>;
+          return <option value={value} key={value}>{label}</option>;
         })}
       </select>
 

@@ -2,7 +2,7 @@ import React from "react";
 import Loader from "components/Loader";
 import { Button } from "react-bootstrap";
 
-const SubmitButtonSpinner = ({
+const SubmitSpinnerButton = ({
   submitText,
   isSubmitting = false,
   icon,
@@ -40,4 +40,4 @@ const SubmitButtonSpinner = ({
   </Button>
 );
 
-export default SubmitButtonSpinner;
+export default SubmitSpinnerButton;

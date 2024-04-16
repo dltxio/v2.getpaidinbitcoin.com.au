@@ -106,8 +106,6 @@ const Dashboard = () => {
   const isFetchingReferral = !referrals && !referralsError;
 
   const currentYear = new Date().getFullYear();
-  const showWelcomeCard = true;
-  const showBankDetailsCard = true;
 
   const handleDownload = async () => {
     setDownloadError({ show: false, message: "" });
@@ -155,14 +153,29 @@ const Dashboard = () => {
         <section className="main row">
           <div className={emailVerified ? "overlay" : "overlay active"} />
           <aside className="col-lg-5">
-            <section>
-              <Card>
-                <h4>Your Bitcoin Stats</h4>
-                <ErrorMessage error={fetchStatsError} />
-                <Loader loading={isFetchingStats} />
-                <UserStats stats={userStats} />
-              </Card>
-            </section>
+            <Card>
+              <h4>Welcome to Get Paid In Bitcoin!</h4>
+              <p>
+                Here are some next steps to get you on your stacking sats
+                journey.
+              </p>
+              <ol>
+                <li>
+                  Send the GPIB Bank account details to your employer, so part
+                  of your wages can be paid into this account.
+                </li>
+                <li>Verify your profile (KYC) data for AUSTRAC obligations.</li>
+                <li>Add up to two personal bitcoin wallet addresses.</li>
+                <li>Refer a friend.</li>
+                <li>Start stacking sats!</li>
+              </ol>
+              <div className="p-2">
+                <Button disabled={isVerified} onClick={showKYC}>
+                  Complete KYC
+                </Button>
+              </div>
+            </Card>
+
             <Card>
               <h4>Active Addresses</h4>
               {isVerified && (
@@ -202,88 +215,68 @@ const Dashboard = () => {
                 className="py-3"
               />
             </Card>
-            <section>
-              <Card>
-                <h4>Referral Credits</h4>
-                <p>
-                  You can earn some extra sats by referring your friends to Get
-                  Paid In Bitcoin! Once they register and verify their account,
-                  you will receive sats for every pay they receive. You can find
-                  your unique invitation code in your <b>profile page.</b>
-                </p>
-                <ErrorMessage error={fetchReferralCreditsError} />
-                <Loader loading={isFetchingReferralCredits} />
-                <ReferralCreditTable referralCredits={referralCredits} />
-              </Card>
-              <Card>
-                <h4>Referred Users</h4>
-                <ErrorMessage error={referralsError} />
-                <Loader loading={isFetchingReferral} />
-                <ReferralTable referrals={referrals} />
-              </Card>
-            </section>
+          </aside>
+          <aside className="col-lg-7">
+            <Card>
+              <h4>Unique Bitcoin Pay Information</h4>
+              <p>
+                Please provide the following Unique Bitcoin Pay Information to
+                your employer for processing the part of your salary to be paid
+                in bitcoin.
+              </p>
+              <ErrorMessage
+                error={
+                  fetchDepositHintsError ||
+                  fetchBankDetailsError ||
+                  fetchDetailsError
+                }
+              />
+              <Loader
+                loading={
+                  isFetchingDepositHints ||
+                  isFetchingBankDetails ||
+                  isFetchingDetails
+                }
+              />
+              <PayInformationTable
+                bankDetails={bankDetails}
+                depositHints={depositHints}
+                userDetails={userDetails}
+              />
+              <PayInformationActions />
+            </Card>
+            <Card>
+              <h4>Your Bitcoin Stats</h4>
+              <ErrorMessage error={fetchStatsError} />
+              <Loader loading={isFetchingStats} />
+              <UserStats stats={userStats} />
+            </Card>
+          </aside>
+        </section>
+
+        <section className="main row">
+          <aside className="col-lg-5">
+            <Card>
+              <h4>Referral Credits</h4>
+              <p>
+                You can earn some extra sats by referring your friends to Get
+                Paid In Bitcoin! Once they register and verify their account,
+                you will receive sats for every pay they receive. You can find
+                your unique invitation code in your <b>profile page.</b>
+              </p>
+              <ErrorMessage error={fetchReferralCreditsError} />
+              <Loader loading={isFetchingReferralCredits} />
+              <ReferralCreditTable referralCredits={referralCredits} />
+            </Card>
+            <Card>
+              <h4>Referred Users</h4>
+              <ErrorMessage error={referralsError} />
+              <Loader loading={isFetchingReferral} />
+              <ReferralTable referrals={referrals} />
+            </Card>
           </aside>
 
-          <section className="content col-lg-7">
-            {showWelcomeCard && (
-              <Card>
-                <h4>Welcome to Get Paid In Bitcoin!</h4>
-                <p>
-                  Here are some next steps to get you on your stacking sats
-                  journey.
-                </p>
-                <ol>
-                  <li>
-                    Send the GPIB Bank account details to your employer, so part
-                    of your wages can be paid into this account.
-                  </li>
-                  <li>
-                    Verify your profile (KYC) data for AUSTRAC obligations.
-                  </li>
-                  <li>Add up to two personal bitcoin wallet addresses.</li>
-                  <li>Refer a friend.</li>
-                  <li>Start stacking sats!</li>
-                </ol>
-                <div className="p-2">
-                  <Button disabled={isVerified} onClick={showKYC}>
-                    Complete KYC
-                  </Button>
-                </div>
-              </Card>
-            )}
-            {showBankDetailsCard && (
-              <section style={{ position: "relative" }}>
-                <Card>
-                  <h4>Unique Bitcoin Pay Information</h4>
-                  <p>
-                    Please provide the following Unique Bitcoin Pay Information
-                    to your employer for processing the part of your salary to
-                    be paid in bitcoin.
-                  </p>
-                  <ErrorMessage
-                    error={
-                      fetchDepositHintsError ||
-                      fetchBankDetailsError ||
-                      fetchDetailsError
-                    }
-                  />
-                  <Loader
-                    loading={
-                      isFetchingDepositHints ||
-                      isFetchingBankDetails ||
-                      isFetchingDetails
-                    }
-                  />
-                  <PayInformationTable
-                    bankDetails={bankDetails}
-                    depositHints={depositHints}
-                    userDetails={userDetails}
-                  />
-                  <PayInformationActions />
-                </Card>
-              </section>
-            )}
-
+          <aside className="content col-lg-7">
             <Card>
               <div className="d-flex flex-row">
                 <div className="mr-auto p-2">
@@ -310,7 +303,7 @@ const Dashboard = () => {
                   <Button onClick={handleDownload}>Download CSV</Button>
                   <CSVLink
                     data={transactionsDownload}
-                    filename={currentYear + "-gpib-transactions.csv"}
+                    filename={year + "-gpib-transactions.csv"}
                     className="hidden"
                     target="_blank"
                     ref={csvRef}
@@ -324,15 +317,15 @@ const Dashboard = () => {
               <Loader loading={isFetchingTransactions} />
               <TransactionTable transactions={transactions} />
             </Card>
+
             <Card>
               <h4>Referral Transactions</h4>
               <ErrorMessage error={fetchReferralTransfersError} />
               <Loader loading={isFetchingReferralTransfers} />
               <ReferralTransferTable referralTransfers={referralTransfers} />
             </Card>
-          </section>
+          </aside>
         </section>
-        {/* </section> */}
       </div>
       <Modal isOpen={isShowKYC} heading="Complete KYC" onDismiss={onDismiss}>
         <VerifyID submitText="Verify my ID"></VerifyID>

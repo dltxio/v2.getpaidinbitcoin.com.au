@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "components/Modal";
-import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 import BillPaidCheckMark from "components/bills/BillPaidCheckmark";
 import ErrorMessage from "components/ErrorMessage";
 import QRCode from "qrcode.react";
@@ -51,7 +51,7 @@ const PayWithPersonalWalletModal = ({
               </>
             )}
           </div>
-          <SubmitButtonSpinner
+          <SubmitSpinnerButton
             submitText={submitText}
             onClick={onSubmitWrapper}
             isSubmitting={userClickedSentBtc && !isPaid}

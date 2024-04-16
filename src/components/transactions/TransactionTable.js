@@ -43,16 +43,12 @@ const TransactionTable = ({ transactions = [], ...props }) => {
     return { ...t, gid };
   });
 
-  const formatRow = (row, i) => {
-    return row.gid % 2 === 0 ? undefined : "transaction-table-row";
-  };
-
   return (
     <BaseTable
       data={data}
       columnConfig={columnConfig}
       options={tableOptions}
-      trClassName={formatRow}
+      striped={false}
       {...props}
     />
   );

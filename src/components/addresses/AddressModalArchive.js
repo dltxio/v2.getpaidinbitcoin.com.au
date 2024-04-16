@@ -6,7 +6,7 @@ import gpib from "apis/gpib";
 import Modal from "components/Modal";
 import Loader from "components/Loader";
 import ErrorMessage from "components/ErrorMessage";
-import SubmitButtonSpinner from "components/forms/SubmitSpinnerButton";
+import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 
 const AddressModalAdd = () => {
   const [isSubmitting, setSubmitting] = useState(false);
@@ -60,7 +60,7 @@ const AddressModalAdd = () => {
                 <b>{`${address?.label}:  `}</b>
                 {address?.address1}
               </p>
-              <SubmitButtonSpinner
+              <SubmitSpinnerButton
                 block
                 onClick={wrapCallback(archive)}
                 submitText={submitText}

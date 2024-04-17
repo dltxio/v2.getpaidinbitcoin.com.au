@@ -1,27 +1,17 @@
 import React, { useContext } from "react";
 import Modal from "components/Modal";
 import AddressGroupForm from "./AddressGroupForm";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
-const AddressGroupModal = () => {
+const AddressGroupModal = ({ isOpen, address, onDismiss }) => {
   const { user } = useContext(AuthContext);
-  const { id } = useParams();
-  const location = useLocation();
-  const navigate = useNavigate();
   const heading = "Set Group Address";
-  const { data: address } = useSWR(`/address/${id}`);
-  const onDismiss = () => {
-    const base = location.pathname.replace(/(\/addresses)\/.*/, "$1");
-    navigate(base);
-  };
 
   const onSubmit = async (values, formActions, modalActions) => {
-    formActions.setSubmitting(true);
     try {
-      await gpib.secure.put(`/address/group/${id}`, values);
+      await gpib.secure.put(`/address/group/${address.id}`, values);
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (error) {
@@ -29,8 +19,9 @@ const AddressGroupModal = () => {
     }
     formActions.setSubmitting(false);
   };
+
   return (
-    <Modal isOpen onDismiss={onDismiss} heading={heading}>
+    <Modal isOpen={isOpen} onDismiss={onDismiss} heading={heading}>
       {({ onDismiss, wrapCallback }) => (
         <AddressGroupForm
           onDismiss={onDismiss}

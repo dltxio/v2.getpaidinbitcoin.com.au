@@ -17,16 +17,10 @@ const validate = ({ address, label }) => {
   return errors;
 };
 
-const AddressFormSwap = ({
-  initialValues = {},
-  onSubmit,
-  submitText = "Submit"
-}) => {
-  const iv = { ...defaultValues, ...initialValues };
-
+const AddressSwapForm = ({ onSubmit, submitText = "Submit", onDismiss }) => {
   return (
     <Formik
-      initialValues={iv}
+      initialValues={defaultValues}
       validate={validate}
       onSubmit={onSubmit}
       enableReinitialize
@@ -50,4 +44,4 @@ const AddressFormSwap = ({
   );
 };
 
-export default AddressFormSwap;
+export default AddressSwapForm;

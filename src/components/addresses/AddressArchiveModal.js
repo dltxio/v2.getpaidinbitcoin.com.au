@@ -18,7 +18,7 @@ const AddressArchiveModal = ({ isOpen, address, onDismiss }) => {
     setSubmitError(null);
     setSubmitting(true);
     try {
-      await gpib.secure.delete(`/address/${address.id}`);
+      await gpib.secure.delete(`/address/${address?.id}`);
       await mutate(getUrl);
       actions.onDismiss();
     } catch (e) {

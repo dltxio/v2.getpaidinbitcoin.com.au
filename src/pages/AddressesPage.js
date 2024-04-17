@@ -35,6 +35,7 @@ const AddressesPage = () => {
   const groupAddress = addresses?.filter((a) => a.groupID);
   const unGroupAddress = addresses?.filter((a) => !a.groupID);
   const selectedUngroupAddress = unGroupAddress && unGroupAddress[selectedRow];
+  const selectedGroupAddress = groupAddress && groupAddress[selectedGroup];
   const alertText = hasMultipleAddresses
     ? `If you wish to change your bitcoin address you can swap your desired address to a new bitcoin address.`
     : `Your payment can be sent up to two bitcoin addresses. For example,
@@ -212,7 +213,7 @@ const AddressesPage = () => {
       <AddressGroupEditModal
         isOpen={selectedModal === modal.GROUP_EDIT}
         onDismiss={onModalDismiss}
-        address={groupAddress[selectedGroup]}
+        address={selectedGroupAddress}
       />
     </Layout>
   );

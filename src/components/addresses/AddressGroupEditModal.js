@@ -7,7 +7,7 @@ import { AuthContext } from "components/auth/Auth";
 
 const AddressGroupEditModal = ({ isOpen, address, onDismiss }) => {
   const { user } = useContext(AuthContext);
-  const id = address.groupId ? address.groupID : address.id;
+  const id = address?.groupId ? address?.groupID : address?.id;
 
   const heading = "Set Group Address";
 

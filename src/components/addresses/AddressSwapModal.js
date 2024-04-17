@@ -14,7 +14,7 @@ const AddressSwapModal = ({ address, isOpen, onDismiss }) => {
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
-      await gpib.secure.post(`/address/${address.id}/swap`, values);
+      await gpib.secure.post(`/address/${address?.id}/swap`, values);
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (e) {

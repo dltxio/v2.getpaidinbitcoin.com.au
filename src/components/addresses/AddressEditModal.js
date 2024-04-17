@@ -27,7 +27,7 @@ const AddressEditModal = ({
   const onSubmit = async (values, formActions, modalActions) => {
     try {
       const parsedValues = parseSubmitValues(values);
-      await gpib.secure.put(`/address/${address.id}`, parsedValues);
+      await gpib.secure.put(`/address/${address?.id}`, parsedValues);
       await mutate(getUrl);
       modalActions.onDismiss();
     } catch (e) {

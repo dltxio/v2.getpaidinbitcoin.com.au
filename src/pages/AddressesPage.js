@@ -124,6 +124,7 @@ const AddressesPage = () => {
 
   const onModalDismiss = () => {
     setSelectedModal(null);
+    setSelectedRow(null);
   };
 
   return (

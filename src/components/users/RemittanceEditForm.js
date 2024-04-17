@@ -4,7 +4,7 @@ import Input from "components/forms/Input";
 import ErrorMessage from "components/ErrorMessage";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
 
-const AccountInfoForm = ({
+const RemittanceEditForm = ({
   onSubmit,
   submitText = "Update Account Setting",
   initialValues: _initialValues
@@ -53,4 +53,4 @@ const AccountInfoForm = ({
   );
 };
 
-export default AccountInfoForm;
+export default RemittanceEditForm;

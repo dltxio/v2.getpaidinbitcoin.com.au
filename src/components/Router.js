@@ -1,21 +1,17 @@
 import React, { useContext } from "react";
 import { AuthContext } from "components/auth/Auth";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import AccountInfoModal from "components/users/AccountInfoModalEdit";
 import AddressesPage from "pages/AddressesPage";
 import BillsPage from "pages/BillsPage";
 import ContactSupportPage from "pages/ContactSupportPage";
 import Dashboard from "pages/Dashboard";
-import DepositHintsModalEdit from "components/deposit-hints/DepositHintsModalEdit";
 import EnterpriseOnboard from "pages/EnterpriseOnboard";
 import LoadingPage from "pages/LoadingPage";
 import LoginPage from "pages/LoginPage";
 import ProfilePage from "pages/ProfilePage";
-import ReferralSendModal from "components/users/ReferralSendModal";
 import RefreshLoginModal from "components/auth/RefreshLoginModal";
 import RegisterPage from "pages/RegisterPage";
 import ResetPasswordPage from "pages/ResetPasswordPage";
-import UpdateMobileModal from "components/users/UpdateMobileModal";
 import VerifyEmailPage from "pages/VerifyEmailPage";
 
 const Router = () => {
@@ -36,10 +32,6 @@ const Router = () => {
         <Route path="/addresses" element={authRedirectHandler(<AddressesPage />)} />
         <Route path="/profile" element={authRedirectHandler(<ProfilePage />)} />
         <Route path="/bills" element={authRedirectHandler(<BillsPage/>)} />
-        <Route path="/profile/payroll/edit" element={authRedirectHandler(<DepositHintsModalEdit />)} />
-        <Route path="/profile/referral/send" element={authRedirectHandler(<ReferralSendModal />)} />
-        <Route path="/profile/accountInfo/edit" element={authRedirectHandler(<AccountInfoModal />)} />
-        <Route path="/profile/mobile/send" element={authRedirectHandler(<UpdateMobileModal />)} />
         <Route path="/" element={authRedirectHandler(<Dashboard />)} />
       </Routes>
     </BrowserRouter>

@@ -3,8 +3,6 @@ import { AuthContext } from "components/auth/Auth";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import AccountInfoModal from "components/users/AccountInfoModalEdit";
 import AddressesPage from "pages/AddressesPage";
-import AddressGroupModal from "components/addresses/AddressGroupModal";
-import AddressGroupModalAdd from "components/addresses/AddressGroupModalAdd";
 import BillsPage from "pages/BillsPage";
 import ContactSupportPage from "pages/ContactSupportPage";
 import Dashboard from "pages/Dashboard";
@@ -34,18 +32,15 @@ const Router = () => {
         <Route path="/verify/email" element={<VerifyEmailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        {/* Route/s below need Authentication check -- authRedirectHandler() */}
         <Route path="/contactsupport" element={authRedirectHandler(<ContactSupportPage />)} />
         <Route path="/addresses" element={authRedirectHandler(<AddressesPage />)} />
         <Route path="/profile" element={authRedirectHandler(<ProfilePage />)} />
         <Route path="/bills" element={authRedirectHandler(<BillsPage/>)} />
-        <Route path="/" element={authRedirectHandler(<Dashboard />)} />
-        <Route path="/addresses/groupedit/:id" element={authRedirectHandler(<AddressGroupModal />)} />
-        <Route path="/addresses/groupadd" element={authRedirectHandler(<AddressGroupModalAdd />)} />
         <Route path="/profile/payroll/edit" element={authRedirectHandler(<DepositHintsModalEdit />)} />
         <Route path="/profile/referral/send" element={authRedirectHandler(<ReferralSendModal />)} />
         <Route path="/profile/accountInfo/edit" element={authRedirectHandler(<AccountInfoModal />)} />
         <Route path="/profile/mobile/send" element={authRedirectHandler(<UpdateMobileModal />)} />
+        <Route path="/" element={authRedirectHandler(<Dashboard />)} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,13 +5,15 @@ import { mutate } from "swr";
 import gpib from "apis/gpib";
 import { AuthContext } from "components/auth/Auth";
 
-const AddressGroupModal = ({ isOpen, address, onDismiss }) => {
+const AddressGroupAddModal = ({groupAddresses, isOpen, onDismiss}) => {
   const { user } = useContext(AuthContext);
-  const heading = "Set Group Address";
+  const heading = "Add Group Address";
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
-      await gpib.secure.put(`/address/group/${address.id}`, values);
+      values.userID = user?.id;
+      values.percent = Number(values.percent);
+      await gpib.secure.post(`/address/group`, values);
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (error) {
@@ -26,11 +28,11 @@ const AddressGroupModal = ({ isOpen, address, onDismiss }) => {
         <AddressGroupForm
           onDismiss={onDismiss}
           onSubmit={wrapCallback(onSubmit)}
-          initialValues={address}
+          groupAddresses={groupAddresses}
         />
       )}
     </Modal>
   );
 };
 
-export default AddressGroupModal;
+export default AddressGroupAddModal;

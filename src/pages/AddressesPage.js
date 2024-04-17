@@ -14,7 +14,8 @@ import AddressEditModal from "components/addresses/AddressEditModal";
 import AddressSwapModal from "components/addresses/AddressSwapModal";
 import AddressAddModal from "components/addresses/AddressAddModal";
 import AddressArchiveModal from "components/addresses/AddressArchiveModal";
-import AddressGroupModal from "components/addresses/AddressGroupModal";
+import AddressGroupAddModal from "components/addresses/AddressGroupAddModal";
+import AddressGroupEditModal from "components/addresses/AddressGroupEditModal";
 import "./Dashboard.scss";
 
 const AddressesPage = () => {
@@ -99,7 +100,6 @@ const AddressesPage = () => {
 
   const groupActionButtons = (
     <>
-      {" "}
       <Button
         className="mb-1 ms-1"
         onClick={() => navigate(`/addresses/groupAdd`)}
@@ -199,10 +199,20 @@ const AddressesPage = () => {
         onDismiss={onModalDismiss}
         address={selectedUngroupAddress}
       />
-      <AddressGroupModal
+      <AddressGroupEditModal
         isOpen={selectedModal === modal.GROUP_ADDRESS}
         onDismiss={onModalDismiss}
         address={selectedUngroupAddress}
+      />
+      <AddressGroupAddModal
+        isOpen={selectedModal === modal.GROUP_ADD}
+        onDismiss={onModalDismiss}
+        groupAddresses={groupAddress}
+      />
+      <AddressGroupEditModal
+        isOpen={selectedModal === modal.GROUP_EDIT}
+        onDismiss={onModalDismiss}
+        address={groupAddress[selectedGroup]}
       />
     </Layout>
   );

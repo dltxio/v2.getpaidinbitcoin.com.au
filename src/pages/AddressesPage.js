@@ -39,8 +39,7 @@ const AddressesPage = () => {
       <Button
         className="mb-1 ms-1"
         onClick={() => navigate("/addresses/add")}
-        disabled={user?.idVerificationStatus !== 3}
-        hidden={hasMultipleAddresses}
+        disabled={user?.idVerificationStatus !== 3 || hasMultipleAddresses}
       >
         <span>Add </span>
       </Button>

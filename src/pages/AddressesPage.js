@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
-import { ButtonGroup, Alert, Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Layout from "components/layout/Layout";
 import ErrorMessage from "components/ErrorMessage";
@@ -10,7 +10,6 @@ import Card from "components/Card";
 import AddressTable from "components/addresses/AddressTable";
 import AddressGroupTable from "components/addresses/AddressGroupTable";
 import AddressHistoryTable from "components/addresses/AddressHistoryTable";
-import IconButton from "components/IconButton";
 import "./Dashboard.scss";
 
 const AddressesPage = () => {

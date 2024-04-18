@@ -143,15 +143,15 @@ const AddressesPage = () => {
                     : "0"}{" "}
                   %
                 </div>
-                <div className="d-flex justify-content-start">
-                  {groupActionButtons}
-                </div>
               </div>
               <AddressGroupTable
                 addresses={groupAddress}
                 selectedRow={selectedGroup}
                 setSelectedRow={setSelectedGroup}
               />
+                <div className="d-flex justify-content-start">
+                  {groupActionButtons}
+                </div>
             </Card>
           </>
         )}

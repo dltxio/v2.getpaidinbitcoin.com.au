@@ -5,22 +5,13 @@ import "./AddressTable.scss";
 // dataField (key) props (value)
 const columnConfig = {
   label: {
-    children: "Label",
-    width: "30%"
+    children: "Label"
   },
   address1: {
     children: "Address"
   },
   percent: {
-    children: "%",
-    thStyle: {
-      width: "15%",
-      textAlign: "right"
-    },
-    tdStyle: {
-      width: "15%",
-      textAlign: "right"
-    }
+    children: "%"
   },
   id: {
     children: "ID",
@@ -32,7 +23,7 @@ const AddressTable = ({ addresses, ...props }) => (
   <BaseTable
     data={addresses}
     columnConfig={columnConfig}
-    keyField="id"
+    selectOption="radio"
     className="address-table"
     {...props}
   />

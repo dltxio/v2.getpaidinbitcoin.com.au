@@ -24,7 +24,7 @@ const AddressTable = ({ addresses, ...props }) => (
     data={addresses}
     columnConfig={columnConfig}
     selectOption="radio"
-    className="address-table"
+    tableName="address-table"
     {...props}
   />
 );

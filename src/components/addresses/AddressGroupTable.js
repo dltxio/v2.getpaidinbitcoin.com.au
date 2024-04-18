@@ -20,8 +20,8 @@ const AddressGroupTable = ({ addresses, ...props }) => (
   <BaseTable
     data={addresses}
     columnConfig={columnConfig}
-    className="address-table"
     selectOption="radio"
+    tableName="address-group-table"
     {...props}
   />
 );

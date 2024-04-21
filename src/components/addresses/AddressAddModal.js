@@ -1,36 +1,22 @@
 import React, { useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import useSWR, { mutate } from "swr";
-import { Button } from "react-bootstrap";
+import { mutate } from "swr";
 import { AuthContext } from "components/auth/Auth";
 import gpib from "apis/gpib";
 import AddressForm from "./AddressForm";
 import Modal from "components/Modal";
-import Loader from "components/Loader";
-import ErrorMessage from "components/ErrorMessage";
 
-const AddressModalAdd = () => {
+const AddressAddModal = ({addresses, isOpen, onDismiss}) => {
   const { user } = useContext(AuthContext);
-  const location = useLocation();
-  const navigate = useNavigate();
   const heading = "Add BTC Address";
   const submitText = "Add BTC Address";
   const getUrl = user && `/user/${user.id}/address`;
 
-  const {
-    data: addresses,
-    error,
-    isValidating
-  } = useSWR(getUrl, {
-    revalidateOnFocus: false
-  });
-
   const isFirstAddress = addresses && addresses.length === 0;
-  const isCustodialAddress =
+  const isFirstAddressCustodial =
     addresses && addresses.length === 1 && addresses[0].isCustodial;
   const initialValues = {
     userID: user.id,
-    percent: isFirstAddress || isCustodialAddress ? 100 : ""
+    percent: isFirstAddress || isFirstAddressCustodial ? 100 : ""
   };
 
   const parseSubmitValues = (values) => {
@@ -53,40 +39,24 @@ const AddressModalAdd = () => {
       modalActions.onDismiss();
     } catch (e) {
       formActions.setErrors({ hidden: e });
-      formActions.setSubmitting(false);
     }
-  };
-
-  const onDismiss = () => {
-    const base = location.pathname.replace(/(\/addresses)\/.*/, "$1");
-    navigate(base);
+    formActions.setSubmitting(false);
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading={heading}>
+    <Modal isOpen={isOpen} onDismiss={onDismiss} heading={heading}>
       {({ onDismiss, wrapCallback }) => (
         <>
-          <Loader loading={isValidating} diameter="2rem" />
-          <ErrorMessage error={error} />
-          {error ? (
-            <Button
-              onClick={onDismiss}
-              variant="secondary"
-              block
-              children="Close"
-            />
-          ) : (
             <AddressForm
               onDismiss={onDismiss}
               onSubmit={wrapCallback(onSubmit)}
               initialValues={initialValues}
               submitText={submitText}
             />
-          )}
         </>
       )}
     </Modal>
   );
 };
 
-export default AddressModalAdd;
+export default AddressAddModal;

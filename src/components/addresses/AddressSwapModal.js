@@ -1,45 +1,37 @@
 import React, { useContext } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import { mutate } from "swr";
 import { AuthContext } from "components/auth/Auth";
 import gpib from "apis/gpib";
 import Modal from "components/Modal";
-import AddressFormSwap from "./AddressFormSwap";
+import AddressSwapForm from "./AddressSwapForm";
 
-const AddressModalSwap = () => {
+const AddressSwapModal = ({ address, isOpen, onDismiss }) => {
   const { user } = useContext(AuthContext);
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
+
   const heading = "Swap BTC Address";
   const submitText = "Swap";
 
   const onSubmit = async (values, formActions, modalActions) => {
     try {
-      await gpib.secure.post(`/address/${id}/swap`, values);
+      await gpib.secure.post(`/address/${address?.id}/swap`, values);
       await mutate(`/user/${user.id}/address`);
       modalActions.onDismiss();
     } catch (e) {
       formActions.setErrors({ hidden: e });
+    } finally {
       formActions.setSubmitting(false);
     }
   };
 
-  const onDismiss = () => {
-    const base = location.pathname.replace(/(\/addresses)\/.*/, "$1");
-    navigate(base);
-  };
-
   return (
-    <Modal isOpen onDismiss={onDismiss} heading={heading}>
+    <Modal isOpen={isOpen} onDismiss={onDismiss} heading={heading}>
       {({ onDismiss, wrapCallback }) => (
         <>
           <Alert variant="primary">
             Replace an existing address with a new address.
           </Alert>
-          <AddressFormSwap
-            onDismiss={onDismiss}
+          <AddressSwapForm
             onSubmit={wrapCallback(onSubmit)}
             submitText={submitText}
           />
@@ -49,4 +41,4 @@ const AddressModalSwap = () => {
   );
 };
 
-export default AddressModalSwap;
+export default AddressSwapModal;

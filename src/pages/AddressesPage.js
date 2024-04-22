@@ -103,18 +103,14 @@ const AddressesPage = () => {
     <>
       <Button
         className="mb-1 ms-1"
-        onClick={() => navigate(`/addresses/groupAdd`)}
+        onClick={() => setSelectedModal(modal.GROUP_ADD)}
         disabled={unGroupAddress?.length > 1}
       >
         <span>Add </span>
       </Button>
       <Button
         className="mb-1 ms-1"
-        onClick={() =>
-          navigate(
-            `/addresses/groupEdit/${groupAddress[selectedGroup].groupID}`
-          )
-        }
+        onClick={() => setSelectedModal(modal.GROUP_EDIT)}
         disabled={selectedGroup === null}
       >
         <span>Edit </span>

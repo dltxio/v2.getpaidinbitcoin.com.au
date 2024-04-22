@@ -5,8 +5,7 @@ import "./AddressTable.scss";
 // dataField (key) props (value)
 const columnConfig = {
   label: {
-    children: "Label",
-    width: "30%"
+    children: "Label"
   },
   address1: {
     children: "Address"
@@ -21,8 +20,8 @@ const AddressGroupTable = ({ addresses, ...props }) => (
   <BaseTable
     data={addresses}
     columnConfig={columnConfig}
-    keyField="id"
-    className="address-table"
+    selectOption="radio"
+    tableName="address-group-table"
     {...props}
   />
 );

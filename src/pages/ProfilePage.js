@@ -24,8 +24,8 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const [syncingBankAccount, setSyncingBankAccount] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
+  const [settingsError, setSettingsError] = useState();
   const [selectedModal, setSelectedModal] = useState(null);
-
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
   );
@@ -92,10 +92,14 @@ const ProfilePage = () => {
   ];
 
   const updateSettings = async (updates) => {
-    const url = `/settings/${user.id}`;
-    mutate(url, (state) => ({ ...state, ...updates }), false);
-    await gpib.secure.patch(url, updates);
-    mutate(url);
+    try {
+      const url = `/settings/${user.id}`;
+      mutate(url, (state) => ({ ...state, ...updates }), false);
+      await gpib.secure.patch(url, updates);
+      mutate(url);
+    } catch (error) {
+      setSettingsError(error.response.data);
+    }
   };
 
   const settingsColumns = [
@@ -240,7 +244,7 @@ const ProfilePage = () => {
                 <ion-icon name="create-outline" />
               </Button>
             </div>
-            <ErrorMessage error={fetchAccountInfoError} />
+            <ErrorMessage error={fetchSettingsError} />
             <Loader loading={isFetchingAccountInfo} />
             <LabelledTable columns={accountInfoColumns} />
           </Card>
@@ -258,7 +262,7 @@ const ProfilePage = () => {
           </Card>
           <Card>
             <h4 className="mb-3">Settings</h4>
-            <ErrorMessage error={fetchSettingsError} />
+            <ErrorMessage error={fetchSettingsError || settingsError} />
             <Loader loading={isFetchingSettings} />
             <LabelledTable columns={settingsColumns} />
             <Button

@@ -27,7 +27,6 @@ const AddressHistoryTable = ({ logs, ...props }) => (
   <BaseTable
     data={logs}
     columnConfig={columnConfig}
-    keyField="id"
     className="address-table"
     options={options}
     {...props}

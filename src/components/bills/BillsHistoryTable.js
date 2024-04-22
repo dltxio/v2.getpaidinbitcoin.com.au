@@ -38,7 +38,6 @@ const BillsHistoryTable = ({ bills, ...props }) => (
   <BaseTable
     data={bills}
     columnConfig={columnConfig}
-    keyField="id"
     className="bills-table"
     options={options}
     {...props}

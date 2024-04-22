@@ -26,4 +26,6 @@ secure.interceptors.request.use(
   }
 );
 
-export default { open, secure };
+const gpibApis = { open, secure };
+
+export default gpibApis;

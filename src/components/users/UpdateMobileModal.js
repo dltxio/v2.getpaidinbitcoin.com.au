@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import Modal from "components/Modal";
 import useSWR from "swr";
-import { useNavigate, useLocation } from "react-router-dom";
 import gpib from "apis/gpib";
 import UpdateMobileForm from "./UpdateMobileForm";
 import { Button, Alert } from "react-bootstrap";
@@ -15,15 +14,15 @@ const parseInitialValues = (fetchedData) =>
     return map;
   }, {});
 
-const UpdateMobileModal = (props) => {
+const SUCCESS_MESSAGE = "Your mobile number has been updated successfully.";
+
+const UpdateMobileModal = ({ isOpen, onDismiss }) => {
   const { user } = useContext(AuthContext);
   const { data, error, isValidating } = useSWR(
     `/user/${user.id}/deposithints`,
     { revalidateOnFocus: false }
   );
   const [message, setMessage] = useState();
-  const navigate = useNavigate();
-  const location = useLocation();
   const initialValues = parseInitialValues(data);
 
   const onSubmit = async (values, formActions, modalActions) => {
@@ -31,23 +30,28 @@ const UpdateMobileModal = (props) => {
       await gpib.secure.post("/user/verifymobile", {
         code: parseInt(values.code)
       });
-      setMessage("Your mobile has been verified");
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      modalActions.onDismiss();
+      setMessage(SUCCESS_MESSAGE);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      return true;
     } catch (e) {
-      console.error(e);
       formActions.setErrors({ hidden: e });
       formActions.setSubmitting(false);
     }
   };
 
-  const onDismiss = () => {
-    const path = location.pathname.replace(/\/mobile\/send/g, "");
-    navigate(path);
+  const wrapOnDismiss = async () => {
+    onDismiss();
+    setMessage(null)
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading="Update your mobile">
+    <Modal
+      isOpen={isOpen}
+      onDismiss={wrapOnDismiss}
+      heading="Update your mobile"
+    >
       {({ wrapCallback }) => (
         <>
           <Loader loading={isValidating} diameter="2rem" />
@@ -59,7 +63,6 @@ const UpdateMobileModal = (props) => {
               onSubmit={wrapCallback(onSubmit)}
               sourceFrom="EditModal"
               initialValues={initialValues}
-              {...props}
             />
           ) : (
             <Button

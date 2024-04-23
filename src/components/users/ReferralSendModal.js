@@ -1,36 +1,31 @@
-import React from "react";
+import React, {useState} from "react";
+import { Alert } from "react-bootstrap";
 import Modal from "components/Modal";
-import { useNavigate, useLocation } from "react-router-dom";
 import ReferralSendForm from "./ReferralSendForm";
 import gpib from "apis/gpib";
 
-const ReferralSendModal = (props) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const onDismiss = () => {
-    const path = location.pathname.replace(/\/referral\/send/g, ""); //change url
-    navigate(path);
-  };
+const ReferralSendModal = ({isOpen, onDismiss}) => {
+  const [message, setMessage] = useState(null);
+    
   const onSubmit = async (values, formActions, modalActions) => {
     try {
       await gpib.secure.post("/referral/send", values);
-      modalActions.onDismiss();
+      setMessage("Your referral link has been sent successfully to your friend's email address.");
     } catch (e) {
-      console.error(e);
       formActions.setErrors({ hidden: e });
-      formActions.setSubmitting(false);
     }
+    formActions.setSubmitting(false);
   };
 
   return (
-    <Modal isOpen onDismiss={onDismiss} heading="Send Referral Link">
+    <Modal isOpen={isOpen} onDismiss={onDismiss} heading="Send Referral Link">
       {({ onDismiss, wrapCallback }) => (
         <>
+          <Alert variant="success" hidden={!message}>{message}</Alert>
           <ReferralSendForm
             onDismiss={onDismiss}
             onSubmit={wrapCallback(onSubmit)}
             submitText="Send Referral"
-            {...props}
           />
         </>
       )}

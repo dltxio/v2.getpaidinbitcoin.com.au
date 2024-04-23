@@ -8,18 +8,26 @@ import { Button } from "react-bootstrap";
 import validatePhoneCode from "components/forms/form-inputs/validate-mobile/validatePhoneCode";
 import validatePhoneNumber from "components/forms/form-inputs/validate-mobile/validatePhoneNumber";
 
-const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
-  const [hasSent, setSent] = useState(false);
+const UpdateMobileForm = ({
+  onSubmit: verifySmsCode,
+  initialValues: _inititalValues
+}) => {
+  const step = {
+    START: 1,
+    SENT_CODE: 2
+  };
+  const [currentStep, setCurrentStep] = useState(step.START);
+
   const sendSMS = async (values, actions) => {
     try {
       await gpib.secure.get(`/user/verifymobile?mobile=${values.mobile}`);
-      actions.setSubmitting(false);
-      setSent(true);
+      setCurrentStep(step.SENT_CODE);
     } catch (e) {
       actions.setFieldError("hidden", e);
-      actions.setSubmitting(false);
     }
+    actions.setSubmitting(false);
   };
+
   const initialValues = {
     Name: "",
     Mobile: "",
@@ -30,7 +38,7 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
   const renderCodeActions = (conf) => {
     const restart = () => {
       conf.resetForm();
-      setSent(false);
+      setCurrentStep(step.START);
     };
 
     return (
@@ -50,10 +58,18 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
     );
   };
 
+  const wrapVerifySmsCode = async (values, formActions, modalActions) => {
+    const success = await verifySmsCode(values, formActions, modalActions);
+    if (success) {
+      setCurrentStep(step.START);
+    }
+    formActions.setSubmitting(false);
+  };
+
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={onSubmit}
+      onSubmit={verifySmsCode}
       enableReinitialize
       heading={"Update your mobile"}
     >
@@ -65,15 +81,17 @@ const UpdateMobileForm = ({ onSubmit, initialValues: _inititalValues }) => {
             submitText="Send verification code"
             name="mobile"
             validate={validatePhoneNumber}
-            style={{ display: hasSent ? "none" : undefined }}
+            style={{ display: currentStep === step.START ? undefined : "none" }}
           />
           <SingleInputForm
             placeholder="Please enter your 6-digit verification code"
-            onSubmit={onSubmit}
+            onSubmit={wrapVerifySmsCode}
             name="code"
             submitText="Verify code"
             validate={validatePhoneCode}
-            style={{ display: hasSent ? undefined : "none" }}
+            style={{
+              display: currentStep === step.SENT_CODE ? undefined : "none"
+            }}
             renderActions={renderCodeActions}
           />
           <ErrorMessage error={errors.hidden} />

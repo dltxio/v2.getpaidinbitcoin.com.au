@@ -14,13 +14,18 @@ import Toggle from "components/forms/Toggle";
 import LabelledTable from "components/LabelledTable";
 import gpib from "apis/gpib";
 import "./Dashboard.scss";
+import DepositHintsEditModal from "components/deposit-hints/DepositHintsEditModal";
+import ReferralSendModal from "components/users/ReferralSendModal";
+import UpdateMobileModal from "components/users/UpdateMobileModal";
+import RemittanceEditModal from "components/users/RemittanceEditModal";
 
 const ProfilePage = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
   const [syncingBankAccount, setSyncingBankAccount] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
+  const [settingsError, setSettingsError] = useState();
+  const [selectedModal, setSelectedModal] = useState(null);
   const { data: depositHints, error: fetchDepositHintsError } = useSWR(
     `/user/${user.id}/deposithints`
   );
@@ -87,10 +92,14 @@ const ProfilePage = () => {
   ];
 
   const updateSettings = async (updates) => {
-    const url = `/settings/${user.id}`;
-    mutate(url, (state) => ({ ...state, ...updates }), false);
-    await gpib.secure.patch(url, updates);
-    mutate(url);
+    try {
+      const url = `/settings/${user.id}`;
+      mutate(url, (state) => ({ ...state, ...updates }), false);
+      await gpib.secure.patch(url, updates);
+      mutate(url);
+    } catch (error) {
+      setSettingsError(error.response.data);
+    }
   };
 
   const settingsColumns = [
@@ -135,20 +144,24 @@ const ProfilePage = () => {
     ]);
   }
 
-  const onEditPayrollClick = (_e) =>
-    navigate(`${location.pathname}/payroll/edit`);
+  const modal = {
+    EDIT_DEPOSIT_HINT: 1,
+    SEND_REFERRAL: 2,
+    EDIT_ACCOUNT_INFO: 3,
+    UPDATE_MOBILE: 4
+  };
 
-  const onUpdatePasswordClick = (_e) => {
+  const onEditPayrollClick = () => setSelectedModal(modal.EDIT_DEPOSIT_HINT);
+  const onEditReferralClick = () => setSelectedModal(modal.SEND_REFERRAL);
+  const onEditMobileClick = () => setSelectedModal(modal.UPDATE_MOBILE);
+  const onEditAccountInfoClick = () => setSelectedModal(modal.EDIT_ACCOUNT_INFO);
+  const onUpdatePasswordClick = () => {
     navigate("/auth/resetpassword");
   };
-  const onEditReferralClick = (_e) =>
-    navigate(`${location.pathname}/referral/send`);
 
-  const onEditMobileClick = (_e) =>
-    navigate(`${location.pathname}/mobile/send`);
-
-  const onEditAccountInfoClick = (_e) =>
-    navigate(`${location.pathname}/accountInfo/edit`);
+  const onModalDismiss = () => {
+    setSelectedModal(null);
+  };
 
   const referralColumns = [
     ["Referral Code", `${user.id}`],
@@ -182,85 +195,104 @@ const ProfilePage = () => {
     setSyncingBankAccount(false);
   };
   return (
-    <Layout activeTab="profile">
-      <div className="container py-5">
-        <Card>
-          <div className="d-flex justify-content-between">
-            <h4>Profile Information</h4>
-            <Button className="mb-3" onClick={onEditMobileClick}>
-              <span className="mr-2">Update Mobile </span>
-              <ion-icon name="create-outline" />
-            </Button>
-          </div>
-          <ErrorMessage error={fetchDetailsError} />
-          <Loader loading={isFetchingDetails} />
-          <LabelledTable columns={profileColumns} />
-          <p style={{ fontSize: "95%" }}>
-            <i>
-              Please <Link to="/contactsupport">contact support</Link> if any
-              information is incorrect or needs to be updated.
-            </i>
-          </p>
-        </Card>
-        <Card>
-          <div className="d-flex justify-content-between">
-            <h4>Payroll</h4>
-            <div className="text-end">
-              <Button className="mb-1 ms-1" onClick={onEditPayrollClick}>
-                <span>Edit </span>
+    <>
+      <Layout activeTab="profile">
+        <div className="container py-5">
+          <Card>
+            <div className="d-flex justify-content-between">
+              <h4>Profile Information</h4>
+              <Button className="mb-3" onClick={onEditMobileClick}>
+                <span className="mr-2">Update Mobile </span>
                 <ion-icon name="create-outline" />
               </Button>
-              <Button className="mb-1 ms-1" onClick={onConnectXero}>
-                <span>Connect to Xero</span>
-              </Button>
-              <Button className="mb-1 ms-1" onClick={syncBankAccount}>
-                <span>Sync Bank Account</span>
+            </div>
+            <ErrorMessage error={fetchDetailsError} />
+            <Loader loading={isFetchingDetails} />
+            <LabelledTable columns={profileColumns} />
+            <p style={{ fontSize: "95%" }}>
+              <i>
+                Please <Link to="/contactsupport">contact support</Link> if any
+                information is incorrect or needs to be updated.
+              </i>
+            </p>
+          </Card>
+          <Card>
+            <div className="d-flex justify-content-between">
+              <h4>Payroll</h4>
+              <div className="text-end">
+                <Button className="mb-1 ms-1" onClick={onEditPayrollClick}>
+                  <span>Edit </span>
+                  <ion-icon name="create-outline" />
+                </Button>
+                <Button className="mb-1 ms-1" onClick={onConnectXero}>
+                  <span>Connect to Xero</span>
+                </Button>
+                <Button className="mb-1 ms-1" onClick={syncBankAccount}>
+                  <span>Sync Bank Account</span>
+                </Button>
+              </div>
+            </div>
+            <ErrorMessage error={fetchDepositHintsError | errorMessage} />
+            <Loader loading={isFetchingDepositHints | syncingBankAccount} />
+            <LabelledTable columns={payrollColumns} />
+          </Card>
+          <Card>
+            <div className="d-flex justify-content-between">
+              <h4>Remittance Setting</h4>
+              <Button className="mb-3" onClick={onEditAccountInfoClick}>
+                <span className="mr-2">Edit </span>
+                <ion-icon name="create-outline" />
               </Button>
             </div>
-          </div>
-          <ErrorMessage error={fetchDepositHintsError | errorMessage} />
-          <Loader loading={isFetchingDepositHints | syncingBankAccount} />
-          <LabelledTable columns={payrollColumns} />
-        </Card>
-        <Card>
-          <div className="d-flex justify-content-between">
-            <h4>Remittance Setting</h4>
-            <Button className="mb-3" onClick={onEditAccountInfoClick}>
-              <span className="mr-2">Edit </span>
-              <ion-icon name="create-outline" />
+            <ErrorMessage error={fetchSettingsError} />
+            <Loader loading={isFetchingAccountInfo} />
+            <LabelledTable columns={accountInfoColumns} />
+          </Card>
+          <Card>
+            <div className="d-flex justify-content-between">
+              <h4>Referral Program</h4>
+              <Button className="mb-3" onClick={onEditReferralClick}>
+                <span className="mr-2">Send Email </span>
+                <ion-icon name="create-outline" />
+              </Button>
+            </div>
+            <ErrorMessage error={fetchDepositHintsError} />
+            <Loader loading={isFetchingDepositHints} />
+            <LabelledTable columns={referralColumns} />
+          </Card>
+          <Card>
+            <h4 className="mb-3">Settings</h4>
+            <ErrorMessage error={fetchSettingsError || settingsError} />
+            <Loader loading={isFetchingSettings} />
+            <LabelledTable columns={settingsColumns} />
+            <Button
+              variant="primary"
+              className="mt-3"
+              onClick={onUpdatePasswordClick}
+            >
+              Reset Password
             </Button>
-          </div>
-          <ErrorMessage error={fetchAccountInfoError} />
-          <Loader loading={isFetchingAccountInfo} />
-          <LabelledTable columns={accountInfoColumns} />
-        </Card>
-        <Card>
-          <div className="d-flex justify-content-between">
-            <h4>Referral Program</h4>
-            <Button className="mb-3" onClick={onEditReferralClick}>
-              <span className="mr-2">Send Email </span>
-              <ion-icon name="create-outline" />
-            </Button>
-          </div>
-          <ErrorMessage error={fetchDepositHintsError} />
-          <Loader loading={isFetchingDepositHints} />
-          <LabelledTable columns={referralColumns} />
-        </Card>
-        <Card>
-          <h4 className="mb-3">Settings</h4>
-          <ErrorMessage error={fetchSettingsError} />
-          <Loader loading={isFetchingSettings} />
-          <LabelledTable columns={settingsColumns} />
-          <Button
-            variant="primary"
-            className="mt-3"
-            onClick={onUpdatePasswordClick}
-          >
-            Reset Password
-          </Button>
-        </Card>
-      </div>
-    </Layout>
+          </Card>
+        </div>
+      </Layout>
+
+      <DepositHintsEditModal
+        isOpen={selectedModal === modal.EDIT_DEPOSIT_HINT}
+        onDismiss={onModalDismiss}
+      />
+      <ReferralSendModal
+        isOpen={selectedModal === modal.SEND_REFERRAL}
+        onDismiss={onModalDismiss}
+      />
+      <UpdateMobileModal
+        isOpen={selectedModal === modal.UPDATE_MOBILE}
+        onDismiss={onModalDismiss}
+      />
+      <RemittanceEditModal
+        isOpen={selectedModal === modal.EDIT_ACCOUNT_INFO}
+        onDismiss={onModalDismiss}
+      />
+    </>
   );
 };
 

@@ -26,6 +26,7 @@ import ErrorMessage from "./ErrorMessage";
  *      pagination: true
  *    }
  * @param {useState_SetFunction} setSelectedRow
+ * @param {string} tableName should be unique to separate radio button choices between many tables in one page
  * @returns
  */
 const BaseTable = ({
@@ -37,6 +38,7 @@ const BaseTable = ({
   errorMessage = "",
   isLoading = false,
   options,
+  tableName = null,
   ...props
 }) => {
   const hasOptionColumn =
@@ -93,11 +95,11 @@ const BaseTable = ({
             style={{ cursor: "pointer" }}
           >
             {hasOptionColumn && (
-              <td>
+              <td className="text-center">
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="rowOptions"
+                  name={tableName || "rowOptions"}
                   onChange={() => handleRowClick(index)}
                   checked={index === selectedRow}
                 />

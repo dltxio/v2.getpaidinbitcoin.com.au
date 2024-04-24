@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
-import { isNumeric, isDecimal } from "validator";
+import { isDecimal } from "validator";
 import Selector from "components/forms/Selector";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";

@@ -65,6 +65,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const googleLogin = async (googleUser) => {
+    try {
+      cache.clear();
+      setLoggingIn(true);
+      const { data: user } = await gpib.open.post("/user/google/login", {
+        AuthToken: googleUser.credential
+      });
+      window.localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+      setLoggingIn(false);
+    } catch (e) {
+      setLoggingIn(false);
+      setLoginError(e);
+      throw e;
+    }
+  };
+
   const logout = () => {
     window.localStorage.removeItem("user");
     cache.clear();
@@ -81,6 +98,7 @@ export const AuthProvider = ({ children }) => {
         isLoggingIn: isLoggingIn || isFetchingDetails,
         isLoading,
         login,
+        googleLogin,
         logout,
         loginError,
         isVerified,

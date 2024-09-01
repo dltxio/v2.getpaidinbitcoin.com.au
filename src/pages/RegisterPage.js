@@ -44,7 +44,26 @@ const Register = () => {
 
   const enterprise = urlCheck(locationFirstIndex, locationSecondIndex);
 
+  // const googleResponse = (googleUser) => {
+  //   gpib.open.post("/user/google", {
+  //     AuthToken: googleUser.credential
+  //   });
+  // };
+
   useEffect(() => {
+    // /* global google */
+    // google.accounts.id.initialize({
+    //   client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    //   callback: googleResponse
+    // });
+
+    // google.accounts.id.renderButton(document.getElementById("google-login"), {
+    //   theme: "outline",
+    //   size: "large",
+    //   locale: "en",
+    //   text: "signup_with"
+    // });
+
     const fetchEnterprise = async () => {
       if (nameAbbreviation && enterprise) {
         try {
@@ -89,9 +108,8 @@ const Register = () => {
               receive additional bitcoin payments. <br></br>
             </>
           )}
-          <p></p>We look forward to processing your first bitcoin pay soon.
+          <p></p>We look forward to processing your first bitcoin pay soon.  From the GPIB Team.
           <br></br>
-          <p></p>From the GPIB Team
         </div>
         <div className="d-flex flex-wrap justify-content-center">
           <div className="py-5 px-5">

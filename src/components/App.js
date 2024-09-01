@@ -3,7 +3,7 @@ import { SWRConfig } from "swr";
 import gpib from "apis/gpib";
 import Router from "components/Router";
 import { AuthProvider } from "components/auth/Auth";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./App.scss";
 
 const swrConfig = {
@@ -13,11 +13,11 @@ const swrConfig = {
 
 const App = () => (
   <SWRConfig value={swrConfig}>
-    <GoogleOAuthProvider clientId="772977261943-mku9n12cbje2ndngtc0um30p2ed4n56e.apps.googleusercontent.com">
+    {/* <GoogleOAuthProvider clientId="772977261943-mku9n12cbje2ndngtc0um30p2ed4n56e.apps.googleusercontent.com"> */}
       <AuthProvider>
         <Router />
       </AuthProvider>
-    </GoogleOAuthProvider>
+    {/* </GoogleOAuthProvider> */}
   </SWRConfig>
 );
 

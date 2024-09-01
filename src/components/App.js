@@ -3,7 +3,6 @@ import { SWRConfig } from "swr";
 import gpib from "apis/gpib";
 import Router from "components/Router";
 import { AuthProvider } from "components/auth/Auth";
-// import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./App.scss";
 
 const swrConfig = {

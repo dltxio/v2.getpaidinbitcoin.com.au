@@ -32,7 +32,7 @@ const AddressArchiveModal = ({ isOpen, address, onDismiss }) => {
       {({ wrapCallback }) => (
         <>
           <ErrorMessage error={submitError} />
-          <p>Are you sure you want to archive the following address?</p>
+          <p>Archiving does not remove the address from our system.  If this is a GPIB custodial address, any unsent payments will be sent to your new addresses.</p>
           <p>
             <b>{`${address?.label}: `}</b>
             {address?.address1}

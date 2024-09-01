@@ -20,7 +20,6 @@ import "./Dashboard.scss";
 
 const AddressesPage = () => {
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
   const getAddressesUrl = `/user/${user.id}/address`;
   const { data: addresses, error: fetchAddressError } = useSWR(getAddressesUrl);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -51,7 +50,6 @@ const AddressesPage = () => {
     GROUP_ADD: 6,
     GROUP_EDIT: 7
   };
-
 
   const actionButtons = (
     <>
@@ -160,9 +158,9 @@ const AddressesPage = () => {
                 selectedRow={selectedGroup}
                 setSelectedRow={setSelectedGroup}
               />
-                <div className="d-flex justify-content-start">
-                  {groupActionButtons}
-                </div>
+              <div className="d-flex justify-content-start">
+                {groupActionButtons}
+              </div>
             </Card>
           </>
         )}

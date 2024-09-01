@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Alert } from "react-bootstrap";
-import { isNumeric, isDecimal } from "validator";
+import { isDecimal } from "validator";
 import Selector from "components/forms/Selector";
 import Input from "components/forms/Input";
 import SubmitSpinnerButton from "components/forms/SubmitSpinnerButton";
@@ -17,17 +17,18 @@ const defaultValues = {
   isCustodial: "non-custodial"
 };
 
-const validate = ({ percent, label, address1 }) => {
+const validate = ({ percent, label }) => {
   const errors = {};
   const reqMsg = "This field is required";
+
   if (!percent) errors.percent = reqMsg;
-  if (!label) errors.label = reqMsg;
-  // if (!address1) errors.address1 = reqMsg;
-  if (!isNumeric(String(percent))) errors.percent = "Percent must be a number";
-  if (Number(percent) < 0 || Number(percent) > 100)
+  else if (!isDecimal(String(percent), { decimal_digits: "0" })) 
+    errors.percent = "Percent must be a number";
+  else if (Number(percent) < 0 || Number(percent) > 100)
     errors.percent = "Percent must be between 0 and 100";
-  if (!isDecimal(String(percent), { decimal_digits: "0" }))
-    errors.percent = "Percent can't be a decimal";
+
+  if (!label) errors.label = reqMsg;
+  
   return errors;
 };
 

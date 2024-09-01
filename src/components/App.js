@@ -12,9 +12,11 @@ const swrConfig = {
 
 const App = () => (
   <SWRConfig value={swrConfig}>
-    <AuthProvider>
-      <Router />
-    </AuthProvider>
+    {/* <GoogleOAuthProvider clientId="772977261943-mku9n12cbje2ndngtc0um30p2ed4n56e.apps.googleusercontent.com"> */}
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    {/* </GoogleOAuthProvider> */}
   </SWRConfig>
 );
 

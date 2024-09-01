@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { isEmail } from "validator";
 import Input from "components/forms/Input";
@@ -14,7 +14,6 @@ import "./RegisterForm.scss";
 const defaultValues = {
   email: "",
   password: "",
-  // passwordMatch: "",
   firstName: "",
   lastName: "",
   referralCode: ""
@@ -46,10 +45,6 @@ const validate = ({ email, password, firstName, lastName }) => {
   if (password.length < minPasswordLength)
     errors.password = `Password must be at least ${minPasswordLength} characters`;
 
-  // // Password match
-  // if (password !== passwordMatch)
-  //   errors.passwordMatch = "Passwords do not match";
-
   return errors;
 };
 
@@ -62,6 +57,23 @@ const RegisterForm = ({
   const initialValues = { ...defaultValues, ..._iv };
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      callback: googleResponse
+    });
+
+    google.accounts.id.renderButton(document.getElementById("google-login"), {
+      theme: "outline",
+      size: "large",
+      locale: "en",
+      text: "signup_with"
+    });
+  }, []);
+
+
   const onSubmit = async (values, actions) => {
     try {
       const parsedValues = parseSubmitValues(values);
@@ -77,8 +89,20 @@ const RegisterForm = ({
     }
   };
 
+  const googleResponse = (googleUser) => {
+    gpib.open.post("/user/google", {
+      AuthToken: googleUser.credential
+    });
+  };
+
   return (
     <Card style={{ width: 420 }}>
+      <div className="py-5 px-5">
+        <div id="google-login" onClick={googleResponse}>
+          Google
+        </div>
+      </div>
+
       <Formik
         initialValues={initialValues}
         validate={validate}

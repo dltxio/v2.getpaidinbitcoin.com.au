@@ -14,7 +14,6 @@ import "./RegisterForm.scss";
 const defaultValues = {
   email: "",
   password: "",
-  // passwordMatch: "",
   firstName: "",
   lastName: "",
   referralCode: ""

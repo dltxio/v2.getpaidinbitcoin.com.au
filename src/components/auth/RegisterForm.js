@@ -55,13 +55,13 @@ const RegisterForm = ({
   logo
 }) => {
   const initialValues = { ...defaultValues, ..._iv };
-  const { login } = useContext(AuthContext);
+  const { login, googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
-      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID || "772977261943-mku9n12cbje2ndngtc0um30p2ed4n56e.apps.googleusercontent.com",
       callback: googleResponse
     });
 
@@ -89,10 +89,13 @@ const RegisterForm = ({
     }
   };
 
-  const googleResponse = (googleUser) => {
-    gpib.open.post("/user/google", {
+  const googleResponse = async (googleUser) => {
+    await gpib.open.post("/user/google", {
       AuthToken: googleUser.credential
     });
+
+    googleLogin(googleUser);
+    navigate("/");
   };
 
   return (

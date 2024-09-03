@@ -5,11 +5,6 @@ import { AuthContext } from "components/auth/Auth";
 import Layout from "components/layout/Layout";
 import LoginForm from "components/auth/LoginForm";
 import Card from "components/Card";
-// import { GoogleLogin } from "react-google-login-component";
-// import { GoogleLogin } from "@react-oauth/google";
-// import { useGoogleLogin } from "@react-oauth/google";
-
-// import gpib from "apis/gpib";
 
 const LoginPage = () => {
   const { user } = useContext(AuthContext);
@@ -17,28 +12,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const googleResponse = (googleUser) => {
-    console.log("responseGoogle");
-    console.log(googleUser);
-
-    // const g_response = googleUser.getAuthResponse();
-    // console.log(g_response);
-    // var googleId = googleUser.getId();
-
-    // gpib.open.post("/user/google/login", {
-    //   AuthToken: googleUser.credential
-    // });
     googleLogin(googleUser);
   };
-
-  // const login = useGoogleLogin({
-  //   clientId:
-  //     "772977261943-mku9n12cbje2ndngtc0um30p2ed4n56e.apps.googleusercontent.com",
-  //   onSuccess: (codeResponse) => {
-  //     // setUser(codeResponse)
-  //     console.log(codeResponse);
-  //   },
-  //   onError: (error) => console.log("Login Failed:", error)
-  // });
 
   useEffect(() => {
     /* global google */

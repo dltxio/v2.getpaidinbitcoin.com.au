@@ -44,26 +44,7 @@ const Register = () => {
 
   const enterprise = urlCheck(locationFirstIndex, locationSecondIndex);
 
-  // const googleResponse = (googleUser) => {
-  //   gpib.open.post("/user/google", {
-  //     AuthToken: googleUser.credential
-  //   });
-  // };
-
   useEffect(() => {
-    // /* global google */
-    // google.accounts.id.initialize({
-    //   client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    //   callback: googleResponse
-    // });
-
-    // google.accounts.id.renderButton(document.getElementById("google-login"), {
-    //   theme: "outline",
-    //   size: "large",
-    //   locale: "en",
-    //   text: "signup_with"
-    // });
-
     const fetchEnterprise = async () => {
       if (nameAbbreviation && enterprise) {
         try {
